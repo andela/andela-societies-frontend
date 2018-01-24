@@ -1,0 +1,14 @@
+.masonry {
+  position: relative;
+}
+
+.masonry__row {
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.masonry__column {
+  float: left;
+  box-sizing: border-box;
+  min-height: 100vh;
+}
