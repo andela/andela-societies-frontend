@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Header from './components/header/Header.component';
 import Sidebar from './components/sidebar/Sidebar.component';
 
 import './App.scss';
@@ -13,10 +14,7 @@ export const App = () => (
     <main className="mainPage mainPage--sidebarOpen">
       {/* <div className="coverPhotoWrapper" /> */}
       <div className="pageContent">
-        <div className="headerWrapper">
-          <div className="leftHeader leftHeader--whiteText" />
-          <div className="rightHeader" />
-        </div>
+        <Header />
         <div className="contentWrapper">
           <div className="mainContent" />
           <aside className="sideContent" />

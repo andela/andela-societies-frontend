@@ -1,0 +1,47 @@
+.notification {
+  position: relative;
+}
+
+.notification--read {
+  opacity: 0.4;
+}
+
+.notification::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.notification ~ .notification {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 0.1rem solid #eee;
+}
+
+.notification__icon {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 0.4rem;
+  background: #eee;
+  float: left;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.notification__content {
+  float: left;
+  box-sizing: border-box;
+  width: calc(100% - 4rem);
+  padding-left: 1.2rem;
+}
+
+.notification__message {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.notification__time {
+  font-size: 0.65em;
+  opacity: 0.6;
+  margin: 0.4em 0;
+}
