@@ -1,0 +1,113 @@
+.headerBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6rem;
+  background: white;
+  box-shadow: 0 0 1.1rem rgba(0, 0, 0, 0.15);
+}
+
+.sidebarWrapper {
+  width: 25rem;
+  min-height: 100vh;
+  background-color: #eee;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-100%);
+  transition: transform 200ms ease-in-out;
+}
+
+.sidebarWrapper--sidebarOpen {
+  transform: translate(0%);
+}
+
+.mainPage {
+  width: 100%;
+  transform: translate(0);
+  transition: transform 200ms ease-in-out;
+}
+
+.mainPage--sidebarOpen {
+  transform: translate(25rem);
+  width: calc(100% - 25rem);
+}
+
+.pageContent {
+  width: 90%;
+  margin: auto;
+  min-height: 100vh;
+  box-sizing: border-box;
+  z-index: 5;
+}
+
+.headerWrapper {
+  height: 6rem;
+}
+
+.headerWrapper::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.leftHeader {
+  float: left;
+  height: 100%;
+}
+
+.leftHeader--whiteText {
+  color: white;
+}
+
+.rightHeader {
+  float: right;
+  height: 100%;
+}
+
+.contentWrapper {
+  padding-top: 6rem;
+}
+
+.contentWrapper::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.mainContent,
+.sideContent {
+  float: left;
+  box-sizing: border-box;
+}
+
+.mainContent {
+  width: 67%;
+}
+
+.sideContent {
+  width: 33%;
+  padding-left: 7.78%;
+}
+
+.coverPhotoWrapper {
+  height: 35rem;
+  background-color: #000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 65.3%;
+  background-image: url(https://photos.smugmug.com/Archives/Kenya/Internal-Events/Andela-Kenya-Turns-2/i-n6gSgRB/1/53c1e45f/4K/AndelaKenya2ndAnniversary_10-4K.jpg);
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+}
+
+.coverPhotoWrapper::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.33));
+}
