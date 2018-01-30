@@ -1,0 +1,99 @@
+@import '../../assets/scss/_vars';
+@import '../../assets/scss/_mixins';
+
+.pageHeader {
+  position: relative;
+}
+
+.pageHeader::after {
+  @include clearfix;
+}
+
+.pageTitle {
+  position: relative;
+  float: left;
+  font-weight: normal;
+  font-size: 1.8rem;
+  margin: 0;
+  padding-bottom: 0.4em;
+}
+
+.pageTitle::after {
+  content: '';
+  display: block;
+  height: 1px;
+  background: $orange;
+  position: absolute;
+  bottom: 0;
+  width: 70%;
+}
+
+.filterOptions {
+  float: right;
+  user-select: none;
+}
+
+
+.filterOptions__button {
+  border-radius: 0.4rem;
+  font-size: 1.2rem;
+  height: 3.5rem;
+  border: 0.1rem solid #c5c5c5;
+  padding-right: 2rem;
+  background-image: linear-gradient(to top, #eeeded, #f5f5f5);
+  cursor: pointer;
+}
+
+.filterOptions__button::after {
+  content: '';
+  position: absolute;
+  top: 40%;
+  right: 0.8rem;
+  display: block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-style: solid;
+  border-width: 0.2rem 0.2rem 0 0;
+  transform: rotate(135deg);
+  opacity: 0.5;
+}
+
+.filterOptions__dropdown {
+  box-sizing: border-box;
+  position: absolute;
+  right: 0;
+  background: white;
+  width: 14rem;
+  box-shadow: 0 0.5rem 1.1rem rgba(0, 0, 0, 0.15);
+  border-radius: 0.4rem;
+  padding: 1.2rem;
+  display: none;
+}
+
+.filterOptions__dropdown--active {
+  display: block;
+}
+
+.filterOptions__option {
+  position: relative;
+  font-size: 1.2rem;
+  padding: 0.5rem 0 0.5rem 2rem;
+  cursor: pointer;
+}
+
+.filterOptions__option:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.filterOptions__option--active::before {
+  content: '';
+  position: absolute;
+  top: 40%;
+  left: 0.4rem;
+  display: block;
+  width: 0.6rem;
+  height: 0.4rem;
+  border-style: solid;
+  border-width: 0 0 0.2rem 0.2rem;
+  transform: rotate(-45deg);
+}
