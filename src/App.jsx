@@ -3,6 +3,8 @@ import React from 'react';
 import Header from './components/header/Header.component';
 import Sidebar from './components/sidebar/Sidebar.component';
 
+import MyActivities from './pages/myActivities/MyActivities.component';
+
 import './App.scss';
 
 export const App = () => (
@@ -16,7 +18,9 @@ export const App = () => (
       <div className="pageContent">
         <Header />
         <div className="contentWrapper">
-          <div className="mainContent" />
+          <div className="mainContent">
+            <MyActivities />
+          </div>
           <aside className="sideContent" />
         </div>
       </div>
