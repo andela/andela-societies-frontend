@@ -3,6 +3,7 @@
 
 .pageHeader {
   position: relative;
+  z-index: 1;
 }
 
 .pageHeader::after {
