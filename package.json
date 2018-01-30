@@ -11,7 +11,7 @@
     "test:dev": "jest --watch",
     "copy:favicon": "cp src/assets/images/favicon.ico public/favicon.ico",
     "deploy": "npm run build && npm run serve",
-    "coverage": "NODE_ENV=test nyc jest --coverage"
+    "coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -51,7 +51,6 @@
     "jest": "^22.1.4",
     "morgan": "^1.9.0",
     "node-sass": "^4.7.2",
-    "nyc": "^11.4.1",
     "prop-types": "^15.6.0",
     "pug": "^2.0.0-rc.4",
     "react": "^16.2.0",
@@ -78,24 +77,10 @@
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
       "\\.s?css$": "<rootDir>/__mocks__/styleMock.js"
-    }
-  },
-  "nyc": {
-    "reporter": [
-      "text",
-      "lcov"
-    ],
-    "include": [
-      "src/**"
-    ],
-    "exclude": [
-      "**/fixtures/**",
-      "**/*.test.jsx",
-      "**/*.test.js"
-    ],
-    "e": [
-      ".js",
-      ".jsx"
+    },
+    "collectCoverageFrom": [
+      "**/*.{js,jsx}",
+      "!**/node_modules/**"
     ]
   }
 }
