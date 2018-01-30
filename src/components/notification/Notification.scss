@@ -1,5 +1,10 @@
 .notification {
   position: relative;
+  padding: 0.5rem 0.5rem 0.7rem;
+}
+
+.notification:hover {
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .notification--read {
@@ -13,8 +18,7 @@
 }
 
 .notification ~ .notification {
-  margin-top: 1rem;
-  padding-top: 1rem;
+  padding-top: 1.5rem;
   border-top: 0.1rem solid #eee;
 }
 

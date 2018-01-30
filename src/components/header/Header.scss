@@ -7,6 +7,7 @@
   box-sizing: border-box;
   padding: 0.8rem;
   float: left;
+  user-select: none;
 }
 
 .headerIcon__image {
@@ -55,4 +56,13 @@
   box-shadow: 0 0.5rem 1.1rem rgba(0, 0, 0, 0.15);
   padding: 2.4rem 0;
   border-radius: 0.4rem;
+  display: none;
+}
+
+.headerDropdown--active {
+  display: block;
+}
+
+.headerDropdown--profile {
+  min-width: 20.5rem;
 }
