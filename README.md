@@ -1,5 +1,5 @@
 [![CircleCI](https://circleci.com/gh/AndelaOSP/andela-societies-frontend/tree/develop.svg?style=svg)](https://circleci.com/gh/AndelaOSP/andela-societies-frontend/tree/develop)
-
+[![Coverage Status](https://coveralls.io/repos/github/AndelaOSP/andela-societies-frontend/badge.svg)](https://coveralls.io/github/AndelaOSP/andela-societies-frontend)
 # Andela Societies app (frontend)
 Andela societies is an app that avails information about socities at Andela (Invictus, iStelle, Phoenix and Sparks) to everyone at Andela. The app also enables more interaction between Andelans through Societies.
 
