@@ -7,11 +7,11 @@
     "start": "webpack-dev-server --config=webpack.config.dev.js --open",
     "build": "webpack -p --config=webpack.config.prod.js && npm run copy:favicon",
     "serve": "node server.js",
-    "test": "jest",
-    "test:dev": "jest --watch",
+    "test": "jest --verbose",
+    "test:dev": "jest --verbose --watch",
     "copy:favicon": "cp src/assets/images/favicon.ico public/favicon.ico",
     "deploy": "npm run build && npm run serve",
-    "coverage": "jest --coverage"
+    "coverage": "jest --coverage --verbose"
   },
   "repository": {
     "type": "git",
@@ -79,7 +79,7 @@
       "\\.s?css$": "<rootDir>/__mocks__/styleMock.js"
     },
     "collectCoverageFrom": [
-      "**/*.{js,jsx}",
+      "src/**/*.{js,jsx}",
       "!**/node_modules/**"
     ]
   }
