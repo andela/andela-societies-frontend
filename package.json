@@ -11,7 +11,8 @@
     "test:dev": "jest --verbose --watch",
     "copy:favicon": "cp src/assets/images/favicon.ico public/favicon.ico",
     "deploy": "npm run build && npm run serve",
-    "coverage": "jest --coverage --verbose"
+    "coverage": "jest --coverage",
+    "coveralls": "cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",
