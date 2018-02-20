@@ -6,7 +6,6 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.set('view engine', 'pug');
 app.set('views', 'public');
 
 app.use(compress());
