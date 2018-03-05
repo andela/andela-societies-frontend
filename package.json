@@ -69,14 +69,14 @@
     ]
   },
   "jest": {
-    "setupTestFrameworkScriptFile": "<rootDir>/setupTests.js",
+    "setupTestFrameworkScriptFile": "<rootDir>/tests/setupTests.js",
     "unmockedModulePathPatterns": [
       "node_modules/react/",
       "node_modules/enzyme/"
     ],
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
-      "\\.s?css$": "<rootDir>/__mocks__/styleMock.js"
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/__mocks__/fileMock.js",
+      "\\.s?css$": "<rootDir>/tests/__mocks__/styleMock.js"
     },
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",

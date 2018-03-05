@@ -1,12 +1,16 @@
 @import 'vars';
+@import 'mixins';
+@import 'reset';
 
-:root {
-  font-size: 62.5%;
-  background: #f5f5f5;
-}
-
-body {
-  font-size: 1.6rem;
-  font-family: Roboto, sans-serif;
-  margin: 0;
-}
+// import components
+@import 'ActivityCard';
+@import 'App';
+@import 'Breadcrumb';
+@import 'Header';
+@import 'MasonryLayout';
+@import 'MyActivities';
+@import 'Notification';
+@import 'NotificationList';
+@import 'PageHeader';
+@import 'ProfileDisplay';
+@import 'Sidebar';
