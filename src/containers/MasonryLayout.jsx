@@ -2,7 +2,15 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import PropTypes from 'prop-types';
 
+/**
+ * Renders items in a masonry layout
+ *
+ * @extends React.component
+ */
 export class MasonryLayout extends Component {
+  /**
+   * React's lifecycle method componentWillMount
+   */
   componentWillMount() {
     const columnWidth = this.getColumnWidth();
     this.columns = Array(this.props.columnCount).fill({}).map((value, key) => (
@@ -18,6 +26,9 @@ export class MasonryLayout extends Component {
     ));
   }
 
+  /**
+   * React's lifecycle method componentDidMount
+   */
   componentDidMount() {
     this.props.items.forEach((item, index) => {
       const div = document.createElement('div');
@@ -30,14 +41,29 @@ export class MasonryLayout extends Component {
     });
   }
 
+  /**
+   * Computes width of a column
+   *
+   * @return {string} css value to set as width of a column
+   */
   getColumnWidth() {
     return `calc(${100 / this.props.columnCount}% - ${this.props.gap}px)`;
   }
 
+  /**
+   * Computes width of a column wrapper
+   *
+   * @return {string} css value to set as width of a column wrapper
+   */
   getColumnWrapperWidth() {
     return `calc(100% + ${this.props.gap}px)`;
   }
 
+  /**
+   * Renders a column
+   *
+   * @return {jsx}
+   */
   renderColumns() {
     return (
       <div
@@ -51,6 +77,11 @@ export class MasonryLayout extends Component {
     );
   }
 
+  /**
+   * Renders the component
+   *
+   * @return {jsx}
+   */
   render() {
     return (
       <div className="masonry" ref={(el) => { this.masonry = el; }}>

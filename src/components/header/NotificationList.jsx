@@ -2,6 +2,9 @@ import React from 'react';
 
 import Notification from './Notification';
 
+/**
+ * Renders a list of notifications
+ */
 export default () => (
   <div className="notificationList">
     <div className="notificationList__content">

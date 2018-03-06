@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import PropType from 'prop-types';
 
+/**
+ * Renders an activity card
+ *
+ * @class ActivityCard
+ * @extends React.Component
+*/
 export default class ActivityCard extends Component {
   state = {};
   statuses = ['pending', 'expired', 'approved', 'default'];

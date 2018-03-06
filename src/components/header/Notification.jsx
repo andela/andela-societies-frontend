@@ -1,5 +1,8 @@
 import React from 'react';
 
+/**
+ * Renders a Notification
+ */
 export default () => (
   <div className="notification">
     <div

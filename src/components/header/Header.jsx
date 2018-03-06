@@ -6,7 +6,8 @@ import ProfileDisplay from './ProfileDisplay';
 import Breadcrumb from './Breadcrumb';
 
 /**
- * The header component
+ * Renders the app's Header
+ *
  * @extends React.Component
  */
 export default class Header extends Component {
