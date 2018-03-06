@@ -11,6 +11,7 @@ import PhoenixIcon from '../svgIcons/societyIcons/Phoenix';
 
 import logo from '../../assets/images/logos/andelaLogoWhite.png';
 
+// pages on the app
 const pages = [
   {
     url: '/',
@@ -34,6 +35,7 @@ const pages = [
   },
 ];
 
+// societies menu items
 const societies = [
   {
     url: '/',
@@ -57,6 +59,9 @@ const societies = [
   },
 ];
 
+/**
+ * Renders a Sidebar's menu item
+ */
 const renderMenuItem = menu => (
   <a href={menu.url} className="sidebar__navItem" key={Math.random()}>
     <span className="sidebar__navIcon">
@@ -66,6 +71,9 @@ const renderMenuItem = menu => (
   </a>
 );
 
+/**
+ * Renders the sidebar
+ */
 export default () => (
   <aside className="sidebar">
     <header className="sidebar__header">

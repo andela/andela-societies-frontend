@@ -5,6 +5,9 @@ import Sidebar from './sidebar/Sidebar';
 
 import MyActivities from '../containers/MyActivities';
 
+/**
+ * Renders the entire application
+ */
 export const App = () => (
   <div>
     <div className="headerBackground" />

@@ -6,6 +6,9 @@ import { MasonryLayout } from '../containers/MasonryLayout';
 
 import activities from '../fixtures/activities';
 
+/**
+ * Renders My activities page
+ */
 const MyActivities = () => (
   <div className="myActivities">
     <PageHeader title="My Activities" />

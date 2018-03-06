@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropType from 'prop-types';
 
+/**
+ * Renders a page's header
+ */
 export default class PageHeader extends Component {
   state = {
     showFilterOptionsDropdown: false,

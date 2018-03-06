@@ -1,5 +1,8 @@
 import React from 'react';
 
+/**
+ * Renders the profile dropdown
+ */
 export default () => (
   <div className="profileDisplay">
     <span className="profileDisplay__name">John Doe</span>
