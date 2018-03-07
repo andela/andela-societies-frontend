@@ -1,6 +1,11 @@
 import React from 'react';
 
-export default () => (
+/**
+ * @name ProfileDisplay
+ * @summary Renders the dropdown that appears below profile icon
+ * @return {jxs} React node for the profile dropdown component
+ */
+const ProfileDisplay = () => (
   <div className="profileDisplay">
     <span className="profileDisplay__name">John Doe</span>
     <span className="profileDisplay__society">Invictus</span>
@@ -10,3 +15,5 @@ export default () => (
     </footer>
   </div>
 );
+
+export default ProfileDisplay;

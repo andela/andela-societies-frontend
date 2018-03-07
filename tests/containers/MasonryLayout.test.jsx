@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { MasonryLayout } from '../../src/containers/MasonryLayout';
+import MasonryLayout from '../../src/containers/MasonryLayout';
 
 describe('<MasonryLayout />', () => {
   let wrapper;

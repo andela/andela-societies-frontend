@@ -6,7 +6,8 @@ import ProfileDisplay from './ProfileDisplay';
 import Breadcrumb from './Breadcrumb';
 
 /**
- * The header component
+ * @name Header
+ * @summary Renders the app's Header
  * @extends React.Component
  */
 export default class Header extends Component {
@@ -20,16 +21,20 @@ export default class Header extends Component {
   };
 
   /**
-   * Returns the value for className of a dropdown
+   * @name dropdownClass
+   * @summary Returns the value for className of a dropdown
    * @param {boolean} isActive Whether or not to show the dropdown
    * @param {array[string]} classList Other values for the className
    */
-  dropdownClass = (isActive, classList) => `${classList.join(' ')} ${isActive ? 'headerDropdown--active' : ''}`;
+  dropdownClass = (isActive, classList) => (
+    `${classList.join(' ')} ${isActive ? 'headerDropdown--active' : ''}`
+  );
 
   /**
-   * Generates an event handler for click or keypress events
-   * @param {string} stateKey
-   * @returns {function} Toggles dropdown on click or on ENTER key press
+   * @name showDropdown
+   * @summary Returns an event handler for click or keypress events
+   * @param {string} stateKey - The key in the state to alter
+   * @returns {function} - Event handler that toggles dropdown on click or on ENTER key press
    */
   showDropdown(stateKey) {
     return (event) => {
@@ -43,10 +48,6 @@ export default class Header extends Component {
     };
   }
 
-  /**
-   * Renders the component
-   * @returns {jsx}
-   */
   render() {
     return (
       <div className="headerWrapper">
