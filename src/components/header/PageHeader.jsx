@@ -12,7 +12,8 @@ export default class PageHeader extends Component {
    * @param {array[string]} classList Other values for the className
    * @returns {string}
    */
-  getDropdownClassName = (isActive, classList) => `${classList.join(' ')} ${isActive ? 'filterOptions__dropdown--active' : ''}`;
+  getDropdownClassName = (isActive, classList) =>
+    `${classList.join(' ')} ${isActive ? 'filterOptions__dropdown--active' : ''}`;
 
   /**
    * Creates event handler for when filter button is clicked
@@ -41,7 +42,11 @@ export default class PageHeader extends Component {
           >
             Pending
           </button>
-          <div className={this.getDropdownClassName(this.state.showFilterOptionsDropdown, ['filterOptions__dropdown'])}>
+          <div className={this.getDropdownClassName(
+            this.state.showFilterOptionsDropdown,
+            ['filterOptions__dropdown'],
+          )}
+          >
             <div className="filterOptions__option">
               All
             </div>

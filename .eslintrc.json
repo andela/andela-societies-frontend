@@ -26,6 +26,10 @@
             "error",
             "unix"
         ],
+        "max-len": [
+            "error",
+            120
+        ],
         "quotes": [
             "error",
             "single"

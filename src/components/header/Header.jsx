@@ -77,10 +77,16 @@ export default class Header extends Component {
               role="button"
               tabIndex="0"
               style={{
-                backgroundImage: 'url(https://lh3.googleusercontent.com/-00tV67VPUTc/AAAAAAAAAAI/AAAAAAAAAAc/unX3ycsnwTY/photo.jpg?sz=50)',
+                backgroundImage: 'url(https://lh3.googleusercontent.com' +
+                  '/-00tV67VPUTc/AAAAAAAAAAI/AAAAAAAAAAc/unX3ycsnwTY/photo.jpg?sz=50)',
               }}
             />
-            <div className={this.dropdownClass(this.state.showProfileDropdown, ['headerDropdown', 'headerDropdown--profile'])}>
+            <div
+              className={this.dropdownClass(
+                this.state.showProfileDropdown,
+                ['headerDropdown', 'headerDropdown--profile'],
+              )}
+            >
               <ProfileDisplay />
             </div>
           </div>
