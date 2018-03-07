@@ -5,7 +5,12 @@ import Sidebar from './sidebar/Sidebar';
 
 import MyActivities from '../containers/MyActivities';
 
-export const App = () => (
+/**
+ * @name App
+ * @summary Renders the entire application
+ * @return {jsx} React node for the entire application
+ */
+const App = () => (
   <div>
     <div className="headerBackground" />
     <div className="sidebarWrapper sidebarWrapper--sidebarOpen">
