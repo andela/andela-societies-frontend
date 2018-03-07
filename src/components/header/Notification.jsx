@@ -1,6 +1,11 @@
 import React from 'react';
 
-export default () => (
+/**
+ * @name Notification
+ * @summary Renders a Notification
+ * @return {jsx} React node for a notification
+ */
+const Notification = () => (
   <div className="notification">
     <div
       className="notification__icon"
@@ -16,3 +21,5 @@ export default () => (
     </div>
   </div>
 );
+
+export default Notification;
