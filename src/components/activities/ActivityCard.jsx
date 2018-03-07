@@ -1,10 +1,21 @@
 import React, { Component } from 'react';
 import PropType from 'prop-types';
 
-export default class ActivityCard extends Component {
-  state = {};
-  statuses = ['pending', 'expired', 'approved', 'default'];
+/**
+ * @summary Renders an activity card
+ * @class ActivityCard
+ * @extends React.Component
+*/
+class ActivityCard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+    this.statuses = ['pending', 'expired', 'approved', 'default'];
+  }
 
+  /**
+   * @summary Renders the status indicator on the ActivityCard
+   */
   renderStatus() {
     const status = this.props.status.toLowerCase();
 
@@ -47,6 +58,16 @@ export default class ActivityCard extends Component {
   }
 }
 
+/**
+  * @name propTypes
+  * @type {PropType}
+  * @param {Object} propTypes - React PropTypes
+  * @property {String} category - The type of an Activity
+  * @property {String} date - The date on which a fellow participated in an activity
+  * @property {String} description - The description of the activity
+  * @property {String} points - The points the activity is worth
+  * @property {String} status - The current status of the activity
+  */
 ActivityCard.propTypes = {
   category: PropType.string.isRequired,
   date: PropType.string.isRequired,
@@ -54,3 +75,5 @@ ActivityCard.propTypes = {
   points: PropType.string.isRequired,
   status: PropType.string.isRequired,
 };
+
+export default ActivityCard;

@@ -2,7 +2,12 @@ import React from 'react';
 
 import Notification from './Notification';
 
-export default () => (
+/**
+ * @name NoticifationList
+ * @summary Renders a list of notifications
+ * @return React node containing a list of notifications
+ */
+const NotificationList = () => (
   <div className="notificationList">
     <div className="notificationList__content">
       <Notification />
@@ -14,3 +19,5 @@ export default () => (
     </footer>
   </div>
 );
+
+export default NotificationList;
