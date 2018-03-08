@@ -11,11 +11,7 @@ class PageHeader extends Component {
     * @name propTypes
     * @type {PropType}
     * @param {Object} propTypes - React PropTypes
-    * @property {String} category - The type of an Activity
-    * @property {String} date - The date on which a fellow participated in an activity
-    * @property {String} description - The description of the activity
-    * @property {String} points - The points the activity is worth
-    * @property {String} status - The current status of the activity
+    * @property {String} title - The title of the page
   */
   static propTypes = {
     title: PropType.string.isRequired,
