@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import HomeIcon from '../svgIcons/menuIcons/Home';
 import MyActivitiesIcon from '../svgIcons/menuIcons/MyActivities';
@@ -19,7 +20,7 @@ const pages = [
     icon: HomeIcon,
   },
   {
-    url: '/',
+    url: '/my-activities',
     label: 'My Activities',
     icon: MyActivitiesIcon,
   },
@@ -65,12 +66,12 @@ const societies = [
  * @summary Renders a Sidebar's menu item
  */
 const renderMenuItem = menuItemData => (
-  <a href={menuItemData.url} className='sidebar__navItem' key={menuItemData.label}>
+  <Link to={menuItemData.url} className='sidebar__navItem' key={menuItemData.label}>
     <span className='sidebar__navIcon'>
       <menuItemData.icon />
     </span>
-    <span className='sidebar__navLabel'>{ menuItemData.label }</span>
-  </a>
+    <span className='sidebar__navLabel'>{menuItemData.label}</span>
+  </Link>
 );
 
 /**
@@ -86,11 +87,11 @@ const Sidebar = () => (
     </header>
     <nav className='sidebar__nav'>
       <div className='sidebar__navGroup'>
-        { pages.map(renderMenuItem) }
+        {pages.map(renderMenuItem)}
       </div>
       <div className='sidebar__navGroup'>
         <span className='sidebar__navGroupHeader'>Societies</span>
-        { societies.map(renderMenuItem) }
+        {societies.map(renderMenuItem)}
       </div>
     </nav>
   </aside>
