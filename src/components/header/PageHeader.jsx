@@ -1,22 +1,43 @@
 import React, { Component } from 'react';
 import PropType from 'prop-types';
 
-export default class PageHeader extends Component {
-  state = {
-    showFilterOptionsDropdown: false,
+/**
+ * @name PageHeader
+ * @summary Renders a page's Header
+ * @extends React.Component
+ */
+class PageHeader extends Component {
+  /**
+    * @name propTypes
+    * @type {PropType}
+    * @param {Object} propTypes - React PropTypes
+    * @property {String} title - The title of the page
+  */
+  static propTypes = {
+    title: PropType.string.isRequired,
   };
 
-  /**
-   * Returns className from dropdown
-   * @param {boolean} isActive Whether or not to show the dropdown
-   * @param {array[string]} classList Other values for the className
-   * @returns {string}
-   */
-  getDropdownClassName = (isActive, classList) =>
-    `${classList.join(' ')} ${isActive ? 'filterOptions__dropdown--active' : ''}`;
+  constructor(props) {
+    super(props);
+    this.state = {
+      showFilterOptionsDropdown: false,
+    };
+  }
 
   /**
-   * Creates event handler for when filter button is clicked
+   * @name getDropdownClassName
+   * @summary Returns className from dropdown
+   * @param {boolean} isActive Whether or not to show the dropdown
+   * @param {array[string]} classList Other values for the className
+   * @returns {String}
+   */
+  getDropdownClassName = (isActive, classList) => (
+    `${classList.join(' ')} ${isActive ? 'filterOptions__dropdown--active' : ''}`
+  );
+
+  /**
+   * @name createFilterOptionsButtonClickHandler
+   * @summary Creates event handler for when filter button is clicked
    * @returns {function} Toggles filter options dropdown
    */
   createFilterOptionsButtonClickHandler() {
@@ -27,17 +48,13 @@ export default class PageHeader extends Component {
     };
   }
 
-  /**
-   * Renders component
-   * @returns {jsx}
-   */
   render() {
     return (
-      <header className="pageHeader">
-        <h1 className="pageTitle">{this.props.title}</h1>
-        <div className="filterOptions">
+      <header className='pageHeader'>
+        <h1 className='pageTitle'>{this.props.title}</h1>
+        <div className='filterOptions'>
           <button
-            className="filterOptions__button"
+            className='filterOptions__button'
             onClick={this.createFilterOptionsButtonClickHandler()}
           >
             Pending
@@ -47,19 +64,19 @@ export default class PageHeader extends Component {
             ['filterOptions__dropdown'],
           )}
           >
-            <div className="filterOptions__option">
+            <div className='filterOptions__option'>
               All
             </div>
-            <div className="filterOptions__option">
+            <div className='filterOptions__option'>
               Approved
             </div>
-            <div className="filterOptions__option">
+            <div className='filterOptions__option'>
               Expired
             </div>
-            <div className="filterOptions__option">
+            <div className='filterOptions__option'>
               In review
             </div>
-            <div className="filterOptions__option filterOptions__option--active">
+            <div className='filterOptions__option filterOptions__option--active'>
               Pending
             </div>
           </div>
@@ -69,6 +86,4 @@ export default class PageHeader extends Component {
   }
 }
 
-PageHeader.propTypes = {
-  title: PropType.string.isRequired,
-};
+export default PageHeader;

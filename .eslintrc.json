@@ -22,6 +22,10 @@
             "error",
             2
         ],
+        "jsx-quotes": [
+            "error",
+            "prefer-single"
+        ],
         "linebreak-style": [
             "error",
             "unix"

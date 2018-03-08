@@ -11,6 +11,7 @@ import PhoenixIcon from '../svgIcons/societyIcons/Phoenix';
 
 import logo from '../../assets/images/logos/andelaLogoWhite.png';
 
+// menuItemInfo for pages on the app
 const pages = [
   {
     url: '/',
@@ -34,6 +35,7 @@ const pages = [
   },
 ];
 
+// menuItemInfo for societies
 const societies = [
   {
     url: '/',
@@ -57,29 +59,41 @@ const societies = [
   },
 ];
 
-const renderMenuItem = menu => (
-  <a href={menu.url} className="sidebar__navItem" key={Math.random()}>
-    <span className="sidebar__navIcon">
-      <menu.icon />
+/**
+ * @name renderMenuItem
+ * @param {object} menuItemData An object that contains url, label and the icon to display
+ * @summary Renders a Sidebar's menu item
+ */
+const renderMenuItem = menuItemData => (
+  <a href={menuItemData.url} className='sidebar__navItem' key={menuItemData.label}>
+    <span className='sidebar__navIcon'>
+      <menuItemData.icon />
     </span>
-    <span className="sidebar__navLabel">{ menu.label }</span>
+    <span className='sidebar__navLabel'>{ menuItemData.label }</span>
   </a>
 );
 
-export default () => (
-  <aside className="sidebar">
-    <header className="sidebar__header">
-      <span className="sidebar__logoWrapper" style={{ backgroundImage: `url(${logo})` }} />
-      <span className="sidebar__appName">Andela Societies</span>
+/**
+ * @name Sidebar
+ * @summary Sidebar component
+ * @return React node containing the sidebar component
+ */
+const Sidebar = () => (
+  <aside className='sidebar'>
+    <header className='sidebar__header'>
+      <span className='sidebar__logoWrapper' style={{ backgroundImage: `url(${logo})` }} />
+      <span className='sidebar__appName'>Andela Societies</span>
     </header>
-    <nav className="sidebar__nav">
-      <div className="sidebar__navGroup">
+    <nav className='sidebar__nav'>
+      <div className='sidebar__navGroup'>
         { pages.map(renderMenuItem) }
       </div>
-      <div className="sidebar__navGroup">
-        <span className="sidebar__navGroupHeader">Societies</span>
+      <div className='sidebar__navGroup'>
+        <span className='sidebar__navGroupHeader'>Societies</span>
         { societies.map(renderMenuItem) }
       </div>
     </nav>
   </aside>
 );
+
+export default Sidebar;
