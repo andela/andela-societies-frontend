@@ -12,19 +12,19 @@ import MyActivities from '../containers/MyActivities';
  */
 const App = () => (
   <div>
-    <div className="headerBackground" />
-    <div className="sidebarWrapper sidebarWrapper--sidebarOpen">
+    <div className='headerBackground' />
+    <div className='sidebarWrapper sidebarWrapper--sidebarOpen'>
       <Sidebar />
     </div>
-    <main className="mainPage mainPage--sidebarOpen">
+    <main className='mainPage mainPage--sidebarOpen'>
       {/* <div className="coverPhotoWrapper" /> */}
-      <div className="pageContent">
+      <div className='pageContent'>
         <Header />
-        <div className="contentWrapper">
-          <div className="mainContent">
+        <div className='contentWrapper'>
+          <div className='mainContent'>
             <MyActivities />
           </div>
-          <aside className="sideContent" />
+          <aside className='sideContent' />
         </div>
       </div>
     </main>

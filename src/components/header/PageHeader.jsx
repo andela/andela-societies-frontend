@@ -50,29 +50,29 @@ class PageHeader extends Component {
 
   render() {
     return (
-      <header className="pageHeader">
-        <h1 className="pageTitle">{this.props.title}</h1>
-        <div className="filterOptions">
+      <header className='pageHeader'>
+        <h1 className='pageTitle'>{this.props.title}</h1>
+        <div className='filterOptions'>
           <button
-            className="filterOptions__button"
+            className='filterOptions__button'
             onClick={this.createFilterOptionsButtonClickHandler()}
           >
             Pending
           </button>
           <div className={this.getDropdownClassName(this.state.showFilterOptionsDropdown, ['filterOptions__dropdown'])}>
-            <div className="filterOptions__option">
+            <div className='filterOptions__option'>
               All
             </div>
-            <div className="filterOptions__option">
+            <div className='filterOptions__option'>
               Approved
             </div>
-            <div className="filterOptions__option">
+            <div className='filterOptions__option'>
               Expired
             </div>
-            <div className="filterOptions__option">
+            <div className='filterOptions__option'>
               In review
             </div>
-            <div className="filterOptions__option filterOptions__option--active">
+            <div className='filterOptions__option filterOptions__option--active'>
               Pending
             </div>
           </div>

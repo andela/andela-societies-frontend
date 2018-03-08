@@ -65,11 +65,11 @@ const societies = [
  * @summary Renders a Sidebar's menu item
  */
 const renderMenuItem = menuItemData => (
-  <a href={menuItemData.url} className="sidebar__navItem" key={menuItemData.label}>
-    <span className="sidebar__navIcon">
+  <a href={menuItemData.url} className='sidebar__navItem' key={menuItemData.label}>
+    <span className='sidebar__navIcon'>
       <menuItemData.icon />
     </span>
-    <span className="sidebar__navLabel">{ menuItemData.label }</span>
+    <span className='sidebar__navLabel'>{ menuItemData.label }</span>
   </a>
 );
 
@@ -79,17 +79,17 @@ const renderMenuItem = menuItemData => (
  * @return React node containing the sidebar component
  */
 const Sidebar = () => (
-  <aside className="sidebar">
-    <header className="sidebar__header">
-      <span className="sidebar__logoWrapper" style={{ backgroundImage: `url(${logo})` }} />
-      <span className="sidebar__appName">Andela Societies</span>
+  <aside className='sidebar'>
+    <header className='sidebar__header'>
+      <span className='sidebar__logoWrapper' style={{ backgroundImage: `url(${logo})` }} />
+      <span className='sidebar__appName'>Andela Societies</span>
     </header>
-    <nav className="sidebar__nav">
-      <div className="sidebar__navGroup">
+    <nav className='sidebar__nav'>
+      <div className='sidebar__navGroup'>
         { pages.map(renderMenuItem) }
       </div>
-      <div className="sidebar__navGroup">
-        <span className="sidebar__navGroupHeader">Societies</span>
+      <div className='sidebar__navGroup'>
+        <span className='sidebar__navGroupHeader'>Societies</span>
         { societies.map(renderMenuItem) }
       </div>
     </nav>
