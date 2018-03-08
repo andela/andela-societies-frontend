@@ -38,17 +38,17 @@ class ActivityCard extends Component {
 
   render() {
     return (
-      <div className="activity">
-        <div className="activity__header">
-          <span className="activity__category">{this.props.category}</span>
-          <span className="activity__date">{this.props.date}</span>
+      <div className='activity'>
+        <div className='activity__header'>
+          <span className='activity__category'>{this.props.category}</span>
+          <span className='activity__date'>{this.props.date}</span>
         </div>
-        <div className="activity__content">
-          <h1 className="activity__description">{this.props.description}</h1>
+        <div className='activity__content'>
+          <h1 className='activity__description'>{this.props.description}</h1>
         </div>
-        <div className="activity__footer">
-          <span className="activity__points">
-            <span className="activity__pointsCount">{this.props.points}</span>
+        <div className='activity__footer'>
+          <span className='activity__points'>
+            <span className='activity__pointsCount'>{this.props.points}</span>
             Points
           </span>
           {this.renderStatus()}

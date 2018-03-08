@@ -8,14 +8,14 @@ import Notification from './Notification';
  * @return React node containing a list of notifications
  */
 const NotificationList = () => (
-  <div className="notificationList">
-    <div className="notificationList__content">
+  <div className='notificationList'>
+    <div className='notificationList__content'>
       <Notification />
       <Notification />
       <Notification />
     </div>
-    <footer className="notificationList__footer">
-      <button className="notificationList__clearButton">Clear notifications</button>
+    <footer className='notificationList__footer'>
+      <button className='notificationList__clearButton'>Clear notifications</button>
     </footer>
   </div>
 );

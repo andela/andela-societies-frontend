@@ -12,7 +12,7 @@ class MasonryLayout extends Component {
     const columnWidth = this.getColumnWidth();
     this.columns = Array(this.props.columnCount).fill({}).map((value, key) => (
       <div
-        className="masonry__column"
+        className='masonry__column'
         style={{
           width: columnWidth,
           marginRight: `${this.props.gap}px`,
@@ -65,7 +65,7 @@ class MasonryLayout extends Component {
   renderColumns() {
     return (
       <div
-        className="masonry__columnWrapper"
+        className='masonry__columnWrapper'
         style={{
           width: this.getColumnWrapperWidth(),
         }}
@@ -77,8 +77,8 @@ class MasonryLayout extends Component {
 
   render() {
     return (
-      <div className="masonry" ref={(el) => { this.masonry = el; }}>
-        <div className="masonry__row">
+      <div className='masonry' ref={(el) => { this.masonry = el; }}>
+        <div className='masonry__row'>
           {this.renderColumns()}
         </div>
       </div>

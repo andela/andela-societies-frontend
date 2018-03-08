@@ -50,33 +50,33 @@ export default class Header extends Component {
 
   render() {
     return (
-      <div className="headerWrapper">
-        <div className="leftHeader">
+      <div className='headerWrapper'>
+        <div className='leftHeader'>
           <Breadcrumb />
         </div>
-        <div className="rightHeader">
-          <div className="headerIcon">
+        <div className='rightHeader'>
+          <div className='headerIcon'>
             <span
-              className="headerIcon__image"
+              className='headerIcon__image'
               onClick={this.showDropdown('showNotificationDropdown')}
               onKeyDown={this.showDropdown('showNotificationDropdown')}
-              role="button"
-              tabIndex="0"
+              role='button'
+              tabIndex='0'
             >
               <NotificationIcon />
             </span>
-            <span className="headerIcon__badge">1</span>
+            <span className='headerIcon__badge'>1</span>
             <div className={this.dropdownClass(this.state.showNotificationDropdown, ['headerDropdown'])}>
               <NotificationList />
             </div>
           </div>
-          <div className="headerIcon">
+          <div className='headerIcon'>
             <span
-              className="headerIcon__image headerIcon__image--photo"
+              className='headerIcon__image headerIcon__image--photo'
               onClick={this.showDropdown('showProfileDropdown')}
               onKeyDown={this.showDropdown('showProfileDropdown')}
-              role="button"
-              tabIndex="0"
+              role='button'
+              tabIndex='0'
               style={{
                 backgroundImage: 'url(https://lh3.googleusercontent.com/-00tV67VPUTc/AAAAAAAAAAI/AAAAAAAAAAc/unX3ycsnwTY/photo.jpg?sz=50)',
               }}

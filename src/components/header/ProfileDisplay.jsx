@@ -6,12 +6,12 @@ import React from 'react';
  * @return {jxs} React node for the profile dropdown component
  */
 const ProfileDisplay = () => (
-  <div className="profileDisplay">
-    <span className="profileDisplay__name">John Doe</span>
-    <span className="profileDisplay__society">Invictus</span>
+  <div className='profileDisplay'>
+    <span className='profileDisplay__name'>John Doe</span>
+    <span className='profileDisplay__society'>Invictus</span>
 
-    <footer className="profileDisplay__footer">
-      <button className="profileDisplay__signOutButton">Sign out</button>
+    <footer className='profileDisplay__footer'>
+      <button className='profileDisplay__signOutButton'>Sign out</button>
     </footer>
   </div>
 );
