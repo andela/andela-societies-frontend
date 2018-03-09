@@ -10,7 +10,8 @@ const Notification = () => (
     <div
       className='notification__icon'
       style={{
-        backgroundImage: 'url(https://lh3.googleusercontent.com/-00tV67VPUTc/AAAAAAAAAAI/AAAAAAAAAAc/unX3ycsnwTY/photo.jpg?sz=50)',
+        backgroundImage: 'url(https://lh3.googleusercontent.com' +
+          '/-00tV67VPUTc/AAAAAAAAAAI/AAAAAAAAAAc/unX3ycsnwTY/photo.jpg?sz=50)',
       }}
     />
     <div className='notification__content'>

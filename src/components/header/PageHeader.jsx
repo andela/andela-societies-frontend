@@ -59,7 +59,11 @@ class PageHeader extends Component {
           >
             Pending
           </button>
-          <div className={this.getDropdownClassName(this.state.showFilterOptionsDropdown, ['filterOptions__dropdown'])}>
+          <div className={this.getDropdownClassName(
+            this.state.showFilterOptionsDropdown,
+            ['filterOptions__dropdown'],
+          )}
+          >
             <div className='filterOptions__option'>
               All
             </div>
