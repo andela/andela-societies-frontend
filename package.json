@@ -4,7 +4,7 @@
   "description": "Andela societies is an application that allows fellows to log and track points for their societies",
   "main": "server/server.js",
   "scripts": {
-    "start": "webpack-dev-server --config=webpack.config.dev.js --open",
+    "start": "webpack-dev-server --config=webpack.config.dev.js --open --history-api-fallback",
     "build": "webpack -p --config=webpack.config.prod.js && npm run copy:favicon",
     "serve": "node server.js",
     "test": "jest --verbose",
@@ -55,6 +55,8 @@
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.1",
     "url-loader": "^0.6.2",
