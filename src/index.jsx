@@ -1,22 +1,19 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
 
-import Routes from './routes';
+import Router from './containers/Router';
 import './assets/scss/style.scss';
 
 const { NODE_ENV } = process.env;
 
 const mount = (Component) => {
   render(
-    <BrowserRouter>
-      <Component />
-    </BrowserRouter>,
+    <Component />,
     document.getElementById('root'),
   );
 };
 
-mount(Routes);
+mount(Router);
 
 if (module.hot && NODE_ENV !== 'development') {
   module.hot.accept('./components/App', () => {

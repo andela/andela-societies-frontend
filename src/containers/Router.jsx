@@ -1,19 +1,19 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 
-import App from './components/App';
-import Signin from './containers/SignIn';
+import App from '../components/App';
+import Signin from '../containers/SignIn';
 
 /**
- * @name Routes
+ * @name Router
  * @summary Renders the application routes
  * @return {jsx} React node for the application routes
  */
-const Routes = () => (
-  <div>
+const Router = () => (
+  <BrowserRouter>
     <Route path='/' exact component={Signin} />
     <Route path='/my-activities' exact component={App} />
-  </div>
+  </BrowserRouter>
 );
 
-export default Routes;
+export default Router;
