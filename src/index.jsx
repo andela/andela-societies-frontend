@@ -1,22 +1,19 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import App from './components/App';
+import Router from './containers/Router';
 import './assets/scss/style.scss';
 
 const { NODE_ENV } = process.env;
 
 const mount = (Component) => {
   render(
-    <div>
-      <Component />
-    </div>
-    , document.getElementById('root'),
+    <Component />,
+    document.getElementById('root'),
   );
 };
 
-mount(App);
-
+mount(Router);
 
 if (module.hot && NODE_ENV !== 'development') {
   module.hot.accept('./components/App', () => {
