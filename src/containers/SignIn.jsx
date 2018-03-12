@@ -59,13 +59,9 @@ class SignIn extends Component {
                 </div>
                 <div className='feature__info'>
                   <h2 className='feature__name'>Verify Activities</h2>
-<<<<<<< HEAD
                   <p className='feature__description'>
                     Society secretaries and the success department can verify activities.
                   </p>
-=======
-                  <p className='feature__description'>Society secretaries and the success department can verify activities.</p>
->>>>>>> e46233c233c1fbde51a1ed12da4c46dfa825e925
                 </div>
               </div>
               <div className='feature'>
@@ -74,13 +70,9 @@ class SignIn extends Component {
                 </div>
                 <div className='feature__info'>
                   <h2 className='feature__name'>Society Pages</h2>
-<<<<<<< HEAD
                   <p className='feature__description'>
                     See how many points societies have, top contributors and much more.
                   </p>
-=======
-                  <p className='feature__description'>See how many points societies have, top contributors and much more.</p>
->>>>>>> e46233c233c1fbde51a1ed12da4c46dfa825e925
                 </div>
               </div>
               <div className='feature'>

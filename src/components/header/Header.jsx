@@ -71,11 +71,7 @@ export default class Header extends Component {
               <NotificationIcon />
             </span>
             <span className='headerIcon__badge'>1</span>
-<<<<<<< HEAD
             <div className={this.dropdownClass(this.state.menuState.showNotificationDropdown, ['headerDropdown'])}>
-=======
-            <div className={this.dropdownClass(this.state.showNotificationDropdown, ['headerDropdown'])}>
->>>>>>> e46233c233c1fbde51a1ed12da4c46dfa825e925
               <NotificationList />
             </div>
           </div>
@@ -93,11 +89,7 @@ export default class Header extends Component {
             />
             <div
               className={this.dropdownClass(
-<<<<<<< HEAD
                 this.state.menuState.showProfileDropdown,
-=======
-                this.state.showProfileDropdown,
->>>>>>> e46233c233c1fbde51a1ed12da4c46dfa825e925
                 ['headerDropdown', 'headerDropdown--profile'],
               )}
             >
