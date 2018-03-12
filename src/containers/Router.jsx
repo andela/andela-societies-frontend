@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import App from '../components/App';
 import Signin from '../containers/SignIn';
@@ -11,8 +11,10 @@ import Signin from '../containers/SignIn';
  */
 const Router = () => (
   <BrowserRouter>
-    <Route path='/' exact component={Signin} />
-    <Route path='/my-activities' exact component={App} />
+    <Switch>
+      <Route path='/' exact component={Signin} />
+      <Route path='/my-activities' exact component={App} />
+    </Switch>
   </BrowserRouter>
 );
 
