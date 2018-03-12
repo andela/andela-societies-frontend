@@ -24,6 +24,7 @@ const App = () => (
           <div className='mainContent'>
             <MyActivities />
           </div>
+<<<<<<< HEAD
           <aside className='sideContent'>
             <Stats
               stats={[
@@ -38,6 +39,9 @@ const App = () => (
               ]}
             />
           </aside>
+=======
+          <aside className='sideContent' />
+>>>>>>> Refactor code to adhere to the rules in the description
         </div>
       </div>
     </main>
