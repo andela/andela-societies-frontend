@@ -1,6 +1,8 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { Provider } from 'react-redux';
 
+import store from './store';
 import Router from './containers/Router';
 import './assets/scss/style.scss';
 
@@ -8,7 +10,9 @@ const { NODE_ENV } = process.env;
 
 const mount = (Component) => {
   render(
-    <Component />,
+    <Provider store={store}>
+      <Component />
+    </Provider>,
     document.getElementById('root'),
   );
 };
