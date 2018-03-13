@@ -12,7 +12,7 @@ const Stats = props => (
     <div className='stats__content'>
       {
         props.stats.map(stat => (
-          <div className='stats__stat'>
+          <div className='stats__stat' key={stat.name + stat.value}>
             <div className='stats__value'>{stat.value}</div>
             <div className='stats__statName'>{stat.name}</div>
           </div>
