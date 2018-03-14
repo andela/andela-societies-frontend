@@ -40,13 +40,11 @@ class PageHeader extends Component {
    * @summary Creates event handler for when filter button is clicked
    * @returns {function} Toggles filter options dropdown
    */
-  createFilterOptionsButtonClickHandler() {
-    return () => {
-      this.setState(prevState => ({
-        showFilterOptionsDropdown: !prevState.showFilterOptionsDropdown,
-      }));
-    };
-  }
+  createFilterOptionsButtonClickHandler = () => () => {
+    this.setState(prevState => ({
+      showFilterOptionsDropdown: !prevState.showFilterOptionsDropdown,
+    }));
+  };
 
   render() {
     return (

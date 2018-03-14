@@ -9,7 +9,6 @@ import InvictusIcon from '../svgIcons/societyIcons/Invictus';
 import IstelleIcon from '../svgIcons/societyIcons/Istelle';
 import SparksIcon from '../svgIcons/societyIcons/Sparks';
 import PhoenixIcon from '../svgIcons/societyIcons/Phoenix';
-
 import logo from '../../assets/images/logos/andelaLogoWhite.png';
 
 // menuItemInfo for pages on the app

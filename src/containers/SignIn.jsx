@@ -59,7 +59,9 @@ class SignIn extends Component {
                 </div>
                 <div className='feature__info'>
                   <h2 className='feature__name'>Verify Activities</h2>
-                  <p className='feature__description'>Society secretaries and the success department can verify activities.</p>
+                  <p className='feature__description'>
+                    Society secretaries and the success department can verify activities.
+                  </p>
                 </div>
               </div>
               <div className='feature'>
@@ -68,7 +70,9 @@ class SignIn extends Component {
                 </div>
                 <div className='feature__info'>
                   <h2 className='feature__name'>Society Pages</h2>
-                  <p className='feature__description'>See how many points societies have, top contributors and much more.</p>
+                  <p className='feature__description'>
+                    See how many points societies have, top contributors and much more.
+                  </p>
                 </div>
               </div>
               <div className='feature'>

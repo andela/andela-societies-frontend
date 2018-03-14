@@ -11,15 +11,18 @@ import Breadcrumb from './Breadcrumb';
  * @extends React.Component
  */
 export default class Header extends Component {
-  state = {
-    ...this.initialState,
-  };
-
-  initialState = {
-    showNotificationDropdown: false,
-    showProfileDropdown: false,
-  };
-
+  constructor(props) {
+    super(props);
+    this.initialMenuState = {
+      showNotificationDropdown: false,
+      showProfileDropdown: false,
+    };
+    this.state = {
+      menuState: {
+        ...this.initialMenuState,
+      },
+    };
+  }
   /**
    * @name dropdownClass
    * @summary Returns the value for className of a dropdown
@@ -42,8 +45,10 @@ export default class Header extends Component {
         return;
       }
       this.setState(prevState => ({
-        ...this.initialState,
-        [stateKey]: !prevState[stateKey],
+        menuState: {
+          ...this.initialMenuState,
+          [stateKey]: !prevState.menuState[stateKey],
+        },
       }));
     };
   }
@@ -66,7 +71,7 @@ export default class Header extends Component {
               <NotificationIcon />
             </span>
             <span className='headerIcon__badge'>1</span>
-            <div className={this.dropdownClass(this.state.showNotificationDropdown, ['headerDropdown'])}>
+            <div className={this.dropdownClass(this.state.menuState.showNotificationDropdown, ['headerDropdown'])}>
               <NotificationList />
             </div>
           </div>
@@ -84,7 +89,7 @@ export default class Header extends Component {
             />
             <div
               className={this.dropdownClass(
-                this.state.showProfileDropdown,
+                this.state.menuState.showProfileDropdown,
                 ['headerDropdown', 'headerDropdown--profile'],
               )}
             >

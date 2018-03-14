@@ -8,6 +8,29 @@ import PropTypes from 'prop-types';
  * @extends React.component
  */
 class MasonryLayout extends Component {
+  /**
+ * @name defaultProps
+ * @summary The default values of props
+ */
+  static defaultProps = {
+    columnCount: 4,
+    gap: 20,
+  };
+
+  /**
+    * @name propTypes
+    * @type {PropType}
+    * @param {Object} propTypes - React PropTypes
+    * @property {Object} items - React nodes or DOM elements to render
+    * @property {Number} columnCount - The number of columns of the masonry layout
+    * @property {Number} gap - The distance (in pixels) between columns and items
+  */
+  static propTypes = {
+    items: PropTypes.arrayOf(PropTypes.element).isRequired,
+    columnCount: PropTypes.number,
+    gap: PropTypes.number,
+  };
+
   componentWillMount() {
     const columnWidth = this.getColumnWidth();
     this.columns = Array(this.props.columnCount).fill({}).map((value, key) => (
@@ -44,26 +67,26 @@ class MasonryLayout extends Component {
    * @summary Computes width of a column
    * @return {string} css value to set as width of a column
    */
-  getColumnWidth() {
-    return `calc(${100 / this.props.columnCount}% - ${this.props.gap}px)`;
-  }
+  getColumnWidth = () => (
+    `calc(${100 / this.props.columnCount}% - ${this.props.gap}px)`
+  )
+
 
   /**
    * @name getColumnWrapperWidth
    * @summary Computes width of a column wrapper
    * @return {string} css value to set as width of a column wrapper
    */
-  getColumnWrapperWidth() {
-    return `calc(100% + ${this.props.gap}px)`;
-  }
-
+  getColumnWrapperWidth = () => (
+    `calc(100% + ${this.props.gap}px)`
+  )
   /**
    * @name renderColumns
    * @summary Renders columns of the masonry layout
    * @return {jsx} React node that wraps columns of the masonry layout
    */
-  renderColumns() {
-    return (
+  renderColumns = () =>
+    (
       <div
         className='masonry__columnWrapper'
         style={{
@@ -73,7 +96,6 @@ class MasonryLayout extends Component {
         {this.columns}
       </div>
     );
-  }
 
   render() {
     return (
@@ -85,28 +107,5 @@ class MasonryLayout extends Component {
     );
   }
 }
-
-/**
- * @name defaultProps
- * @summary The default values of props
- */
-MasonryLayout.defaultProps = {
-  columnCount: 4,
-  gap: 20,
-};
-
-/**
-    * @name propTypes
-    * @type {PropType}
-    * @param {Object} propTypes - React PropTypes
-    * @property {Object} items - React nodes or DOM elements to render
-    * @property {Number} columnCount - The number of columns of the masonry layout
-    * @property {Number} gap - The distance (in pixels) between columns and items
-  */
-MasonryLayout.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.element).isRequired,
-  columnCount: PropTypes.number,
-  gap: PropTypes.number,
-};
 
 export default MasonryLayout;
