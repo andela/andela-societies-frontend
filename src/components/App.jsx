@@ -2,7 +2,7 @@ import React from 'react';
 
 import Header from './header/Header';
 import Sidebar from './sidebar/Sidebar';
-
+import Stats from './sidebar/Stats';
 import MyActivities from '../containers/MyActivities';
 
 /**
@@ -24,7 +24,20 @@ const App = () => (
           <div className='mainContent'>
             <MyActivities />
           </div>
-          <aside className='sideContent' />
+          <aside className='sideContent'>
+            <Stats
+              stats={[
+                {
+                  value: '20',
+                  name: 'Activities logged',
+                },
+                {
+                  value: '1,590',
+                  name: 'Points earned',
+                },
+              ]}
+            />
+          </aside>
         </div>
       </div>
     </main>
