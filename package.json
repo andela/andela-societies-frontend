@@ -8,7 +8,7 @@
     "build": "webpack -p --config=webpack.config.prod.js && npm run copy:favicon",
     "serve": "node server.js",
     "test": "export NODE_ENV=testing && jest --verbose",
-    "test:dev": "jest --verbose --watch",
+    "test:dev": "export NODE_ENV=testing && jest --verbose --watch",
     "copy:favicon": "cp src/assets/images/favicon.ico public/favicon.ico",
     "deploy": "npm run build && npm run serve",
     "coverage": "export NODE_ENV=testing && jest --coverage",
