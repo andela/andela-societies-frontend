@@ -3,6 +3,8 @@ jobs:
   build:
     docker:
       - image: circleci/node:7.10
+        environment:
+        - NODE_ENV: testing
 
     working_directory: ~/repo
 
