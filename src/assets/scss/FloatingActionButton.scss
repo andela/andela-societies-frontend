@@ -1,0 +1,49 @@
+.parentfab{
+  position: relative
+}
+.fab {
+  width: 70px;
+  height: 70px;
+  background-color: #dc8905;
+  border-radius: 50%;
+  transition: all 0.1s ease-in-out;
+  font-size: 50px;
+  color: white;
+  text-align: center;
+  line-height: 70px;
+  position: fixed;
+  right: 50px;
+  bottom: 50px;
+}
+
+.fab:hover {
+  box-shadow: 0 6px 14px 0 #666;
+  transform: scale(1.05);
+}
+.line{
+   width: 35px;
+   height: 44px;
+   border-bottom: 3px solid white;
+   position: absolute;
+   right:50px;
+   left:20px;
+ 
+}
+.line2{
+   width: 26px;
+   height: 36px;
+   border-bottom: 3px solid white;
+   position: absolute;
+   right:50px;
+   left:29px;
+ 
+}
+.line3{
+   width: 18px;
+   height: 28px;
+   border-bottom: 3px solid white;
+   position: absolute;
+   right:50px;
+   left:37px;
+ 
+}

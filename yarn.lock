@@ -3328,10 +3328,14 @@ hoek@4.x.x:
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-4.2.0.tgz#72d9d0754f7fe25ca2d01ad8f8f9a9449a89526d"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 hoist-non-react-statics@^2.3.0, hoist-non-react-statics@^2.5.0:
 =======
 hoist-non-react-statics@^2.3.0:
 >>>>>>> Refactor code to adhere to the rules in the description
+=======
+hoist-non-react-statics@^2.3.0, hoist-non-react-statics@^2.5.0:
+>>>>>>> FAB Element at the bottom of the page
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.0.tgz#d2ca2dfc19c5a91c5a6615ce8e564ef0347e2a40"
 
@@ -3568,18 +3572,21 @@ interpret@^1.0.0:
 invariant@^2.0.0, invariant@^2.2.0, invariant@^2.2.1:
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.3.tgz#1a827dfde7dcbd7c323f0ca826be8fa7c5e9d688"
+<<<<<<< HEAD
   dependencies:
     loose-envify "^1.0.0"
 
 invariant@^2.2.2:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.2.tgz#9e1f56ac0acdb6bf303306f338be3b204ae60360"
+=======
+>>>>>>> FAB Element at the bottom of the page
   dependencies:
     loose-envify "^1.0.0"
 
-invariant@^2.2.1:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.3.tgz#1a827dfde7dcbd7c323f0ca826be8fa7c5e9d688"
+invariant@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.2.tgz#9e1f56ac0acdb6bf303306f338be3b204ae60360"
   dependencies:
     loose-envify "^1.0.0"
 
@@ -5699,10 +5706,14 @@ promise@^7.1.1:
     asap "~2.0.3"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 prop-types@^15.5.4, prop-types@^15.6.1:
 =======
 prop-types@^15.5.4:
 >>>>>>> Refactor code to adhere to the rules in the description
+=======
+prop-types@^15.5.4, prop-types@^15.6.1:
+>>>>>>> FAB Element at the bottom of the page
   version "15.6.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.1.tgz#36644453564255ddda391191fb3a125cbdf654ca"
   dependencies:
@@ -5872,6 +5883,9 @@ react-reconciler@^0.7.0:
     prop-types "^15.6.0"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> FAB Element at the bottom of the page
 react-redux@^5.0.7:
   version "5.0.7"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-5.0.7.tgz#0dc1076d9afb4670f993ffaef44b8f8c1155a4c8"
@@ -5883,8 +5897,11 @@ react-redux@^5.0.7:
     loose-envify "^1.1.0"
     prop-types "^15.6.0"
 
+<<<<<<< HEAD
 =======
 >>>>>>> Refactor code to adhere to the rules in the description
+=======
+>>>>>>> FAB Element at the bottom of the page
 react-router-dom@^4.2.2:
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-4.2.2.tgz#c8a81df3adc58bba8a76782e946cbd4eae649b8d"

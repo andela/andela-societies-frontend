@@ -2,6 +2,11 @@ import React from 'react';
 
 import Header from './header/Header';
 import Sidebar from './sidebar/Sidebar';
+<<<<<<< HEAD
+=======
+import FAB from './sidebar/FAB';
+
+>>>>>>> FAB Element at the bottom of the page
 import Stats from './sidebar/Stats';
 import MyActivities from '../containers/MyActivities';
 
@@ -11,7 +16,7 @@ import MyActivities from '../containers/MyActivities';
  * @return {jsx} React node for the entire application
  */
 const App = () => (
-  <div>
+  <React.Fragment>
     <div className='headerBackground' />
     <div className='sidebarWrapper sidebarWrapper--sidebarOpen'>
       <Sidebar />
@@ -25,6 +30,9 @@ const App = () => (
             <MyActivities />
           </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> FAB Element at the bottom of the page
           <aside className='sideContent'>
             <Stats
               stats={[
@@ -39,13 +47,17 @@ const App = () => (
               ]}
             />
           </aside>
+<<<<<<< HEAD
 =======
           <aside className='sideContent' />
 >>>>>>> Refactor code to adhere to the rules in the description
+=======
+>>>>>>> FAB Element at the bottom of the page
         </div>
       </div>
     </main>
-  </div>
+    <FAB />
+  </React.Fragment>
 );
 
 export default App;
