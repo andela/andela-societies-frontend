@@ -7,7 +7,7 @@ import RedemptionIcon from '../components/svgIcons/menuIcons/Redemptions';
 import SocietiesIcon from '../components/svgIcons/menuIcons/Societies';
 import LogActivitiesIcon from '../components/svgIcons/menuIcons/LogActivities';
 import config from '../../config';
-import { getToken, tokenIsValid, isFellow, getsignInError } from '../helpers/authentication';
+import { getToken, tokenIsValid, isFellow, setSignInError } from '../helpers/authentication';
 import ErrorIcon from '../components/svgIcons/notificationIcons/Error';
 import logo from '../assets/images/logos/andelaLogoBlue.png';
 
@@ -44,7 +44,8 @@ class SignIn extends Component {
       localStorage.removeItem('signInError');
       this.props.history.push('/my-activities');
     } else {
-      getsignInError();
+      localStorage.removeItem('signInError');
+      setSignInError();
       // if there is a sign in error go to signin page without error message in url
       this.props.history.push('/');
     }
@@ -56,7 +57,6 @@ class SignIn extends Component {
       this.setState({
         signInError: true,
       });
-      localStorage.removeItem('signInError');
     }
     return (
       <Fragment>
@@ -66,17 +66,18 @@ class SignIn extends Component {
               <img className='logo__img' src={logo} alt='Andela logo' />
               <span className='logo__text'>Andela Societies</span>
             </div>
-            <div
+            <a
+              href={`${andelaApiBaseUrl} + ${appUrl}`}
               className='signInButton'
               role='button'
               aria-label='Sign in with Google'
               tabIndex='0'
             >
               <div className='signInButton__logo' />
-              <a href={`${andelaApiBaseUrl} + ${appUrl}`} className='signInButton__label'>
+              <span>
                 Sign in with Google
-              </a>
-            </div>
+              </span>
+            </a>
           </div>
         </header>
         <main className='signInPageContent signInPageContent--topAlignment'>

@@ -14,18 +14,6 @@ export const getToken = () => {
 };
 
 /**
- * @name getsignInError
- * @summary Reads signin error from url and adds it to localStorage
- */
-export const getsignInError = () => {
-  const params = (new URL(document.location)).searchParams;
-  const signInError = params.get('error');
-  if (signInError) {
-    localStorage.setItem('signInError', signInError);
-  }
-};
-
-/**
  * @name tokenIsValid
  * @summary Checks that token has not expired and payload has Andelan role
  * @return {boolean} representing token
@@ -39,6 +27,21 @@ export const tokenIsValid = (token) => {
     return false;
   } catch (error) {
     return false;
+  }
+};
+
+/**
+ * @name setsignInError
+ * @summary Reads signin error from url and adds it to localStorage
+ */
+export const setSignInError = () => {
+  const params = (new URL(document.location)).searchParams;
+  const signInError = params.get('error');
+  // for andela guest emails
+  const token = getToken();
+  const isAndelan = tokenIsValid(token);
+  if (signInError || (token && !isAndelan)) {
+    localStorage.setItem('signInError', signInError);
   }
 };
 
