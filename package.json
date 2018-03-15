@@ -55,22 +55,11 @@
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> FAB Element at the bottom of the page
     "react-redux": "^5.0.7",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-<<<<<<< HEAD
-=======
-    "react-router": "^4.2.0",
-    "react-router-dom": "^4.2.2",
->>>>>>> Refactor code to adhere to the rules in the description
-=======
->>>>>>> FAB Element at the bottom of the page
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.1",
     "url-loader": "^0.6.2",
