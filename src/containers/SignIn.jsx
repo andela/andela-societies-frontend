@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
-import ReactRouterPropTypes from 'react-router-prop-types';
+import PropTypes from 'prop-types';
 
 import VerifyActivitiesIcon from '../components/svgIcons/menuIcons/VerifyActivities';
 import RedemptionIcon from '../components/svgIcons/menuIcons/Redemptions';
@@ -27,7 +27,9 @@ class SignIn extends Component {
    * @property {history} items - React router history object
  */
   static propTypes = {
-    history: ReactRouterPropTypes.history.isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
   }
 
   constructor(props) {
