@@ -50,7 +50,7 @@ class Page extends Component {
     const tokenInfo = decodeToken(token);
     if (token === null || tokenIsValid(tokenInfo) === false || isFellow(tokenInfo) === false) {
       setSignInError();
-      this.props.history.push('/');
+      this.props.history.push({ pathname: '/', search: '?error=unauthorized' });
     }
     this.props.fetchUserInfo(tokenInfo);
   }
