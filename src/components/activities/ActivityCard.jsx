@@ -7,16 +7,28 @@ import PropType from 'prop-types';
  * @extends React.Component
 */
 class ActivityCard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-    this.statuses = ['pending', 'expired', 'approved', 'default'];
-  }
-
+  /**
+  * @name propTypes
+  * @type {PropType}
+  * @param {Object} propTypes - React PropTypes
+  * @property {String} category - The type of an Activity
+  * @property {String} date - The date on which a fellow participated in an activity
+  * @property {String} description - The description of the activity
+  * @property {String} points - The points the activity is worth
+  * @property {String} status - The current status of the activity
+  */
+  static propTypes = {
+    category: PropType.string.isRequired,
+    date: PropType.string.isRequired,
+    description: PropType.string.isRequired,
+    points: PropType.string.isRequired,
+    status: PropType.string.isRequired,
+  };
+  statuses = ['pending', 'expired', 'approved', 'default'];
   /**
    * @summary Renders the status indicator on the ActivityCard
    */
-  renderStatus() {
+  renderStatus = () => {
     const status = this.props.status.toLowerCase();
 
     if (this.statuses.indexOf(status.toLowerCase()) < 0) {
@@ -38,17 +50,17 @@ class ActivityCard extends Component {
 
   render() {
     return (
-      <div className="activity">
-        <div className="activity__header">
-          <span className="activity__category">{this.props.category}</span>
-          <span className="activity__date">{this.props.date}</span>
+      <div className='activity'>
+        <div className='activity__header'>
+          <span className='activity__category'>{this.props.category}</span>
+          <span className='activity__date'>{this.props.date}</span>
         </div>
-        <div className="activity__content">
-          <h1 className="activity__description">{this.props.description}</h1>
+        <div className='activity__content'>
+          <h1 className='activity__description'>{this.props.description}</h1>
         </div>
-        <div className="activity__footer">
-          <span className="activity__points">
-            <span className="activity__pointsCount">{this.props.points}</span>
+        <div className='activity__footer'>
+          <span className='activity__points'>
+            <span className='activity__pointsCount'>{this.props.points}</span>
             Points
           </span>
           {this.renderStatus()}
@@ -57,23 +69,4 @@ class ActivityCard extends Component {
     );
   }
 }
-
-/**
-  * @name propTypes
-  * @type {PropType}
-  * @param {Object} propTypes - React PropTypes
-  * @property {String} category - The type of an Activity
-  * @property {String} date - The date on which a fellow participated in an activity
-  * @property {String} description - The description of the activity
-  * @property {String} points - The points the activity is worth
-  * @property {String} status - The current status of the activity
-  */
-ActivityCard.propTypes = {
-  category: PropType.string.isRequired,
-  date: PropType.string.isRequired,
-  description: PropType.string.isRequired,
-  points: PropType.string.isRequired,
-  status: PropType.string.isRequired,
-};
-
 export default ActivityCard;

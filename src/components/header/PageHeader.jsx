@@ -11,11 +11,7 @@ class PageHeader extends Component {
     * @name propTypes
     * @type {PropType}
     * @param {Object} propTypes - React PropTypes
-    * @property {String} category - The type of an Activity
-    * @property {String} date - The date on which a fellow participated in an activity
-    * @property {String} description - The description of the activity
-    * @property {String} points - The points the activity is worth
-    * @property {String} status - The current status of the activity
+    * @property {String} title - The title of the page
   */
   static propTypes = {
     title: PropType.string.isRequired,
@@ -44,39 +40,41 @@ class PageHeader extends Component {
    * @summary Creates event handler for when filter button is clicked
    * @returns {function} Toggles filter options dropdown
    */
-  createFilterOptionsButtonClickHandler() {
-    return () => {
-      this.setState(prevState => ({
-        showFilterOptionsDropdown: !prevState.showFilterOptionsDropdown,
-      }));
-    };
-  }
+  createFilterOptionsButtonClickHandler = () => () => {
+    this.setState(prevState => ({
+      showFilterOptionsDropdown: !prevState.showFilterOptionsDropdown,
+    }));
+  };
 
   render() {
     return (
-      <header className="pageHeader">
-        <h1 className="pageTitle">{this.props.title}</h1>
-        <div className="filterOptions">
+      <header className='pageHeader'>
+        <h1 className='pageTitle'>{this.props.title}</h1>
+        <div className='filterOptions'>
           <button
-            className="filterOptions__button"
+            className='filterOptions__button'
             onClick={this.createFilterOptionsButtonClickHandler()}
           >
             Pending
           </button>
-          <div className={this.getDropdownClassName(this.state.showFilterOptionsDropdown, ['filterOptions__dropdown'])}>
-            <div className="filterOptions__option">
+          <div className={this.getDropdownClassName(
+            this.state.showFilterOptionsDropdown,
+            ['filterOptions__dropdown'],
+          )}
+          >
+            <div className='filterOptions__option'>
               All
             </div>
-            <div className="filterOptions__option">
+            <div className='filterOptions__option'>
               Approved
             </div>
-            <div className="filterOptions__option">
+            <div className='filterOptions__option'>
               Expired
             </div>
-            <div className="filterOptions__option">
+            <div className='filterOptions__option'>
               In review
             </div>
-            <div className="filterOptions__option filterOptions__option--active">
+            <div className='filterOptions__option filterOptions__option--active'>
               Pending
             </div>
           </div>

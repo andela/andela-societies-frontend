@@ -12,9 +12,9 @@ import activities from '../fixtures/activities';
  * @return React node that displays the MyActivities page
  */
 const MyActivities = () => (
-  <div className="myActivities">
-    <PageHeader title="My Activities" />
-    <div className="activities">
+  <div className='myActivities'>
+    <PageHeader title='My Activities' />
+    <div className='activities'>
       <MasonryLayout
         columnCount={2}
         gap={20}

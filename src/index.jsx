@@ -1,27 +1,28 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { Provider } from 'react-redux';
 
-import App from './components/App';
+import store from './store';
+import Router from './containers/Router';
 import './assets/scss/style.scss';
 
 const { NODE_ENV } = process.env;
 
 const mount = (Component) => {
   render(
-    <div>
+    <Provider store={store}>
       <Component />
-    </div>
-    , document.getElementById('root'),
+    </Provider>,
+    document.getElementById('root'),
   );
 };
 
-mount(App);
-
+mount(Router);
 
 if (module.hot && NODE_ENV !== 'development') {
-  module.hot.accept('./components/App', () => {
+  module.hot.accept('./containers/App', () => {
     // eslint-disable-next-line global-require
-    const HotApp = require('./components/App').default;
+    const HotApp = require('./containers/App').default;
     mount(HotApp);
   });
 }

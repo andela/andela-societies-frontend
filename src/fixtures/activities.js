@@ -13,7 +13,8 @@ const statuses = ['pending', 'expired', 'approved', 'default'];
 
 const descriptions = [
   'Mentored teens how to code. (DBC 2016 at Redemption camp)',
-  'Jim Shelton of ChanZuckerberginitiative sits down with Andela fellows at Andela\'s Nairobi HQ in a Facebook Live event',
+  'Jim Shelton of ChanZuckerberginitiative sits down with Andela fellows ' +
+  'at Andela\'s Nairobi HQ in a Facebook Live event',
 ];
 
 const arr = [];
