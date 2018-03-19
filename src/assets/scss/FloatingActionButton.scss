@@ -1,0 +1,51 @@
+.parentfab {
+  position: relative
+}
+
+.fab {
+  width: 7rem;
+  height: 7rem;
+  background-color: #dc8905;
+  border-radius: 50%;
+  box-shadow: 0.2rem 0.2rem 1rem rgba(0, 0, 0, 0.5);
+  transition: 0.1s ease-in-out;
+  font-size: 5rem;
+  color: white;
+  text-align: center;
+  line-height: 7.0rem;
+  position: fixed;
+  right: 5rem;
+  bottom: 5rem;
+}
+
+.fab:hover {
+  box-shadow: 0.2rem 0.2rem 1rem rgba(0, 0, 0, 0.35);;
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.fab__line {
+  border-bottom: 0.3rem solid white;
+  position: absolute;
+}
+
+.fab__line--1 {
+   width: 3.5rem;
+   height: 4.4rem;  
+   right:5rem;
+   left:2rem;
+}
+
+.fab__line--2 {
+   width: 2.6rem;
+   height: 3.6rem;
+   right:5rem;
+   left:2.9rem;
+}
+
+.fab__line--3 {
+   width: 1.8rem;
+   height: 2.8rem;
+   right:5rem;
+   left:3.7rem; 
+}

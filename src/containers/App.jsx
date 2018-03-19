@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
@@ -6,6 +6,8 @@ import Header from '../components/header/Header';
 import Sidebar from '../components/sidebar/Sidebar';
 import Stats from '../components/sidebar/Stats';
 import MyActivities from './MyActivities';
+import FloatingActionButton from '../components/sidebar/FloatingActionButton';
+
 import { getToken, tokenIsValid, isFellow, setSignInError } from '../helpers/authentication';
 
 /**
@@ -40,7 +42,7 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <Fragment>
         <div className='headerBackground' />
         <div className='sidebarWrapper sidebarWrapper--sidebarOpen'>
           <Sidebar />
@@ -70,7 +72,8 @@ class App extends Component {
             </div>
           </div>
         </main>
-      </div>
+        <FloatingActionButton />
+      </Fragment>
     );
   }
 }
