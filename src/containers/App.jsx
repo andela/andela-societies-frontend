@@ -92,7 +92,7 @@ class App extends Component {
         <main className='mainPage mainPage--sidebarOpen'>
           {/* <div className="coverPhotoWrapper" /> */}
           <div className='pageContent'>
-            <Header userInfo={userInfo} />
+            <Header history={this.props.history} userInfo={userInfo} />
             <div className='contentWrapper'>
               <div className='mainContent'>
                 <MyActivities />
@@ -114,7 +114,7 @@ class App extends Component {
             </div>
           </div>
         </main>
-        { this.renderModal() }
+        {this.renderModal()}
         {
           this.state.showModal ?
             ''

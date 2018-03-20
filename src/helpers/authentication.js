@@ -1,4 +1,5 @@
 import jwtDecode from 'jwt-decode';
+import Cookie from 'js-cookie';
 
 /**
  * @name getToken
@@ -6,9 +7,9 @@ import jwtDecode from 'jwt-decode';
  * @return {string} representing token
  */
 export const getToken = () => {
-  const cookie = document.cookie.split('jwt-token=');
-  if (cookie.length > 1) {
-    return cookie[1];
+  const token = Cookie.get('jwt-token');
+  if (token) {
+    return token;
   }
   return null;
 };
@@ -41,6 +42,18 @@ export const tokenIsValid = (tokenInfo) => {
   } catch (error) {
     return false;
   }
+};
+
+/**
+ * @name removeCookies
+ * @summary Clears the jwt-token cookies
+ */
+export const removeCookies = (name, params = undefined) => {
+  const options = params || {
+    expires: 3,
+    domain: '.andela.com',
+  };
+  return Cookie.remove(name, options);
 };
 
 /**
