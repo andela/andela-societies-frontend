@@ -4,6 +4,6 @@ import FloatingActionButton from '../../../src/components/sidebar/FloatingAction
 
 describe('Testing <FloatingActionButton /> component', () => {
   it('should render withour crashing', () => {
-    expect(mount.bind(null, <FloatingActionButton />)).not.toThrow();
+    expect(mount.bind(null, <FloatingActionButton onClick={() => {}} />)).not.toThrow();
   });
 });
