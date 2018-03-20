@@ -7,6 +7,7 @@ import Sidebar from '../components/sidebar/Sidebar';
 import Stats from '../components/sidebar/Stats';
 import MyActivities from './MyActivities';
 import FloatingActionButton from '../components/sidebar/FloatingActionButton';
+import Modal from './Modal';
 
 import { getToken, tokenIsValid, isFellow, setSignInError } from '../helpers/authentication';
 
@@ -28,7 +29,9 @@ class App extends Component {
   }
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      showModal: false,
+    };
   }
 
   componentWillMount() {
@@ -38,6 +41,33 @@ class App extends Component {
       setSignInError();
       this.props.history.push('/');
     }
+  }
+
+  onFabClick = (event) => {
+    if (event.type === 'keydown' && event.keyCode !== 13) {
+      return;
+    }
+    if (document && document.body) {
+      document.body.classList.add('noScroll');
+    }
+    this.setState({ showModal: true });
+  }
+
+  closeModal = () => {
+    if (document && document.body) {
+      document.body.classList.remove('noScroll');
+    }
+    this.setState({ showModal: false });
+  }
+
+  renderModal = () => {
+    const className = this.state.showModal ? 'modal--open' : '';
+
+    return (
+      <Modal close={this.closeModal} className={className}>
+        <div />
+      </Modal>
+    );
   }
 
   render() {
@@ -72,7 +102,12 @@ class App extends Component {
             </div>
           </div>
         </main>
-        <FloatingActionButton />
+        { this.renderModal() }
+        {
+          this.state.showModal ?
+            ''
+            : <FloatingActionButton onClick={this.onFabClick} />
+        }
       </Fragment>
     );
   }

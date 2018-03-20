@@ -22,7 +22,7 @@
 .pageTitle::after {
   content: '';
   display: block;
-  height: 1px;
+  height: 0.1rem;
   background: $orange;
   position: absolute;
   bottom: 0;
