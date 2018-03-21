@@ -5,6 +5,31 @@
   border: 0.1rem solid #eee;
   padding: 1.5rem;
   border-radius: 0.4rem;
+  display: flex;
+}
+
+.activity__left {
+  width: 7rem;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.activity__right {
+  flex: 1;
+}
+
+.activity__userName {
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+  margin-top: 0.8rem;
+}
+
+.activity__userPicture {
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 50%;
+  background: #eee;
 }
 
 .activity__category {
@@ -25,7 +50,7 @@
 
 .activity__description {
   font-weight: normal;
-  font-size: 2rem;
+  font-size: 1.7rem;
   margin: 0;
 }
 
