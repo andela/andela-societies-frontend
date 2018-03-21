@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 /**
  * @name Breadcrumb
  * @summary Renders the Breadcrumb in the header section
@@ -24,4 +25,8 @@ Breadcrumb.propTypes = {
   }).isRequired,
 };
 
-export default Breadcrumb;
+const mapStateToProps = state => ({
+  pageInfo: state.pageInfo,
+});
+
+export default connect(mapStateToProps)(Breadcrumb);

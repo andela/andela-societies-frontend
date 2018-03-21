@@ -2,9 +2,10 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { BrowserRouter, Switch, Route, withRouter } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, withRouter } from 'react-router-dom';
 
 import { fetchUserInfo } from '../actions';
+import { changeTitle } from '../actions/pageActions';
 import Header from '../components/header/Header';
 import Sidebar from '../components/sidebar/Sidebar';
 import Stats from '../components/sidebar/Stats';
@@ -26,7 +27,7 @@ class App extends Component {
    * @name propTypes
    * @type {PropType}
    * @param {Object} propTypes - React PropTypes
-   * @property {history} items - React router history object
+   * @property {Object} history - React router history object
   */
   static propTypes = {
     fetchUserInfo: PropTypes.func.isRequired,
@@ -35,16 +36,15 @@ class App extends Component {
       picture: PropTypes.string,
     }).isRequired,
     history: ReactRouterPropTypes.history.isRequired,
-    pageInfo: PropTypes.shape({
-      url: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-    }).isRequired,
+    changePageTitle: PropTypes.func.isRequired,
   }
   constructor(props) {
     super(props);
     this.state = {
       showModal: false,
     };
+
+    props.changePageTitle(props.history);
   }
 
   componentWillMount() {
@@ -56,10 +56,6 @@ class App extends Component {
       this.props.history.push('/');
     }
     this.props.fetchUserInfo(tokenInfo);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState(prevState => ({ ...prevState, pageInfo: nextProps.pageInfo }));
   }
 
   onFabClick = (event) => {
@@ -103,7 +99,6 @@ class App extends Component {
             <Header
               history={this.props.history}
               userInfo={userInfo}
-              pageInfo={this.props.pageInfo}
             />
             <div className='contentWrapper'>
               <div className='mainContent'>
@@ -148,9 +143,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  changePageTitle: history => dispatch(changeTitle(history)),
   fetchUserInfo: tokenInfo => (
     dispatch(fetchUserInfo(tokenInfo))
   ),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(App));

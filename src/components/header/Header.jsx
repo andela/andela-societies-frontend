@@ -25,10 +25,6 @@ export default class Header extends Component {
     history: PropTypes.shape({
       push: PropTypes.func.isRequired,
     }).isRequired,
-    pageInfo: PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
-    }).isRequired,
     userInfo: PropTypes.shape({
       name: PropTypes.string,
       picture: PropTypes.string,
@@ -89,7 +85,7 @@ export default class Header extends Component {
     return (
       <div className='headerWrapper'>
         <div className='leftHeader'>
-          <Breadcrumb pageInfo={this.props.pageInfo} />
+          <Breadcrumb />
         </div>
         <div className='rightHeader'>
           <div className='headerIcon'>
