@@ -1,14 +1,17 @@
 import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
-import ReactRouterPropTypes from 'react-router-prop-types';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
+import { fetchUserInfo } from '../actions';
 import Header from '../components/header/Header';
 import Sidebar from '../components/sidebar/Sidebar';
 import Stats from '../components/sidebar/Stats';
 import MyActivities from './MyActivities';
 import FloatingActionButton from '../components/sidebar/FloatingActionButton';
+import Modal from './Modal';
 
-import { getToken, tokenIsValid, isFellow, setSignInError } from '../helpers/authentication';
+import { getToken, tokenIsValid, isFellow, setSignInError, decodeToken } from '../helpers/authentication';
 
 /**
  * @name App
@@ -24,23 +27,62 @@ class App extends Component {
  * @property {history} items - React router history object
 */
   static propTypes = {
-    history: ReactRouterPropTypes.history.isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
+    fetchUserInfo: PropTypes.func.isRequired,
+    userInfo: PropTypes.shape({
+      name: PropTypes.string,
+      picture: PropTypes.string,
+    }).isRequired,
   }
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      showModal: false,
+    };
   }
 
   componentWillMount() {
     // retrieve token from cookie
     const token = getToken();
-    if (token === null || tokenIsValid(token) === false || isFellow(token) === false) {
+    const tokenInfo = decodeToken(token);
+    if (token === null || tokenIsValid(tokenInfo) === false || isFellow(tokenInfo) === false) {
       setSignInError();
       this.props.history.push('/');
     }
+    this.props.fetchUserInfo(tokenInfo);
+  }
+
+  onFabClick = (event) => {
+    if (event.type === 'keydown' && event.keyCode !== 13) {
+      return;
+    }
+    if (document && document.body) {
+      document.body.classList.add('noScroll');
+    }
+    this.setState({ showModal: true });
+  }
+
+  closeModal = () => {
+    if (document && document.body) {
+      document.body.classList.remove('noScroll');
+    }
+    this.setState({ showModal: false });
+  }
+
+  renderModal = () => {
+    const className = this.state.showModal ? 'modal--open' : '';
+
+    return (
+      <Modal close={this.closeModal} className={className}>
+        <div />
+      </Modal>
+    );
   }
 
   render() {
+    const { userInfo } = this.props;
     return (
       <Fragment>
         <div className='headerBackground' />
@@ -50,7 +92,7 @@ class App extends Component {
         <main className='mainPage mainPage--sidebarOpen'>
           {/* <div className="coverPhotoWrapper" /> */}
           <div className='pageContent'>
-            <Header />
+            <Header userInfo={userInfo} />
             <div className='contentWrapper'>
               <div className='mainContent'>
                 <MyActivities />
@@ -72,10 +114,25 @@ class App extends Component {
             </div>
           </div>
         </main>
-        <FloatingActionButton />
+        { this.renderModal() }
+        {
+          this.state.showModal ?
+            ''
+            : <FloatingActionButton onClick={this.onFabClick} />
+        }
       </Fragment>
     );
   }
 }
 
-export default withRouter(App);
+const mapStateToProps = state => ({
+  userInfo: state.userInfo,
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchUserInfo: tokenInfo => (
+    dispatch(fetchUserInfo(tokenInfo))
+  ),
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
