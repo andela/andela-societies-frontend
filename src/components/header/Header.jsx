@@ -17,18 +17,23 @@ export default class Header extends Component {
    * @name propTypes
    * @type {PropType}
    * @param {Object} propTypes - React PropTypes
-   * @property {history} items - React router history object
+   * @property {Object} history - React router history object
+   * @property {Object} pageInfo - Object containing title and url of the current page
+   * @property {Object} userInfo - Object containing details about the signed in user
  */
   static propTypes = {
     history: PropTypes.shape({
       push: PropTypes.func.isRequired,
+    }).isRequired,
+    pageInfo: PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
     }).isRequired,
     userInfo: PropTypes.shape({
       name: PropTypes.string,
       picture: PropTypes.string,
     }).isRequired,
   }
-
   constructor(props) {
     super(props);
     this.initialMenuState = {
@@ -84,7 +89,7 @@ export default class Header extends Component {
     return (
       <div className='headerWrapper'>
         <div className='leftHeader'>
-          <Breadcrumb />
+          <Breadcrumb pageInfo={this.props.pageInfo} />
         </div>
         <div className='rightHeader'>
           <div className='headerIcon'>

@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { BrowserRouter, Route, Switch, withRouter } from 'react-router-dom';
+import ReactRouterPropTypes from 'react-router-prop-types';
+import { BrowserRouter, Switch, Route, withRouter } from 'react-router-dom';
 
 import { fetchUserInfo } from '../actions';
 import Header from '../components/header/Header';
@@ -22,19 +23,21 @@ import { getToken, tokenIsValid, isFellow, setSignInError, decodeToken } from '.
 
 class App extends Component {
   /**
- * @name propTypes
- * @type {PropType}
- * @param {Object} propTypes - React PropTypes
- * @property {history} items - React router history object
-*/
+   * @name propTypes
+   * @type {PropType}
+   * @param {Object} propTypes - React PropTypes
+   * @property {history} items - React router history object
+  */
   static propTypes = {
-    history: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-    }).isRequired,
     fetchUserInfo: PropTypes.func.isRequired,
     userInfo: PropTypes.shape({
       name: PropTypes.string,
       picture: PropTypes.string,
+    }).isRequired,
+    history: ReactRouterPropTypes.history.isRequired,
+    pageInfo: PropTypes.shape({
+      url: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
     }).isRequired,
   }
   constructor(props) {
@@ -53,6 +56,10 @@ class App extends Component {
       this.props.history.push('/');
     }
     this.props.fetchUserInfo(tokenInfo);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState(prevState => ({ ...prevState, pageInfo: nextProps.pageInfo }));
   }
 
   onFabClick = (event) => {
@@ -93,7 +100,11 @@ class App extends Component {
         <main className='mainPage mainPage--sidebarOpen'>
           {/* <div className="coverPhotoWrapper" /> */}
           <div className='pageContent'>
-            <Header history={this.props.history} userInfo={userInfo} />
+            <Header
+              history={this.props.history}
+              userInfo={userInfo}
+              pageInfo={this.props.pageInfo}
+            />
             <div className='contentWrapper'>
               <div className='mainContent'>
                 <BrowserRouter>
