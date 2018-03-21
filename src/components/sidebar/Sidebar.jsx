@@ -19,12 +19,12 @@ const pages = [
     icon: HomeIcon,
   },
   {
-    url: '/my-activities',
+    url: '/u/my-activities',
     label: 'My Activities',
     icon: MyActivitiesIcon,
   },
   {
-    url: '/',
+    url: '/u/verify-activities',
     label: 'Verify Activities',
     icon: VerifyActivitiesIcon,
   },

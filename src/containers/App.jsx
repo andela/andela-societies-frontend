@@ -1,13 +1,14 @@
 import React, { Component, Fragment } from 'react';
-import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { BrowserRouter, Route, Switch, withRouter } from 'react-router-dom';
 
 import { fetchUserInfo } from '../actions';
 import Header from '../components/header/Header';
 import Sidebar from '../components/sidebar/Sidebar';
 import Stats from '../components/sidebar/Stats';
 import MyActivities from './MyActivities';
+import VerifyActivities from './VerifyActivities';
 import FloatingActionButton from '../components/sidebar/FloatingActionButton';
 import Modal from './Modal';
 
@@ -95,7 +96,13 @@ class App extends Component {
             <Header history={this.props.history} userInfo={userInfo} />
             <div className='contentWrapper'>
               <div className='mainContent'>
-                <MyActivities />
+                <BrowserRouter>
+                  <Switch>
+                    <Route path='/u/my-activities' component={MyActivities} />
+                    <Route path='/u/verify-activities' component={VerifyActivities} />
+                    <Route path='/u/redemptions' component={VerifyActivities} />
+                  </Switch>
+                </BrowserRouter>
               </div>
               <aside className='sideContent'>
                 <Stats

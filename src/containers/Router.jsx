@@ -1,8 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import PageRoutes from '../components/common/PageRoutes';
 
-import App from './App';
 import Signin from '../containers/SignIn';
+
 
 /**
  * @name Router
@@ -13,7 +14,7 @@ const Router = () => (
   <BrowserRouter>
     <Switch>
       <Route path='/' exact component={Signin} />
-      <Route path='/my-activities' exact component={App} />
+      <PageRoutes />
     </Switch>
   </BrowserRouter>
 );
