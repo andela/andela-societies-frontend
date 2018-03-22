@@ -11,7 +11,7 @@ import { getToken, tokenIsValid, isFellow, setSignInError, decodeToken } from '.
 import ErrorIcon from '../components/svgIcons/notificationIcons/Error';
 import logo from '../assets/images/logos/andelaLogoBlue.png';
 
-const andelaApiBaseUrl = config.ANDELA_API_BASE_URL;
+const authApiUrl = config.AUTH_API;
 const appUrl = config.APP_URL;
 
 /**
@@ -70,7 +70,7 @@ class SignIn extends Component {
               <span className='logo__text'>Andela Societies</span>
             </div>
             <a
-              href={`${andelaApiBaseUrl} + ${appUrl}`}
+              href={`${authApiUrl} + ${appUrl}`}
               className='signInButton'
               role='button'
               aria-label='Sign in with Google'

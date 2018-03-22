@@ -1,18 +1,23 @@
 const configs = {
-  development: {
-    ANDELA_API_BASE_URL: 'https://api.andela.com/login?redirect_url=',
-    APP_URL: 'http://soc-dev.andela.com:3000/',
-    API_URL: '',
-  },
   production: {
-    ANDELA_API_BASE_URL: 'https://api.andela.com/login?redirect_url=',
-    APP_URL: 'https://andela-societies.herokuapp.com/',
-    API_URL: '',
+    AUTH_API: 'https://api.andela.com/login?redirect_url=',
+    APP_URL: 'https://societies.andela.com',
+    API_BASE_URL: 'https://societies-api.andela.com/api/v1',
+  },
+  staging: {
+    AUTH_API: 'https://api.andela.com/login?redirect_url=',
+    APP_URL: 'https://societies-staging.andela.com',
+    API_BASE_URL: 'https://societies-api-staging.andela.com/api/v1',
+  },
+  development: {
+    AUTH_API: 'https://api.andela.com/login?redirect_url=',
+    APP_URL: 'http://soc-dev.andela.com:3000',
+    API_BASE_URL: 'https://societies-api-dev.andela.com/api/v1',
   },
   testing: {
-    ANDELA_API_BASE_URL: 'https://api-staging.andela.com/login?redirect_url=',
-    APP_URL: 'http://localhost:3000/',
-    API_URL: '',
+    AUTH_API: 'https://api.andela.com/login?redirect_url=',
+    APP_URL: 'http://soc-dev.andela.com:3000',
+    API_BASE_URL: 'https://societies-api-dev.andela.com/api/v1',
   },
 };
 
