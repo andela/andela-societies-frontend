@@ -1,0 +1,57 @@
+.formField {
+  display: flex;
+  align-items: center;
+}
+
+.formField__label {
+  width:25%;
+  padding-right: 3rem;
+  text-align: right;
+  margin-top: 2rem;
+}
+
+.formField__control {
+ flex: 1;
+ height: 3.5rem;
+ outline: none;
+ margin-top: 2rem;
+ font-size: inherit;
+ border:0.1rem solid #eeeeee
+}
+
+.formField__textField{
+  height: 15rem;  
+  flex: 1;
+  resize:vertical;
+  outline: none;
+  margin-top: 2rem;
+  font-size: inherit;
+  border:0.1rem solid #eeeeee
+}
+.cancelButton{
+  width: 5rem;
+  height: 3rem;
+  background-color: #fafafa;
+  font-size: 1rem;
+  color: black;
+  text-align: center;
+  float: right;
+  border: solid 0.05rem #e2e2e2;
+  border-radius: 4px;
+  font-family: Roboto;
+  margin: 1rem
+}
+
+.submitButton{
+  width: 5rem;
+  height: 3rem;
+  background-color: #dc8905;
+  font-size: 1rem;
+  color: black;
+  text-align: center;
+  font-family: Roboto;
+  float: right;
+  border: solid 0.05rem #e2e2e2;
+  border-radius: 4px;
+  margin:1rem;
+}
