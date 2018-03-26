@@ -15,7 +15,7 @@ class LogActivityForm extends Component {
   render() {
     return (
       <form>
-        <div>Log an Activity</div>
+        <div className='titleForm'>Log an Activity</div>
         <DateField />
         <Select
           name='fellowActivities'
@@ -24,7 +24,7 @@ class LogActivityForm extends Component {
           selectedOption={this.state.activities[0]}
           title='Activity'
         />
-        <SingleInput type='text' name='text' title='Number of intervieews' />
+        <SingleInput type='number' name='text' title='# of interviewees' />
         <TextArea title='Description' rows={5} resize={false}name='Description' placeholder='keep it brief' />
         <div>
           <Buttons name='fellowButtonSubmit' value='Log' className='submitButton' />

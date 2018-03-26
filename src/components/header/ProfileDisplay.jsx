@@ -1,13 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 /**
  * @name ProfileDisplay
  * @summary Renders the dropdown that appears below profile icon
  * @return {jxs} React node for the profile dropdown component
  */
-const ProfileDisplay = () => (
+const ProfileDisplay = props => (
   <div className='profileDisplay'>
-    <span className='profileDisplay__name'>John Doe</span>
+    <span className='profileDisplay__name'>{props.userInfo.name}</span>
     <span className='profileDisplay__society'>Invictus</span>
 
     <footer className='profileDisplay__footer'>
@@ -15,5 +16,11 @@ const ProfileDisplay = () => (
     </footer>
   </div>
 );
+
+ProfileDisplay.propTypes = {
+  userInfo: PropTypes.shape({
+    name: PropTypes.string,
+  }).isRequired,
+};
 
 export default ProfileDisplay;

@@ -16,7 +16,8 @@
  outline: none;
  margin-top: 2rem;
  font-size: inherit;
- border:0.1rem solid #eeeeee
+ border:0.1rem solid #eeeeee;
+ font-family: Roboto;
 }
 
 .formField__textField{
@@ -29,29 +30,36 @@
   border:0.1rem solid #eeeeee
 }
 .cancelButton{
-  width: 5rem;
-  height: 3rem;
+  padding: 1rem 2rem;
   background-color: #fafafa;
-  font-size: 1rem;
+  font-size: 1.2rem;
   color: black;
   text-align: center;
   float: right;
   border: solid 0.05rem #e2e2e2;
-  border-radius: 4px;
-  font-family: Roboto;
-  margin: 1rem
+  border-radius: 0.4rem;
+  margin: 1rem;
+}
+
+.cancelButton:hover{
+  cursor: pointer;
 }
 
 .submitButton{
-  width: 5rem;
-  height: 3rem;
+  padding: 1rem 2.9rem;
   background-color: #dc8905;
-  font-size: 1rem;
+  font-size: 1.2rem;
   color: black;
   text-align: center;
-  font-family: Roboto;
   float: right;
+  color: white;
   border: solid 0.05rem #e2e2e2;
-  border-radius: 4px;
-  margin:1rem;
+  border-radius: 0.4rem;
+  margin:1rem 0rem; 
+}
+.submitButton:hover{
+  cursor: pointer;
+}
+.titleForm{
+  font-size: 1.8rem
 }

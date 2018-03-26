@@ -15,7 +15,7 @@ const SingleInput = props => (
 );
 
 SingleInput.propTypes = {
-  type: PropTypes.number.isRequired,
+  type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
 };

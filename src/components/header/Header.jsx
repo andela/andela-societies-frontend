@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import NotificationIcon from '../svgIcons/headerIcons/Notification';
 import NotificationList from './NotificationList';
@@ -11,6 +12,13 @@ import Breadcrumb from './Breadcrumb';
  * @extends React.Component
  */
 export default class Header extends Component {
+  static propTypes = {
+    userInfo: PropTypes.shape({
+      name: PropTypes.string,
+      picture: PropTypes.string,
+    }).isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.initialMenuState = {
@@ -54,6 +62,7 @@ export default class Header extends Component {
   }
 
   render() {
+    const { userInfo } = this.props;
     return (
       <div className='headerWrapper'>
         <div className='leftHeader'>
@@ -83,8 +92,7 @@ export default class Header extends Component {
               role='button'
               tabIndex='0'
               style={{
-                backgroundImage: 'url(https://lh3.googleusercontent.com' +
-                  '/-00tV67VPUTc/AAAAAAAAAAI/AAAAAAAAAAc/unX3ycsnwTY/photo.jpg?sz=50)',
+                backgroundImage: `url(${userInfo.picture})`,
               }}
             />
             <div
@@ -93,7 +101,7 @@ export default class Header extends Component {
                 ['headerDropdown', 'headerDropdown--profile'],
               )}
             >
-              <ProfileDisplay />
+              <ProfileDisplay userInfo={userInfo} />
             </div>
           </div>
         </div>

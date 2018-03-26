@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
-import ReactRouterPropTypes from 'react-router-prop-types';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
+import { fetchUserInfo } from '../actions';
 import Header from '../components/header/Header';
 import Sidebar from '../components/sidebar/Sidebar';
 import Stats from '../components/sidebar/Stats';
@@ -10,7 +12,7 @@ import FloatingActionButton from '../components/sidebar/FloatingActionButton';
 import Modal from '../common/Modal';
 import LogActivityForm from './forms/LogActivityForm';
 
-import { getToken, tokenIsValid, isFellow, setSignInError } from '../helpers/authentication';
+import { getToken, tokenIsValid, isFellow, setSignInError, decodeToken } from '../helpers/authentication';
 
 /**
  * @name App
@@ -26,7 +28,14 @@ class App extends Component {
  * @property {history} items - React router history object
 */
   static propTypes = {
-    history: ReactRouterPropTypes.history.isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
+    fetchUserInfo: PropTypes.func.isRequired,
+    userInfo: PropTypes.shape({
+      name: PropTypes.string,
+      picture: PropTypes.string,
+    }).isRequired,
   }
   constructor(props) {
     super(props);
@@ -38,10 +47,12 @@ class App extends Component {
   componentWillMount() {
     // retrieve token from cookie
     const token = getToken();
-    if (token === null || tokenIsValid(token) === false || isFellow(token) === false) {
+    const tokenInfo = decodeToken(token);
+    if (token === null || tokenIsValid(tokenInfo) === false || isFellow(tokenInfo) === false) {
       setSignInError();
       this.props.history.push('/');
     }
+    this.props.fetchUserInfo(tokenInfo);
   }
 
   onFabClick = (event) => {
@@ -72,6 +83,7 @@ class App extends Component {
   }
 
   render() {
+    const { userInfo } = this.props;
     return (
       <Fragment>
         <div className='headerBackground' />
@@ -81,7 +93,7 @@ class App extends Component {
         <main className='mainPage mainPage--sidebarOpen'>
           {/* <div className="coverPhotoWrapper" /> */}
           <div className='pageContent'>
-            <Header />
+            <Header userInfo={userInfo} />
             <div className='contentWrapper'>
               <div className='mainContent'>
                 <MyActivities />
@@ -114,4 +126,14 @@ class App extends Component {
   }
 }
 
-export default withRouter(App);
+const mapStateToProps = state => ({
+  userInfo: state.userInfo,
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchUserInfo: tokenInfo => (
+    dispatch(fetchUserInfo(tokenInfo))
+  ),
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
