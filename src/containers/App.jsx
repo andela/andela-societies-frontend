@@ -43,8 +43,7 @@ class App extends Component {
     this.state = {
       showModal: false,
     };
-
-    props.changePageTitle(props.history);
+    props.changePageTitle(props.history.location.pathname);
   }
 
   componentWillMount() {
