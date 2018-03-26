@@ -1,24 +1,35 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
+import { createMockStore } from 'redux-test-utils';
+import { Provider } from 'react-redux';
 import App from '../../src/containers/App';
+
+const store = createMockStore({
+  pageInfo: {
+    url: '',
+    title: '',
+  },
+  userInfo: {
+    name: '',
+    picture: '',
+  },
+});
 
 describe('<App />', () => {
   const history = { push: () => { } };
-  const fetchUserInfo = () => { };
-  const userInfo = {
-    name: '',
-    picture: '',
-  };
+
   const mounted = mount.bind(
     null,
-    <MemoryRouter>
-      <App.WrappedComponent
-        history={history}
-        fetchUserInfo={fetchUserInfo}
-        userInfo={userInfo}
-      />
-    </MemoryRouter>,
+    <Provider store={store}>
+      <MemoryRouter>
+        <App
+          history={history}
+          fetchUserInfo={() => {}}
+          changePageTitle={() => {}}
+        />
+      </MemoryRouter>
+    </Provider>,
   );
   it('should render without crashing', () => {
     expect(mounted).not.toThrow();
