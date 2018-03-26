@@ -41,6 +41,8 @@
 }
 
 .headerWrapper {
+  position: relative;
+  z-index: 100;
   height: 6rem;
 }
 
