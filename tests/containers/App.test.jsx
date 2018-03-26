@@ -4,7 +4,22 @@ import { MemoryRouter } from 'react-router-dom';
 import App from '../../src/containers/App';
 
 describe('<App />', () => {
-  const mounted = mount.bind(null, <MemoryRouter><App /></MemoryRouter>);
+  const history = { push: () => { } };
+  const fetchUserInfo = () => { };
+  const userInfo = {
+    name: '',
+    picture: '',
+  };
+  const mounted = mount.bind(
+    null,
+    <MemoryRouter>
+      <App.WrappedComponent
+        history={history}
+        fetchUserInfo={fetchUserInfo}
+        userInfo={userInfo}
+      />
+    </MemoryRouter>,
+  );
   it('should render without crashing', () => {
     expect(mounted).not.toThrow();
   });

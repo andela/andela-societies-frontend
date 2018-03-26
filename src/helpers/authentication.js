@@ -14,14 +14,27 @@ export const getToken = () => {
 };
 
 /**
+ * @name decodeToken
+ * @summary Retrieves user information from token
+ * @return {object} representing token information
+ */
+export const decodeToken = (token) => {
+  try {
+    const decoded = jwtDecode(token);
+    return decoded;
+  } catch (error) {
+    return {};
+  }
+};
+
+/**
  * @name tokenIsValid
  * @summary Checks that token has not expired and payload has Andelan role
  * @return {boolean} representing token
  */
-export const tokenIsValid = (token) => {
+export const tokenIsValid = (tokenInfo) => {
   try {
-    const decoded = jwtDecode(token);
-    if (decoded.exp > new Date().getTime() / 1000 && decoded.UserInfo.roles.Andelan.length > 0) {
+    if (tokenInfo.exp > new Date().getTime() / 1000 && tokenInfo.UserInfo.roles.Andelan.length > 0) {
       return true;
     }
     return false;
@@ -50,10 +63,9 @@ export const setSignInError = () => {
  * @summary Checks that token payload has Fellow role
  * @return {boolean} representing token
  */
-export const isFellow = (token) => {
+export const isFellow = (tokenInfo) => {
   try {
-    const decoded = jwtDecode(token);
-    if (decoded.UserInfo.roles.Fellow.length > 0) {
+    if (tokenInfo.UserInfo.roles.Fellow.length > 0) {
       return true;
     }
     return false;
