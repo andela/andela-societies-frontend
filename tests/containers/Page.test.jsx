@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 import { createMockStore } from 'redux-test-utils';
 import { Provider } from 'react-redux';
-import App from '../../src/containers/App';
+import Page from '../../src/containers/Page';
 
 const store = createMockStore({
   pageInfo: {
@@ -15,19 +15,20 @@ const store = createMockStore({
     picture: '',
   },
 });
+const history = { push: () => { } };
 
-describe('<App />', () => {
-  const history = { push: () => { } };
-
+describe('<Page />', () => {
   const mounted = mount.bind(
     null,
     <Provider store={store}>
       <MemoryRouter>
-        <App
+        <Page
           history={history}
           fetchUserInfo={() => {}}
           changePageTitle={() => {}}
-        />
+        >
+          content
+        </Page>
       </MemoryRouter>
     </Provider>,
   );

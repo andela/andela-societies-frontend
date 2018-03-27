@@ -34,7 +34,7 @@ class Page extends Component {
     }).isRequired,
     history: ReactRouterPropTypes.history.isRequired,
     changePageTitle: PropTypes.func.isRequired,
-    children: PropTypes.arrayOf(PropTypes.element).isRequired,
+    children: PropTypes.node.isRequired,
   }
   constructor(props) {
     super(props);
