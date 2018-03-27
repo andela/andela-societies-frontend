@@ -2,9 +2,10 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { createMockStore } from 'redux-test-utils';
 import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 
-import Header from '../../../src/components/header/Header';
-import { nonFellowTokenInfo } from '../../__mocks__/tokenInfoMock';
+import MyActivities from '../../src/containers/MyActivities';
+
 
 const store = createMockStore({
   pageInfo: {
@@ -17,17 +18,21 @@ const store = createMockStore({
   },
 });
 const history = { push: () => { } };
-
 const mounted = mount.bind(
   null,
   <Provider store={store}>
-    <Header
-      userInfo={nonFellowTokenInfo.UserInfo}
-      history={history}
-    />
+    <MemoryRouter>
+      <MyActivities
+        history={history}
+        fetchUserInfo={() => {}}
+        changePageTitle={() => {}}
+      />
+    </MemoryRouter>
   </Provider>,
 );
-describe('<Header />', () => {
+
+
+describe('<MyActivities />', () => {
   it('should render without crashing', () => {
     expect(mounted).not.toThrow();
   });

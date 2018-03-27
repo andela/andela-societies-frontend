@@ -8,15 +8,15 @@ import Stats from '../components/sidebar/Stats';
 import activities from '../fixtures/activities';
 
 /**
- * @name MyActivities
+ * @name VerifyActivities
  * @summary Renders My activities page
- * @return React node that displays the MyActivities page
+ * @return React node that displays the VerifyActivities page
  */
-const MyActivities = () => (
+const VerifyActivities = () => (
   <Page>
     <div className='mainContent'>
-      <div className='myActivities'>
-        <PageHeader title='My Activities' />
+      <div className='VerifyActivities'>
+        <PageHeader title='Verify Activities' />
         <div className='activities'>
           <MasonryLayout
             columnCount={2}
@@ -29,6 +29,7 @@ const MyActivities = () => (
                   description={activity.description}
                   points={activity.points}
                   status={activity.status}
+                  showUserDetails
                 />
               ))
             }
@@ -52,4 +53,4 @@ const MyActivities = () => (
     </aside>
   </Page>
 );
-export default MyActivities;
+export default VerifyActivities;

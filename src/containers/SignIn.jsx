@@ -45,7 +45,7 @@ class SignIn extends Component {
     const tokenInfo = decodeToken(token);
     if (token && tokenIsValid(tokenInfo) && isFellow(tokenInfo)) {
       localStorage.removeItem('signInError');
-      this.props.history.push('/my-activities');
+      this.props.history.push('/u/my-activities');
     } else {
       localStorage.removeItem('signInError');
       setSignInError();

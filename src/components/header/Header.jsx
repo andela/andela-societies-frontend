@@ -17,7 +17,9 @@ export default class Header extends Component {
    * @name propTypes
    * @type {PropType}
    * @param {Object} propTypes - React PropTypes
-   * @property {history} items - React router history object
+   * @property {Object} history - React router history object
+   * @property {Object} pageInfo - Object containing title and url of the current page
+   * @property {Object} userInfo - Object containing details about the signed in user
  */
   static propTypes = {
     history: PropTypes.shape({
@@ -28,7 +30,6 @@ export default class Header extends Component {
       picture: PropTypes.string,
     }).isRequired,
   }
-
   constructor(props) {
     super(props);
     this.initialMenuState = {
