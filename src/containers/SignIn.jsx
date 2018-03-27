@@ -52,15 +52,15 @@ class SignIn extends Component {
       // if there is a sign in error go to signin page without error message in url
       this.props.history.push('/');
     }
-  }
 
-  render() {
-    const error = localStorage.getItem('signInError');
-    if (error) {
+    if (localStorage.getItem('signInError')) {
       this.setState({
         signInError: true,
       });
     }
+  }
+
+  render() {
     return (
       <Fragment>
         <header className='signInHeader'>
