@@ -2,27 +2,24 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { BrowserRouter, Route, Switch, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import { fetchUserInfo } from '../actions';
 import { changeTitle } from '../actions/pageActions';
 import Header from '../components/header/Header';
 import Sidebar from '../components/sidebar/Sidebar';
-import Stats from '../components/sidebar/Stats';
-import MyActivities from './MyActivities';
-import VerifyActivities from './VerifyActivities';
 import FloatingActionButton from '../components/sidebar/FloatingActionButton';
 import Modal from './Modal';
 
 import { getToken, tokenIsValid, isFellow, setSignInError, decodeToken } from '../helpers/authentication';
 
 /**
- * @name App
+ * @name Page
  * @summary Renders the entire application
  * @return {jsx} React node for the entire application
  */
 
-class App extends Component {
+class Page extends Component {
   /**
    * @name propTypes
    * @type {PropType}
@@ -37,6 +34,7 @@ class App extends Component {
     }).isRequired,
     history: ReactRouterPropTypes.history.isRequired,
     changePageTitle: PropTypes.func.isRequired,
+    children: PropTypes.arrayOf(PropTypes.element).isRequired,
   }
   constructor(props) {
     super(props);
@@ -100,29 +98,7 @@ class App extends Component {
               userInfo={userInfo}
             />
             <div className='contentWrapper'>
-              <div className='mainContent'>
-                <BrowserRouter>
-                  <Switch>
-                    <Route path='/u/my-activities' component={MyActivities} />
-                    <Route path='/u/verify-activities' component={VerifyActivities} />
-                    <Route path='/u/redemptions' component={VerifyActivities} />
-                  </Switch>
-                </BrowserRouter>
-              </div>
-              <aside className='sideContent'>
-                <Stats
-                  stats={[
-                    {
-                      value: '20',
-                      name: 'Activities logged',
-                    },
-                    {
-                      value: '1,590',
-                      name: 'Points earned',
-                    },
-                  ]}
-                />
-              </aside>
+              {this.props.children}
             </div>
           </div>
         </main>
@@ -148,4 +124,4 @@ const mapDispatchToProps = dispatch => ({
   ),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(App));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Page));

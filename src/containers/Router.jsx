@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import PageRoutes from '../components/common/PageRoutes';
 
 import Signin from '../containers/SignIn';
+import pageInfo from '../helpers/pageInfo';
 
 
 /**
@@ -14,7 +14,16 @@ const Router = () => (
   <BrowserRouter>
     <Switch>
       <Route path='/' exact component={Signin} />
-      <PageRoutes />
+      {
+        pageInfo.pages.map(pageInfoData => (
+          <Route
+            path={pageInfoData.url}
+            exact
+            component={pageInfoData.component}
+            key={pageInfoData.title}
+          />
+        ))
+      }
     </Switch>
   </BrowserRouter>
 );

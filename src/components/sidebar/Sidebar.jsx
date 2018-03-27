@@ -1,75 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import HomeIcon from '../svgIcons/menuIcons/Home';
-import MyActivitiesIcon from '../svgIcons/menuIcons/MyActivities';
-import VerifyActivitiesIcon from '../svgIcons/menuIcons/VerifyActivities';
-import RedemptionsIcon from '../svgIcons/menuIcons/Redemptions';
-import InvictusIcon from '../svgIcons/societyIcons/Invictus';
-import IstelleIcon from '../svgIcons/societyIcons/Istelle';
-import SparksIcon from '../svgIcons/societyIcons/Sparks';
-import PhoenixIcon from '../svgIcons/societyIcons/Phoenix';
 import logo from '../../assets/images/logos/andelaLogoWhite.png';
-
-// menuItemInfo for pages on the app
-const pages = [
-  {
-    url: '/',
-    label: 'Home',
-    icon: HomeIcon,
-  },
-  {
-    url: '/u/my-activities',
-    label: 'My Activities',
-    icon: MyActivitiesIcon,
-  },
-  {
-    url: '/u/verify-activities',
-    label: 'Verify Activities',
-    icon: VerifyActivitiesIcon,
-  },
-  {
-    url: '/',
-    label: 'Redemptions',
-    icon: RedemptionsIcon,
-  },
-];
-
-// menuItemInfo for societies
-const societies = [
-  {
-    url: '/',
-    label: 'iStelle',
-    icon: IstelleIcon,
-  },
-  {
-    url: '/',
-    label: 'Invictus',
-    icon: InvictusIcon,
-  },
-  {
-    url: '/',
-    label: 'Sparks',
-    icon: SparksIcon,
-  },
-  {
-    url: '/',
-    label: 'Phoenix',
-    icon: PhoenixIcon,
-  },
-];
+import pageInfo from '../../helpers/pageInfo';
 
 /**
  * @name renderMenuItem
- * @param {object} menuItemData An object that contains url, label and the icon to display
+ * @param {object} pageInfoData An object that contains page metadata
  * @summary Renders a Sidebar's menu item
  */
-const renderMenuItem = menuItemData => (
-  <Link to={menuItemData.url} className='sidebar__navItem' key={menuItemData.label}>
+const renderMenuItem = pageInfoData => (
+  <Link to={pageInfoData.url} className='sidebar__navItem' key={pageInfoData.title}>
     <span className='sidebar__navIcon'>
-      <menuItemData.icon />
+      <pageInfoData.menuIcon />
     </span>
-    <span className='sidebar__navLabel'>{menuItemData.label}</span>
+    <span className='sidebar__navLabel'>{pageInfoData.title}</span>
   </Link>
 );
 
@@ -86,11 +31,11 @@ const Sidebar = () => (
     </header>
     <nav className='sidebar__nav'>
       <div className='sidebar__navGroup'>
-        {pages.map(renderMenuItem)}
+        {pageInfo.pages.map(renderMenuItem)}
       </div>
       <div className='sidebar__navGroup'>
         <span className='sidebar__navGroupHeader'>Societies</span>
-        {societies.map(renderMenuItem)}
+        {pageInfo.societyPages.map(renderMenuItem)}
       </div>
     </nav>
   </aside>
