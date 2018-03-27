@@ -45,22 +45,22 @@ class SignIn extends Component {
     const tokenInfo = decodeToken(token);
     if (token && tokenIsValid(tokenInfo) && isFellow(tokenInfo)) {
       localStorage.removeItem('signInError');
-      this.props.history.push('/my-activities');
+      this.props.history.push('/u/my-activities');
     } else {
       localStorage.removeItem('signInError');
       setSignInError();
       // if there is a sign in error go to signin page without error message in url
       this.props.history.push('/');
     }
-  }
 
-  render() {
-    const error = localStorage.getItem('signInError');
-    if (error) {
+    if (localStorage.getItem('signInError')) {
       this.setState({
         signInError: true,
       });
     }
+  }
+
+  render() {
     return (
       <Fragment>
         <header className='signInHeader'>

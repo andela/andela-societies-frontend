@@ -20,9 +20,9 @@ const mount = (Component) => {
 mount(Router);
 
 if (module.hot && NODE_ENV !== 'development') {
-  module.hot.accept('./containers/App', () => {
+  module.hot.accept('./containers/Router', () => {
     // eslint-disable-next-line global-require
-    const HotApp = require('./containers/App').default;
+    const HotApp = require('./containers/Router').default;
     mount(HotApp);
   });
 }

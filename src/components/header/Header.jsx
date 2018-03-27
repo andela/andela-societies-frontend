@@ -5,6 +5,7 @@ import NotificationIcon from '../svgIcons/headerIcons/Notification';
 import NotificationList from './NotificationList';
 import ProfileDisplay from './ProfileDisplay';
 import Breadcrumb from './Breadcrumb';
+import { removeCookies } from '../../helpers/authentication';
 
 /**
  * @name Header
@@ -12,13 +13,23 @@ import Breadcrumb from './Breadcrumb';
  * @extends React.Component
  */
 export default class Header extends Component {
+  /**
+   * @name propTypes
+   * @type {PropType}
+   * @param {Object} propTypes - React PropTypes
+   * @property {Object} history - React router history object
+   * @property {Object} pageInfo - Object containing title and url of the current page
+   * @property {Object} userInfo - Object containing details about the signed in user
+ */
   static propTypes = {
+    history: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
     userInfo: PropTypes.shape({
       name: PropTypes.string,
       picture: PropTypes.string,
     }).isRequired,
-  };
-
+  }
   constructor(props) {
     super(props);
     this.initialMenuState = {
@@ -59,6 +70,14 @@ export default class Header extends Component {
         },
       }));
     };
+  }
+  /**
+   * @name logOut
+   * @summary Deletes the  cookies and logs a user out
+   */
+  logOut = () => {
+    removeCookies('jwt-token');
+    this.props.history.push('/');
   }
 
   render() {
@@ -101,7 +120,7 @@ export default class Header extends Component {
                 ['headerDropdown', 'headerDropdown--profile'],
               )}
             >
-              <ProfileDisplay userInfo={userInfo} />
+              <ProfileDisplay userInfo={userInfo} logOut={this.logOut} />
             </div>
           </div>
         </div>

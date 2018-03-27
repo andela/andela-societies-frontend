@@ -16,6 +16,7 @@ class ActivityCard extends Component {
   * @property {String} description - The description of the activity
   * @property {String} points - The points the activity is worth
   * @property {String} status - The current status of the activity
+  * @property {boolean} showUserDetails - Whether or not to show user details
   */
   static propTypes = {
     category: PropType.string.isRequired,
@@ -23,6 +24,11 @@ class ActivityCard extends Component {
     description: PropType.string.isRequired,
     points: PropType.string.isRequired,
     status: PropType.string.isRequired,
+    showUserDetails: PropType.bool,
+  };
+
+  static defaultProps = {
+    showUserDetails: false,
   };
   statuses = ['pending', 'expired', 'approved', 'default'];
   /**
@@ -48,22 +54,38 @@ class ActivityCard extends Component {
     );
   }
 
+
+  renderUserDetails() {
+    if (!this.props.showUserDetails) {
+      return '';
+    }
+    return (
+      <div className='activity__left'>
+        <img className='activity__userPicture' src='http://placehold.it/55x55' alt='John Doe' />
+        <span className='activity__userName'>John Doe</span>
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className='activity'>
-        <div className='activity__header'>
-          <span className='activity__category'>{this.props.category}</span>
-          <span className='activity__date'>{this.props.date}</span>
-        </div>
-        <div className='activity__content'>
-          <h1 className='activity__description'>{this.props.description}</h1>
-        </div>
-        <div className='activity__footer'>
-          <span className='activity__points'>
-            <span className='activity__pointsCount'>{this.props.points}</span>
-            Points
-          </span>
-          {this.renderStatus()}
+        {this.renderUserDetails()}
+        <div className='activity__right'>
+          <div className='activity__header'>
+            <span className='activity__category'>{this.props.category}</span>
+            <span className='activity__date'>{this.props.date}</span>
+          </div>
+          <div className='activity__content'>
+            <h1 className='activity__description'>{this.props.description}</h1>
+          </div>
+          <div className='activity__footer'>
+            <span className='activity__points'>
+              <span className='activity__pointsCount'>{this.props.points}</span>
+              Points
+            </span>
+            {this.renderStatus()}
+          </div>
         </div>
       </div>
     );
