@@ -15,9 +15,9 @@ const FloatingActionButton = props => (
     onClick={props.onClick}
     onKeyDown={props.onClick}
   >
-    <div className='fab__line fab__line--1' />
-    <div className='fab__line fab__line--2' />
-    <div className='fab__line fab__line--3' />
+    <div >
+      +
+    </div>
   </div>
 );
 
