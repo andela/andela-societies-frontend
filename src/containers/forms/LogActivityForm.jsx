@@ -12,9 +12,12 @@ class LogActivityForm extends Component {
       activities: [],
     };
   }
+  onSubmit = (e) => {
+    e.preventDefault();
+  }
   render() {
     return (
-      <form>
+      <form onSubmit={this.onSubmit}>
         <div className='titleForm'>Log an Activity</div>
         <DateField />
         <Select
