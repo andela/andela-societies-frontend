@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropType from 'prop-types';
+import RedeemButtons from '../buttons/RedeemButtons';
 
 /**
  * @summary Renders an activity card
@@ -83,7 +84,9 @@ class ActivityCard extends Component {
               <span className='activity__pointsCount'>{this.props.points}</span>
               Points
             </span>
-            {this.renderStatus()}
+            <div className='showButtons'>
+              <RedeemButtons />
+            </div>
           </div>
         </div>
       </div>

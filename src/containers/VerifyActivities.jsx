@@ -2,7 +2,7 @@ import React from 'react';
 
 import Page from './Page';
 import PageHeader from '../components/header/PageHeader';
-import ActivityCard from '../components/activities/ActivityCard';
+import ActivityCard from '../components/verifyActivity/ActivityCard';
 import MasonryLayout from '../containers/MasonryLayout';
 import Stats from '../components/sidebar/Stats';
 import activities from '../fixtures/activities';
@@ -12,6 +12,8 @@ import activities from '../fixtures/activities';
  * @summary Renders My activities page
  * @return React node that displays the VerifyActivities page
  */
+
+
 const VerifyActivities = () => (
   <Page>
     <div className='mainContent'>
@@ -24,12 +26,11 @@ const VerifyActivities = () => (
             items={
               activities.map(activity => (
                 <ActivityCard
+                  points={activity.points}
+                  status={activity.status}
                   category={activity.category}
                   date={activity.date}
                   description={activity.description}
-                  points={activity.points}
-                  status={activity.status}
-                  showUserDetails
                 />
               ))
             }

@@ -106,3 +106,10 @@
 .activity__status--expired::before {
   background-color: #b23030;
 }
+
+.showButtons{
+  display: none;
+}
+.activity:hover .showButtons{
+  display: block;
+}
