@@ -24,37 +24,12 @@ class ActivityCard extends Component {
     date: PropType.string.isRequired,
     description: PropType.string.isRequired,
     points: PropType.string.isRequired,
-    status: PropType.string.isRequired,
     showUserDetails: PropType.bool,
   };
 
   static defaultProps = {
     showUserDetails: false,
   };
-  statuses = ['pending', 'expired', 'approved', 'default'];
-  /**
-   * @summary Renders the status indicator on the ActivityCard
-   */
-  renderStatus = () => {
-    const status = this.props.status.toLowerCase();
-
-    if (this.statuses.indexOf(status.toLowerCase()) < 0) {
-      return '';
-    }
-
-    if (status === 'default') {
-      return (
-        <span className={`activity__status activity__status--${status}`}>In review</span>
-      );
-    }
-
-    let statusText = status.charAt(0).toUpperCase();
-    statusText += status.slice(1);
-    return (
-      <span className={`activity__status activity__status--${status}`}>{ statusText }</span>
-    );
-  }
-
   renderUserDetails() {
     if (!this.props.showUserDetails) {
       return '';
