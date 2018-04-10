@@ -4,10 +4,6 @@ import SocietyButtons from '../header/SocietyButtons';
 /* eslint-disable */
 const VerifyActivity = (WrappedComponent) => {
   return class Verify extends Component {
-    componentWillReceiveProps(nextProps) {
-      console.log('Current props: ', this.props);
-      console.log('Next props: ', nextProps);
-    }
     successPage = () => {
       return <div>
         <SocietyButtons />
