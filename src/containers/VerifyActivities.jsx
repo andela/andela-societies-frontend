@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Page from './Page';
-import PageHeader from '../components/header/PageHeader';
 import ActivityCard from '../components/verifyActivity/ActivityCard';
 import MasonryLayout from '../containers/MasonryLayout';
 import Stats from '../components/sidebar/Stats';
 import activities from '../fixtures/activities';
+import VerifyActivityHoc from '../components/HOC/VerifyActivityHOC';
 
 /**
  * @name VerifyActivities
@@ -14,11 +15,11 @@ import activities from '../fixtures/activities';
  */
 
 
-const VerifyActivities = () => (
+const VerifyActivities = props => (
   <Page>
     <div className='mainContent'>
       <div className='VerifyActivities'>
-        <PageHeader title='Verify Activities' />
+        {props.success()}
         <div className='activities'>
           <MasonryLayout
             columnCount={2}
@@ -54,4 +55,8 @@ const VerifyActivities = () => (
     </aside>
   </Page>
 );
-export default VerifyActivities;
+VerifyActivities.propTypes = {
+  success: PropTypes.func.isRequired,
+};
+
+export default VerifyActivityHoc(VerifyActivities);
