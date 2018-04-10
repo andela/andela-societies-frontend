@@ -10,7 +10,6 @@ const VerifyActivity = (WrappedComponent) => {
       </div>
     }
     render() {
-      console.log(...this.props)
       return <WrappedComponent {...this.props}  success={this.successPage} />;
     }
   };
