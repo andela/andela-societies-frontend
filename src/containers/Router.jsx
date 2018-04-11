@@ -1,8 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import App from './App';
 import Signin from '../containers/SignIn';
+import pageInfo from '../helpers/pageInfo';
+
 
 /**
  * @name Router
@@ -13,7 +14,16 @@ const Router = () => (
   <BrowserRouter>
     <Switch>
       <Route path='/' exact component={Signin} />
-      <Route path='/my-activities' exact component={App} />
+      {
+        pageInfo.pages.map(pageInfoData => (
+          <Route
+            path={pageInfoData.url}
+            exact
+            component={pageInfoData.component}
+            key={pageInfoData.title}
+          />
+        ))
+      }
     </Switch>
   </BrowserRouter>
 );

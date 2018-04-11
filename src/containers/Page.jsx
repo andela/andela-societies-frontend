@@ -1,46 +1,47 @@
 import React, { Component, Fragment } from 'react';
-import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import ReactRouterPropTypes from 'react-router-prop-types';
+import { withRouter } from 'react-router-dom';
 
 import { fetchUserInfo } from '../actions';
+import { changeTitle } from '../actions/pageActions';
 import Header from '../components/header/Header';
 import Sidebar from '../components/sidebar/Sidebar';
-import Stats from '../components/sidebar/Stats';
-import MyActivities from './MyActivities';
 import FloatingActionButton from '../components/sidebar/FloatingActionButton';
 import Modal from './Modal';
 
 import { getToken, tokenIsValid, isFellow, setSignInError, decodeToken } from '../helpers/authentication';
 
 /**
- * @name App
+ * @name Page
  * @summary Renders the entire application
  * @return {jsx} React node for the entire application
  */
 
-class App extends Component {
+class Page extends Component {
   /**
- * @name propTypes
- * @type {PropType}
- * @param {Object} propTypes - React PropTypes
- * @property {history} items - React router history object
-*/
+   * @name propTypes
+   * @type {PropType}
+   * @param {Object} propTypes - React PropTypes
+   * @property {Object} history - React router history object
+  */
   static propTypes = {
-    history: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-    }).isRequired,
     fetchUserInfo: PropTypes.func.isRequired,
     userInfo: PropTypes.shape({
       name: PropTypes.string,
       picture: PropTypes.string,
     }).isRequired,
+    history: ReactRouterPropTypes.history.isRequired,
+    changePageTitle: PropTypes.func.isRequired,
+    children: PropTypes.node.isRequired,
   }
   constructor(props) {
     super(props);
     this.state = {
       showModal: false,
     };
+    props.changePageTitle(props.history.location.pathname);
   }
 
   componentWillMount() {
@@ -49,7 +50,7 @@ class App extends Component {
     const tokenInfo = decodeToken(token);
     if (token === null || tokenIsValid(tokenInfo) === false || isFellow(tokenInfo) === false) {
       setSignInError();
-      this.props.history.push('/');
+      this.props.history.push({ pathname: '/', search: '?error=unauthorized' });
     }
     this.props.fetchUserInfo(tokenInfo);
   }
@@ -92,29 +93,16 @@ class App extends Component {
         <main className='mainPage mainPage--sidebarOpen'>
           {/* <div className="coverPhotoWrapper" /> */}
           <div className='pageContent'>
-            <Header userInfo={userInfo} />
+            <Header
+              history={this.props.history}
+              userInfo={userInfo}
+            />
             <div className='contentWrapper'>
-              <div className='mainContent'>
-                <MyActivities />
-              </div>
-              <aside className='sideContent'>
-                <Stats
-                  stats={[
-                    {
-                      value: '20',
-                      name: 'Activities logged',
-                    },
-                    {
-                      value: '1,590',
-                      name: 'Points earned',
-                    },
-                  ]}
-                />
-              </aside>
+              {this.props.children}
             </div>
           </div>
         </main>
-        { this.renderModal() }
+        {this.renderModal()}
         {
           this.state.showModal ?
             ''
@@ -130,9 +118,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  changePageTitle: history => dispatch(changeTitle(history)),
   fetchUserInfo: tokenInfo => (
     dispatch(fetchUserInfo(tokenInfo))
   ),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Page));
