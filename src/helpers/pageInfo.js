@@ -1,4 +1,5 @@
 import MyActivities from '../containers/MyActivities';
+import Society from '../containers/Society';
 import VerifyActivities from '../containers/VerifyActivities';
 import HomeIcon from '../components/svgIcons/menuIcons/Home';
 import MyActivitiesIcon from '../components/svgIcons/menuIcons/MyActivities';
@@ -39,23 +40,27 @@ const pageInfo = {
   ],
   societyPages: [
     {
-      url: '/',
+      url: '/society/istelle',
       title: 'iStelle',
+      component: Society,
       menuIcon: IstelleIcon,
     },
     {
-      url: '/',
+      url: '/society/invictus',
       title: 'Invictus',
+      component: Society,
       menuIcon: InvictusIcon,
     },
     {
-      url: '/',
+      url: '/society/sparks',
       title: 'Sparks',
+      component: Society,
       menuIcon: SparksIcon,
     },
     {
-      url: '/',
+      url: '/society/phoenix',
       title: 'Phoenix',
+      component: Society,
       menuIcon: PhoenixIcon,
     },
   ],
