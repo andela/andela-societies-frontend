@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+   * @name TextArea
+   * @summary Returns a textarea field
+   * @returns Returns a textarea field
+   */
 const TextArea = props => (
   <div className='formField'>
     { /* eslint-disable */ }
@@ -16,7 +21,16 @@ const TextArea = props => (
       />
   </div>
 );
-
+/**
+    * @name propTypes
+    * @type {PropType}
+    * @param {Object} propTypes - React PropTypes
+    * @property {String} name - The name of the textArea
+    *@property {String} title - The title of the label
+    *@property {String} name - The name for the textarea 
+    *@property {String} resize - whether the textarea should be fixed or resizable
+    *@property {String} placehold - the placeholder text
+  */
 TextArea.propTypes = {
   title: PropTypes.string.isRequired,
   rows: PropTypes.number.isRequired,

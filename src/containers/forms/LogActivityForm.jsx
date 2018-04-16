@@ -5,6 +5,11 @@ import Select from '../../common/Select';
 import Buttons from '../../common/Buttons';
 import TextArea from '../../common/TextArea';
 
+/**
+   * @name LogActivityForm
+   * @summary Returns Form
+   * @returns Returns a form
+   */
 class LogActivityForm extends Component {
   constructor(props) {
     super(props);

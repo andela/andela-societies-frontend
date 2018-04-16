@@ -1,6 +1,8 @@
 .formField {
   display: flex;
   align-items: center;
+  padding-left: 1rem;
+  padding-right: 0.2rem;
 }
 
 .formField__label {
@@ -8,6 +10,7 @@
   padding-right: 3rem;
   text-align: right;
   margin-top: 2rem;
+  align-self: flex-start;
 }
 
 .formField__control {
@@ -17,7 +20,6 @@
  margin-top: 2rem;
  font-size: inherit;
  border:0.1rem solid #eeeeee;
- font-family: Roboto;
 }
 
 .formField__textField{
@@ -30,9 +32,9 @@
   border:0.1rem solid #eeeeee
 }
 .cancelButton{
-  padding: 1rem 2rem;
+  padding: 1.2rem 2rem;
   background-color: #fafafa;
-  font-size: 1.2rem;
+  font-size: inherit;
   color: black;
   text-align: center;
   float: right;
@@ -46,9 +48,9 @@
 }
 
 .submitButton{
-  padding: 1rem 2.9rem;
+  padding: 1.2rem 2.9rem;
   background-color: #dc8905;
-  font-size: 1.2rem;
+  font-size: inherit;
   color: black;
   text-align: center;
   float: right;
