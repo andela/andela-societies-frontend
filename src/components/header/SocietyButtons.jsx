@@ -1,25 +1,29 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import PageHeader from '../header/PageHeader';
+import Buttons from '../buttons/SocietyTabButtons';
 
-const Buttons = ({ filter, children }) => (
-  <button className={`societyButtons societyButtons__${filter}`} onClick={e => e.preventDefault}>
-    {children}
-  </button>
-);
-Buttons.propTypes = {
-  filter: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-};
 /* eslint-disable */
 class SocietyButtons extends Component {
+ constructor(props){
+   super(props);
+   this.state= {
+     active: 'istelle'
+   }
+ }
+ setActiveButton = (filter) => {
+   return () =>{
+    this.setState({
+      active:filter
+    })
+   }
+ }
  render() {
    return (
      <div className='societyButtons'>
-       <Buttons filter='defaultSociety'>istele</Buttons>
-       <Buttons filter='Invictus'>Invictus</Buttons>
-       <Buttons filter='Sparks'>Sparks</Buttons>
-       <Buttons filter='Phoniex'>Phoniex</Buttons>
+       <Buttons active={this.state.active} filter='istelle' setActiveButton={this.setActiveButton}>istele</Buttons>
+       <Buttons active={this.state.active} filter='Invictus' setActiveButton={this.setActiveButton}>Invictus</Buttons>
+       <Buttons active={this.state.active} filter='Sparks' setActiveButton={this.setActiveButton}>Sparks</Buttons>
+       <Buttons active={this.state.active} filter='Phoniex' setActiveButton={this.setActiveButton}>Phoniex</Buttons>
        <div className='dropdown'>
        <PageHeader />
        </div>
