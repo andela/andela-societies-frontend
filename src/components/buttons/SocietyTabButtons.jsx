@@ -13,9 +13,7 @@ const Buttons = ({
   </button>
 );
 Buttons.propTypes = {
-  active: PropTypes.shape({
-    filter: PropTypes.string.isRequired,
-  }).isRequired,
+  active: PropTypes.string.isRequired,
   filter: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   setActiveButton: PropTypes.func.isRequired,
