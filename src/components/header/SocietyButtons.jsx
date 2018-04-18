@@ -20,7 +20,7 @@ class SocietyButtons extends Component {
  render() {
    return (
      <div className='societyButtons'>
-       <Buttons active={this.state.active} filter='istelle' setActiveButton={this.setActiveButton}>istele</Buttons>
+       <Buttons active={this.state.active} filter='istelle' setActiveButton={this.setActiveButton}>iStele</Buttons>
        <Buttons active={this.state.active} filter='Invictus' setActiveButton={this.setActiveButton}>Invictus</Buttons>
        <Buttons active={this.state.active} filter='Sparks' setActiveButton={this.setActiveButton}>Sparks</Buttons>
        <Buttons active={this.state.active} filter='Phoniex' setActiveButton={this.setActiveButton}>Phoniex</Buttons>
