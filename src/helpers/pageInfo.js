@@ -8,6 +8,7 @@ import InvictusIcon from '../components/svgIcons/societyIcons/Invictus';
 import IstelleIcon from '../components/svgIcons/societyIcons/Istelle';
 import SparksIcon from '../components/svgIcons/societyIcons/Sparks';
 import PhoenixIcon from '../components/svgIcons/societyIcons/Phoenix';
+import Redemptions from '../containers/Redemptions';
 
 const pageInfo = {
   pages: [
@@ -31,8 +32,8 @@ const pageInfo = {
     },
     {
       title: 'Redemptions',
-      url: '/u/verify-activities',
-      component: VerifyActivities,
+      url: '/u/redemptions',
+      component: Redemptions,
       menuIcon: RedemptionsIcon,
     },
   ],
