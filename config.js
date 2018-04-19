@@ -12,7 +12,7 @@ const configs = {
   development: {
     ANDELA_API_BASE_URL: 'https://api.andela.com/login?redirect_url=',
     APP_URL: 'http://soc-dev.andela.com:3000/',
-    API_URL: 'https://private-e9d067-andelascoietiesapi.apiary-mock.com/api/v1/users/-Kabc/logged-activities',
+    API_URL: 'https://private-e9d067-andelascoietiesapi.apiary-mock.com/api/v1',
   },
   testing: {
     AUTH_API: 'https://api.andela.com/login?redirect_url=',
