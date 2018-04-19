@@ -15,20 +15,40 @@ import { fetchMyActivities } from '../actions/myActivitiesActions';
  */
 
 class MyActivities extends Component {
+  /**
+   * @name propTypes
+   * @type {PropType}
+   * @property {Function} fetchActivities - function(thunk) as a prop
+   * @property {Array} myActivities - Array of activities
+   * @property {Boolean} requesting - React router history object
+  */
   static propTypes = {
     fetchActivities: PropTypes.func.isRequired,
     myActivities: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     requesting: PropTypes.bool,
   };
 
+  /**
+   * @name defaultProps
+   * @type {PropType}
+   * @property {Boolean} requesting - state of get request
+  */
   static defaultProps = {
     requesting: false,
   };
 
+  /**
+   * React component lifecycle method componentDidMount
+   * @memberof MyActivities
+   */
   componentDidMount() {
     this.props.fetchActivities();
   }
 
+  /**
+   * Render MyActivities Page
+   * @return {Object} JSX for MyActivities component
+   */
   render() {
     const { myActivities, requesting } = this.props;
 

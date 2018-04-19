@@ -5,6 +5,13 @@ import {
 } from '../actions/constants';
 import initialState from './initialState';
 
+/**
+ * myActivities reducer
+ *
+ * @param {Object} state myActivities initial state
+ * @param {Object} action
+ * @returns {Object} myActivities state
+ */
 const myActivities = (state = initialState.myActivities, action) => {
   switch (action.type) {
   case MY_ACTIVITIES_GET_REQUEST:
