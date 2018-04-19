@@ -17,6 +17,15 @@ describe('<ActivityCard />', () => {
     expect(wrapper().find('.activity__userName').length).toBe(0);
   });
 
+  it('should show user details', () => {
+    const showUserDetails = true;
+    const card = mount.bind(
+      null,
+      <ActivityCard showUserDetails={showUserDetails} {...activity} />,
+    );
+    expect(card().find('.activity__userName').length).toBe(1);
+  });
+
   it('should render activity details', () => {
     expect(wrapper().find('.activity').length).toBe(1);
   });
