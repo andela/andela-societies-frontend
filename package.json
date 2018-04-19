@@ -35,6 +35,7 @@
     "webpack-dev-server": "^2.11.2"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
     "babel-polyfill": "^6.26.0",
@@ -54,7 +55,9 @@
     "jest": "^22.4.2",
     "js-cookie": "^2.2.0",
     "jwt-decode": "^2.2.0",
+    "moment": "^2.22.1",
     "morgan": "^1.9.0",
+    "moxios": "^0.4.0",
     "node-sass": "^4.7.2",
     "prop-types": "^15.6.1",
     "react": "^16.3.2",
@@ -64,6 +67,7 @@
     "react-router-dom": "^4.2.2",
     "react-router-prop-types": "^1.0.0",
     "redux": "^3.7.2",
+    "redux-mock-store": "^1.5.1",
     "redux-test-utils": "^0.2.2",
     "redux-thunk": "^2.2.0",
     "sass-loader": "^6.0.6",

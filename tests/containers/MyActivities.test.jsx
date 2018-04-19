@@ -16,6 +16,9 @@ const store = createMockStore({
     name: '',
     picture: '',
   },
+  myActivities: {
+    activities: [],
+  },
 });
 const history = { push: () => { } };
 const mounted = mount.bind(

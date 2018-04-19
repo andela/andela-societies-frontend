@@ -12,3 +12,16 @@
   box-sizing: border-box;
   min-height: 100vh;
 }
+
+.masonry-layout {
+  column-count: 2;
+  column-gap: 10px;
+}
+.masonry-layout__panel {
+  break-inside: avoid;
+  padding-bottom: 10px;
+}
+.masonry-layout__panel-content {
+  padding: 10px;
+  border-radius: 10px;
+}

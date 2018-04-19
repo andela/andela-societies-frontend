@@ -10,9 +10,9 @@ const configs = {
     API_BASE_URL: 'https://societies-api-staging.andela.com/api/v1',
   },
   development: {
-    AUTH_API: 'https://api.andela.com/login?redirect_url=',
-    APP_URL: 'http://soc-dev.andela.com:3000',
-    API_BASE_URL: 'https://societies-api-dev.andela.com/api/v1',
+    ANDELA_API_BASE_URL: 'https://api.andela.com/login?redirect_url=',
+    APP_URL: 'http://soc-dev.andela.com:3000/',
+    API_URL: 'https://private-e9d067-andelascoietiesapi.apiary-mock.com/api/v1/users/-Kabc/logged-activities',
   },
   testing: {
     AUTH_API: 'https://api.andela.com/login?redirect_url=',

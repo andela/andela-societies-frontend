@@ -22,7 +22,7 @@ class ActivityCard extends Component {
     category: PropType.string.isRequired,
     date: PropType.string.isRequired,
     description: PropType.string.isRequired,
-    points: PropType.string.isRequired,
+    points: PropType.number.isRequired,
     status: PropType.string.isRequired,
     showUserDetails: PropType.bool,
   };
