@@ -13,12 +13,8 @@ describe('myActivitiesReducer', () => {
     activities: [],
   };
 
-  it('should return the initial state', () => {
-    expect(myActivitiesReducer(undefined, {})).toEqual({
-      requesting: false,
-      failed: false,
-      activities: [],
-    });
+  it('should return the initial state when the action is not handled', () => {
+    expect(myActivitiesReducer(initialState, { type: 'DOES_NOT_EXIST' })).toEqual(initialState);
   });
 
   it('should handle MY_ACTIVITIES_GET_REQUEST', () => {
@@ -32,7 +28,7 @@ describe('myActivitiesReducer', () => {
     });
   });
 
-  it('should handle MY_ACTIVITIES_GET_REQUEST', () => {
+  it('should handle MY_ACTIVITIES_GET_FAILURE', () => {
     expect(myActivitiesReducer(initialState, {
       type: MY_ACTIVITIES_GET_FAILURE,
       failed: true,
@@ -43,7 +39,7 @@ describe('myActivitiesReducer', () => {
     });
   });
 
-  it('should handle MY_ACTIVITIES_GET_REQUEST', () => {
+  it('should handle MY_ACTIVITIES_GET_SUCCESS', () => {
     expect(myActivitiesReducer(initialState, {
       type: MY_ACTIVITIES_GET_SUCCESS,
       activities,

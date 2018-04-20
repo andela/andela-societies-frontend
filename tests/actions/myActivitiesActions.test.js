@@ -14,6 +14,7 @@ import {
   MY_ACTIVITIES_GET_SUCCESS,
 
 } from '../../src/actions/constants';
+import config from '../../config';
 
 const mockStore = configureMockStore([thunk]);
 
@@ -76,13 +77,10 @@ describe('myActivitiesGetRequest', () => {
     });
   });
 
-  it('dispatches MY_ACTIVITIES_GET_SUCCESS after successfuly fetching activities', () => {
-    moxios.wait(() => {
-      const request = moxios.requests.mostRecent();
-      request.respondWith({
-        status: 404,
-        response: { data: activities },
-      });
+  it('dispatches MY_ACTIVITIES_GET_FAILURE after successfuly fetching activities', () => {
+    moxios.stubRequest(`${config.API_URL}/users/-Kabc/logged-activities`, {
+      status: 404,
+      response: { data: activities },
     });
 
     const expectedActions = [
