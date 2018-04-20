@@ -1,6 +1,7 @@
 import moxios from 'moxios';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
+
 import {
   myActivitiesGetRequest,
   myActivitiesGetFailure,
@@ -47,12 +48,9 @@ describe('myActivitiesGetRequest', () => {
   });
 
   it('dispatches MY_ACTIVITIES_GET_SUCCESS after successfuly fetching activities', () => {
-    moxios.wait(() => {
-      const request = moxios.requests.mostRecent();
-      request.respondWith({
-        status: 200,
-        response: { data: activities },
-      });
+    moxios.stubRequest(`${config.API_URL}/users/-Kabc/logged-activities`, {
+      status: 200,
+      response: { data: activities },
     });
 
     const expectedActions = [
@@ -80,7 +78,7 @@ describe('myActivitiesGetRequest', () => {
   it('dispatches MY_ACTIVITIES_GET_FAILURE after successfuly fetching activities', () => {
     moxios.stubRequest(`${config.API_URL}/users/-Kabc/logged-activities`, {
       status: 404,
-      response: { data: activities },
+      response: {},
     });
 
     const expectedActions = [
