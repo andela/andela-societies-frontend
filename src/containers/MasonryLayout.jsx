@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import ActivityCard from '../components/activities/ActivityCard';
-import dateFormatter from '../helpers/dateFormatter';
-
 /**
  * @name MasonryLayout
  * @summary Renders items in a masonry layout fashion
@@ -14,19 +11,12 @@ class MasonryLayout extends Component {
     * @name propTypes
     * @type {PropType}
     * @param {Object} propTypes - React PropTypes
-    * @property {Object} items - Array of data items to be rendered in the layout
+    * @property {Object} items - React nodes or DOM elements to render
     * @property {Boolean} showUserDetails - Whether or not to show activity owner details
     * @property {Boolean} showLocation - Whether or not to show activity owner location
   */
   static propTypes = {
     items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-    showUserDetails: PropTypes.bool,
-    showLocation: PropTypes.bool,
-  };
-
-  static defaultProps = {
-    showUserDetails: false,
-    showLocation: false,
   };
 
   constructor(props) {
@@ -63,16 +53,8 @@ class MasonryLayout extends Component {
     <div>
       {
         items.map(item => (
-          <div className='masonry-layout__panel' key={item.id}>
-            <ActivityCard
-              category={item.category}
-              date={dateFormatter(item.date)}
-              description={item.activity}
-              points={item.points}
-              status={item.status}
-              showUserDetails={this.props.showUserDetails}
-              showLocation={this.props.showLocation}
-            />
+          <div className='masonry-layout__panel' key={item.props.id}>
+            {item}
           </div>
         ))
       }

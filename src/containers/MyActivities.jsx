@@ -5,8 +5,10 @@ import PropTypes from 'prop-types';
 import Page from './Page';
 import PageHeader from '../components/header/PageHeader';
 import MasonryLayout from '../containers/MasonryLayout';
+import ActivityCard from '../components/activities/ActivityCard';
 import Stats from '../components/sidebar/Stats';
 import { fetchMyActivities } from '../actions/myActivitiesActions';
+import dateFormatter from '../helpers/dateFormatter';
 import stats from '../fixtures/stats';
 
 /**
@@ -64,7 +66,18 @@ class MyActivities extends Component {
                   <h3>Loading ...</h3>
                   :
                   <MasonryLayout
-                    items={myActivities}
+                    items={
+                      myActivities.map(activity => (
+                        <ActivityCard
+                          id={activity.id}
+                          category={activity.category}
+                          date={dateFormatter(activity.date)}
+                          description={activity.activity}
+                          points={activity.points}
+                          status={activity.status}
+                        />
+                      ))
+                    }
                   />
               }
             </div>
