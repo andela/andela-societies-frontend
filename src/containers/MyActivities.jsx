@@ -7,6 +7,7 @@ import PageHeader from '../components/header/PageHeader';
 import MasonryLayout from '../containers/MasonryLayout';
 import Stats from '../components/sidebar/Stats';
 import { fetchMyActivities } from '../actions/myActivitiesActions';
+import stats from '../fixtures/stats';
 
 /**
  * @name MyActivities
@@ -71,16 +72,7 @@ class MyActivities extends Component {
         </div>
         <aside className='sideContent'>
           <Stats
-            stats={[
-              {
-                value: '20',
-                name: 'Activities logged',
-              },
-              {
-                value: '1,590',
-                name: 'Points earned',
-              },
-            ]}
+            stats={stats}
           />
         </aside>
       </Page>

@@ -15,9 +15,18 @@ class MasonryLayout extends Component {
     * @type {PropType}
     * @param {Object} propTypes - React PropTypes
     * @property {Object} items - Array of data items to be rendered in the layout
+    * @property {Boolean} showUserDetails - Whether or not to show activity owner details
+    * @property {Boolean} showLocation - Whether or not to show activity owner location
   */
   static propTypes = {
     items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    showUserDetails: PropTypes.bool,
+    showLocation: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    showUserDetails: false,
+    showLocation: false,
   };
 
   constructor(props) {
@@ -61,6 +70,8 @@ class MasonryLayout extends Component {
               description={item.activity}
               points={item.points}
               status={item.status}
+              showUserDetails={this.props.showUserDetails}
+              showLocation={this.props.showLocation}
             />
           </div>
         ))
