@@ -9,10 +9,10 @@ import PropTypes from 'prop-types';
 const TextArea = props => (
   <div className='formField'>
     { /* eslint-disable */ }
-    <label className='formField__label'>{props.title}</label>
+    <label className='formField__label textAreaDescription'>{props.title}</label>
     { /* eslint-disable  enable*/}
     <textarea
-      className='formField__textField'
+      className='formField formField__textField'
       style={props.resize ? null : { resize: 'none' }}
       name={props.name}
       rows={props.rows}

@@ -27,13 +27,19 @@ class LogActivityForm extends Component {
         <DateField />
         <Select
           name='fellowActivities'
-          placeholder='Select Activities'
+          placeholder='Select Category'
           options={this.state.activities}
           selectedOption={this.state.activities[0]}
-          title='Activity'
+          title='Activity Category'
         />
         <SingleInput type='number' name='text' title='# of interviewees' />
-        <TextArea title='Description' rows={5} resize={false}name='Description' placeholder='keep it brief' />
+        <TextArea
+          title='Description'
+          rows={5}
+          resize={false}
+          name='Description'
+          placeholder='keep it brief'
+        />
         <div>
           <Buttons name='fellowButtonSubmit' value='Log' className='submitButton' />
           <Buttons name='fellowButtonCancel' value='Cancel' className='cancelButton' />

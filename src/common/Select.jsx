@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 * @returns Returns a label and a select
 */
 const Select = props => (
-  <div className='formField'>
+  <div className='activityCategory'>
     { /* eslint-disable */ }
     <label className='formField__label'>{props.title}</label>
     { /* eslint-disable  enable*/}
@@ -16,6 +16,7 @@ const Select = props => (
       value={props.selectedOption}
       className='formField__control'
     >
+    
       <option value=''>{props.placeholder}</option>
       {props.options.map(opt =>
         (
@@ -27,7 +28,7 @@ const Select = props => (
         ))
       }
     </select>
-  </div>
+    </div>
 );
 /**
     * @name propTypes
