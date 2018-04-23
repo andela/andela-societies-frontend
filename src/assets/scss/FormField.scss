@@ -4,7 +4,7 @@
   padding-left: 1rem;
   padding-right: 6rem;
   padding-top: 1rem;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
 }
 
 .formField__label {
@@ -25,7 +25,7 @@
  padding: 0rem 1.5rem;
 }
 
-.formField__textField{
+.formField__textField {
   height: 15rem;  
   flex: 1;
   resize:vertical;
@@ -34,7 +34,8 @@
   font-size: inherit;
   border:0.1rem solid #eeeeee
 }
-.cancelButton{
+
+.cancelButton {
   padding: 1.2rem 2rem;
   background-color: #fafafa;
   font-size: inherit;
@@ -46,11 +47,11 @@
   margin:5rem 0rem;
 }
 
-.cancelButton:hover{
+.cancelButton:hover {
   cursor: pointer;
 }
 
-.submitButton{
+.submitButton {
   padding: 1.2rem 2.9rem;
   background-color: #dc8905;
   font-size: inherit;
@@ -62,12 +63,15 @@
   border-radius: 0.4rem;
   margin:5rem 5.5rem 1rem 3rem;
 }
+
 .submitButton:hover{
   cursor: pointer;
 }
+
 .titleForm{
   font-size: 1.8rem
 }
+
 .activityCategory{
   display: flex;
   align-items: center;
@@ -77,10 +81,12 @@
   border-radius: 0.5rem;
   position: relative;
 }
+
 .textAreaDescription{
   align-self: flex-start;
   margin-top: 2.5rem;
 }
+
 .activityCategory:after {
   content: '\f0d7';
   font: normal normal normal 1.8rem/1 FontAwesome;
@@ -96,8 +102,7 @@
 
 .activityCategory select {
   -webkit-appearance: none;
-  -moz-appearance: none;
-  
+  -moz-appearance: none; 
   display: block;
   flex: 1;
   max-width: 100%;
@@ -117,9 +122,12 @@
 select::-ms-expand {
   display: none;
 }
+
 .formField input[type='date']::-webkit-inner-spin-button{
  display: none;
 }
+
 .formField input[type='date']::-webkit-calendar-picker-indicator{
   float: right;
  }
+ 

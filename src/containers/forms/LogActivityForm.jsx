@@ -32,7 +32,7 @@ class LogActivityForm extends Component {
           selectedOption={this.state.activities[0]}
           title='Activity Category'
         />
-        <SingleInput type='number' name='text' title='# of interviewees' />
+        <SingleInput type='number' name='text' title='# of interviewee' />
         <TextArea
           title='Description'
           rows={5}

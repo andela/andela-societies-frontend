@@ -38,5 +38,4 @@ TextArea.propTypes = {
   resize: PropTypes.bool.isRequired,
   placeholder: PropTypes.string.isRequired,
 };
-
 export default TextArea; 

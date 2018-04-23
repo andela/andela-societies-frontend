@@ -13,7 +13,6 @@ const Select = props => (
     { /* eslint-disable  enable*/}
     <select
       name={props.name}
-      value={props.selectedOption}
       className='formField__control'
     >
     
@@ -44,7 +43,6 @@ Select.propTypes = {
   name: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(PropTypes.string).isRequired,
-  selectedOption: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
 };
 export default Select;

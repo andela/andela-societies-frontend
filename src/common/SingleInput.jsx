@@ -32,4 +32,3 @@ SingleInput.propTypes = {
   title: PropTypes.string.isRequired,
 };
 export default SingleInput;
-
