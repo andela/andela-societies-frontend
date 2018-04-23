@@ -1,10 +1,10 @@
-.hoverButtons{
+.hoverButtons {
   float: right;
   display: flex;
   outline: none
 }
 
-.hoverButtons__button_cancel{
+.hoverButtons__button_cancel {
   width:2.2rem;
   height: 2.2rem;
   border-radius: 50%;
@@ -13,10 +13,9 @@
   font-size: inherit;
   border: solid 0.5px #eeeeee;
   outline:none
-
 }
 
-.hoverButtons__button_accept{
+.hoverButtons__button_accept {
   width:2.5rem;
   height: 2.5rem;
   border-radius: 50%;
@@ -26,5 +25,4 @@
   color: white;
   border: solid 0.5px #eeeeee;
   outline:none
-
 }
