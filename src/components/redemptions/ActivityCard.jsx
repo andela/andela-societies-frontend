@@ -23,7 +23,7 @@ class ActivityCard extends Component {
   static propTypes = {
     date: PropType.string.isRequired,
     description: PropType.string.isRequired,
-    points: PropType.string.isRequired,
+    points: PropType.number.isRequired,
     status: PropType.string.isRequired,
     showUserDetails: PropType.bool,
   };

@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /**
- * @name FloatingActionButton
- * @summary Renders a FloatingActionButton
+ * @name FloatingButton
+ * @summary Renders a FloatingButton
  * @return {jsx} React FAB
  */
-const FloatingActionButton = props => (
+const FloatingButton = props => (
   <div
     className='fab'
     role='button'
@@ -15,7 +15,10 @@ const FloatingActionButton = props => (
     onClick={props.onClick}
     onKeyDown={props.onClick}
   >
-    +
+    <svg viewBox='0 0 40 40' className='fab__icon'>
+      <line x1='0' y1='20' x2='40' y2='20' />
+      <line x1='20' y1='0' x2='20' y2='40' />
+    </svg>
   </div>
 );
 
@@ -25,8 +28,8 @@ const FloatingActionButton = props => (
   * @param {Object} propTypes - React PropTypes
   * @property {Object} onClick - Event handler for click (and keydown) events
 */
-FloatingActionButton.propTypes = {
+FloatingButton.propTypes = {
   onClick: PropTypes.func.isRequired,
 };
 
-export default FloatingActionButton;
+export default FloatingButton;

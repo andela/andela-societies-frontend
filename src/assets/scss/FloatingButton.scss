@@ -8,7 +8,7 @@
   background-color: #dc8905;
   border-radius: 50%;
   box-shadow: 0.2rem 0.2rem 1rem rgba(0, 0, 0, 0.5);
-  transition: 0.1s ease-in-out;
+  transition: transform 0.1s ease-in-out;
   font-size: 5rem;
   color: white;
   text-align: center;
@@ -16,10 +16,19 @@
   position: fixed;
   right: 5rem;
   bottom: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .fab:hover {
-  box-shadow: 0.2rem 0.2rem 1rem rgba(0, 0, 0, 0.35);;
   transform: scale(1.05);
   cursor: pointer;
+}
+
+.fab__icon {
+  width: 40%;
+  stroke: white;
+  stroke-width: 3;
+  stroke-linecap: round;
 }
