@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
-import Modal from '../../src/containers/Modal';
+import Modal from '../../src/common/Modal';
 
 describe('<Modal />', () => {
   const callback = sinon.mock();

@@ -10,7 +10,8 @@ import Header from '../components/header/Header';
 import SocietyBanner from '../components/header/SocietyBanner';
 import Sidebar from '../components/sidebar/Sidebar';
 import FloatingActionButton from '../components/sidebar/FloatingActionButton';
-import Modal from './Modal';
+import Modal from '../common/Modal';
+import LogActivityForm from './forms/LogActivityForm';
 
 import { getToken, tokenIsValid, isFellow, setSignInError, decodeToken } from '../helpers/authentication';
 
@@ -84,7 +85,7 @@ class Page extends Component {
 
     return (
       <Modal close={this.closeModal} className={className}>
-        <div />
+        <LogActivityForm />
       </Modal>
     );
   }
