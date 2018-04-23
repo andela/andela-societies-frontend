@@ -10,12 +10,14 @@ import pageInfo from '../helpers/pageInfo';
  * @summary Renders the application routes
  * @return {jsx} React node for the application routes
  */
+const pages = [...pageInfo.pages, ...pageInfo.societyPages];
+
 const Router = () => (
   <BrowserRouter>
     <Switch>
       <Route path='/' exact component={Signin} />
       {
-        pageInfo.pages.map(pageInfoData => (
+        pages.map(pageInfoData => (
           <Route
             path={pageInfoData.url}
             exact

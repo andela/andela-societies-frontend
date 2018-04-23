@@ -42,8 +42,11 @@
 
 .headerWrapper {
   position: relative;
-  z-index: 100;
   height: 6rem;
+}
+
+.headerWrapper--white {
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .headerWrapper::after {
@@ -70,6 +73,10 @@
   padding-top: 6rem;
 }
 
+.contentWrapper--society {
+  margin-top: 32rem;
+}
+
 .contentWrapper::after {
   content: "";
   display: table;
@@ -91,17 +98,8 @@
   padding-left: 7.78%;
 }
 
-.coverPhotoWrapper {
-  height: 35rem;
-  background-color: #000;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 65.3%;
-  background-image: url(https://photos.smugmug.com/Archives/Kenya/Internal-Events/Andela-Kenya-Turns-2/i-n6gSgRB/1/53c1e45f/4K/AndelaKenya2ndAnniversary_10-4K.jpg);
-  background-size: cover;
-  background-position: center;
-  z-index: -1;
+.sideContent--societyPage {
+  margin-top: -35rem;
 }
 
 .coverPhotoWrapper::after {
