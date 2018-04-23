@@ -1,0 +1,44 @@
+{
+  "userInfo": {
+    "name": "John Doe",
+    "society": "Invictus",
+    "totalPoints": 1200
+  },
+  "activities": [
+    {
+      "title": "Participating in a tech event",
+      "date": "November 3, 2017",
+      "description": "Mentored teens how to code. (DBC 2016 at Redemption camp)",
+      "points": 250,
+      "status": "Expired"
+    },
+    {
+      "title": "Participating in a tech event",
+      "date": "November 5, 2017",
+      "description": "Jim Shelton of ChanZuckerberginitiative sits down with Andela fellows at Andela's Nairobi HQ in a Facebook Live event",
+      "points": 250,
+      "status": "Approved"
+    },
+    {
+      "title": "Participating in a tech event",
+      "date": "November 12, 2017",
+      "description": "Mentored teens how to code. (DBC 2016 at Redemption camp)",
+      "points": 250,
+      "status": "Pending"
+    },
+    {
+      "title": "Participating in a tech event",
+      "date": "November 6, 2017",
+      "description": "Mentored teens how to code. (DBC 2016 at Redemption camp)",
+      "points": 250,
+      "status": "Pending"
+    },
+    {
+      "title": "Participating in a tech event",
+      "date": "November 4, 2017",
+      "description": "Mentored teens how to code. (DBC 2016 at Redemption camp)",
+      "points": 250,
+      "status": "expired"
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+.societyBanner__wrapper {
+  position: absolute;
+  width: 65.2%;
+  height: 38rem;
+  background: white;
+  z-index: 0;
+}
+
+.societyBanner__nav {
+  float: right;
+  list-style-type: none;
+  margin-top: 1.8rem;
+  padding: 0;
+  font-size: 0.9em;
+}
+
+.societyBanner__nav--item {
+  display: inline-flex;
+  margin-right: 1rem;
+}
+
+.societyBanner__link {
+  line-height: 1.5rem;
+  text-decoration: none;
+  color: inherit;
+  padding-bottom: 1rem;
+  margin-right: 1rem;
+}
+
+.societyBanner__link:hover, .societyBanner__link--active {
+  border-bottom: 0.1rem $orange solid;
+  color: $orange;
+}
+
+.societyBanner__navbar {
+  height: 6rem;
+}
+
+.societyBanner__logo {
+  width: 12rem;
+  height: 12rem;
+  border: 0.01rem #f5f5f5 solid;
+  border-radius: 50%;
+  margin-left: 4rem;
+  z-index: 120;
+  margin-top: -5.5rem;
+  display: inline-block;
+  background: white;
+}
+
+.bannerLogo--invictus, .bannerLogo {
+  width: 11.4rem;
+  height: 11.4rem;
+  border-radius: 50%;
+  display: flex;
+  margin: 0.28rem;
+  background: #d9d9d9;
+}
+
+.bannerLogo--invictus {
+  margin: 0;
+}
+
+.bannerLogo--phoenix, .bannerLogo--sparks {
+  margin: 3.8rem 2.7rem;
+  max-width: 8rem;
+  max-height: 4.4rem;
+}
+
+.bannerLogo--istelle {
+  max-width: 8rem;
+  max-height: 4.6rem;
+  margin: 2.8rem 1.5rem;
+}
+
+.societyBanner__name {
+  margin-top: 24rem;
+  font-size: 1.5em;
+  display: inline-block;
+  margin-left: 20rem;
+  color: white;
+}
+
+.societyBanner__points {
+  margin-top: 18rem;
+  margin-right: 3rem;
+  font-size: 2.3em;
+  float: right;
+  color: white;
+}
+
+.societyBanner__pointsLabel {
+  color: white;
+  padding: 0.2rem 1rem;
+  font-size: 0.7em;
+  border-radius: 0.8rem;
+  margin-right: 3rem;
+  margin-top: 1.5rem;
+  float: right;
+  clear: right;
+  background: $orange;
+}
+
+.societyBanner__options {
+  cursor: pointer;
+  display: block;
+  margin: auto;
+}
+
+.societyBanner__options:hover {
+  border-bottom: none;
+}
+
+.societyBanner__options svg {
+  vertical-align: middle;
+  height: 2rem;
+  width: 3rem;
+}

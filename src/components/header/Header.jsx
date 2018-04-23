@@ -13,6 +13,9 @@ import { removeCookies } from '../../helpers/authentication';
  * @extends React.Component
  */
 export default class Header extends Component {
+  static defaultProps = {
+    societyBanner: false,
+  };
   /**
    * @name propTypes
    * @type {PropType}
@@ -29,6 +32,7 @@ export default class Header extends Component {
       name: PropTypes.string,
       picture: PropTypes.string,
     }).isRequired,
+    societyBanner: PropTypes.bool,
   }
   constructor(props) {
     super(props);
@@ -81,9 +85,9 @@ export default class Header extends Component {
   }
 
   render() {
-    const { userInfo } = this.props;
+    const { userInfo, societyBanner } = this.props;
     return (
-      <div className='headerWrapper'>
+      <div className={`headerWrapper ${(societyBanner ? ' headerWrapper--white' : '')}`}>
         <div className='leftHeader'>
           <Breadcrumb />
         </div>

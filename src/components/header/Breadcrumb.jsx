@@ -5,12 +5,15 @@ import { connect } from 'react-redux';
  * @name Breadcrumb
  * @summary Renders the Breadcrumb in the header section
  */
-const Breadcrumb = props => (
-  <div className='breadcrumb'>
-    <a href='/' className='breadcrumb__link'>Dashboard</a>
-    <a href={props.pageInfo.url} className='breadcrumb__link'>{props.pageInfo.title}</a>
-  </div>
-);
+const Breadcrumb = (props) => {
+  const breadcrumbLinkClass = props.pageInfo.url.split('/')[1] === 'society' ? 'breadcrumb__link--white' : '';
+  return (
+    <div className='breadcrumb'>
+      <a href='/' className={`breadcrumb__link ${breadcrumbLinkClass}`}>Dashboard</a>
+      <a href={props.pageInfo.url} className={`breadcrumb__link ${breadcrumbLinkClass}`}>{props.pageInfo.title}</a>
+    </div>
+  );
+};
 
 /**
  * @name propTypes
