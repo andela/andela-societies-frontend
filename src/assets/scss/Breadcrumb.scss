@@ -10,10 +10,15 @@
   line-height: 6rem;
   text-decoration: none;
   color: inherit;
+  z-index: 100;
 }
 
 .breadcrumb__link:hover::after {
   background: #000;
+}
+
+.breadcrumb__link--white:hover:after {
+  background: #ffffff;
 }
 
 .breadcrumb__link::after {

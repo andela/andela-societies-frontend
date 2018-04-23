@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 import { fetchUserInfo } from '../actions';
 import { changeTitle } from '../actions/pageActions';
 import Header from '../components/header/Header';
+import SocietyBanner from '../components/header/SocietyBanner';
 import Sidebar from '../components/sidebar/Sidebar';
 import FloatingActionButton from '../components/sidebar/FloatingActionButton';
 import Modal from '../common/Modal';
@@ -36,11 +37,13 @@ class Page extends Component {
     history: ReactRouterPropTypes.history.isRequired,
     changePageTitle: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
+    location: PropTypes.shape({ pathname: PropTypes.string.isRequired }).isRequired,
   }
   constructor(props) {
     super(props);
     this.state = {
       showModal: false,
+      showSocietyBanner: false,
     };
     props.changePageTitle(props.history.location.pathname);
   }
@@ -54,6 +57,10 @@ class Page extends Component {
       this.props.history.push({ pathname: '/', search: '?error=unauthorized' });
     }
     this.props.fetchUserInfo(tokenInfo);
+
+    if (this.props.location.pathname.split('/')[1] === 'society') {
+      this.setState(prevState => ({ showSocietyBanner: !prevState.showSocietyBanner }));
+    }
   }
 
   onFabClick = (event) => {
@@ -85,6 +92,14 @@ class Page extends Component {
 
   render() {
     const { userInfo } = this.props;
+    const society = {
+      name: 'Invictus',
+      points: 2021,
+      /* eslint-disable max-len */
+      image: 'https://photos.smugmug.com/Archives/Kenya/Internal-Events/Andela-Kenya-Turns-2/i-n6gSgRB/1/53c1e45f/4K/AndelaKenya2ndAnniversary_10-4K.jpg',
+      /* eslint-enable max-len */
+    };
+
     return (
       <Fragment>
         <div className='headerBackground' />
@@ -92,13 +107,14 @@ class Page extends Component {
           <Sidebar />
         </div>
         <main className='mainPage mainPage--sidebarOpen'>
-          {/* <div className="coverPhotoWrapper" /> */}
+          {this.state.showSocietyBanner ? <SocietyBanner society={society} /> : null}
           <div className='pageContent'>
             <Header
               history={this.props.history}
               userInfo={userInfo}
+              societyBanner={this.state.showSocietyBanner}
             />
-            <div className='contentWrapper'>
+            <div className={`contentWrapper ${(this.state.showSocietyBanner ? 'contentWrapper--society' : '')}`}>
               {this.props.children}
             </div>
           </div>

@@ -38,6 +38,7 @@ const MyActivities = () => (
     </div>
     <aside className='sideContent'>
       <Stats
+        title='My Stats'
         stats={[
           {
             value: '20',
