@@ -7,6 +7,7 @@ import MasonryLayout from '../containers/MasonryLayout';
 import Stats from '../components/sidebar/Stats';
 import activities from '../fixtures/activities';
 import stats from '../fixtures/stats';
+import dateFormatter from '../helpers/dateFormatter';
 
 /**
  * @name Redemptions
@@ -25,7 +26,7 @@ const Redemptions = () => (
                 <ActivityCard
                   id={activity.id}
                   category={activity.category}
-                  date={(activity.date)}
+                  date={dateFormatter(activity.date)}
                   description={activity.activity}
                   points={activity.points}
                   status={activity.status}

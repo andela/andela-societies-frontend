@@ -1,26 +1,13 @@
-.masonry {
-  position: relative;
-}
-
-.masonry__row {
-  box-sizing: border-box;
-  overflow-x: hidden;
-}
-
-.masonry__column {
-  float: left;
-  box-sizing: border-box;
-  min-height: 100vh;
-}
-
 .masonry-layout {
   column-count: 2;
   column-gap: 1rem;
 }
+
 .masonry-layout__panel {
   break-inside: avoid;
   padding-bottom: 1rem;
 }
+
 .masonry-layout__panel-content {
   padding: 1rem;
   border-radius: 1rem;
