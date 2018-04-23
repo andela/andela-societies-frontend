@@ -26,7 +26,6 @@ class ActivityCard extends Component {
     points: PropType.string.isRequired,
     showUserDetails: PropType.bool,
   };
-/* eslint-disable */
   static defaultProps = {
     showUserDetails: false,
   };

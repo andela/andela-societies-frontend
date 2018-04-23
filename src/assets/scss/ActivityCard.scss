@@ -110,9 +110,10 @@
   background-color: #b23030;
 }
 
-.showButtons{
+.showButtons {
   display: none;
 }
-.activity:hover .showButtons{
+
+.activity:hover .showButtons {
   display: block;
 }
