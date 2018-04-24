@@ -5,7 +5,7 @@ Andela societies is an app that avails information about socities at Andela (Inv
 
 #### Installation requirements
 - [Node.js](https://nodejs.org/).
-- `npm` or `yarn`. In this guide we'll use `yarn`. Here is how to [install yarn](https://www.npmjs.com/package/yarn/tutorial).
+- `yarn`. Here is how to [install yarn](https://www.npmjs.com/package/yarn/tutorial).
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 
 **Important note:**
@@ -27,3 +27,7 @@ To test the app in watch mode, Run `yarn test:dev`. This listens to changes in y
 #### Other commands
 - `yarn build` builds the app for production.
 - `yarn serve` starts the app in production mode.
+
+#### Dev notice:
+**Package installation:**
+Use `yarn` to install packages. Do not install packages using `npm`. For more info, checkout this [issue](https://github.com/AndelaOSP/andela-societies-frontend/issues/61).
