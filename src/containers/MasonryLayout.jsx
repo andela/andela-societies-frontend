@@ -19,28 +19,21 @@ class MasonryLayout extends Component {
     items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      items: [],
+  /**
+   * React component lifecycle method getDerivedStateFromProps
+   * @param {Object} nextProps - props
+  */
+  static getDerivedStateFromProps(nextProps) {
+    return {
+      items: nextProps.items,
     };
   }
 
-  /**
-   * React component lifecycle method componentWillMount
-   * @memberof MasonryLayout
-   */
-  componentWillMount() {
-    this.setState({ items: this.props.items });
-  }
-
-  /**
-   * React component lifecycle method componentWillReceiveProps
-   * @memberof MasonryLayout
-   * @param {Object} nextProps - props
-   */
-  componentWillReceiveProps(nextProps) {
-    this.setState({ items: nextProps.items });
+  constructor(props) {
+    super(props);
+    this.state = {
+      items: this.props.items,
+    };
   }
 
   /**
