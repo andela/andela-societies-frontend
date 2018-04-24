@@ -48,7 +48,7 @@ describe('myActivitiesGetRequest', () => {
   });
 
   it('dispatches MY_ACTIVITIES_GET_SUCCESS after successfuly fetching activities', () => {
-    moxios.stubRequest(`${config.API_URL}/users/-Kabc/logged-activities`, {
+    moxios.stubRequest(`${config.API_BASE_URL}/users/-Kabc/logged-activities`, {
       status: 200,
       response: { data: activities },
     });
@@ -76,7 +76,7 @@ describe('myActivitiesGetRequest', () => {
   });
 
   it('dispatches MY_ACTIVITIES_GET_FAILURE after successfuly fetching activities', () => {
-    moxios.stubRequest(`${config.API_URL}/users/-Kabc/logged-activities`, {
+    moxios.stubRequest(`${config.API_BASE_URL}/users/-Kabc/logged-activities`, {
       status: 404,
       response: {},
     });

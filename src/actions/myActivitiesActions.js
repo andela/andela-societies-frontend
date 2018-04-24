@@ -54,7 +54,7 @@ export const myActivitiesGetSuccess = activities => (
 export const fetchMyActivities = () => (
   (dispatch) => {
     dispatch(myActivitiesGetRequest(true));
-    return axios.get(`${config.API_URL}/users/-Kabc/logged-activities`)
+    return axios.get(`${config.API_BASE_URL}/users/-Kabc/logged-activities`)
       .then((response) => {
         dispatch(myActivitiesGetRequest(false));
         dispatch(myActivitiesGetSuccess(response.data.data));
