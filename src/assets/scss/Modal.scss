@@ -27,6 +27,8 @@
   border: 0.1rem solid #efefef;
   box-shadow: 0.1rem 0.2rem 10rem 0 rgba(0, 0, 0, 0.3);
   animation: slide 200ms ease-in-out 1;
+  box-sizing: border-box;
+  padding: 5rem;
 }
 
 @keyframes slide {

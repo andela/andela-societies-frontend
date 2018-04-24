@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import PageHeader from '../header/PageHeader';
 import Buttons from '../buttons/SocietyTabButtons';
+import Dropdown from '../../common/Dropdown';
 
 /* eslint-disable */
 class SocietyButtons extends Component {
@@ -18,14 +18,15 @@ class SocietyButtons extends Component {
    }
  }
  render() {
+   const societies =['istelle','invictus','sparks','phoenix'];
    return (
      <div className='societyButtons'>
-       <Buttons active={this.state.active} filter='istelle' setActiveButton={this.setActiveButton}>iStelle</Buttons>
-       <Buttons active={this.state.active} filter='Invictus' setActiveButton={this.setActiveButton}>Invictus</Buttons>
-       <Buttons active={this.state.active} filter='Sparks' setActiveButton={this.setActiveButton}>Sparks</Buttons>
-       <Buttons active={this.state.active} filter='Phoniex' setActiveButton={this.setActiveButton}>Phoniex</Buttons>
+       {societies.map(society =>
+        <Buttons key={society} active={this.state.active} filter={society} setActiveButton={this.setActiveButton}>
+          {society === 'istelle' ? 'iStelle' :society}</Buttons>
+       )}
        <div className='dropdown'>
-       <PageHeader />
+       <Dropdown />
        </div>
      </div>
    );

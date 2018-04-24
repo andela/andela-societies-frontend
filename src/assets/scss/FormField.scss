@@ -1,0 +1,133 @@
+.formField {
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+  padding-right: 6rem;
+  padding-top: 1rem;
+  border-radius: 0.4rem;
+}
+
+.formField__label {
+  width:25%;
+  padding-right: 3rem;
+  text-align: right;
+  margin-top: 2rem;
+}
+
+.formField__control {
+ flex: 1;
+ height: 5rem;
+ outline: none;
+ margin-top: 2rem;
+ font-size: large;
+ border:0.1rem solid #eeeeee;
+ border-radius: 0.5rem;
+ padding: 0rem 1.5rem;
+}
+
+.formField__textField {
+  height: 15rem;  
+  flex: 1;
+  resize:vertical;
+  outline: none;
+  margin-top: 2rem;
+  font-size: inherit;
+  border:0.1rem solid #eeeeee
+}
+
+.cancelButton {
+  padding: 1.2rem 2rem;
+  background-color: #fafafa;
+  font-size: inherit;
+  color: black;
+  text-align: center;
+  float: right;
+  border: solid 0.05rem #e2e2e2;
+  border-radius: 0.4rem;
+  margin:5rem 0rem;
+}
+
+.cancelButton:hover {
+  cursor: pointer;
+}
+
+.submitButton {
+  padding: 1.2rem 2.9rem;
+  background-color: #dc8905;
+  font-size: inherit;
+  color: black;
+  text-align: center;
+  float: right;
+  color: white;
+  border: solid 0.05rem #e2e2e2;
+  border-radius: 0.4rem;
+  margin:5rem 5.5rem 1rem 3rem;
+}
+
+.submitButton:hover{
+  cursor: pointer;
+}
+
+.titleForm{
+  font-size: 1.8rem
+}
+
+.activityCategory{
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+  padding-right: 6rem;
+  padding-top: 1rem;
+  border-radius: 0.5rem;
+  position: relative;
+}
+
+.textAreaDescription{
+  align-self: flex-start;
+  margin-top: 2.5rem;
+}
+
+.activityCategory:after {
+  content: '\f0d7';
+  font: normal normal normal 1.8rem/1 FontAwesome;
+  color: black;
+  right: 8rem;
+  top: 3rem;
+  padding: 1rem 0rem 0rem 1rem;
+  border-left: 0.1rem solid #eeeeeeee;
+  position: absolute;
+  pointer-events: none;
+  line-height: 3.9rem;
+}
+
+.activityCategory select {
+  -webkit-appearance: none;
+  -moz-appearance: none; 
+  display: block;
+  flex: 1;
+  max-width: 100%;
+  height: 5rem;
+  float: right;
+  padding: 0rem 1.5rem;
+  font-size: 1.6rem;
+  line-height: 1.75;
+  color: #333;
+  background-color: #ffffff;
+  background-image: none;
+  border: 0.1rem solid #eeeeee;
+  -ms-word-break: normal;
+  word-break: normal;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+.formField input[type='date']::-webkit-inner-spin-button{
+ display: none;
+}
+
+.formField input[type='date']::-webkit-calendar-picker-indicator{
+  float: right;
+ }
+ 
