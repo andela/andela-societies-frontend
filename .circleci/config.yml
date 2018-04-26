@@ -2,11 +2,12 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:7.10
+      - image: circleci/node:9.8.0
         environment:
         - NODE_ENV: testing
-
-    working_directory: ~/repo
+    environment:
+      TERM: xterm-256color
+    working_directory: ~/soc-frontend
 
     steps:
       - checkout
@@ -22,6 +23,60 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: Run application unit tests
+          command: yarn coverage
+      - run:
+          name: Collect test coverage
+          command: yarn coveralls
+  build:
+    docker:
+      - image: circleci/node:9.8.0
+        environment:
+        - NODE_ENV: testing
+    environment:
+      # Required environment variables
+      # should be added via circleci console
+      # - GOOGLE_PROJECT_ID
+      # - GCLOUD_SERVICE_KEY- will be provided by DevOPs team.
+      TERM: xterm-256color
+      GOOGLE_COMPUTE_ZONE: us-central1-a
+    working_directory: ~/soc-frontend
 
-      - run: yarn coverage
-      - run: yarn coveralls
+    steps:
+      - checkout
+      - setup_remote_docker
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+
+      - run: yarn install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: Build and release application
+          command: chmod +x scripts/deploy.sh && scripts/deploy.sh
+      # - run: yarn coverage
+      # - run: yarn coveralls
+workflows:
+  version: 2
+  test:
+    jobs:
+      - build:
+          filters:
+            branches:
+              ignore:
+                - master
+                - release
+  build-deploy:
+    jobs:
+      - deploy:
+          filters:
+            branches:
+              only:
+                - master
+                - release
