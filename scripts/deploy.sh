@@ -1,6 +1,6 @@
 #!/bin/bash
 
-Establish important variables
+# Establish important variables
 DOCKER_REGISTRY=gcr.io
 DEFAULT_GOOGLE_CLUSTER_NAME=soc
 PROJECT_NAME=soc-frontend

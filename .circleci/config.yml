@@ -29,7 +29,7 @@ jobs:
       - run:
           name: Collect test coverage
           command: yarn coveralls
-  build:
+  deploy:
     docker:
       - image: circleci/node:9.8.0
         environment:
