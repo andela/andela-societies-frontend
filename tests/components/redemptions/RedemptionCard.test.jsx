@@ -1,27 +1,23 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import ActivityCard from '../../../src/components/activities/ActivityCard';
+import RedemptionCard from '../../../src/components/redemptions/RedemptionCard';
 import activity from '../../../src/fixtures/activity';
 
-describe('<ActivityCard />', () => {
+describe('<RedemptionCard />', () => {
   const wrapper = mount.bind(
     null,
-    <ActivityCard {...activity} />,
+    <RedemptionCard {...activity} />,
   );
 
   it('should render without crashing', () => {
     expect(wrapper).not.toThrowError();
   });
 
-  it('should set default showUserDetails to false', () => {
-    expect(wrapper().find('.activity__userName').length).toBe(0);
-  });
-
   it('should show user details', () => {
     const showUserDetails = true;
     const card = mount.bind(
       null,
-      <ActivityCard showUserDetails={showUserDetails} {...activity} />,
+      <RedemptionCard showUserDetails={showUserDetails} {...activity} />,
     );
     expect(card().find('.activity__userName').length).toBe(1);
   });

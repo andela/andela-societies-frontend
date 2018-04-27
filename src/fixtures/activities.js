@@ -3,9 +3,9 @@ const numberOfItems = 9;
 const activity = {
   id: '',
   category: 'Participating in a tech event',
-  date: 'November 3, 2017',
-  description: '',
-  points: '250',
+  date: '2017-11-03',
+  activity: '',
+  points: 250,
   status: 'default',
 };
 
@@ -24,7 +24,7 @@ for (let i = 0; i < numberOfItems; i += 1) {
     ...activity,
     id: Math.random().toString(),
     status: statuses[Math.floor(Math.random() * statuses.length)],
-    description: descriptions[Math.floor(Math.random() * descriptions.length)],
+    activity: descriptions[Math.floor(Math.random() * descriptions.length)],
   });
 }
 
