@@ -29,11 +29,13 @@ class ActivityCard extends Component {
     status: PropType.string.isRequired,
     showUserDetails: PropType.bool,
     showLocation: PropType.bool,
+    userName: PropType.string,
   };
 
   static defaultProps = {
     showUserDetails: false,
     showLocation: false,
+    userName: null,
   };
   statuses = ['pending', 'expired', 'approved', 'default'];
   /**
@@ -66,33 +68,40 @@ class ActivityCard extends Component {
     return (
       <div className='activity__left'>
         <img className='activity__userPicture' src='http://placehold.it/55x55' alt='John Doe' />
-        <span className='activity__userName'>John Doe</span>
+        <span className='activity__userName'>{this.props.userName}</span>
       </div>
     );
   }
 
   render() {
+    const {
+      category,
+      date,
+      description,
+      showLocation,
+      points,
+    } = this.props;
     return (
       <div className='activity'>
         {this.renderUserDetails()}
         <div className='activity__right'>
           <div className='activity__header'>
-            <span className='activity__category'>{this.props.category}</span>
-            <span className='activity__date'>{this.props.date}</span>
+            <span className='activity__category'>{category}</span>
+            <span className='activity__date'>{date}</span>
           </div>
           <div className='activity__content'>
-            <h1 className='activity__description'>{this.props.description}</h1>
+            <h1 className='activity__description'>{description}</h1>
           </div>
           <div className='activity__footer'>
             {
-              this.props.showLocation ?
+              showLocation ?
                 <span className='redemption__location'>
                   <Globe />
                   Nairobi
                 </span>
                 :
                 <span className='activity__points'>
-                  <span className='activity__pointsCount'>{this.props.points}</span>
+                  <span className='activity__pointsCount'>{points}</span>
                   Points
                 </span>
             }
