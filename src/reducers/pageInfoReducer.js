@@ -1,4 +1,4 @@
-import { TITLE_CHANGE } from '../types/pageActionTypes';
+import { TITLE_CHANGE } from '../types';
 
 const pageInfo = (state = { title: '', url: '' }, action) => {
   switch (action.type) {

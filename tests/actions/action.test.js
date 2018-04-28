@@ -1,5 +1,5 @@
 import { fetchUserInfo } from '../../src/actions';
-import { FETCH_USER_INFO } from '../../src/actions/constants';
+import { FETCH_USER_INFO } from '../../src/types';
 import { fellowTokenInfo } from '../__mocks__/tokenInfoMock';
 
 describe('fetchUserInfo', () => {

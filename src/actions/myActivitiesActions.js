@@ -4,7 +4,7 @@ import {
   MY_ACTIVITIES_GET_REQUEST,
   MY_ACTIVITIES_GET_SUCCESS,
   MY_ACTIVITIES_GET_FAILURE,
-} from './constants';
+} from '../types';
 import config from '../../config';
 
 /**

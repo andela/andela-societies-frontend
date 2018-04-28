@@ -3,7 +3,7 @@ import {
   MY_ACTIVITIES_GET_REQUEST,
   MY_ACTIVITIES_GET_SUCCESS,
   MY_ACTIVITIES_GET_FAILURE,
-} from '../../src/actions/constants';
+} from '../../src/types';
 import activities from '../../src/fixtures/activities';
 
 describe('myActivitiesReducer', () => {

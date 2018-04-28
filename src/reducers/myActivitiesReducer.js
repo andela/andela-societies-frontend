@@ -2,7 +2,7 @@ import {
   MY_ACTIVITIES_GET_REQUEST,
   MY_ACTIVITIES_GET_SUCCESS,
   MY_ACTIVITIES_GET_FAILURE,
-} from '../actions/constants';
+} from '../types';
 import initialState from './initialState';
 
 /**

@@ -14,7 +14,7 @@ import {
   MY_ACTIVITIES_GET_FAILURE,
   MY_ACTIVITIES_GET_SUCCESS,
 
-} from '../../src/actions/constants';
+} from '../../src/types';
 import config from '../../config';
 
 const mockStore = configureMockStore([thunk]);
