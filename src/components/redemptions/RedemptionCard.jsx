@@ -29,7 +29,7 @@ class RedemptionCard extends Component {
   };
 
   static defaultProps = {
-    showUserDetails: false,
+    showUserDetails: true,
   };
   statuses = ['pending', 'expired', 'approved', 'default'];
   /**

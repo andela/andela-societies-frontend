@@ -85,6 +85,7 @@ class MyActivities extends Component {
         </div>
         <aside className='sideContent'>
           <Stats
+            title='My Stats'
             stats={stats}
           />
         </aside>

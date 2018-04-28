@@ -13,35 +13,40 @@ import stats from '../fixtures/stats';
  * @summary Renders My activities page
  * @return React node that displays the VerifyActivities page
  */
-const VerifyActivities = () => (
-  <Page>
-    <div className='mainContent'>
-      <div className='VerifyActivities'>
-        <PageHeader title='Verify Activities' />
-        <div className='activities'>
-          <MasonryLayout
-            items={
-              activities.map(activity => (
-                <ActivityCard
-                  id={activity.id}
-                  category={activity.category}
-                  date={(activity.date)}
-                  description={activity.activity}
-                  points={activity.points}
-                  status={activity.status}
-                />
-              ))
-            }
-          />
+const VerifyActivities = () => {
+  const showUserDetails = true;
+  return (
+    <Page>
+      <div className='mainContent'>
+        <div className='VerifyActivities'>
+          <PageHeader title='Verify Activities' />
+          <div className='activities'>
+            <MasonryLayout
+              items={
+                activities.map(activity => (
+                  <ActivityCard
+                    id={activity.id}
+                    category={activity.category}
+                    date={(activity.date)}
+                    description={activity.activity}
+                    points={activity.points}
+                    status={activity.status}
+                    showUserDetails={showUserDetails}
+                  />
+                ))
+              }
+            />
+          </div>
         </div>
       </div>
-    </div>
-    <aside className='sideContent'>
-      <Stats
-        stats={stats}
-      />
-    </aside>
-  </Page>
-);
+      <aside className='sideContent'>
+        <Stats
+          stats={stats}
+        />
+      </aside>
+    </Page>
+  );
+};
+
 
 export default VerifyActivities;
