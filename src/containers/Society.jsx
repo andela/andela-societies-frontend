@@ -19,17 +19,15 @@ const Society = () => (
         <PageHeader title='Activities' />
         <div className='activities'>
           <MasonryLayout
-            columnCount={2}
-            gap={20}
             items={
               activities.map(activity => (
                 <ActivityCard
+                  id={activity.id}
                   category={activity.category}
-                  date={activity.date}
-                  description={activity.description}
+                  date={(activity.date)}
+                  description={activity.activity}
                   points={activity.points}
                   status={activity.status}
-                  showUserDetails
                 />
               ))
             }
