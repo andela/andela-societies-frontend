@@ -6,7 +6,7 @@ import SocietyBanner from '../../../src/components/header/SocietyBanner';
 
 const society = {
   name: 'Invictus',
-  points: 2021,
+  remainingPoints: 2021,
   image: '',
 };
 

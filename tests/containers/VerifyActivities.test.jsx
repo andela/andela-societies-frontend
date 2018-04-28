@@ -5,17 +5,9 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 
 import VerifyActivities from '../../src/containers/VerifyActivities';
+import storeFixture from '../../src/fixtures/store';
 
-const store = createMockStore({
-  pageInfo: {
-    url: '',
-    title: '',
-  },
-  userInfo: {
-    name: '',
-    picture: '',
-  },
-});
+const store = createMockStore(storeFixture);
 const history = { push: () => { } };
 
 const mounted = mount.bind(

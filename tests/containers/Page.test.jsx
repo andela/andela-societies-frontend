@@ -4,17 +4,9 @@ import { MemoryRouter } from 'react-router-dom';
 import { createMockStore } from 'redux-test-utils';
 import { Provider } from 'react-redux';
 import Page from '../../src/containers/Page';
+import storeFixture from '../../src/fixtures/store';
 
-const store = createMockStore({
-  pageInfo: {
-    url: '',
-    title: '',
-  },
-  userInfo: {
-    name: '',
-    picture: '',
-  },
-});
+const store = createMockStore(storeFixture);
 const history = { push: () => { } };
 
 describe('<Page />', () => {
@@ -26,6 +18,7 @@ describe('<Page />', () => {
           history={history}
           fetchUserInfo={() => {}}
           changePageTitle={() => {}}
+          societyInfo={{}}
         >
           content
         </Page>

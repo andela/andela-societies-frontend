@@ -5,13 +5,10 @@ import {
   MY_ACTIVITIES_GET_FAILURE,
 } from '../../src/types';
 import activities from '../../src/fixtures/activities';
+import store from '../../src/fixtures/store';
 
 describe('myActivitiesReducer', () => {
-  const initialState = {
-    requesting: false,
-    failed: false,
-    activities: [],
-  };
+  const initialState = store.myActivities;
 
   it('should return the initial state when the action is not handled', () => {
     expect(myActivitiesReducer(initialState, { type: 'DOES_NOT_EXIST' })).toEqual(initialState);
