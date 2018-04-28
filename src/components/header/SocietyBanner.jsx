@@ -24,27 +24,31 @@ const SocietyBanner = (props) => {
     phoenix: PhoenixLogo,
     sparks: SparksLogo,
   };
-  const BannerLogo = bannerLogos[society.name.toLowerCase()];
+  // select society banner from bannerLogos object by key
+  const BannerLogo = society.name && bannerLogos[society.name.toLowerCase()];
+  const hasBanner = () => (
+    Object.keys(bannerLogos).find(name => name === society.name.toLowerCase())
+  );
 
   return (
     <div className='societyBanner__wrapper'>
       <div
         style={{
-          background: `linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.85)), url(${
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.85)), url(${
             society.image || societyImage
           })`,
-          display: 'cover',
           backgroundSize: '100%',
+          display: 'cover',
           height: '32rem',
         }}
       >
         <span className='societyBanner__name'>{society.name}</span>
-        <span className='societyBanner__points'>{society.points}</span>
+        <span className='societyBanner__points'>{society.remainingPoints}</span>
         <span className='societyBanner__pointsLabel'>points</span>
       </div>
       <div className='societyBanner__navbar'>
         <div className='societyBanner__logo'>
-          <BannerLogo />
+          {hasBanner() ? <BannerLogo /> : null}
         </div>
         <ul className='societyBanner__nav'>
           <li className='societyBanner__nav--item'>
@@ -65,7 +69,7 @@ const SocietyBanner = (props) => {
 SocietyBanner.propTypes = {
   society: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    points: PropTypes.number.isRequired,
+    remainingPoints: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired,
   }).isRequired,
 };
