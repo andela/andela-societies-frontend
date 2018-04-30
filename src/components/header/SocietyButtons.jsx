@@ -7,7 +7,7 @@ class SocietyButtons extends Component {
  constructor(props){
    super(props);
    this.state= {
-     active: 'istelle'
+     active: 'Istelle'
    }
  }
  setActiveButton = (filter) => {
@@ -18,12 +18,12 @@ class SocietyButtons extends Component {
    }
  }
  render() {
-   const societies =['istelle','invictus','sparks','phoenix'];
+   const societies =['Istelle','Invictus','Sparks','Phoenix'];
    return (
      <div className='societyButtons'>
        {societies.map(society =>
         <Buttons key={society} active={this.state.active} filter={society} setActiveButton={this.setActiveButton}>
-          {society === 'istelle' ? 'iStelle' :society}</Buttons>
+          {society === 'Istelle' ? 'iStelle' :society}</Buttons>
        )}
        <div className='dropdown'>
        <Dropdown />
