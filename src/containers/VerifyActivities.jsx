@@ -1,11 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import ActivityCard from '../components/activities/ActivityCard';
+
 import Page from './Page';
-import PageHeader from '../components/header/PageHeader';
+import ActivityCard from '../components/verifyActivity/ActivityCard';
 import MasonryLayout from '../containers/MasonryLayout';
 import Stats from '../components/sidebar/Stats';
 import activities from '../fixtures/activities';
+import VerifyActivityHoc from '../components/HOC/VerifyActivityHOC';
 import stats from '../fixtures/stats';
 
 /**
@@ -13,22 +15,24 @@ import stats from '../fixtures/stats';
  * @summary Renders My activities page
  * @return React node that displays the VerifyActivities page
  */
-const VerifyActivities = () => (
+
+
+const VerifyActivities = props => (
   <Page>
     <div className='mainContent'>
       <div className='VerifyActivities'>
-        <PageHeader title='Verify Activities' />
+        {props.success()}
         <div className='activities'>
           <MasonryLayout
             items={
               activities.map(activity => (
                 <ActivityCard
-                  id={activity.id}
-                  category={activity.category}
-                  date={(activity.date)}
-                  description={activity.activity}
                   points={activity.points}
                   status={activity.status}
+                  category={activity.category}
+                  date={activity.date}
+                  description={activity.description}
+                  id={activity.id}
                 />
               ))
             }
@@ -43,5 +47,9 @@ const VerifyActivities = () => (
     </aside>
   </Page>
 );
+VerifyActivities.propTypes = {
+  success: PropTypes.func.isRequired,
+};
 
-export default VerifyActivities;
+export default VerifyActivityHoc(VerifyActivities);
+

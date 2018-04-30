@@ -15,7 +15,7 @@ const pageInfo = {
   pages: [
     {
       title: 'Home',
-      url: '/u/my-activities',
+      url: '/u',
       component: MyActivities,
       menuIcon: HomeIcon,
     },
