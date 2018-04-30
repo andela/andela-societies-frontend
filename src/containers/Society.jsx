@@ -7,6 +7,7 @@ import PageHeader from '../components/header/PageHeader';
 import ActivityCard from '../components/activities/ActivityCard';
 import MasonryLayout from '../containers/MasonryLayout';
 import Stats from '../components/sidebar/Stats';
+import dateFormatter from '../helpers/dateFormatter';
 
 /**
  * @name Society
@@ -75,7 +76,7 @@ class Society extends Component {
                     <ActivityCard
                       id={activity.id}
                       category={activity.category}
-                      date={(activity.date)}
+                      date={dateFormatter(activity.date)}
                       description={activity.activity}
                       points={activity.points}
                       status={activity.status}
