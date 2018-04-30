@@ -1,11 +1,13 @@
 import React from 'react';
 
+import ActivityCard from '../components/redemptions/RedemptionCard';
 import Page from './Page';
 import PageHeader from '../components/header/PageHeader';
-import ActivityCard from '../components/redemptions/ActivityCard';
 import MasonryLayout from '../containers/MasonryLayout';
 import Stats from '../components/sidebar/Stats';
 import activities from '../fixtures/activities';
+import stats from '../fixtures/stats';
+import dateFormatter from '../helpers/dateFormatter';
 
 /**
  * @name Redemptions
@@ -19,36 +21,28 @@ const Redemptions = () => (
         <PageHeader title='Recent Redemptions' />
         <div className='activities'>
           <MasonryLayout
-            columnCount={2}
-            gap={20}
-            items={activities.map(activity => (
-              <ActivityCard
-                category={activity.category}
-                date={activity.date}
-                description={activity.description}
-                points={activity.points}
-                status={activity.status}
-                showUserDetails
-              />
-            ))}
+            items={
+              activities.map(activity => (
+                <ActivityCard
+                  id={activity.id}
+                  category={activity.category}
+                  date={dateFormatter(activity.date)}
+                  description={activity.activity}
+                  points={activity.points}
+                  status={activity.status}
+                />
+              ))
+            }
           />
         </div>
       </div>
     </div>
     <aside className='sideContent'>
       <Stats
-        stats={[
-          {
-            value: '20',
-            name: 'Activities logged',
-          },
-          {
-            value: '1,590',
-            name: 'Points earned',
-          },
-        ]}
+        stats={stats}
       />
     </aside>
   </Page>
 );
+
 export default Redemptions;

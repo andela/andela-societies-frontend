@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+
 import Page from './Page';
 import ActivityCard from '../components/verifyActivity/ActivityCard';
 import MasonryLayout from '../containers/MasonryLayout';
 import Stats from '../components/sidebar/Stats';
 import activities from '../fixtures/activities';
 import VerifyActivityHoc from '../components/HOC/VerifyActivityHOC';
+import stats from '../fixtures/stats';
 
 /**
  * @name VerifyActivities
@@ -22,8 +24,6 @@ const VerifyActivities = props => (
         {props.success()}
         <div className='activities'>
           <MasonryLayout
-            columnCount={2}
-            gap={20}
             items={
               activities.map(activity => (
                 <ActivityCard
@@ -32,6 +32,7 @@ const VerifyActivities = props => (
                   category={activity.category}
                   date={activity.date}
                   description={activity.description}
+                  id={activity.id}
                 />
               ))
             }
@@ -41,16 +42,7 @@ const VerifyActivities = props => (
     </div>
     <aside className='sideContent'>
       <Stats
-        stats={[
-          {
-            value: '20',
-            name: 'Activities logged',
-          },
-          {
-            value: '1,590',
-            name: 'Points earned',
-          },
-        ]}
+        stats={stats}
       />
     </aside>
   </Page>
@@ -60,3 +52,4 @@ VerifyActivities.propTypes = {
 };
 
 export default VerifyActivityHoc(VerifyActivities);
+

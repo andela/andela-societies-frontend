@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropType from 'prop-types';
 
+import Globe from '../svgIcons/activityIcons/Globe';
+
 /**
  * @summary Renders an activity card
  * @class ActivityCard
@@ -16,19 +18,22 @@ class ActivityCard extends Component {
   * @property {String} description - The description of the activity
   * @property {String} points - The points the activity is worth
   * @property {String} status - The current status of the activity
-  * @property {boolean} showUserDetails - Whether or not to show user details
+  * @property {Boolean} showUserDetails - Whether or not to show user details
+  * @property {Boolean} showLocation - Whether or not to show user location
   */
   static propTypes = {
     category: PropType.string.isRequired,
     date: PropType.string.isRequired,
     description: PropType.string.isRequired,
-    points: PropType.string.isRequired,
+    points: PropType.number.isRequired,
     status: PropType.string.isRequired,
     showUserDetails: PropType.bool,
+    showLocation: PropType.bool,
   };
 
   static defaultProps = {
     showUserDetails: false,
+    showLocation: false,
   };
   statuses = ['pending', 'expired', 'approved', 'default'];
   /**
@@ -50,7 +55,7 @@ class ActivityCard extends Component {
     let statusText = status.charAt(0).toUpperCase();
     statusText += status.slice(1);
     return (
-      <span className={`activity__status activity__status--${status}`}>{ statusText }</span>
+      <span className={`activity__status activity__status--${status}`}>{statusText}</span>
     );
   }
 
@@ -79,10 +84,18 @@ class ActivityCard extends Component {
             <h1 className='activity__description'>{this.props.description}</h1>
           </div>
           <div className='activity__footer'>
-            <span className='activity__points'>
-              <span className='activity__pointsCount'>{this.props.points}</span>
-              Points
-            </span>
+            {
+              this.props.showLocation ?
+                <span className='redemption__location'>
+                  <Globe />
+                  Nairobi
+                </span>
+                :
+                <span className='activity__points'>
+                  <span className='activity__pointsCount'>{this.props.points}</span>
+                  Points
+                </span>
+            }
             {this.renderStatus()}
           </div>
         </div>

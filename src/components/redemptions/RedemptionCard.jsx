@@ -8,7 +8,7 @@ import Globe from '../svgIcons/activityIcons/Globe';
  * @class ActivityCard
  * @extends React.Component
  */
-class ActivityCard extends Component {
+class RedemptionCard extends Component {
   /**
    * @name propTypes
    * @type {PropType}
@@ -23,7 +23,7 @@ class ActivityCard extends Component {
   static propTypes = {
     date: PropType.string.isRequired,
     description: PropType.string.isRequired,
-    points: PropType.string.isRequired,
+    points: PropType.number.isRequired,
     status: PropType.string.isRequired,
     showUserDetails: PropType.bool,
   };
@@ -88,4 +88,4 @@ class ActivityCard extends Component {
     );
   }
 }
-export default ActivityCard;
+export default RedemptionCard;
