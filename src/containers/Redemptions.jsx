@@ -33,14 +33,14 @@ const Redemptions = () => (
                 />
               ))
             }
+            columnCount={2}
+            gap={20}
           />
         </div>
       </div>
     </div>
     <aside className='sideContent'>
-      <Stats
-        stats={stats}
-      />
+      <Stats stats={stats} />
     </aside>
   </Page>
 );
