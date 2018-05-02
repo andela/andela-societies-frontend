@@ -71,7 +71,7 @@ class Page extends Component {
 
   componentDidMount() {
     if (this.isASocietyPage()) {
-      const societyName = this.props.location.pathname.split('/')[2];
+      const societyName = this.props.location.pathname.split('/').pop();
       this.props.fetchSocietyInfo(societyName);
     }
   }
@@ -87,7 +87,7 @@ class Page extends Component {
   }
 
   isASocietyPage = () => (
-    this.props.location.pathname.split('/')[1] === 'society'
+    this.props.location.pathname.indexOf('society') !== -1
   );
 
   closeModal = () => {
