@@ -1,30 +1,30 @@
 import axios from 'axios';
 
 import {
-  GET_SOCIETY_INFO_REQUEST,
-  GET_SOCIETY_INFO_SUCCESS,
-  GET_SOCIETY_INFO_FAILURE,
+  FETCH_SOCIETY_INFO_REQUEST,
+  FETCH_SOCIETY_INFO_SUCCESS,
+  FETCH_SOCIETY_INFO_FAILURE,
 } from '../types';
 import config from '../../config';
 
 /**
  * @function societyInfoGetRequest
- * @return {Object} {{type: GET_SOCIETY_INFO_REQUEST}}
+ * @return {Object} {{type: FETCH_SOCIETY_INFO_REQUEST}}
  */
 export const societyInfoGetRequest = () => (
   {
-    type: GET_SOCIETY_INFO_REQUEST,
+    type: FETCH_SOCIETY_INFO_REQUEST,
   }
 );
 
 /**
  * @function societyInfoGetSuccess
  * @param info - object with society details
- * @return {Object} {{type: GET_SOCIETY_INFO_SUCCESS, info}}
+ * @return {Object} {{type: FETCH_SOCIETY_INFO_SUCCESS, info}}
  */
 export const societyInfoGetSuccess = info => (
   {
-    type: GET_SOCIETY_INFO_SUCCESS,
+    type: FETCH_SOCIETY_INFO_SUCCESS,
     info,
   }
 );
@@ -32,11 +32,11 @@ export const societyInfoGetSuccess = info => (
 /**
  * @function societyInfoGetFailure
  * @param error - object with error information
- * @return {Object} {{type: GET_SOCIETY_INFO_FAILURE, error}}
+ * @return {Object} {{type: FETCH_SOCIETY_INFO_FAILURE, error}}
  */
 export const societyInfoGetFailure = error => (
   {
-    type: GET_SOCIETY_INFO_FAILURE,
+    type: FETCH_SOCIETY_INFO_FAILURE,
     error,
   }
 );

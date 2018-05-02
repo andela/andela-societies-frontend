@@ -1,8 +1,8 @@
 import myActivitiesReducer from '../../src/reducers/myActivitiesReducer';
 import {
-  MY_ACTIVITIES_GET_REQUEST,
-  MY_ACTIVITIES_GET_SUCCESS,
-  MY_ACTIVITIES_GET_FAILURE,
+  FETCH_MY_ACTIVITIES_REQUEST,
+  FETCH_MY_ACTIVITIES_SUCCESS,
+  FETCH_MY_ACTIVITIES_FAILURE,
 } from '../../src/types';
 import activities from '../../src/fixtures/activities';
 import store from '../../src/fixtures/store';
@@ -14,9 +14,9 @@ describe('myActivitiesReducer', () => {
     expect(myActivitiesReducer(initialState, { type: 'DOES_NOT_EXIST' })).toEqual(initialState);
   });
 
-  it('should handle MY_ACTIVITIES_GET_REQUEST', () => {
+  it('should handle FETCH_MY_ACTIVITIES_REQUEST', () => {
     expect(myActivitiesReducer(initialState, {
-      type: MY_ACTIVITIES_GET_REQUEST,
+      type: FETCH_MY_ACTIVITIES_REQUEST,
       requesting: true,
     })).toEqual({
       requesting: true,
@@ -25,9 +25,9 @@ describe('myActivitiesReducer', () => {
     });
   });
 
-  it('should handle MY_ACTIVITIES_GET_FAILURE', () => {
+  it('should handle FETCH_MY_ACTIVITIES_FAILURE', () => {
     expect(myActivitiesReducer(initialState, {
-      type: MY_ACTIVITIES_GET_FAILURE,
+      type: FETCH_MY_ACTIVITIES_FAILURE,
       failed: true,
     })).toEqual({
       requesting: false,
@@ -36,9 +36,9 @@ describe('myActivitiesReducer', () => {
     });
   });
 
-  it('should handle MY_ACTIVITIES_GET_SUCCESS', () => {
+  it('should handle FETCH_MY_ACTIVITIES_SUCCESS', () => {
     expect(myActivitiesReducer(initialState, {
-      type: MY_ACTIVITIES_GET_SUCCESS,
+      type: FETCH_MY_ACTIVITIES_SUCCESS,
       activities,
     })).toEqual({
       requesting: false,

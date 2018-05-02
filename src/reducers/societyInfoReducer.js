@@ -1,7 +1,7 @@
 import {
-  GET_SOCIETY_INFO_REQUEST,
-  GET_SOCIETY_INFO_SUCCESS,
-  GET_SOCIETY_INFO_FAILURE,
+  FETCH_SOCIETY_INFO_REQUEST,
+  FETCH_SOCIETY_INFO_SUCCESS,
+  FETCH_SOCIETY_INFO_FAILURE,
 } from '../types';
 import initialState from './initialState';
 
@@ -15,11 +15,11 @@ import initialState from './initialState';
  */
 const societyInfo = (state = initialState.societyInfo, action) => {
   switch (action.type) {
-  case GET_SOCIETY_INFO_REQUEST:
+  case FETCH_SOCIETY_INFO_REQUEST:
     return { ...state, requesting: true };
-  case GET_SOCIETY_INFO_FAILURE:
+  case FETCH_SOCIETY_INFO_FAILURE:
     return { ...state, requesting: false, error: action.error };
-  case GET_SOCIETY_INFO_SUCCESS:
+  case FETCH_SOCIETY_INFO_SUCCESS:
     return { ...state, requesting: false, info: { ...state.info, ...action.info } };
   default:
     return state;
