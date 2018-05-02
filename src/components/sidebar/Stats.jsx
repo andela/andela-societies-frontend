@@ -52,7 +52,7 @@ class Stats extends Component {
 
   /**
    * Stats component class constructor
-   * @param {*} props - title, stats and page information
+   * @param {object} props - title, stats and page information
    */
   constructor(props) {
     super(props);
