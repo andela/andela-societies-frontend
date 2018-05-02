@@ -9,9 +9,9 @@ import { changeTitle } from '../actions/pageActions';
 import Header from '../components/header/Header';
 import SocietyBanner from '../components/header/SocietyBanner';
 import Sidebar from '../components/sidebar/Sidebar';
-import FloatingActionButton from '../components/sidebar/FloatingActionButton';
-import Modal from '../common/Modal';
 import LogActivityForm from './forms/LogActivityForm';
+import FloatingButton from '../common/FloatingButton';
+import Modal from '../common/Modal';
 
 import { getToken, tokenIsValid, isFellow, setSignInError, decodeToken } from '../helpers/authentication';
 
@@ -123,7 +123,7 @@ class Page extends Component {
         {
           this.state.showModal ?
             ''
-            : <FloatingActionButton onClick={this.onFabClick} />
+            : <FloatingButton onClick={this.onFabClick} />
         }
       </Fragment>
     );
