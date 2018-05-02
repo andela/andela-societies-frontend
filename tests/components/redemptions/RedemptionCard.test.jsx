@@ -19,7 +19,7 @@ describe('<RedemptionCard />', () => {
       null,
       <RedemptionCard showUserDetails={showUserDetails} {...activity} />,
     );
-    expect(card().find('.activity__userName').length).toBe(1);
+    expect(card().find('.activity__owner').length).toBe(1);
   });
 
   it('should render activity details', () => {

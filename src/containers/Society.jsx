@@ -80,7 +80,7 @@ class Society extends Component {
                       description={activity.activity}
                       points={activity.points}
                       status={activity.status}
-                      userName={activity.user}
+                      owner={activity.user}
                       showUserDetails={showUserDetails}
                     />
                   ))
