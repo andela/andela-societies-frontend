@@ -1,5 +1,5 @@
 import pageInfoReducer from '../../src/reducers/pageInfoReducer';
-import { TITLE_CHANGE } from '../../src/types/pageActionTypes';
+import { TITLE_CHANGE } from '../../src/types';
 
 describe('pageInfoReducer', () => {
   const state = {

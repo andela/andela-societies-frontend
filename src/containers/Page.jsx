@@ -5,6 +5,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
 
 import { fetchUserInfo } from '../actions';
+import { fetchSocietyInfo } from '../actions/societyInfoActions';
 import { changeTitle } from '../actions/pageActions';
 import Header from '../components/header/Header';
 import SocietyBanner from '../components/header/SocietyBanner';
@@ -30,9 +31,19 @@ class Page extends Component {
   */
   static propTypes = {
     fetchUserInfo: PropTypes.func.isRequired,
+    fetchSocietyInfo: PropTypes.func.isRequired,
     userInfo: PropTypes.shape({
       name: PropTypes.string,
       picture: PropTypes.string,
+    }).isRequired,
+    societyInfo: PropTypes.shape({
+      requesting: PropTypes.bool.isRequired,
+      error: PropTypes.shape({}).isRequired,
+      info: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        remainingPoints: PropTypes.number.isRequired,
+        image: PropTypes.string.isRequired,
+      }).isRequired,
     }).isRequired,
     history: ReactRouterPropTypes.history.isRequired,
     changePageTitle: PropTypes.func.isRequired,
@@ -43,7 +54,6 @@ class Page extends Component {
     super(props);
     this.state = {
       showModal: false,
-      showSocietyBanner: false,
     };
     props.changePageTitle(props.history.location.pathname);
   }
@@ -57,9 +67,12 @@ class Page extends Component {
       this.props.history.push({ pathname: '/', search: '?error=unauthorized' });
     }
     this.props.fetchUserInfo(tokenInfo);
+  }
 
-    if (this.props.location.pathname.split('/')[1] === 'society') {
-      this.setState(prevState => ({ showSocietyBanner: !prevState.showSocietyBanner }));
+  componentDidMount() {
+    if (this.isASocietyPage()) {
+      const societyName = this.props.location.pathname.split('/').pop();
+      this.props.fetchSocietyInfo(societyName);
     }
   }
 
@@ -72,6 +85,10 @@ class Page extends Component {
     }
     this.setState({ showModal: true });
   }
+
+  isASocietyPage = () => (
+    this.props.location.pathname.indexOf('society') !== -1
+  );
 
   closeModal = () => {
     if (document && document.body) {
@@ -91,14 +108,7 @@ class Page extends Component {
   }
 
   render() {
-    const { userInfo } = this.props;
-    const society = {
-      name: 'Invictus',
-      points: 2021,
-      /* eslint-disable max-len */
-      image: 'https://photos.smugmug.com/Archives/Kenya/Internal-Events/Andela-Kenya-Turns-2/i-n6gSgRB/1/53c1e45f/4K/AndelaKenya2ndAnniversary_10-4K.jpg',
-      /* eslint-enable max-len */
-    };
+    const { userInfo, societyInfo } = this.props;
 
     return (
       <Fragment>
@@ -107,14 +117,14 @@ class Page extends Component {
           <Sidebar />
         </div>
         <main className='mainPage mainPage--sidebarOpen'>
-          {this.state.showSocietyBanner ? <SocietyBanner society={society} /> : null}
+          {this.isASocietyPage() ? <SocietyBanner society={societyInfo.info} /> : null}
           <div className='pageContent'>
             <Header
               history={this.props.history}
               userInfo={userInfo}
-              societyBanner={this.state.showSocietyBanner}
+              societyBanner={this.isASocietyPage()}
             />
-            <div className={`contentWrapper ${(this.state.showSocietyBanner ? 'contentWrapper--society' : '')}`}>
+            <div className={`contentWrapper ${(this.isASocietyPage() ? 'contentWrapper--society' : '')}`}>
               {this.props.children}
             </div>
           </div>
@@ -132,6 +142,7 @@ class Page extends Component {
 
 const mapStateToProps = state => ({
   userInfo: state.userInfo,
+  societyInfo: state.societyInfo,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -139,6 +150,7 @@ const mapDispatchToProps = dispatch => ({
   fetchUserInfo: tokenInfo => (
     dispatch(fetchUserInfo(tokenInfo))
   ),
+  fetchSocietyInfo: name => dispatch(fetchSocietyInfo(name)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Page));

@@ -29,7 +29,7 @@ class RedemptionCard extends Component {
   };
 
   static defaultProps = {
-    showUserDetails: false,
+    showUserDetails: true,
   };
   statuses = ['pending', 'expired', 'approved', 'default'];
   /**
@@ -58,7 +58,7 @@ class RedemptionCard extends Component {
     return (
       <div className='activity__left'>
         <img className='activity__userPicture' src='http://placehold.it/55x55' alt='John Doe' />
-        <span className='activity__userName'>John Doe</span>
+        <span className='activity__owner'>John Doe</span>
       </div>
     );
   }

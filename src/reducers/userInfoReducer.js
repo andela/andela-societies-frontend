@@ -1,4 +1,4 @@
-import { FETCH_USER_INFO } from '../actions/constants';
+import { FETCH_USER_INFO } from '../types';
 import initialState from './initialState';
 
 /**

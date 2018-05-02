@@ -14,7 +14,7 @@ describe('<ActivityCard />', () => {
   });
 
   it('should set default showUserDetails to false', () => {
-    expect(wrapper().find('.activity__userName').length).toBe(0);
+    expect(wrapper().find('.activity__owner').length).toBe(0);
   });
 
   it('should show user details', () => {
@@ -23,7 +23,7 @@ describe('<ActivityCard />', () => {
       null,
       <ActivityCard showUserDetails={showUserDetails} {...activity} />,
     );
-    expect(card().find('.activity__userName').length).toBe(1);
+    expect(card().find('.activity__owner').length).toBe(1);
   });
 
   it('should render activity details', () => {

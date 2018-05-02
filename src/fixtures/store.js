@@ -1,9 +1,11 @@
-const initialState = {
-  userInfo: {},
-  myActivities: {
-    requesting: false,
-    failed: false,
-    activities: [],
+const store = {
+  pageInfo: {
+    url: '',
+    title: '',
+  },
+  userInfo: {
+    name: '',
+    picture: '',
   },
   societyInfo: {
     requesting: false,
@@ -17,6 +19,11 @@ const initialState = {
     },
     error: {},
   },
+  myActivities: {
+    requesting: false,
+    failed: false,
+    activities: [],
+  },
 };
 
-export default initialState;
+export default store;

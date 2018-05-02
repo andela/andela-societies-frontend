@@ -1,4 +1,4 @@
-import { FETCH_USER_INFO } from './constants';
+import { FETCH_USER_INFO } from '../types';
 
 /**
  * @export

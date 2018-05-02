@@ -4,18 +4,10 @@ import { createMockStore } from 'redux-test-utils';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import Redemptions from '../../src/containers/Redemptions';
+import storeFixture from '../../src/fixtures/store';
 
 
-const store = createMockStore({
-  pageInfo: {
-    url: '',
-    title: '',
-  },
-  userInfo: {
-    name: '',
-    picture: '',
-  },
-});
+const store = createMockStore(storeFixture);
 const history = { push: () => { } };
 const mounted = mount.bind(
   null,

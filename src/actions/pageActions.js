@@ -1,4 +1,4 @@
-import { TITLE_CHANGE } from '../types/pageActionTypes';
+import { TITLE_CHANGE } from '../types';
 import pageInfo from '../helpers/pageInfo';
 
 export const changeTitle = (pathname) => {

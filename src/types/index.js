@@ -1,0 +1,15 @@
+// page action types
+export const TITLE_CHANGE = 'TITLE_CHANGE';
+
+// user info action types
+export const FETCH_USER_INFO = 'FETCH_USER_INFO';
+
+// my activities action types
+export const FETCH_MY_ACTIVITIES_REQUEST = 'FETCH_MY_ACTIVITIES_REQUEST';
+export const FETCH_MY_ACTIVITIES_SUCCESS = 'FETCH_MY_ACTIVITIES_SUCCESS';
+export const FETCH_MY_ACTIVITIES_FAILURE = 'FETCH_MY_ACTIVITIES_FAILURE';
+
+// society info action types
+export const FETCH_SOCIETY_INFO_REQUEST = 'FETCH_SOCIETY_INFO_REQUEST';
+export const FETCH_SOCIETY_INFO_SUCCESS = 'FETCH_SOCIETY_INFO_SUCCESS';
+export const FETCH_SOCIETY_INFO_FAILURE = 'FETCH_SOCIETY_INFO_FAILURE';

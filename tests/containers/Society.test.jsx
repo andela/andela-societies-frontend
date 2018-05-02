@@ -5,17 +5,9 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 
 import Society from '../../src/containers/Society';
+import storeFixture from '../../src/fixtures/store';
 
-const store = createMockStore({
-  pageInfo: {
-    url: '',
-    title: '',
-  },
-  userInfo: {
-    name: '',
-    picture: '',
-  },
-});
+const store = createMockStore(storeFixture);
 
 const mounted = mount.bind(
   null,
