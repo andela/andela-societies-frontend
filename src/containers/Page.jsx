@@ -49,6 +49,11 @@ class Page extends Component {
     changePageTitle: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
     location: PropTypes.shape({ pathname: PropTypes.string.isRequired }).isRequired,
+    categories: PropTypes.arrayOf(PropTypes.shape({})),
+  }
+
+  static defaultProps = {
+    categories: [],
   }
   constructor(props) {
     super(props);
@@ -99,10 +104,15 @@ class Page extends Component {
 
   renderModal = () => {
     const className = this.state.showModal ? 'modal--open' : '';
-
+    const { categories } = this.props;
     return (
       <Modal close={this.closeModal} className={className}>
-        <LogActivityForm />
+        {
+          categories.length ?
+            <LogActivityForm categories={categories} />
+            :
+            ''
+        }
       </Modal>
     );
   }

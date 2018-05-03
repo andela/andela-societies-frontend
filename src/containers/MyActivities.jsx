@@ -8,8 +8,9 @@ import MasonryLayout from '../containers/MasonryLayout';
 import ActivityCard from '../components/activities/ActivityCard';
 import Stats from '../components/sidebar/Stats';
 import { fetchMyActivities } from '../actions/myActivitiesActions';
-import stats from '../fixtures/stats';
+import { fetchCategories } from '../actions/categoriesActions';
 import dateFormatter from '../helpers/dateFormatter';
+import stats from '../fixtures/stats';
 import filterActivities from '../helpers/filterActivities';
 
 /**
@@ -28,6 +29,8 @@ class MyActivities extends Component {
   */
   static propTypes = {
     fetchActivities: PropTypes.func.isRequired,
+    fetchCategories: PropTypes.func.isRequired,
+    categories: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     requesting: PropTypes.bool,
   };
 
@@ -67,6 +70,7 @@ class MyActivities extends Component {
    */
   componentDidMount() {
     this.props.fetchActivities();
+    this.props.fetchCategories();
   }
 
   /**
@@ -84,10 +88,11 @@ class MyActivities extends Component {
    * @return {Object} JSX for MyActivities component
    */
   render() {
-    const { requesting } = this.props;
     const { filteredActivities, selectedStatus } = this.state;
+    const { requesting, categories } = this.props;
+
     return (
-      <Page>
+      <Page categories={categories}>
         <div className='mainContent'>
           <div className='myActivities'>
             <PageHeader
@@ -132,10 +137,12 @@ class MyActivities extends Component {
 const mapStateToProps = state => ({
   myActivities: state.myActivities.activities,
   requesting: state.myActivities.requesting,
+  categories: state.categories.categories,
 });
 
 const mapDispatchToProps = dispatch => ({
   fetchActivities: () => dispatch(fetchMyActivities()),
+  fetchCategories: () => dispatch(fetchCategories()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyActivities);

@@ -14,6 +14,7 @@ const Select = props => (
     <select
       name={props.name}
       className='formField__control'
+      onChange={props.handleChange}
     >
     
       <option value=''>{props.placeholder}</option>
