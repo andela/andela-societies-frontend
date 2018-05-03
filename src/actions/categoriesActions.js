@@ -50,7 +50,7 @@ export const fetchCategories = () => (
     dispatch(requestCategories());
     return axios.get(`${config.API_BASE_URL}/activity-types`)
       .then((response) => {
-        dispatch(requestCategoriesSuccess(response.data));
+        dispatch(requestCategoriesSuccess(response.data.data));
       })
       .catch(error => dispatch(requestCategoriesFailure(error)));
   }
