@@ -17,6 +17,11 @@ const initialState = {
     },
     error: {},
   },
+  categories: {
+    requesting: false,
+    categories: [],
+    error: {},
+  },
 };
 
 export default initialState;
