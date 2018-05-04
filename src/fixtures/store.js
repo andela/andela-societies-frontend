@@ -24,6 +24,11 @@ const store = {
     failed: false,
     activities: [],
   },
+  categories: {
+    requesting: false,
+    categories: [],
+    error: {},
+  },
 };
 
 export default store;
