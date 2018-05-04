@@ -13,8 +13,8 @@ class VerifyActivities extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      verifiedActivities: activities,
-      filteredVerifiedActivities: activities,
+      allActivities: activities,
+      filteredActivities: activities,
       selectedStatus: 'All',
       initialStatus: 'All',
       showUserDetails: true,
@@ -27,7 +27,8 @@ class VerifyActivities extends Component {
    */
    filterActivities = (status) => {
      this.setState({
-       filteredRedemptionActivities: filterActivities(status, this.state).filteredRedemptionActivities,
+       filteredActivities: filterActivities(status, this.state)
+         .filteredActivities,
        selectedStatus: status,
      });
    };
@@ -38,7 +39,7 @@ class VerifyActivities extends Component {
    * @return React node that displays the VerifyActivities page
    */
    render() {
-     const { filteredVerifiedActivities, selectedStatus, showUserDetails } = this.state;
+     const { filteredActivities, selectedStatus, showUserDetails } = this.state;
      return (
        <Page>
          <div className='mainContent'>
@@ -51,7 +52,7 @@ class VerifyActivities extends Component {
              <div className='activities'>
                <MasonryLayout
                  items={
-                   filteredVerifiedActivities.map(activity => (
+                   filteredActivities.map(activity => (
                      <ActivityCard
                        id={activity.id}
                        category={activity.category}

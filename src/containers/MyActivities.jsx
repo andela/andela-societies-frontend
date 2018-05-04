@@ -46,16 +46,16 @@ class MyActivities extends Component {
    */
   static getDerivedStateFromProps(nextProps) {
     return {
-      activities: nextProps.myActivities,
-      filteredState: nextProps.myActivities,
+      allActivities: nextProps.myActivities,
+      filteredActivities: nextProps.myActivities,
     };
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      activities: [],
-      filteredState: [],
+      allActivities: [],
+      filteredActivities: [],
       selectedStatus: 'All',
       initialStatus: 'All',
     };
@@ -75,7 +75,7 @@ class MyActivities extends Component {
    */
   filterActivities = (status) => {
     this.setState({
-      filteredState: filterActivities(status, this.state).filteredState,
+      filteredActivities: filterActivities(status, this.state).filteredActivities,
       selectedStatus: status,
     });
   };
@@ -85,7 +85,7 @@ class MyActivities extends Component {
    */
   render() {
     const { requesting } = this.props;
-    const { filteredState, selectedStatus } = this.state;
+    const { filteredActivities, selectedStatus } = this.state;
     return (
       <Page>
         <div className='mainContent'>
@@ -102,7 +102,7 @@ class MyActivities extends Component {
                   :
                   <MasonryLayout
                     items={
-                      filteredState.map(activity => (
+                      filteredActivities.map(activity => (
                         <ActivityCard
                           id={activity.id}
                           category={activity.category}

@@ -50,8 +50,8 @@ class Society extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      societyActivities: activities,
-      filteredSocietyActivities: activities,
+      allActivities: activities,
+      filteredActivities: activities,
       selectedStatus: 'All',
       initialStatus: 'All',
       showUserDetails: true,
@@ -65,7 +65,7 @@ class Society extends Component {
    */
     filterActivities = (status) => {
       this.setState({
-        filteredSocietyActivities: filterActivities(status, this.state).filteredSocietyActivities,
+        filteredActivities: filterActivities(status, this.state).filteredActivities,
         selectedStatus: status,
       });
     };
@@ -82,7 +82,7 @@ class Society extends Component {
         usedPoints,
         remainingPoints,
         loggedActivities,
-        filteredSocietyActivities,
+        filteredActivities,
         selectedStatus,
         showUserDetails,
       } = this.state;
@@ -98,7 +98,7 @@ class Society extends Component {
               <div className='activities'>
                 <MasonryLayout
                   items={
-                    filteredSocietyActivities.map(activity => (
+                    filteredActivities.map(activity => (
                       <ActivityCard
                         id={activity.id}
                         category={activity.category}

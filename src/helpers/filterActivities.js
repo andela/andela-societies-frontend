@@ -1,11 +1,11 @@
 import capitalizeString from './stringFormatter';
 
 const filterActivities = (status, context) => {
-  const filteredActivities = context[Object.keys(context)[0]]
+  const filteredActivities = context.allActivities
     .filter(activity => capitalizeString(activity.status) === status);
   return {
-    [Object.keys(context)[1]]: status === context.initialStatus
-      ? context[Object.keys(context)[0]] : filteredActivities,
+    filteredActivities: status === context.initialStatus
+      ? context.allActivities : filteredActivities,
   };
 };
 

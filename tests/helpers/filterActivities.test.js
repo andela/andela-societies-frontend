@@ -21,13 +21,17 @@ describe('filter Activities', () => {
   ];
 
   const context = {
-    redemptionActivities: activities,
-    filteredRedemptionActivities: activities,
+    allActivities: activities,
+    filteredActivities: activities,
     selectedStatus: 'All',
     initialStatus: 'All',
+    showUserDetails: true,
   };
 
-  it('should return correct date format', () => {
-    expect(filterActivities('Pending', context).filteredRedemptionActivities[0]).toBe(activities[0]);
+  it('should return activities  with status pending if `Pending` status is selected', () => {
+    expect(filterActivities('Pending', context).filteredActivities[0]).toBe(activities[0]);
+  });
+  it('should return all activities if `All` status is selected', () => {
+    expect(filterActivities('All', context).filteredActivities).toBe(activities);
   });
 });

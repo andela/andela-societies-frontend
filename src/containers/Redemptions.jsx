@@ -14,8 +14,8 @@ class Redemptions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      redemptionActivities: activities,
-      filteredRedemptionActivities: activities,
+      allActivities: activities,
+      filteredActivities: activities,
       selectedStatus: 'All',
       initialStatus: 'All',
     };
@@ -27,7 +27,7 @@ class Redemptions extends React.Component {
    */
   filterActivities = (status) => {
     this.setState({
-      filteredRedemptionActivities: filterActivities(status, this.state).filteredRedemptionActivities,
+      filteredActivities: filterActivities(status, this.state).filteredActivities,
       selectedStatus: status,
     });
   };
@@ -37,7 +37,7 @@ class Redemptions extends React.Component {
    * @return React node that displays the Redemptions page
    */
   render() {
-    const { filteredRedemptionActivities, selectedStatus } = this.state;
+    const { filteredActivities, selectedStatus } = this.state;
     return (
       <Page>
         <div className='mainContent'>
@@ -50,7 +50,7 @@ class Redemptions extends React.Component {
             <div className='activities'>
               <MasonryLayout
                 items={
-                  filteredRedemptionActivities.map(activity => (
+                  filteredActivities.map(activity => (
                     <ActivityCard
                       id={activity.id}
                       category={activity.category}
