@@ -15,12 +15,26 @@ class PageHeader extends Component {
   */
   static propTypes = {
     title: PropType.string.isRequired,
+    filterActivities: PropType.func.isRequired,
   };
+
+  /**
+   * React component lifecycle method getDerivedStateFromProps
+   * @param {Object} nextProps - props
+   */
+  static getDerivedStateFromProps(nextProps) {
+    return {
+      selectedStatus: nextProps.selectedStatus,
+    };
+  }
 
   constructor(props) {
     super(props);
     this.state = {
+      selectedStatus: 'All',
       showFilterOptionsDropdown: false,
+      statuses: ['All', 'In review', 'Pending', 'Rejected', 'Approved'],
+      activeClass: 'filterOptions__option--active',
     };
   }
 
@@ -34,7 +48,6 @@ class PageHeader extends Component {
   getDropdownClassName = (isActive, classList) => (
     `${classList.join(' ')} ${isActive ? 'filterOptions__dropdown--active' : ''}`
   );
-
   /**
    * @name createFilterOptionsButtonClickHandler
    * @summary Creates event handler for when filter button is clicked
@@ -47,6 +60,12 @@ class PageHeader extends Component {
   };
 
   render() {
+    const {
+      selectedStatus,
+      statuses,
+      showFilterOptionsDropdown,
+      activeClass,
+    } = this.state;
     return (
       <header className='pageHeader'>
         <h1 className='pageTitle'>{this.props.title}</h1>
@@ -55,28 +74,26 @@ class PageHeader extends Component {
             className='filterOptions__button'
             onClick={this.createFilterOptionsButtonClickHandler()}
           >
-            Pending
+            {selectedStatus}
           </button>
           <div className={this.getDropdownClassName(
-            this.state.showFilterOptionsDropdown,
+            showFilterOptionsDropdown,
             ['filterOptions__dropdown'],
           )}
           >
-            <div className='filterOptions__option'>
-              All
-            </div>
-            <div className='filterOptions__option'>
-              Approved
-            </div>
-            <div className='filterOptions__option'>
-              Expired
-            </div>
-            <div className='filterOptions__option'>
-              In review
-            </div>
-            <div className='filterOptions__option filterOptions__option--active'>
-              Pending
-            </div>
+            {
+              statuses.map(status => (
+                <div
+                  key={status}
+                  onMouseDown={e => this.props.filterActivities(e.currentTarget.textContent)}
+                  className={`filterOptions__option ${selectedStatus === status ? activeClass : ''}`}
+                  role='button'
+                  tabIndex='0'
+                >
+                  {status}
+                </div>
+              ))
+            }
           </div>
         </div>
       </header>

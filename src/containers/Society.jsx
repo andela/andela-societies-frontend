@@ -7,6 +7,8 @@ import PageHeader from '../components/header/PageHeader';
 import ActivityCard from '../components/activities/ActivityCard';
 import MasonryLayout from '../containers/MasonryLayout';
 import Stats from '../components/sidebar/Stats';
+import activities from '../fixtures/activities';
+import filterActivities from '../helpers/filterActivities';
 import dateFormatter from '../helpers/dateFormatter';
 
 /**
@@ -30,6 +32,7 @@ class Society extends Component {
     }).isRequired,
   };
 
+
   /**
    * React component lifecycle method getDerivedStateFromProps
    * @param {Object} nextProps - received props
@@ -47,75 +50,97 @@ class Society extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      allActivities: activities,
+      filteredActivities: activities,
+      selectedStatus: 'All',
+      initialStatus: 'All',
+      showUserDetails: true,
       ...props.societyInfo.info,
     };
   }
 
   /**
-   * Render Society Component
-   * @return {object} JSX for Society Component
+   * Filters state based on the selectedStatus
+   * @memberof MyActivities
    */
-  render() {
-    const showUserDetails = true;
-    const {
-      name,
-      totalPoints,
-      usedPoints,
-      remainingPoints,
-      loggedActivities,
-    } = this.state;
-    return (
-      <Page>
-        <div className='mainContent'>
-          <div className='society'>
-            <PageHeader title='Activities' />
-            <div className='activities'>
-              <MasonryLayout
-                items={
-                  loggedActivities.map(activity => (
-                    <ActivityCard
-                      id={activity.id}
-                      category={activity.category}
-                      date={dateFormatter(activity.date)}
-                      description={activity.activity}
-                      points={activity.points}
-                      status={activity.status}
-                      owner={activity.user}
-                      showUserDetails={showUserDetails}
-                    />
-                  ))
-                }
+    filterActivities = (status) => {
+      this.setState({
+        filteredActivities: filterActivities(status, this.state).filteredActivities,
+        selectedStatus: status,
+      });
+    };
+
+    /**
+     * @name Society
+     * @summary Renders a society page
+     * @return React node that displays a society page
+     */
+    render() {
+      const {
+        name,
+        totalPoints,
+        usedPoints,
+        remainingPoints,
+        loggedActivities,
+        filteredActivities,
+        selectedStatus,
+        showUserDetails,
+      } = this.state;
+      return (
+        <Page>
+          <div className='mainContent'>
+            <div className='society'>
+              <PageHeader
+                title='Activities'
+                selectedStatus={selectedStatus}
+                filterActivities={this.filterActivities}
               />
+              <div className='activities'>
+                <MasonryLayout
+                  items={
+                    filteredActivities.map(activity => (
+                      <ActivityCard
+                        id={activity.id}
+                        category={activity.category}
+                        date={dateFormatter(activity.date)}
+                        description={activity.activity}
+                        points={activity.points}
+                        status={activity.status}
+                        showUserDetails={showUserDetails}
+                      />
+                    ))
+                  }
+                />
+              </div>
             </div>
           </div>
-        </div>
-        <aside className='sideContent sideContent--societyPage'>
-          <Stats
-            title={name}
-            page='society'
-            stats={[
-              {
-                value: `${loggedActivities.length}`,
-                name: 'Activities logged',
-              },
-              {
-                value: `${totalPoints}`,
-                name: 'Points earned',
-              },
-              {
-                value: `${usedPoints}`,
-                name: 'Points used',
-              },
-              {
-                value: `${remainingPoints}`,
-                name: 'Points remaining',
-              },
-            ]}
-          />
-        </aside>
-      </Page>
-    );
-  }
+          <aside className='sideContent sideContent--societyPage'>
+            <Stats
+              title={name}
+              page='society'
+              stats={[
+                {
+                  value: `${loggedActivities.length}`,
+                  name: 'Activities logged',
+                },
+                {
+                  value: `${totalPoints}`,
+                  name: 'Points earned',
+                },
+                {
+                  value: `${usedPoints}`,
+                  name: 'Points used',
+                },
+                {
+                  value: `${remainingPoints}`,
+                  name: 'Points remaining',
+                },
+              ]}
+            />
+          </aside>
+        </Page>
+      );
+    }
 }
 
 const mapStateToProps = state => ({
