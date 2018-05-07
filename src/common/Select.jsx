@@ -21,9 +21,9 @@ const Select = props => (
       {props.options.map(opt =>
         (
           <option
-            key={opt}
-            value={opt}
-          >{opt}
+            key={opt.id}
+            value={opt.id}
+          >{opt.name}
           </option>
         ))
       }
@@ -43,7 +43,7 @@ const Select = props => (
 Select.propTypes = {
   name: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  options: PropTypes.arrayOf(PropTypes.string).isRequired,
+  options: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   placeholder: PropTypes.string.isRequired,
 };
 export default Select;

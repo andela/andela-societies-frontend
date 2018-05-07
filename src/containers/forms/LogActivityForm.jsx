@@ -44,24 +44,9 @@ class LogActivityForm extends Component {
     this.setState({ selectValue: event.target.value });
   }
 
-  /**
-   * @memberOf LogActivityForm
-   * create an array of category names
-   * @returns {Array} array of category names
-   */
-  createOptionValues = () => {
-    const { categories } = this.props;
-    const optionValues = [];
-    categories.forEach((category) => {
-      optionValues.push(category.name);
-    });
-    return optionValues;
-  }
-
   render() {
     const { selectValue } = this.state;
     const { categories } = this.props;
-    const optionValues = categories ? this.createOptionValues() : [];
 
     return (
       <form onSubmit={this.onSubmit}>
@@ -70,7 +55,7 @@ class LogActivityForm extends Component {
         <Select
           name='fellowActivities'
           placeholder='Select Category'
-          options={optionValues}
+          options={categories}
           title='Activity Category'
           handleChange={this.handleChange}
         />
