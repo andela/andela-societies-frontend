@@ -26,7 +26,7 @@ const pageInfo = {
       menuIcon: MyActivitiesIcon,
     },
     {
-      title: 'Verify Activitites',
+      title: 'Verify Activities',
       url: '/u/verify-activities',
       component: VerifyActivities,
       menuIcon: VerifyActivitiesIcon,

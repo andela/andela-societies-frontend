@@ -91,7 +91,7 @@
   margin-right: 1rem;
 }
 
-.activity__status--default::before {
+.activity__status--inReview::before {
   background-color: #eee;
 }
 
@@ -103,6 +103,6 @@
   background-color: #5eb623;
 }
 
-.activity__status--expired::before {
+.activity__status--rejected::before {
   background-color: #b23030;
 }

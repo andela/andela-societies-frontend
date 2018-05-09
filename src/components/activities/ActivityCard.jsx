@@ -37,7 +37,7 @@ class ActivityCard extends Component {
     showLocation: false,
     owner: null,
   };
-  statuses = ['pending', 'expired', 'approved', 'default'];
+  statuses = ['pending', 'rejected', 'approved', 'in review'];
   /**
    * @summary Renders the status indicator on the ActivityCard
    */
@@ -48,9 +48,9 @@ class ActivityCard extends Component {
       return '';
     }
 
-    if (status === 'default') {
+    if (status === 'in review') {
       return (
-        <span className={`activity__status activity__status--${status}`}>In review</span>
+        <span className='activity__status activity__status--inReview'>In review</span>
       );
     }
 
