@@ -7,7 +7,6 @@ import PageHeader from '../components/header/PageHeader';
 import ActivityCard from '../components/activities/ActivityCard';
 import MasonryLayout from '../containers/MasonryLayout';
 import Stats from '../components/sidebar/Stats';
-import activities from '../fixtures/activities';
 import filterActivities from '../helpers/filterActivities';
 import dateFormatter from '../helpers/dateFormatter';
 
@@ -38,7 +37,10 @@ class Society extends Component {
    * @param {Object} nextProps - received props
   */
   static getDerivedStateFromProps(nextProps) {
+    const { loggedActivities } = nextProps.societyInfo.info;
     return {
+      allActivities: loggedActivities,
+      filteredActivities: loggedActivities,
       ...nextProps.societyInfo.info,
     };
   }
@@ -50,8 +52,8 @@ class Society extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      allActivities: activities,
-      filteredActivities: activities,
+      allActivities: [],
+      filteredActivities: [],
       selectedStatus: 'All',
       initialStatus: 'All',
       showUserDetails: true,
