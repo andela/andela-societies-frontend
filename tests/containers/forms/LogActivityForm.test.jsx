@@ -32,12 +32,12 @@ describe('<LogActivityForm />', () => {
   });
 
   it('should show the <SingleInput/> component when it has loaded', () => {
-    wrapper.setState({ selectValue: 'Bootcamp Interviews' });
+    wrapper.setState({ selectValue: 'eef0e594-43cd-11e8-87a7-9801a7ae0329' });
     expect(wrapper.find('SingleInput').length).toEqual(1);
   });
 
   it('should render the SingleInput with the correct label', () => {
-    wrapper.setState({ selectValue: 'Bootcamp Interviews' });
+    wrapper.setState({ selectValue: 'eef0e594-43cd-11e8-87a7-9801a7ae0329' });
     expect(wrapper.find('SingleInput').dive().find('.formField__label').text()).toEqual('# of interviewees');
   });
 
