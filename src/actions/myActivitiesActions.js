@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../helpers/http';
 
 import {
   FETCH_MY_ACTIVITIES_REQUEST,
@@ -48,13 +48,13 @@ export const myActivitiesGetSuccess = activities => (
 
 /**
  * fetch myActivities thunk
- *
+ * @param {string} - user id
  * @returns {(dispatch) => Promise<AxiosResponse>}
  */
-export const fetchMyActivities = () => (
+export const fetchMyActivities = userId => (
   (dispatch) => {
     dispatch(myActivitiesGetRequest(true));
-    return axios.get(`${config.API_BASE_URL}/users/-Kabc/logged-activities`)
+    return axios.get(`${config.API_BASE_URL}/users/${userId}/logged-activities`)
       .then((response) => {
         dispatch(myActivitiesGetRequest(false));
         dispatch(myActivitiesGetSuccess(response.data.data));

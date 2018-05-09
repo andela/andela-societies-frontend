@@ -12,6 +12,7 @@ import { fetchCategories } from '../actions/categoriesActions';
 import dateFormatter from '../helpers/dateFormatter';
 import stats from '../fixtures/stats';
 import filterActivities from '../helpers/filterActivities';
+import { getUserInfo } from '../helpers/authentication';
 
 /**
  * @name MyActivities
@@ -69,7 +70,8 @@ class MyActivities extends Component {
    * @memberof MyActivities
    */
   componentDidMount() {
-    this.props.fetchActivities();
+    const userId = getUserInfo() && getUserInfo().id;
+    this.props.fetchActivities(userId);
     this.props.fetchCategories();
   }
 
@@ -141,7 +143,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchActivities: () => dispatch(fetchMyActivities()),
+  fetchActivities: userId => dispatch(fetchMyActivities(userId)),
   fetchCategories: () => dispatch(fetchCategories()),
 });
 

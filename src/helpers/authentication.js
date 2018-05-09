@@ -29,6 +29,16 @@ export const decodeToken = (token) => {
 };
 
 /**
+ * @name getUserInfo
+ * @summary Retrieves user information
+ * @return {object} representing user information
+ */
+export const getUserInfo = () => {
+  const userDetails = decodeToken(getToken());
+  return userDetails.UserInfo;
+};
+
+/**
  * @name tokenIsValid
  * @summary Checks that token has not expired and payload has Andelan role
  * @return {boolean} representing token
