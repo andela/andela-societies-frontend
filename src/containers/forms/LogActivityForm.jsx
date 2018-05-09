@@ -60,7 +60,7 @@ class LogActivityForm extends Component {
           handleChange={this.handleChange}
         />
         {
-          selectValue === 'Bootcamp Interviews' ?
+          selectValue === 'eef0e594-43cd-11e8-87a7-9801a7ae0329' ?
             <SingleInput type='number' name='text' title='# of interviewees' /> : ''
         }
 
