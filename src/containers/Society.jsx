@@ -109,6 +109,7 @@ class Society extends Component {
                         points={activity.points}
                         status={activity.status}
                         showUserDetails={showUserDetails}
+                        owner={activity.owner}
                       />
                     ))
                   }
