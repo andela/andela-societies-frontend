@@ -70,7 +70,7 @@ describe('myActivitiesGetRequest', () => {
 
     const store = mockStore({ myActivities: [] });
 
-    return store.dispatch(fetchMyActivities()).then(() => {
+    return store.dispatch(fetchMyActivities('-Kabc')).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
@@ -94,7 +94,7 @@ describe('myActivitiesGetRequest', () => {
 
     const store = mockStore({ myActivities: [] });
 
-    return store.dispatch(fetchMyActivities()).then(() => {
+    return store.dispatch(fetchMyActivities('-Kabc')).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });

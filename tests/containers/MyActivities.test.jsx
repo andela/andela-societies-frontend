@@ -17,6 +17,7 @@ const mounted = mount.bind(
         history={history}
         fetchUserInfo={() => {}}
         changePageTitle={() => {}}
+        fetchActivities={() => {}}
       />
     </MemoryRouter>
   </Provider>,

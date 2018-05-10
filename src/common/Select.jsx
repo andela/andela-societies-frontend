@@ -14,15 +14,16 @@ const Select = props => (
     <select
       name={props.name}
       className='formField__control'
+      onChange={props.handleChange}
     >
     
       <option value=''>{props.placeholder}</option>
       {props.options.map(opt =>
         (
           <option
-            key={opt}
-            value={opt}
-          >{opt}
+            key={opt.id}
+            value={opt.id}
+          >{opt.name}
           </option>
         ))
       }
@@ -42,7 +43,7 @@ const Select = props => (
 Select.propTypes = {
   name: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  options: PropTypes.arrayOf(PropTypes.string).isRequired,
+  options: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   placeholder: PropTypes.string.isRequired,
 };
 export default Select;

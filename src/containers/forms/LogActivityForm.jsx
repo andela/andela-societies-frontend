@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import SingleInput from '../../common/SingleInput';
 import DateField from '../../common/DateField';
 import Select from '../../common/Select';
@@ -11,16 +12,42 @@ import TextArea from '../../common/TextArea';
    * @returns Returns a form
    */
 class LogActivityForm extends Component {
+  /**
+   * @name propTypes
+   * @type {PropType}
+   * @property {Array} categories - Array of activity categories
+  */
+  static propTypes = {
+    categories: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  };
+
+  /**
+   * LogActivityForm component class constructor
+   * @param {Object} props - actvity categories
+   */
   constructor(props) {
     super(props);
     this.state = {
-      activities: [],
+      selectValue: '',
     };
   }
   onSubmit = (e) => {
     e.preventDefault();
   }
+
+  /**
+   * @memberOf LogActivityForm
+   * change event handler
+   * @param {Event} event - change event on select input
+   */
+  handleChange = (event) => {
+    this.setState({ selectValue: event.target.value });
+  }
+
   render() {
+    const { selectValue } = this.state;
+    const { categories } = this.props;
+
     return (
       <form onSubmit={this.onSubmit}>
         <div className='titleForm'>Log an Activity</div>
@@ -28,11 +55,15 @@ class LogActivityForm extends Component {
         <Select
           name='fellowActivities'
           placeholder='Select Category'
-          options={this.state.activities}
-          selectedOption={this.state.activities[0]}
+          options={categories}
           title='Activity Category'
+          handleChange={this.handleChange}
         />
-        <SingleInput type='number' name='text' title='# of interviewee' />
+        {
+          selectValue === 'eef0e594-43cd-11e8-87a7-9801a7ae0329' ?
+            <SingleInput type='number' name='text' title='# of interviewees' /> : ''
+        }
+
         <TextArea
           title='Description'
           rows={5}
