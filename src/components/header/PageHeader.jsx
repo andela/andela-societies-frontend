@@ -15,7 +15,19 @@ class PageHeader extends Component {
   */
   static propTypes = {
     title: PropType.string.isRequired,
-    filterActivities: PropType.func.isRequired,
+    filterActivities: PropType.func,
+    hideFilter: PropType.bool,
+  };
+
+  /**
+   * @name defaultProps
+   * @type {PropType}
+   * @property {Function} filterActivities - function to filter activities on status
+   * @property {Boolean} hideFilter - hide the filter activities dropdown
+  */
+  static defaultProps = {
+    filterActivities: null,
+    hideFilter: false,
   };
 
   /**
@@ -69,33 +81,37 @@ class PageHeader extends Component {
     return (
       <header className='pageHeader'>
         <h1 className='pageTitle'>{this.props.title}</h1>
-        <div className='filterOptions'>
-          <button
-            className='filterOptions__button'
-            onClick={this.createFilterOptionsButtonClickHandler()}
-          >
-            {selectedStatus}
-          </button>
-          <div className={this.getDropdownClassName(
-            showFilterOptionsDropdown,
-            ['filterOptions__dropdown'],
-          )}
-          >
-            {
-              statuses.map(status => (
-                <div
-                  key={status}
-                  onMouseDown={e => this.props.filterActivities(e.currentTarget.textContent)}
-                  className={`filterOptions__option ${selectedStatus === status ? activeClass : ''}`}
-                  role='button'
-                  tabIndex='0'
-                >
-                  {status}
-                </div>
-              ))
-            }
-          </div>
-        </div>
+        {
+          !this.props.hideFilter ?
+            <div className='filterOptions'>
+              <button
+                className='filterOptions__button'
+                onClick={this.createFilterOptionsButtonClickHandler()}
+              >
+                {selectedStatus}
+              </button>
+              <div className={this.getDropdownClassName(
+                showFilterOptionsDropdown,
+                ['filterOptions__dropdown'],
+              )}
+              >
+                {
+                  statuses.map(status => (
+                    <div
+                      key={status}
+                      onMouseDown={e => this.props.filterActivities(e.currentTarget.textContent)}
+                      className={`filterOptions__option ${selectedStatus === status ? activeClass : ''}`}
+                      role='button'
+                      tabIndex='0'
+                    >
+                      {status}
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+            : null
+        }
       </header>
     );
   }
