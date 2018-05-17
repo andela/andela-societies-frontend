@@ -1,81 +1,112 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import ActivityCard from '../components/activities/ActivityCard';
 import Page from './Page';
 import PageHeader from '../components/header/PageHeader';
 import MasonryLayout from '../containers/MasonryLayout';
 import Stats from '../components/sidebar/Stats';
-import activities from '../fixtures/activities';
 import stats from '../fixtures/stats';
-import filterActivities from '../helpers/filterActivities';
+import { fetchSocietyInfo } from '../actions/societyInfoActions';
+import filterActivitiesByStatus from '../helpers/filterActivitiesByStatus';
 
 class VerifyActivities extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      allActivities: activities,
-      filteredActivities: activities,
-      selectedStatus: 'All',
-      initialStatus: 'All',
-      showUserDetails: true,
-    };
+  /**
+    * @name VerifyActivities
+    * @type {propTypes}
+    * @param {Object} props - React PropTypes
+    * @property {Function} fetchSocietyInfo - fetches society details
+    */
+  static propTypes = {
+    fetchSocietyInfo: PropTypes.func.isRequired,
   }
 
   /**
-   * Filters state based on the selectedStatus
-   * @memberof MyActivities
+   * React component lifecycle method getDerivedStateFromProps
+   * @param {Object} nextProps - props
    */
-   filterActivities = (status) => {
-     this.setState({
-       filteredActivities: filterActivities(status, this.state)
-         .filteredActivities,
-       selectedStatus: status,
-     });
-   };
+  static getDerivedStateFromProps(nextProps) {
+    const { societyName, societyActivities } = nextProps;
+    const activities = filterActivitiesByStatus(societyActivities, 'in review');
+    return {
+      activities,
+      societyName,
+    };
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      activities: [],
+      showUserDetails: true,
+      societyName: '',
+    };
+  }
+
+  componentDidMount() {
+    if (this.state.societyName) this.props.fetchSocietyInfo(this.state.societyName);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.societyName !== this.state.societyName) {
+      this.props.fetchSocietyInfo(this.state.societyName);
+    }
+  }
 
   /**
    * @name VerifyActivities
    * @summary Renders My activities page
    * @return React node that displays the VerifyActivities page
    */
-   render() {
-     const { filteredActivities, selectedStatus, showUserDetails } = this.state;
-     return (
-       <Page>
-         <div className='mainContent'>
-           <div className='VerifyActivities'>
-             <PageHeader
-               title='Verify Activities'
-               selectedStatus={selectedStatus}
-               filterActivities={this.filterActivities}
-             />
-             <div className='activities'>
-               <MasonryLayout
-                 items={
-                   filteredActivities.map(activity => (
-                     <ActivityCard
-                       id={activity.id}
-                       category={activity.category}
-                       date={(activity.date)}
-                       description={activity.activity}
-                       points={activity.points}
-                       status={activity.status}
-                       showUserDetails={showUserDetails}
-                     />
-                   ))
-                 }
-               />
-             </div>
-           </div>
-         </div>
-         <aside className='sideContent'>
-           <Stats
-             stats={stats}
-           />
-         </aside>
-       </Page>
-     );
-   }
+  render() {
+    const { activities, showUserDetails } = this.state;
+    const hideFilter = true;
+    return (
+      <Page>
+        <div className='mainContent'>
+          <div className='VerifyActivities'>
+            <PageHeader
+              title='Verify Activities'
+              filterActivities={this.filterActivities}
+              hideFilter={hideFilter}
+            />
+            <div className='activities'>
+              <MasonryLayout
+                items={
+                  activities.map(activity => (
+                    <ActivityCard
+                      id={activity.id}
+                      category={activity.category}
+                      date={(activity.date)}
+                      description={activity.activity}
+                      points={activity.points}
+                      status={activity.status}
+                      showUserDetails={showUserDetails}
+                    />
+                  ))
+                }
+              />
+            </div>
+          </div>
+        </div>
+        <aside className='sideContent'>
+          <Stats
+            stats={stats}
+          />
+        </aside>
+      </Page>
+    );
+  }
 }
 
-export default VerifyActivities;
+const mapStateToProps = state => ({
+  societyActivities: state.societyActivities.activities,
+  societyName: state.userProfile.info.society.name,
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchSocietyInfo: name => dispatch(fetchSocietyInfo(name)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(VerifyActivities);
