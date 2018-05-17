@@ -7,6 +7,7 @@ const props = {
   filterActivities: () => {},
   selectedStatus: 'All',
   title: 'Invictus',
+  hideFilter: false,
 };
 
 const status = {

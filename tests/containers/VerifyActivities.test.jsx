@@ -6,25 +6,27 @@ import { MemoryRouter } from 'react-router-dom';
 
 import VerifyActivities from '../../src/containers/VerifyActivities';
 import storeFixture from '../../src/fixtures/store';
+import society from '../../src/fixtures/society';
 
 const store = createMockStore(storeFixture);
 const history = { push: () => { } };
 
-const mounted = mount.bind(
-  null,
-  <Provider store={store}>
-    <MemoryRouter>
-      <VerifyActivities
-        history={history}
-        fetchUserInfo={() => {}}
-        changePageTitle={() => {}}
-      />
-    </MemoryRouter>
-  </Provider>,
-);
-
 describe('<VerifyActivities />', () => {
   it('should render without crashing', () => {
-    expect(mounted).not.toThrow();
+    const wrapper = mount.bind(
+      null,
+      <Provider store={store}>
+        <MemoryRouter>
+          <VerifyActivities.WrappedComponent
+            history={history}
+            fetchUserInfo={() => { }}
+            changePageTitle={() => { }}
+            fetchSocietyInfo={() => { }}
+            societyActivities={society.loggedActivities}
+          />
+        </MemoryRouter>
+      </Provider>,
+    );
+    expect(wrapper).not.toThrow();
   });
 });
