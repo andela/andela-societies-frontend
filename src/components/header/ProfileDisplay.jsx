@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 /**
  * @name ProfileDisplay
@@ -36,8 +35,4 @@ ProfileDisplay.defaultProps = {
   profile: null,
 };
 
-const mapStateToProps = state => ({
-  profile: state.userProfile.info,
-});
-
-export default connect(mapStateToProps, null)(ProfileDisplay);
+export default ProfileDisplay;

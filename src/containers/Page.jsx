@@ -55,10 +55,16 @@ class Page extends Component {
     children: PropTypes.node.isRequired,
     location: PropTypes.shape({ pathname: PropTypes.string.isRequired }).isRequired,
     categories: PropTypes.arrayOf(PropTypes.shape({})),
+    profile: PropTypes.shape({
+      society: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+      }).isRequired,
+    }),
   }
 
   static defaultProps = {
     categories: [],
+    profile: null,
   }
   constructor(props) {
     super(props);
@@ -125,7 +131,7 @@ class Page extends Component {
   }
 
   render() {
-    const { userInfo, societyInfo } = this.props;
+    const { userInfo, societyInfo, profile } = this.props;
 
     return (
       <Fragment>
@@ -139,6 +145,7 @@ class Page extends Component {
             <Header
               history={this.props.history}
               userInfo={userInfo}
+              profile={profile}
               societyBanner={this.isASocietyPage()}
             />
             <div className={`contentWrapper ${(this.isASocietyPage() ? 'contentWrapper--society' : '')}`}>
@@ -160,6 +167,7 @@ class Page extends Component {
 const mapStateToProps = state => ({
   userInfo: state.userInfo,
   societyInfo: state.societyInfo,
+  profile: state.userProfile.info,
 });
 
 const mapDispatchToProps = dispatch => ({
