@@ -68,7 +68,6 @@ class VerifyActivities extends Component {
           <div className='VerifyActivities'>
             <PageHeader
               title='Verify Activities'
-              filterActivities={this.filterActivities}
               hideFilter={hideFilter}
             />
             <div className='activities'>
