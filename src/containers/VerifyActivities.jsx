@@ -20,6 +20,7 @@ class VerifyActivities extends Component {
     */
   static propTypes = {
     fetchSocietyInfo: PropTypes.func.isRequired,
+    requesting: PropTypes.bool.isRequired,
   }
 
   /**
@@ -61,6 +62,7 @@ class VerifyActivities extends Component {
    */
   render() {
     const { activities, showUserDetails } = this.state;
+    const { requesting } = this.props;
     const hideFilter = true;
     return (
       <Page>
@@ -71,21 +73,26 @@ class VerifyActivities extends Component {
               hideFilter={hideFilter}
             />
             <div className='activities'>
-              <MasonryLayout
-                items={
-                  activities.map(activity => (
-                    <ActivityCard
-                      id={activity.id}
-                      category={activity.category}
-                      date={(activity.date)}
-                      description={activity.activity}
-                      points={activity.points}
-                      status={activity.status}
-                      showUserDetails={showUserDetails}
-                    />
-                  ))
-                }
-              />
+              {
+                requesting ?
+                  <h3 className='loader'>Loading... </h3>
+                  :
+                  <MasonryLayout
+                    items={
+                      activities.map(activity => (
+                        <ActivityCard
+                          id={activity.id}
+                          category={activity.category}
+                          date={(activity.date)}
+                          description={activity.activity}
+                          points={activity.points}
+                          status={activity.status}
+                          showUserDetails={showUserDetails}
+                        />
+                      ))
+                    }
+                  />
+              }
             </div>
           </div>
         </div>
@@ -102,6 +109,7 @@ class VerifyActivities extends Component {
 const mapStateToProps = state => ({
   societyActivities: state.societyActivities.activities,
   societyName: state.userProfile.info.society.name,
+  requesting: state.societyActivities.requesting,
 });
 
 const mapDispatchToProps = dispatch => ({

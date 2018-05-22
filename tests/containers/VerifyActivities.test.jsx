@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import { createMockStore } from 'redux-test-utils';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
@@ -12,6 +12,15 @@ const store = createMockStore(storeFixture);
 const history = { push: () => { } };
 
 describe('<VerifyActivities />', () => {
+  const component = shallow(<VerifyActivities.WrappedComponent
+    history={history}
+    fetchUserInfo={() => { }}
+    changePageTitle={() => { }}
+    fetchSocietyInfo={() => { }}
+    societyActivities={society.loggedActivities}
+    requesting={false}
+  />);
+
   it('should render without crashing', () => {
     const wrapper = mount.bind(
       null,
@@ -23,10 +32,16 @@ describe('<VerifyActivities />', () => {
             changePageTitle={() => { }}
             fetchSocietyInfo={() => { }}
             societyActivities={society.loggedActivities}
+            requesting={false}
           />
         </MemoryRouter>
       </Provider>,
     );
     expect(wrapper).not.toThrow();
+  });
+
+  it('should show loader when fetching', () => {
+    component.setProps({ requesting: true });
+    expect(component.find('.loader').length).toBe(1);
   });
 });
