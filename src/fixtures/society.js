@@ -33,6 +33,19 @@ const society = {
       status: 'pending',
       user: 'Test User',
     },
+    {
+      activity: '2018-may-meetup',
+      category: 'Open Saturdays Guides',
+      date: '2018-05-10',
+      description: null,
+      id: 'eefc54ec-43cd-11e8-abcd-9801a7ae0329',
+      name: null,
+      photo: null,
+      points: 50,
+      redeemed: false,
+      status: 'in review',
+      user: 'Test User',
+    },
   ],
 };
 

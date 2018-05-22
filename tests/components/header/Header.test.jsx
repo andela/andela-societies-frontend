@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import Header from '../../../src/components/header/Header';
 import { nonFellowTokenInfo } from '../../__mocks__/tokenInfoMock';
 import storeFixture from '../../../src/fixtures/store';
+import testProfile from '../../../src/fixtures/userProfile';
 
 const store = createMockStore(storeFixture);
 const history = { push: () => { } };
@@ -16,6 +17,7 @@ const mounted = mount.bind(
     <Header
       userInfo={nonFellowTokenInfo.UserInfo}
       history={history}
+      profile={testProfile}
     />
   </Provider>,
 );

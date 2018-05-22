@@ -22,6 +22,20 @@ const initialState = {
     categories: [],
     error: {},
   },
+  societyActivities: {
+    activities: [],
+    requesting: false,
+    error: {},
+  },
+  userProfile: {
+    requesting: false,
+    info: {
+      society: {
+        name: '',
+      },
+    },
+    error: {},
+  },
 };
 
 export default initialState;

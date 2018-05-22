@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 import { fetchUserInfo } from '../actions';
 import { fetchSocietyInfo } from '../actions/societyInfoActions';
 import { changeTitle } from '../actions/pageActions';
+import { fetchUserProfile } from '../actions/userProfileActions';
 import Header from '../components/header/Header';
 import SocietyBanner from '../components/header/SocietyBanner';
 import Sidebar from '../components/sidebar/Sidebar';
@@ -14,7 +15,10 @@ import LogActivityForm from './forms/LogActivityForm';
 import FloatingButton from '../common/FloatingButton';
 import Modal from '../common/Modal';
 
-import { getToken, tokenIsValid, isFellow, setSignInError, decodeToken } from '../helpers/authentication';
+import {
+  getToken, tokenIsValid, isFellow,
+  setSignInError, decodeToken, getUserInfo,
+} from '../helpers/authentication';
 
 /**
  * @name Page
@@ -32,6 +36,7 @@ class Page extends Component {
   static propTypes = {
     fetchUserInfo: PropTypes.func.isRequired,
     fetchSocietyInfo: PropTypes.func.isRequired,
+    fetchUserProfile: PropTypes.func.isRequired,
     userInfo: PropTypes.shape({
       name: PropTypes.string,
       picture: PropTypes.string,
@@ -50,10 +55,16 @@ class Page extends Component {
     children: PropTypes.node.isRequired,
     location: PropTypes.shape({ pathname: PropTypes.string.isRequired }).isRequired,
     categories: PropTypes.arrayOf(PropTypes.shape({})),
+    profile: PropTypes.shape({
+      society: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+      }).isRequired,
+    }),
   }
 
   static defaultProps = {
     categories: [],
+    profile: null,
   }
   constructor(props) {
     super(props);
@@ -75,6 +86,8 @@ class Page extends Component {
   }
 
   componentDidMount() {
+    const userId = getUserInfo() && getUserInfo().id;
+    this.props.fetchUserProfile(userId);
     if (this.isASocietyPage()) {
       const societyName = this.props.location.pathname.split('/').pop();
       this.props.fetchSocietyInfo(societyName);
@@ -118,7 +131,7 @@ class Page extends Component {
   }
 
   render() {
-    const { userInfo, societyInfo } = this.props;
+    const { userInfo, societyInfo, profile } = this.props;
 
     return (
       <Fragment>
@@ -132,6 +145,7 @@ class Page extends Component {
             <Header
               history={this.props.history}
               userInfo={userInfo}
+              profile={profile}
               societyBanner={this.isASocietyPage()}
             />
             <div className={`contentWrapper ${(this.isASocietyPage() ? 'contentWrapper--society' : '')}`}>
@@ -153,6 +167,7 @@ class Page extends Component {
 const mapStateToProps = state => ({
   userInfo: state.userInfo,
   societyInfo: state.societyInfo,
+  profile: state.userProfile.info,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -161,6 +176,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(fetchUserInfo(tokenInfo))
   ),
   fetchSocietyInfo: name => dispatch(fetchSocietyInfo(name)),
+  fetchUserProfile: userId => dispatch(fetchUserProfile(userId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Page));

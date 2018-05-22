@@ -15,6 +15,7 @@ import { removeCookies } from '../../helpers/authentication';
 export default class Header extends Component {
   static defaultProps = {
     societyBanner: false,
+    profile: null,
   };
   /**
    * @name propTypes
@@ -33,6 +34,11 @@ export default class Header extends Component {
       picture: PropTypes.string,
     }).isRequired,
     societyBanner: PropTypes.bool,
+    profile: PropTypes.shape({
+      society: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+      }).isRequired,
+    }),
   }
   constructor(props) {
     super(props);
@@ -85,7 +91,7 @@ export default class Header extends Component {
   }
 
   render() {
-    const { userInfo, societyBanner } = this.props;
+    const { userInfo, societyBanner, profile } = this.props;
     return (
       <div className={`headerWrapper ${(societyBanner ? ' headerWrapper--white' : '')}`}>
         <div className='leftHeader'>
@@ -124,7 +130,7 @@ export default class Header extends Component {
                 ['headerDropdown', 'headerDropdown--profile'],
               )}
             >
-              <ProfileDisplay userInfo={userInfo} logOut={this.logOut} />
+              <ProfileDisplay userInfo={userInfo} logOut={this.logOut} profile={profile} />
             </div>
           </div>
         </div>
