@@ -18,6 +18,8 @@ import storeFixture from '../../src/fixtures/store';
 import config from '../../config';
 
 const mockStore = configureMockStore([thunk]);
+const store = mockStore({ userProfile: storeFixture.userProfile });
+const userId = '-Kabcd';
 
 describe('Fetch User Profile', () => {
   beforeEach(() => moxios.install());
@@ -47,7 +49,6 @@ describe('Fetch User Profile', () => {
   });
 
   it('dispatches FETCH_USER_PROFILE_SUCCESS after successfuly fetching the user profile', () => {
-    const userId = '-Kabcd';
     moxios.stubRequest(`${config.API_BASE_URL}/user/${userId}`, {
       status: 200,
       response: { data: testProfile },
@@ -63,15 +64,12 @@ describe('Fetch User Profile', () => {
       },
     ];
 
-    const store = mockStore({ userProfile: storeFixture.userProfile });
-
     return store.dispatch(fetchUserProfile(userId)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
 
   it('dispatches FETCH_USER_PROFILE_FAILURE when fetching user profile fails', () => {
-    const userId = '-Kabcd';
     moxios.stubRequest(`${config.API_BASE_URL}/user/${userId}`, {
       status: 401,
       response: {},
@@ -86,8 +84,6 @@ describe('Fetch User Profile', () => {
         error: new Error('Request failed with status code 401'),
       },
     ];
-
-    const store = mockStore({ userProfile: storeFixture.userProfile });
 
     return store.dispatch(fetchUserProfile(userId)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
