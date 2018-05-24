@@ -32,15 +32,8 @@ jobs:
   deploy:
     docker:
       - image: circleci/node:9.8.0
-        environment:
-        - NODE_ENV: testing
     environment:
-      # Required environment variables
-      # should be added via circleci console
-      # - GOOGLE_PROJECT_ID
-      # - GCLOUD_SERVICE_KEY- will be provided by DevOPs team.
       TERM: xterm-256color
-      GOOGLE_COMPUTE_ZONE: us-central1-a
     working_directory: ~/soc-frontend
 
     steps:
@@ -60,8 +53,7 @@ jobs:
       - run:
           name: Build and release application
           command: chmod +x scripts/deploy.sh && scripts/deploy.sh
-      # - run: yarn coverage
-      # - run: yarn coveralls
+
 workflows:
   version: 2
   test:
@@ -72,9 +64,12 @@ workflows:
               ignore:
                 - master
                 - release
-  build-deploy:
+  build-test-deploy:
     jobs:
+      - build
       - deploy:
+          requires:
+            - build
           filters:
             branches:
               only:

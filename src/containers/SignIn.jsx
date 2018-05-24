@@ -70,7 +70,7 @@ class SignIn extends Component {
               <span className='logo__text'>Andela Societies</span>
             </div>
             <a
-              href={`${authApiUrl} + ${appUrl}`}
+              href={`${authApiUrl}${appUrl}`}
               className='signInButton'
               role='button'
               aria-label='Sign in with Google'
