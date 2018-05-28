@@ -84,7 +84,7 @@ class VerifyActivities extends Component {
                           id={activity.id}
                           category={activity.category}
                           date={(activity.date)}
-                          description={activity.activity}
+                          description={activity.description || activity.activity}
                           points={activity.points}
                           status={activity.status}
                           showUserDetails={showUserDetails}

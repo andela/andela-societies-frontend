@@ -43,16 +43,12 @@ class MasonryLayout extends Component {
    * @returns React Elements containing ActivityCard for each activity
    */
   createItems = items => (
-    <div>
-      {
-        items.map(item => (
-          <div className='masonry-layout__panel' key={item.props.id}>
-            {item}
-          </div>
-        ))
-      }
-    </div>
-  )
+    items.map(item => (
+      <div className='masonry-layout__panel' key={item.props.id}>
+        {item}
+      </div>
+    ))
+  );
 
   /**
    * Render MasonryLayout Component
