@@ -15,9 +15,10 @@ const Select = props => (
       name={props.name}
       className='formField__control'
       onChange={props.handleChange}
+      value={props.value || props.placeholder}
     >
-    
-      <option value=''>{props.placeholder}</option>
+
+      <option value={props.placeholder}>{props.placeholder}</option>
       {props.options.map(opt =>
         (
           <option
@@ -28,18 +29,18 @@ const Select = props => (
         ))
       }
     </select>
-    </div>
+  </div>
 );
 /**
-    * @name propTypes
-    * @type {PropType}
-    * @param {Object} propTypes - React PropTypes
-    * @property {String} name - The name of the select element
-    *@property {String} title - The title of the label
-    *@property {String} option - string to be shown in the dropdown
-    *@property {String} selectedOption - The initial selected value
-    *@property {placeholde} selectedOption - plalace holder text
-  */
+ * @name propTypes
+ * @type {PropType}
+ * @param {Object} propTypes - React PropTypes
+ * @property {String} name - The name of the select element
+ * @property {String} title - The title of the label
+ * @property {String} option - string to be shown in the dropdown
+ * @property {String} selectedOption - The initial selected value
+ * @property {placeholde} selectedOption - plalace holder text
+*/
 Select.propTypes = {
   name: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
