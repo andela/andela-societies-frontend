@@ -122,7 +122,10 @@ class Page extends Component {
       <Modal close={this.closeModal} className={className}>
         {
           categories.length ?
-            <LogActivityForm categories={categories} />
+            <LogActivityForm
+              closeModal={this.closeModal}
+              categories={categories}
+            />
             :
             ''
         }

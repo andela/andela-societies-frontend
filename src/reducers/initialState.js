@@ -2,8 +2,9 @@ const initialState = {
   userInfo: {},
   myActivities: {
     requesting: false,
-    failed: false,
     activities: [],
+    error: null,
+    message: null,
   },
   societyInfo: {
     requesting: false,

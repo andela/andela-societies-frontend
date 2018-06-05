@@ -61,7 +61,7 @@ describe('Fetch User Profile', () => {
     ];
 
 
-    moxios.stubRequest(`${config.API_BASE_URL}/user/${userId}`, {
+    moxios.stubRequest(`${config.API_BASE_URL}/users/${userId}`, {
       status: 200,
       response: { data: testProfile },
     });
@@ -83,7 +83,7 @@ describe('Fetch User Profile', () => {
     ];
 
     store = mockStore({ userProfile: storeFixture.userProfile });
-    moxios.stubRequest(`${config.API_BASE_URL}/user/${userId}`, {
+    moxios.stubRequest(`${config.API_BASE_URL}/users/${userId}`, {
       status: 401,
       response: {},
     });

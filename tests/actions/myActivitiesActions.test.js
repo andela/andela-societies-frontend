@@ -26,17 +26,17 @@ describe('myActivitiesGetRequest', () => {
   it('should create an action to get user activities', () => {
     const expectedAction = {
       type: FETCH_MY_ACTIVITIES_REQUEST,
-      requesting: true,
     };
-    expect(myActivitiesGetRequest(true)).toEqual(expectedAction);
+    expect(myActivitiesGetRequest()).toEqual(expectedAction);
   });
 
   it('should create an action to set error when fetching my activities', () => {
+    const error = new Error('Request failed with status code 401');
     const expectedAction = {
       type: FETCH_MY_ACTIVITIES_FAILURE,
-      failed: true,
+      error,
     };
-    expect(myActivitiesGetFailure(true)).toEqual(expectedAction);
+    expect(myActivitiesGetFailure(error)).toEqual(expectedAction);
   });
 
   it('should create a success action after successfully fetching my activities', () => {
@@ -56,11 +56,6 @@ describe('myActivitiesGetRequest', () => {
     const expectedActions = [
       {
         type: FETCH_MY_ACTIVITIES_REQUEST,
-        requesting: true,
-      },
-      {
-        type: FETCH_MY_ACTIVITIES_REQUEST,
-        requesting: false,
       },
       {
         type: FETCH_MY_ACTIVITIES_SUCCESS,
@@ -75,7 +70,7 @@ describe('myActivitiesGetRequest', () => {
     });
   });
 
-  it('dispatches FETCH_MY_ACTIVITIES_FAILURE after successfuly fetching activities', () => {
+  it('dispatches FETCH_MY_ACTIVITIES_FAILURE when fetchActivities fails', () => {
     moxios.stubRequest(`${config.API_BASE_URL}/users/-Kabc/logged-activities`, {
       status: 404,
       response: {},
@@ -84,11 +79,10 @@ describe('myActivitiesGetRequest', () => {
     const expectedActions = [
       {
         type: FETCH_MY_ACTIVITIES_REQUEST,
-        requesting: true,
       },
       {
         type: FETCH_MY_ACTIVITIES_FAILURE,
-        failed: true,
+        error: new Error('Request failed with status code 404', 404),
       },
     ];
 

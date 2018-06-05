@@ -1,0 +1,10 @@
+.validate__errors {
+  font-size: 1.2rem;
+  margin-left: 29%;
+  color: #c93636;
+}
+
+.submitButton.submitButton--disabled {
+  opacity: 0.50;
+  cursor: not-allowed;
+}
