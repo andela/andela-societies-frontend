@@ -44,6 +44,11 @@ const store = {
     },
     error: {},
   },
+  redeemPointsInfo: {
+    message: {},
+    requesting: false,
+    redemptions: [],
+  },
 };
 
 export default store;
