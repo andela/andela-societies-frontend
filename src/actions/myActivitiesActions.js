@@ -13,10 +13,9 @@ import config from '../../config';
  * @param {Boolean} bool - boolean indicating whether the request is in progress
  * @return {Object} {{type: FETCH_MY_ACTIVITIES_REQUEST, bool: bool}}
  */
-export const myActivitiesGetRequest = bool => (
+export const myActivitiesGetRequest = () => (
   {
     type: FETCH_MY_ACTIVITIES_REQUEST,
-    requesting: bool,
   }
 );
 
@@ -26,10 +25,10 @@ export const myActivitiesGetRequest = bool => (
  * @param {Boolean} bool - boolean indicating whether the request failed
  * @return {Object} {{type: FETCH_MY_ACTIVITIES_FAILURE, bool: bool}}
  */
-export const myActivitiesGetFailure = bool => (
+export const myActivitiesGetFailure = error => (
   {
     type: FETCH_MY_ACTIVITIES_FAILURE,
-    failed: bool,
+    error,
   }
 );
 
@@ -53,12 +52,11 @@ export const myActivitiesGetSuccess = activities => (
  */
 export const fetchMyActivities = userId => (
   (dispatch) => {
-    dispatch(myActivitiesGetRequest(true));
+    dispatch(myActivitiesGetRequest());
     return axios.get(`${config.API_BASE_URL}/users/${userId}/logged-activities`)
       .then((response) => {
-        dispatch(myActivitiesGetRequest(false));
         dispatch(myActivitiesGetSuccess(response.data.data));
       })
-      .catch(() => dispatch(myActivitiesGetFailure(true)));
+      .catch((error) => { dispatch(myActivitiesGetFailure(error)); });
   }
 );

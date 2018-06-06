@@ -21,8 +21,9 @@ const store = {
   },
   myActivities: {
     requesting: false,
-    failed: false,
     activities: [],
+    message: null,
+    error: null,
   },
   categories: {
     requesting: false,

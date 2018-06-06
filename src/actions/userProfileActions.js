@@ -48,7 +48,7 @@ export const requestUserProfileFailure = error => (
 export const fetchUserProfile = id => (
   (dispatch) => {
     dispatch(requestUserProfile());
-    return http.get(`${config.API_BASE_URL}/user/${id}`)
+    return http.get(`${config.API_BASE_URL}/users/${id}`)
       .then((response) => {
         dispatch(requestUserProfileSuccess(response.data.data));
       })

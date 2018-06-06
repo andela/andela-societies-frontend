@@ -114,7 +114,7 @@ class MyActivities extends Component {
                           id={activity.id}
                           category={activity.category}
                           date={dateFormatter(activity.date)}
-                          description={activity.activity}
+                          description={activity.description || activity.activity}
                           points={activity.points}
                           status={activity.status}
                         />
