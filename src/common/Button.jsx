@@ -6,16 +6,18 @@ import PropTypes from 'prop-types';
    * @summary Returns a button
    * @returns Returns a button
    */
-const Button = props => (
-  <button
-    name={props.name}
-    className={props.className}
-    value={props.value}
-    type={props.type}
-    onClick={props.handleClick}
-  >
-    {props.value}
-  </button>
+const Buttons = props => (
+  <div className='form-group'>
+    <button
+      name={props.name}
+      className={props.className}
+      value={props.value}
+      type={props.type}
+      onClick={props.onClick}
+    >
+      {props.value}
+    </button>
+  </div>
 );
 
 /**
@@ -23,23 +25,23 @@ const Button = props => (
  * @type {PropType}
  * @property {String} type -button type
  */
-Button.defaultProps = {
+Buttons.defaultProps = {
   type: 'button',
 };
 /**
-    * @name propTypes
-    * @type {PropType}
-    * @param {Object} propTypes - React PropTypes
-    * @property {String} name - The name of the Button
-    *@property {String} className - The ClassName of the button for syling
-    *@property {String} value - The name to show in the button
-  */
-Button.propTypes = {
+ * @name propTypes
+ * @type {PropType}
+ * @param {Object} propTypes - React PropTypes
+ * @property {String} name - The name of the Button
+ * @property {String} className - The ClassName of the button for syling
+ * @property {String} value - The name to show in the button
+ */
+Buttons.propTypes = {
   name: PropTypes.string.isRequired,
   className: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
-  handleClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
   type: PropTypes.string,
 };
 
-export default Button;
+export default Buttons;
