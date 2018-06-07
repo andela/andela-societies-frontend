@@ -13,6 +13,7 @@ import SocietyBanner from '../components/header/SocietyBanner';
 import Sidebar from '../components/sidebar/Sidebar';
 import LogActivityForm from './forms/LogActivityForm';
 import FloatingButton from '../common/FloatingButton';
+import UpdateLoader from '../components/loaders/UpdateLoader';
 import Modal from '../common/Modal';
 import RedeemPointsForm from './forms/RedeemPointsForm';
 
@@ -61,6 +62,7 @@ class Page extends Component {
         name: PropTypes.string.isRequired,
       }).isRequired,
     }),
+    updating: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -136,7 +138,9 @@ class Page extends Component {
   }
 
   render() {
-    const { userInfo, societyInfo, profile } = this.props;
+    const {
+      userInfo, societyInfo, profile, updating,
+    } = this.props;
 
     return (
       <Fragment>
@@ -146,6 +150,7 @@ class Page extends Component {
         </div>
         <main className='mainPage mainPage--sidebarOpen'>
           {this.isASocietyPage() ? <SocietyBanner society={societyInfo.info} /> : null}
+          {updating && <div className='overlay'><UpdateLoader /></div>}
           <div className='pageContent'>
             <Header
               history={this.props.history}
@@ -173,6 +178,7 @@ const mapStateToProps = state => ({
   userInfo: state.userInfo,
   societyInfo: state.societyInfo,
   profile: state.userProfile.info,
+  updating: state.societyActivities.updating,
 });
 
 const mapDispatchToProps = dispatch => ({

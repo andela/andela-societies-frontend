@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // components
-import Buttons from '../../common/Buttons';
+import Button from '../../common/Button';
 import Select from '../../common/Select';
 import SingleInput from '../../common/SingleInput';
 import TextArea from '../../common/TextArea';
@@ -166,13 +166,13 @@ class RedeemPointsForm extends Component {
           handleChange={this.handleChange}
         />
         <FormError errors={this.state.errors} fieldName='reason' />
-        <Buttons
+        <Button
           name='redeemButtonSubmit'
           value='Redeem'
           className='submitButton'
           onClick={this.handleSubmit}
         />
-        <Buttons
+        <Button
           name='redeemButtonCancel'
           value='Cancel'
           className='cancelButton'

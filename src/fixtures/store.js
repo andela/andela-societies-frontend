@@ -34,6 +34,7 @@ const store = {
     activities: [],
     requesting: false,
     error: {},
+    updating: false,
   },
   userProfile: {
     requesting: false,

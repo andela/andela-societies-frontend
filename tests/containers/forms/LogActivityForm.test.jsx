@@ -65,9 +65,10 @@ describe('<LogActivityForm />', () => {
   it('should show the <TextArea/> component when it has loaded', () => {
     expect(wrapper.find('TextArea').length).toEqual(1);
   });
-
-  it('should show the <Buttons/> component when it has loaded', () => {
-    expect(wrapper.find('Buttons').length).toEqual(2);
+  it('should show the <Button/> component when it has loaded', () => {
+    wrapper.setState({ loading: false });
+    const inputComponent = wrapper.find('Button');
+    expect(inputComponent.length).toEqual(2);
   });
 
   it('should reset state on receipt of success message', () => {

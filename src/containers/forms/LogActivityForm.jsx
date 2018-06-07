@@ -6,7 +6,7 @@ import SnackBar from '../../components/notifications/SnackBar';
 import SingleInput from '../../common/SingleInput';
 import DateField from '../../common/DateField';
 import Select from '../../common/Select';
-import Buttons from '../../common/Buttons';
+import Button from '../../common/Button';
 import TextArea from '../../common/TextArea';
 import { createActivity } from '../../actions/activityActions';
 import validateFormFields from '../../helpers/validate';
@@ -165,17 +165,17 @@ class LogActivityForm extends Component {
           {this.renderValidationError('description')}
         </span>
         <div>
-          <Buttons
+          <Button
             name='fellowButtonSubmit'
             value='Log'
             className={`submitButton ${message && message.type === 'info' ? 'submitButton--disabled' : ''}`}
-            onClick={this.handleAddEvent}
+            handleClick={this.handleAddEvent}
           />
-          <Buttons
+          <Button
             name='fellowButtonCancel'
             value='Cancel'
             className='cancelButton'
-            onClick={this.cancelModal}
+            handleClick={this.cancelModal}
           />
         </div>
         {

@@ -33,6 +33,7 @@ describe('<Page />', () => {
       fetchSocietyInfo: () => {},
       fetchUserInfo: () => { },
       changePageTitle: () => { },
+      updating: false,
       societyInfo: {
         requesting: false,
         error: {},
