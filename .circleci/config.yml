@@ -56,14 +56,9 @@ jobs:
 
 workflows:
   version: 2
-  test:
+  build-test-and-deploy:
     jobs:
-      - build:
-          filters:
-            branches:
-              ignore:
-                - master
-                - release
+      - build
       - deploy:
           requires:
             - build
@@ -71,4 +66,4 @@ workflows:
             branches:
               only:
                 - master
-                - release
+                - develop
