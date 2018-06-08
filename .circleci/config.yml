@@ -64,9 +64,6 @@ workflows:
               ignore:
                 - master
                 - release
-  build-test-deploy:
-    jobs:
-      - build
       - deploy:
           requires:
             - build
