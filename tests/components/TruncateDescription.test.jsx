@@ -7,15 +7,13 @@ import { shallow } from 'enzyme';
 import TruncateDescription from '../../src/components/TruncateDescription';
 
 // fixtures
-import activity from '../../src/fixtures/activity'
+import activity from '../../src/fixtures/activity';
 
 describe('<TruncateDescription />', () => {
-
   const setUpWrapper = ({
     description = activity.description,
   } = {}) => {
-
-    const props = { description }
+    const props = { description };
     return shallow(<TruncateDescription {...props} />);
   };
 
@@ -33,13 +31,13 @@ describe('<TruncateDescription />', () => {
     const shallowWrapper = setUpWrapper();
     const viewMoreBtn = shallowWrapper.find('.activity__description__btn--more--less');
     viewMoreBtn.simulate('click');
-    expect(shallowWrapper.state().toggleBtnText).toEqual(false);
+    expect(shallowWrapper.state().longDescription).toEqual(false);
     expect(shallowWrapper.html()).toContain('Less');
   });
 
-  it('should show description only when it is long', () => {
+  it('should not show More button when description is short', () => {
     const shallowWrapper = setUpWrapper({ description: 'Lorem ipsum dolor sit amet.' });
-    expect(shallowWrapper.find('.activity__description').length).toBe(1);
+    expect(shallowWrapper.state().description).toEqual('Lorem ipsum dolor sit amet.');
     expect(shallowWrapper.find('.activity__description__btn--more--less').length).toBe(0);
   });
 });

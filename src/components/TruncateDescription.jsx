@@ -10,69 +10,49 @@ import PropType from 'prop-types';
  */
 class TruncateDescription extends Component {
   /**
-    * @name propTypes
-    * @type {PropType}
-    * @param {String} description - The description to shorten
-    */
+   * @name propTypes
+   * @type {PropType}
+   * @param {String} description - The description to shorten
+   */
   static propTypes = {
     description: PropType.string.isRequired,
-  }
-
-  /**
-   * @name getDerivedStateFromProps
-   * @summary Lifecyle method that keeps description state in sync with props
-   * @param {Object} props
-   * @param {Object} state
-   */
-  static getDerivedStateFromProps(props, state) {
-    if (props.description !== state.description) {
-      return {
-        description: props.description,
-      };
-    }
-    return null;
   }
 
   constructor(props) {
     super(props);
     this.state = {
       description: this.props.description,
-      showMoreLess: false,
-      toggleBtnText: true,
+      longDescription: true,
     };
-  }
-
-  componentDidMount() {
-    this.truncateDescription();
   }
 
   /**
    * @name componentDidUpdate
    * @summary Lifecycle method that is called when prop of description changes
    * @param {Object} prevProps
-   * @param {Object} prevState
    */
   componentDidUpdate(prevProps) {
     if (this.props.description !== prevProps.description) {
-      this.truncateDescription();
+      return {
+        description: this.props.description,
+      };
     }
+    return null;
   }
 
   /**
    * @name truncateDescription
-   * @summary Shortens the description passed as props
-   * @return {void}
+   * @summary Shortens the description passed as a param
+   * @param {String} desc - description to be shortened
+   * @param {Boolean} longDescription - boolean value indicate if description is long
+   * @return {String} desc
    */
-  truncateDescription = () => {
-    let longDescription = this.state.description;
-    longDescription = longDescription.trim();
-    let descArray = longDescription.split('');
-    if (descArray.length > 50) {
-      descArray = longDescription.split('', 50);
-      descArray = [...descArray, '...'];
-      return this.setState({ showMoreLess: true, description: descArray.join('') });
+  truncateDescription = (desc, longDescription) => {
+    if (desc.trim().length > 50 && longDescription) {
+      const shortDesc = desc.slice(0, 51).concat('...');
+      return shortDesc;
     }
-    return null;
+    return desc;
   }
 
   /**
@@ -81,31 +61,25 @@ class TruncateDescription extends Component {
    * @return {void}
    */
   handleViewMoreLessClick = () => {
-    const { toggleBtnText } = this.state;
-    // console.log('here', this.state.description);
-    if (!toggleBtnText) {
-      this.truncateDescription();
-      this.setState({ toggleBtnText: !this.state.toggleBtnText });
-    } else {
-      this.setState({ description: this.props.description, toggleBtnText: !this.state.toggleBtnText });
-    }
+    const { longDescription } = this.state;
+    this.setState({ longDescription: !longDescription });
   }
 
   render() {
-    const { description, showMoreLess, toggleBtnText } = this.state;
-    let showMoreLessHtml = null;
+    const { description, longDescription } = this.state;
+    let buttonHtml = null;
 
-    if (showMoreLess) {
-      showMoreLessHtml = (
+    if (description.trim().length > 50) {
+      buttonHtml = (
         <button className='activity__description__btn--more--less' onClick={this.handleViewMoreLessClick}>
-          {toggleBtnText ? 'More' : 'Less'}
+          {longDescription ? 'More' : 'Less'}
         </button>
       );
     }
     return (
       <p className='activity__description'>
-        {description}
-        {showMoreLessHtml}
+        {this.truncateDescription(description, longDescription)}
+        {buttonHtml}
       </p>
     );
   }
