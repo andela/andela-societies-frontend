@@ -9,4 +9,4 @@ WORKDIR /application
 
 COPY public /application
 
-CMD serve -si --port 3000
+CMD serve -si --port 4000

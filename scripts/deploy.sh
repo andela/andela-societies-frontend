@@ -1,53 +1,88 @@
 #!/bin/bash
+set -o errexit
+set -o pipefail
 
-# Establish important variables
-DOCKER_REGISTRY=gcr.io
 DEFAULT_GOOGLE_CLUSTER_NAME=soc
 PROJECT_NAME=soc-frontend
+set_variables() {
+    COMMIT_HASH=$(git rev-parse --short HEAD)
 
-COMMIT_HASH=$(git rev-parse --short HEAD)
-
-if [ "$CIRCLE_BRANCH" == "master" ]; then
-    IMAGE_TAG=$COMMIT_HASH
-    GOOGLE_CLUSTER_NAME=$DEFAULT_GOOGLE_CLUSTER_NAME
-else
-    IMAGE_TAG="${CIRCLE_BRANCH}-${COMMIT_HASH}"
-    GOOGLE_CLUSTER_NAME="${DEFAULT_GOOGLE_CLUSTER_NAME}-staging"
-fi
-
-echo "====> Installing google clound sdk"
-
-echo "deb http://packages.cloud.google.com/apt cloud-sdk-jessie main" | sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list
-
-curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-sudo apt-get update && sudo apt-get install kubectl google-cloud-sdk
-
-echo "====> Store Sand authenticate with service account"
-echo $GCLOUD_SERVICE_KEY | base64 --decode > ${HOME}/gcloud-service-key.json
-gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
-
-echo "Configuring Google Cloud Sdk"
-
-gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
-gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
-gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
-# gcloud --quiet container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
-
-echo "====> Login to docker registry"
-docker login -u _json_key --password-stdin https://gcr.io < ${HOME}/gcloud-service-key.json
+    if [ "$CIRCLE_BRANCH" == "master" ]; then
+        IMAGE_TAG=$COMMIT_HASH
+        ENVIRONMENT=production
+        GOOGLE_COMPUTE_ZONE=${PRODUCTION_ZONE}
+        GOOGLE_CLUSTER_NAME=${PRODUCTION_CLUSTER_NAME}
+        export NODE_ENV=production
+    else
+        IMAGE_TAG="${CIRCLE_BRANCH}-${COMMIT_HASH}"
+        ENVIRONMENT=staging
+        GOOGLE_COMPUTE_ZONE=${STAGING_ZONE}
+        GOOGLE_CLUSTER_NAME=${STAGING_CLUSTER_NAME}
+        export NODE_ENV=staging
+    fi
+}
+authorize_docker() {
+    echo "====> Store Sand authenticate with service account"
+    echo $GCLOUD_SERVICE_KEY | base64 --decode > ${HOME}/gcloud-service-key.json
 
 
-echo "====> Build application artifacts"
-yarn run build
+    echo "====> Login to docker registry"
+    docker login -u _json_key -p "$(cat ${HOME}/gcloud-service-key.json)" https://gcr.io
+}
 
-echo "====> Build docker image with built application artifacts"
+deploy_image() {
+    echo "====> Build application artifacts"
+    yarn run build
 
-IMAGE="${DOCKER_REGISTRY}/${GOOGLE_PROJECT_ID}/${PROJECT_NAME}:${IMAGE_TAG}"
+    echo "====> Build docker image with built application artifacts"
 
-docker build -t $IMAGE .
+    IMAGE="${DOCKER_REGISTRY}/${GOOGLE_PROJECT_ID}/${PROJECT_NAME}:${IMAGE_TAG}"
 
-docker push $IMAGE
+    docker build -t $IMAGE .
 
-#TODO: Deploy to kubernetes cluster
+    docker push $IMAGE
+}
+
+install_google_cloud_sdk(){
+    echo "====> Installing google cloud sdk"
+    echo "deb http://packages.cloud.google.com/apt cloud-sdk-jessie main" | sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list
+    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+    sudo apt-get update && sudo apt-get install kubectl google-cloud-sdk
+}
+
+configure_google_cloud_sdk() {
+    echo "Configuring Google Cloud Sdk"
+    gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
+    gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+    gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+    gcloud --quiet container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
+}
+
+deploy_to_kubernetes(){
+     echo "====> Prepare image for deployement"
+
+    IMAGE="${DOCKER_REGISTRY}/${GOOGLE_PROJECT_ID}/${PROJECT_NAME}:${IMAGE_TAG}"
+    DEPLOYMENT_NAME="${ENVIRONMENT}-${PROJECT_NAME}"
+    echo "====> Deploying ${IMAGE} to ${DEPLOYMENT_NAME} in ${ENVIRONMENT} environment"
 
 
+    kubectl set image deployment/${DEPLOYMENT_NAME} frontend=${IMAGE} -n "${ENVIRONMENT}"
+
+    if [ "$?" == "0" ]; then
+        echo "Deployment completed succesfully"
+    else
+        echo "Failed to deploy ${IMAGE} to ${ENVIRONMENT} environment"
+    fi
+
+}
+
+main() {
+    set_variables
+    authorize_docker
+    deploy_image
+    install_google_cloud_sdk
+    configure_google_cloud_sdk
+    deploy_to_kubernetes
+}
+
+main "$@"
