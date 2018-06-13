@@ -7,6 +7,8 @@ import {
   createRedeemPointsRequest,
   createRedeemPointsFailure,
   redeemPoints,
+  fetchRedemptionsRequest,
+  fetchRedemption,
 } from '../../src/actions/redeemPointsAction';
 
 // types
@@ -14,11 +16,14 @@ import {
   CREATE_REDEEM_POINTS_FAILURE,
   CREATE_REDEEM_POINTS_REQUEST,
   CREATE_REDEEM_POINTS_SUCCESS,
+  FETCH_REDEMPTIONS_REQUEST,
+  FETCH_REDEMPTIONS_SUCCESS,
+  FETCH_REDEMPTIONS_FAILURE,
 } from '../../src/types';
 
 // helpers
 import config from '../../config';
-import redemption from '../../src/fixtures/redemptions';
+import { redemptions, redemption } from '../../src/fixtures/redemptions';
 import testProfile from '../../src/fixtures/userProfile';
 
 const mockStore = configureMockStore([thunk]);
@@ -65,6 +70,23 @@ describe('Redeem Points Actions', () => {
       .then(() => (expect(store.getActions()[1]).toEqual(expectedSuccessAction)));
   });
 
+
+  it('should return fetch redemptions request action', () => {
+    expect(fetchRedemptionsRequest()).toEqual({ type: FETCH_REDEMPTIONS_REQUEST });
+  });
+
+  it('should return fetch redemptions success action', () => {
+    moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem/${societyId}`, {
+      status: 200,
+      response: {
+        data: redemptions,
+      },
+    });
+    const expectedSuccessAction = { type: FETCH_REDEMPTIONS_SUCCESS, redemptions };
+    return store.dispatch(fetchRedemption(societyId))
+      .then(() => (expect(store.getActions()[1]).toEqual(expectedSuccessAction)));
+  });
+
   it('should call createRedeemPointsFailure when there is a error', () => {
     moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem/${societyId}`, {
       status: 400,
@@ -84,5 +106,15 @@ describe('Redeem Points Actions', () => {
     };
     return store.dispatch(redeemPoints(redemptionData, societyId))
       .then(() => (expect(store.getActions()[1]).toEqual(expectedFailureAction)));
+  });
+
+
+  it('should call the fetch failure action', () => {
+    moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem/${'-Kkh3MFLCBgVTSZ4s'}`, { status: 400 });
+    const expectedErrorAction = {
+      type: FETCH_REDEMPTIONS_FAILURE,
+    };
+    return store.dispatch(fetchRedemption('-Kkh3MFLCBgVTSZ4s'))
+      .then(() => (expect(store.getActions()[1]).toEqual(expectedErrorAction)));
   });
 });
