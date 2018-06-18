@@ -1,4 +1,5 @@
 @import '../../assets/scss/_mixins';
+@import '../../assets/scss/_vars'; 
 
 .activity {
   background: white;
@@ -52,6 +53,16 @@
   font-weight: normal;
   font-size: 1.7rem;
   margin: 0;
+}
+
+.activity__description__btn--more--less {
+  background: none;
+  padding: 0 auto;
+  border: none;
+  font: inherit;
+  color: $primary;
+  cursor: pointer;
+  outline: none;
 }
 
 .activity__footer {

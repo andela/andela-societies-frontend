@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropType from 'prop-types';
 
+import TruncateDescription from '../TruncateDescription';
 import Globe from '../svgIcons/activityIcons/Globe';
 
 /**
@@ -38,6 +39,7 @@ class ActivityCard extends Component {
     owner: null,
   };
   statuses = ['pending', 'rejected', 'approved', 'in review'];
+
   /**
    * @summary Renders the status indicator on the ActivityCard
    */
@@ -90,7 +92,7 @@ class ActivityCard extends Component {
             <span className='activity__date'>{date}</span>
           </div>
           <div className='activity__content'>
-            <h1 className='activity__description'>{description}</h1>
+            <TruncateDescription description={description} />
           </div>
           <div className='activity__footer'>
             {

@@ -10,6 +10,7 @@ import Stats from '../components/sidebar/Stats';
 import stats from '../fixtures/stats';
 import { fetchSocietyInfo } from '../actions/societyInfoActions';
 import filterActivitiesByStatus from '../helpers/filterActivitiesByStatus';
+import dateFormatter from '../helpers/dateFormatter';
 
 class VerifyActivities extends Component {
   /**
@@ -79,17 +80,25 @@ class VerifyActivities extends Component {
                   :
                   <MasonryLayout
                     items={
-                      activities.map(activity => (
-                        <ActivityCard
-                          id={activity.id}
-                          category={activity.category}
-                          date={(activity.date)}
-                          description={activity.activity}
-                          points={activity.points}
-                          status={activity.status}
+                      activities.map((activity) => {
+                        const {
+                          id,
+                          category,
+                          date,
+                          description,
+                          points,
+                          status,
+                        } = activity;
+                        return (<ActivityCard
+                          id={id}
+                          category={category}
+                          date={dateFormatter(date)}
+                          description={description || 'There is no description for this activity'}
+                          points={points}
+                          status={status}
                           showUserDetails={showUserDetails}
-                        />
-                      ))
+                        />);
+                      })
                     }
                   />
               }
