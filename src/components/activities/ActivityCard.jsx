@@ -33,7 +33,7 @@ class ActivityCard extends Component {
     showLocation: PropType.bool,
     owner: PropType.string,
     page: PropType.string,
-    handleClick: PropType.func.isRequired,
+    handleClick: PropType.func,
     id: PropType.string.isRequired,
   };
 
@@ -42,6 +42,7 @@ class ActivityCard extends Component {
     showLocation: false,
     owner: null,
     page: '',
+    handleClick: () => {},
   };
   statuses = ['pending', 'rejected', 'approved', 'in review'];
 
@@ -90,13 +91,13 @@ class ActivityCard extends Component {
           name='approve'
           value='Approve'
           className='activity-button approved'
-          handleClick={() => this.props.handleClick(true, this.props.id)}
+          onClick={() => this.props.handleClick(true, this.props.id)}
         />
         <Button
           name='reject'
           value='Reject'
           className='activity-button rejected'
-          handleClick={() => this.props.handleClick(false, this.props.id)}
+          onClick={() => this.props.handleClick(false, this.props.id)}
         />
       </div>
     );

@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /**
-   * @name Button
+   * @name Buttons
    * @summary Returns a button
    * @returns Returns a button
    */
-const Buttons = props => (
+const Button = props => (
   <div className='form-group'>
     <button
       name={props.name}
@@ -25,7 +25,7 @@ const Buttons = props => (
  * @type {PropType}
  * @property {String} type -button type
  */
-Buttons.defaultProps = {
+Button.defaultProps = {
   type: 'button',
 };
 /**
@@ -36,7 +36,7 @@ Buttons.defaultProps = {
  * @property {String} className - The ClassName of the button for syling
  * @property {String} value - The name to show in the button
  */
-Buttons.propTypes = {
+Button.propTypes = {
   name: PropTypes.string.isRequired,
   className: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
@@ -44,4 +44,4 @@ Buttons.propTypes = {
   type: PropTypes.string,
 };
 
-export default Buttons;
+export default Button;
