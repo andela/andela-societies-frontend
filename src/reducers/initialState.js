@@ -41,6 +41,7 @@ const initialState = {
     message: {},
     requesting: false,
     redemptions: [],
+    hasError: false,
   },
 };
 

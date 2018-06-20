@@ -1,9 +1,13 @@
-import axios from 'axios';
+import axios from '../helpers/http';
+
 // types
 import {
   CREATE_REDEEM_POINTS_FAILURE,
   CREATE_REDEEM_POINTS_REQUEST,
   CREATE_REDEEM_POINTS_SUCCESS,
+  FETCH_REDEMPTIONS_REQUEST,
+  FETCH_REDEMPTIONS_FAILURE,
+  FETCH_REDEMPTIONS_SUCCESS,
 } from '../types';
 
 import config from '../../config';
@@ -53,3 +57,38 @@ export const redeemPoints = (redemptionData, societyId) => ((dispatch) => {
       dispatch(createRedeemPointsFailure(error.response.data.message))
     ));
 });
+
+/*
+ * @name fetchRedemptionsRequest
+ * @summary action creator for the fetch request
+ * @returns {Object} action
+ */
+export const fetchRedemptionsRequest = () => ({
+  type: FETCH_REDEMPTIONS_REQUEST,
+});
+
+/**
+ * @name fetchRedemptionsSuccess
+ * @summary action creator for the fetch success
+ * @param {Array} redemptions
+ * @returns {Object} action
+ */
+export const fetchRedemptionsSuccess = redemptions => ({
+  type: FETCH_REDEMPTIONS_SUCCESS,
+  redemptions,
+});
+
+/**
+ * @name fetchRedemption
+ * @summary thunk for fetching redemptions
+ * @param {String} societyId
+ * @returns {(dispatch) => Promise<AxiosResponse>}
+ */
+export const fetchRedemption = societyId => (
+  (dispatch) => {
+    dispatch(fetchRedemptionsRequest());
+    return axios.get(`${config.API_BASE_URL}/societies/redeem/${societyId}`)
+      .then((response) => {
+        dispatch(fetchRedemptionsSuccess(response.data.data));
+      }).catch(() => dispatch({ type: FETCH_REDEMPTIONS_FAILURE }));
+  });

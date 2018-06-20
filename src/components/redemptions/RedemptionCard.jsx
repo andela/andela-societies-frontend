@@ -13,7 +13,6 @@ class RedemptionCard extends Component {
    * @name propTypes
    * @type {PropType}
    * @param {Object} propTypes - React PropTypes
-   * @property {String} category - The type of an Activity
    * @property {String} date - The date on which a fellow participated in an activity
    * @property {String} description - The description of the activity
    * @property {String} points - The points the activity is worth
@@ -21,15 +20,19 @@ class RedemptionCard extends Component {
    * @property {boolean} showUserDetails - Whether or not to show user details
    */
   static propTypes = {
-    date: PropType.string.isRequired,
-    description: PropType.string.isRequired,
-    points: PropType.number.isRequired,
-    status: PropType.string.isRequired,
+    date: PropType.string,
+    description: PropType.string,
+    points: PropType.number,
+    status: PropType.string,
     showUserDetails: PropType.bool,
   };
 
   static defaultProps = {
     showUserDetails: true,
+    date: '',
+    description: '',
+    points: null,
+    status: '',
   };
   statuses = ['pending', 'expired', 'approved', 'default'];
   /**
