@@ -54,7 +54,7 @@ describe('<Redemptions />', () => {
 
   it('should render an error message when hasError is true', () => {
     const mountedWrapper = setUpWrapper({ hasError: true });
-    expect(mountedWrapper.find('.activities').html()).toContain('There seems to be an error processing your request');
+    expect(mountedWrapper.find('.error-message').length).toBe(1);
   });
 
   it('should render an Loading... text when requesting is true', () => {

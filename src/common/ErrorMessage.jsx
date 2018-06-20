@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import exclamationIcon from '../fixtures/icons';
+
 const ErrorMessage = (props) => {
   const { message, retry, param } = props;
   return (
     <div className='error-message'>
-      <img src='https://goo.gl/1VpMZd' alt='error-icon' />
+      <img src={exclamationIcon} alt='error-icon' />
       <h2>{message}</h2>
       { retry && <button className='error-message__retry' onClick={() => { retry(param); }}>Try again</button>}
     </div>
