@@ -15,7 +15,7 @@ const Select = props => (
       name={props.name}
       className='formField__control'
       onChange={props.handleChange}
-      value={props.value || props.placeholder}
+      value={props.value}
     >
 
       <option value={props.placeholder}>{props.placeholder}</option>
@@ -40,7 +40,8 @@ const Select = props => (
  * @property {String} option - string to be shown in the dropdown
  * @property {String} selectedOption - The initial selected value
  * @property {placeholde} selectedOption - plalace holder text
-*/
+ * @property {String} value - selected option
+ */
 Select.propTypes = {
   name: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,

@@ -14,6 +14,7 @@ import Sidebar from '../components/sidebar/Sidebar';
 import LogActivityForm from './forms/LogActivityForm';
 import FloatingButton from '../common/FloatingButton';
 import Modal from '../common/Modal';
+import RedeemPointsForm from './forms/RedeemPointsForm';
 
 import {
   getToken, tokenIsValid, isFellow,
@@ -50,7 +51,7 @@ class Page extends Component {
         image: PropTypes.string.isRequired,
       }).isRequired,
     }).isRequired,
-    history: ReactRouterPropTypes.history.isRequired,
+    history: ReactRouterPropTypes.history,
     changePageTitle: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
     location: PropTypes.shape({ pathname: PropTypes.string.isRequired }).isRequired,
@@ -65,6 +66,7 @@ class Page extends Component {
   static defaultProps = {
     categories: [],
     profile: null,
+    history: {},
   }
   constructor(props) {
     super(props);
@@ -117,17 +119,17 @@ class Page extends Component {
 
   renderModal = () => {
     const className = this.state.showModal ? 'modal--open' : '';
-    const { categories } = this.props;
+    const { categories, location } = this.props;
+    let modalContent;
+    if (location.pathname === '/u/my-activities') {
+      modalContent = categories.length && <LogActivityForm categories={categories} closeModal={this.closeModal} />;
+    } else if (location.pathname === '/u/redemptions') {
+      modalContent = <RedeemPointsForm closeModal={this.closeModal} />;
+    }
     return (
       <Modal close={this.closeModal} className={className}>
         {
-          categories.length ?
-            <LogActivityForm
-              closeModal={this.closeModal}
-              categories={categories}
-            />
-            :
-            ''
+          modalContent
         }
       </Modal>
     );

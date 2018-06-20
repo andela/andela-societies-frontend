@@ -37,6 +37,11 @@ const initialState = {
     },
     error: {},
   },
+  redemptionsInfo: {
+    message: {},
+    requesting: false,
+    redemptions: [],
+  },
 };
 
 export default initialState;
