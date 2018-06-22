@@ -50,6 +50,7 @@ class VerifyActivities extends Component {
       activities: [],
       showUserDetails: true,
       societyName: '',
+      isSelectAllChecked: false,
     };
   }
 
@@ -78,69 +79,77 @@ class VerifyActivities extends Component {
      });
    };
 
+  handleSelectAllClick = () => {
+    console.log('clicked');
+    const { isSelectAllChecked } = this.state;
+    this.setState({ isSelectAllChecked: !isSelectAllChecked });
+  }
+
 
   /**
    * @name VerifyActivities
    * @summary Renders My activities page
    * @return React node that displays the VerifyActivities page
    */
-   render() {
-     const { activities, showUserDetails } = this.state;
-     const { requesting } = this.props;
-     const hideFilter = true;
-     const showSelectAllApproveBtn = true;
-     const page = this.props.history.location.pathname;
-     return (
-       <Page>
-         <div className='mainContent'>
-           <div className='VerifyActivities'>
-             <PageHeader
-               title='Verify Activities'
-               hideFilter={hideFilter}
-               showSelectAllApproveBtn={showSelectAllApproveBtn}
-             />
-             <div className='activities'>
-               {
-                 requesting ?
-                   <h3 className='loader'>Loading... </h3>
-                   :
-                   <LinearLayout
-                     items={
-                       activities.map((activity) => {
-                         const {
-                           id,
-                           category,
-                           date,
-                           description,
-                           points,
-                           status,
-                         } = activity;
-                         return (<ActivityCard
-                           id={id}
-                           category={category}
-                           date={dateFormatter(date)}
-                           description={description || 'There is no description for this activity'}
-                           points={points}
-                           status={status}
-                           showUserDetails={showUserDetails}
-                           page={page}
-                           handleClick={this.handleClick}
-                         />);
-                       })
-                     }
-                   />
-               }
-             </div>
-           </div>
-         </div>
-         <aside className='sideContent'>
-           <Stats
-             stats={stats}
-           />
-         </aside>
-       </Page>
-     );
-   }
+  render() {
+    const { activities, showUserDetails, isSelectAllChecked } = this.state;
+    const { requesting } = this.props;
+    const hideFilter = true;
+    const showSelectAllApproveBtn = true;
+    const page = this.props.history.location.pathname;
+    return (
+      <Page>
+        <div className='mainContent'>
+          <div className='VerifyActivities'>
+            <PageHeader
+              title='Verify Activities'
+              hideFilter={hideFilter}
+              showSelectAllApproveBtn={showSelectAllApproveBtn}
+              handleSelectAllClick={this.handleSelectAllClick}
+            />
+            <div className='activities'>
+              {
+                requesting ?
+                  <h3 className='loader'>Loading... </h3>
+                  :
+                  <LinearLayout
+                    items={
+                      activities.map((activity) => {
+                        const {
+                          id,
+                          category,
+                          date,
+                          description,
+                          points,
+                          status,
+                        } = activity;
+                        return (<ActivityCard
+                          id={id}
+                          category={category}
+                          date={dateFormatter(date)}
+                          description={description || 'There is no description for this activity'}
+                          points={points}
+                          status={status}
+                          showUserDetails={showUserDetails}
+                          page={page}
+                          handleClick={this.handleClick}
+                          isSelectAllChecked={isSelectAllChecked}
+                        />);
+                      })
+                    }
+                  />
+              }
+            </div>
+          </div>
+        </div>
+        <aside className='sideContent'>
+          <Stats
+            stats={stats}
+          />
+        </aside>
+      </Page>
+    );
+  }
 }
 
 const mapStateToProps = state => ({

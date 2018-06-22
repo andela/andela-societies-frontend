@@ -44,7 +44,36 @@ class ActivityCard extends Component {
     page: '',
     handleClick: () => {},
   };
+
+  /**
+   * @name getDerivedStateFromProps
+   * @summary Lifecylce methods that updates state in regards to props
+   * @param {Object} nextProps
+   * @returns {Object} state
+   */
+  static getDerivedStateFromProps(nextProps) {
+    return {
+      isActivityChecked: nextProps.isSelectAllChecked,
+    };
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      isActivityChecked: false,
+    };
+  }
   statuses = ['pending', 'rejected', 'approved', 'in review'];
+
+  /**
+   * @name handleActivityChecked
+   * @summary toggles state when checkbox is clicked
+   * @returns {void}
+   */
+  handleActivityChecked = () => {
+    const { isActivityChecked } = this.state;
+    this.setState({ isActivityChecked: !isActivityChecked });
+  }
 
   /**
    * @summary Renders the status indicator on the ActivityCard
@@ -88,6 +117,8 @@ class ActivityCard extends Component {
         name='checkbox'
         value={this.props.id}
         className='activity__checkbox'
+        checked={this.state.isActivityChecked}
+        onChange={this.handleActivityChecked}
       />
     )
   );

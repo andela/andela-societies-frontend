@@ -15,12 +15,14 @@ class PageHeader extends Component {
     * @type {PropType}
     * @param {Object} propTypes - React PropTypes
     * @property {String} title - The title of the page
+    * @property {func} selectAllClick - prop to toggle state of selectAllChecked
   */
   static propTypes = {
     title: PropType.string.isRequired,
     filterActivities: PropType.func,
     hideFilter: PropType.bool,
     showSelectAllApproveBtn: PropType.bool,
+    handleSelectAllClick: PropType.func,
   };
 
   /**
@@ -33,6 +35,7 @@ class PageHeader extends Component {
     filterActivities: null,
     hideFilter: false,
     showSelectAllApproveBtn: false,
+    handleSelectAllClick: () => {},
   };
 
   /**
@@ -82,6 +85,7 @@ class PageHeader extends Component {
         type='checkbox'
         name='checkbox'
         className='pageHeader__selectApprove__checkbox'
+        onChange={this.props.handleSelectAllClick}
       /> Select all
       <Button
         name='approveAll'
