@@ -7,17 +7,15 @@ import PropTypes from 'prop-types';
    * @returns Returns a button
    */
 const Button = props => (
-  <div className='form-group'>
-    <button
-      name={props.name}
-      className={props.className}
-      value={props.value}
-      type={props.type}
-      onClick={props.onClick}
-    >
-      {props.value}
-    </button>
-  </div>
+  <button
+    name={props.name}
+    className={props.className}
+    value={props.value}
+    type={props.type}
+    onClick={props.onClick}
+  >
+    {props.value}
+  </button>
 );
 
 /**

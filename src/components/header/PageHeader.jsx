@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropType from 'prop-types';
 
+// components
+import Button from '../../common/Button';
+
 /**
  * @name PageHeader
  * @summary Renders a page's Header
@@ -17,6 +20,7 @@ class PageHeader extends Component {
     title: PropType.string.isRequired,
     filterActivities: PropType.func,
     hideFilter: PropType.bool,
+    showSelectAllApproveBtn: PropType.bool,
   };
 
   /**
@@ -28,6 +32,7 @@ class PageHeader extends Component {
   static defaultProps = {
     filterActivities: null,
     hideFilter: false,
+    showSelectAllApproveBtn: false,
   };
 
   /**
@@ -71,6 +76,22 @@ class PageHeader extends Component {
     }));
   };
 
+  renderSelectAllApprovebtn = () => (
+    <div className='pageHeader__selectApprove'>
+      <input
+        type='checkbox'
+        name='checkbox'
+        className='pageHeader__selectApprove__checkbox'
+      /> Select all
+      <Button
+        name='approveAll'
+        value='Approve all'
+        className='pageHeader__selectApprove__button'
+        onClick={this.handleApproveAllClick}
+      />
+    </div>
+  )
+
   render() {
     const {
       selectedStatus,
@@ -81,6 +102,7 @@ class PageHeader extends Component {
     return (
       <header className='pageHeader'>
         <h1 className='pageTitle'>{this.props.title}</h1>
+        {this.props.showSelectAllApproveBtn && this.renderSelectAllApprovebtn()}
         {
           !this.props.hideFilter ?
             <div className='filterOptions'>

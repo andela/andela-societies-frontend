@@ -81,6 +81,17 @@ class ActivityCard extends Component {
     );
   }
 
+  renderCheckbox = () => (
+    (
+      <input
+        type='checkbox'
+        name='checkbox'
+        value={this.props.id}
+        className='activity__checkbox'
+      />
+    )
+  );
+
   renderVerifyButtons() {
     if (this.props.owner) {
       return '';
@@ -117,8 +128,11 @@ class ActivityCard extends Component {
         {this.renderUserDetails()}
         <div className='activity__right'>
           <div className='activity__header'>
-            <span className='activity__category'>{category}</span>
-            <span className='activity__date'>{date}</span>
+            <div>
+              <span className='activity__category'>{category}</span>
+              <span className='activity__date'>{date}</span>
+            </div>
+            { page === '/u/verify-activities' && this.renderCheckbox()}
           </div>
           <div className='activity__content'>
             <TruncateDescription description={description} />

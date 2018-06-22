@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import ActivityCard from '../components/activities/ActivityCard';
 import Page from './Page';
 import PageHeader from '../components/header/PageHeader';
-import MasonryLayout from '../containers/MasonryLayout';
+import LinearLayout from '../containers/LinearLayout';
 import Stats from '../components/sidebar/Stats';
 import stats from '../fixtures/stats';
 import { fetchSocietyInfo } from '../actions/societyInfoActions';
@@ -88,6 +88,7 @@ class VerifyActivities extends Component {
      const { activities, showUserDetails } = this.state;
      const { requesting } = this.props;
      const hideFilter = true;
+     const showSelectAllApproveBtn = true;
      const page = this.props.history.location.pathname;
      return (
        <Page>
@@ -96,13 +97,14 @@ class VerifyActivities extends Component {
              <PageHeader
                title='Verify Activities'
                hideFilter={hideFilter}
+               showSelectAllApproveBtn={showSelectAllApproveBtn}
              />
              <div className='activities'>
                {
                  requesting ?
                    <h3 className='loader'>Loading... </h3>
                    :
-                   <MasonryLayout
+                   <LinearLayout
                      items={
                        activities.map((activity) => {
                          const {

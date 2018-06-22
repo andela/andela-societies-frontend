@@ -33,6 +33,10 @@
   background: #eee;
 }
 
+.activity__header {
+  display: flex;
+}
+
 .activity__category {
   display: block;
   font-size: 1.2rem;
@@ -43,6 +47,14 @@
   display: block;
   font-size: 1.4rem;
   margin-top: 0.5rem;
+}
+
+.activity__checkbox {
+  margin-left: auto;
+}
+
+.activity__checkbox:hover {
+  cursor: pointer;
 }
 
 .activity__content {
