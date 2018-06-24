@@ -10,6 +10,7 @@ import Page from './Page';
 import PageHeader from '../components/header/PageHeader';
 import MasonryLayout from '../containers/MasonryLayout';
 import Stats from '../components/sidebar/Stats';
+import ErrorMessage from '../common/ErrorMessage';
 
 // thunk
 import { fetchRedemption } from '../actions/redeemPointsAction';
@@ -84,11 +85,16 @@ class Redemptions extends React.Component {
   }
 
   getRedemptionsContent = (filteredActivities) => {
-    const { hasError, requesting } = this.props;
+    const { hasError, requesting, societyId } = this.props;
     if (requesting) {
       return (<h3>Loading... </h3>);
     } else if (!requesting && hasError) {
-      return (<h3>There seems to be an error processing your request</h3>);
+      return (
+        <ErrorMessage
+          message='An error occured while fetching your data.'
+          param={societyId}
+          retry={this.props.fetchRedemption}
+        />);
     }
     return (
       <MasonryLayout
