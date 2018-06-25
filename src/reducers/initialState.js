@@ -35,6 +35,7 @@ const initialState = {
       society: {
         name: '',
       },
+      roles: {},
     },
     error: {},
   },

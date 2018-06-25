@@ -30,12 +30,14 @@ const pageInfo = {
       url: '/u/verify-activities',
       component: VerifyActivities,
       menuIcon: VerifyActivitiesIcon,
+      allowedRoles: ['secretary', 'success', 'success ops'],
     },
     {
       title: 'Redemptions',
       url: '/u/redemptions',
       component: Redemptions,
       menuIcon: RedemptionsIcon,
+      allowedRoles: ['president', 'success', 'success ops'],
     },
   ],
   societyPages: [

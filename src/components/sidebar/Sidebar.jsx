@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import logo from '../../assets/images/logos/andelaLogoWhite.png';
 import pageInfo from '../../helpers/pageInfo';
+import { hasAllowedRole } from '../../helpers/authentication';
 
 /**
  * @name renderMenuItem
@@ -23,7 +25,7 @@ const renderMenuItem = pageInfoData => (
  * @summary Sidebar component
  * @return React node containing the sidebar component
  */
-const Sidebar = () => (
+const Sidebar = ({ userRoles }) => (
   <aside className='sidebar'>
     <header className='sidebar__header'>
       <span className='sidebar__logoWrapper' style={{ backgroundImage: `url(${logo})` }} />
@@ -31,7 +33,12 @@ const Sidebar = () => (
     </header>
     <nav className='sidebar__nav'>
       <div className='sidebar__navGroup'>
-        {pageInfo.pages.map(renderMenuItem)}
+        {pageInfo.pages.map((page) => {
+          if (page.allowedRoles) {
+            return hasAllowedRole(userRoles, page.allowedRoles) && renderMenuItem(page);
+          }
+          return renderMenuItem(page);
+        })}
       </div>
       <div className='sidebar__navGroup'>
         <span className='sidebar__navGroupHeader'>Societies</span>
@@ -40,5 +47,10 @@ const Sidebar = () => (
     </nav>
   </aside>
 );
+
+
+Sidebar.propTypes = {
+  userRoles: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
 
 export default Sidebar;

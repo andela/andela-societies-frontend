@@ -139,14 +139,18 @@ class Page extends Component {
 
   render() {
     const {
-      userInfo, societyInfo, profile, updating,
+      userInfo,
+      societyInfo,
+      profile,
+      updating,
     } = this.props;
+    const userRoles = Object.keys(profile.roles);
 
     return (
       <Fragment>
         <div className='headerBackground' />
         <div className='sidebarWrapper sidebarWrapper--sidebarOpen'>
-          <Sidebar />
+          <Sidebar userRoles={userRoles} />
         </div>
         <main className='mainPage mainPage--sidebarOpen'>
           {this.isASocietyPage() ? <SocietyBanner society={societyInfo.info} /> : null}
