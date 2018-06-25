@@ -51,6 +51,7 @@ class VerifyActivities extends Component {
       showUserDetails: true,
       societyName: '',
       isSelectAllChecked: false,
+      selectedActivities: [],
     };
   }
 
@@ -79,11 +80,33 @@ class VerifyActivities extends Component {
      });
    };
 
+  /**
+   * @name handleSelectAllClick
+   * @summary toggles state when select all is checked and updates state with selected activities
+   * @returns {void}
+   */
   handleSelectAllClick = () => {
-    console.log('clicked');
-    const { isSelectAllChecked } = this.state;
-    this.setState({ isSelectAllChecked: !isSelectAllChecked });
+    const { isSelectAllChecked, activities } = this.state;
+    const selectedActivities = activities.filter(activity =>
+      (!isSelectAllChecked && activity.id)).map(activity => activity.id);
+    this.setState({ isSelectAllChecked: !isSelectAllChecked, selectedActivities });
   }
+
+  /**
+   * @name handleDeselectActivity
+   * @summary updates state with activities deselected using the checkbox
+   * @param {string} id - id of the activity deselected
+   * @returns {void}
+   */
+  handleDeselectActivity = (id) => {
+    const { selectedActivities } = this.state;
+    const selected = selectedActivities.filter(activityId => activityId !== id);
+    this.setState({ selectedActivities: selected });
+  }
+
+  handleApproveAllClick = () => {
+    // console.log('clicked');
+  };
 
 
   /**
@@ -92,7 +115,12 @@ class VerifyActivities extends Component {
    * @return React node that displays the VerifyActivities page
    */
   render() {
-    const { activities, showUserDetails, isSelectAllChecked } = this.state;
+    const {
+      activities,
+      showUserDetails,
+      isSelectAllChecked,
+      selectedActivities,
+    } = this.state;
     const { requesting } = this.props;
     const hideFilter = true;
     const showSelectAllApproveBtn = true;
@@ -106,6 +134,7 @@ class VerifyActivities extends Component {
               hideFilter={hideFilter}
               showSelectAllApproveBtn={showSelectAllApproveBtn}
               handleSelectAllClick={this.handleSelectAllClick}
+              handleApproveAllClick={this.handleApproveAllClick}
             />
             <div className='activities'>
               {
@@ -134,6 +163,8 @@ class VerifyActivities extends Component {
                           page={page}
                           handleClick={this.handleClick}
                           isSelectAllChecked={isSelectAllChecked}
+                          selectedActivities={selectedActivities}
+                          handleDeselectActivity={this.handleDeselectActivity}
                         />);
                       })
                     }

@@ -23,6 +23,7 @@ class PageHeader extends Component {
     hideFilter: PropType.bool,
     showSelectAllApproveBtn: PropType.bool,
     handleSelectAllClick: PropType.func,
+    handleApproveAllClick: PropType.func,
   };
 
   /**
@@ -36,6 +37,7 @@ class PageHeader extends Component {
     hideFilter: false,
     showSelectAllApproveBtn: false,
     handleSelectAllClick: () => {},
+    handleApproveAllClick: () => {},
   };
 
   /**
@@ -89,9 +91,9 @@ class PageHeader extends Component {
       /> Select all
       <Button
         name='approveAll'
-        value='Approve all'
+        value='Approve Selected'
         className='pageHeader__selectApprove__button'
-        onClick={this.handleApproveAllClick}
+        onClick={this.props.handleApproveAllClick}
       />
     </div>
   )

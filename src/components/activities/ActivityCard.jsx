@@ -35,6 +35,7 @@ class ActivityCard extends Component {
     page: PropType.string,
     handleClick: PropType.func,
     id: PropType.string.isRequired,
+    handleDeselectActivity: PropType.func,
   };
 
   static defaultProps = {
@@ -43,17 +44,18 @@ class ActivityCard extends Component {
     owner: null,
     page: '',
     handleClick: () => {},
+    handleDeselectActivity: () => {},
   };
 
   /**
    * @name getDerivedStateFromProps
-   * @summary Lifecylce methods that updates state in regards to props
+   * @summary Lifecylce methods that updates state of isActivityChecked if activity is checked or not
    * @param {Object} nextProps
    * @returns {Object} state
    */
   static getDerivedStateFromProps(nextProps) {
     return {
-      isActivityChecked: nextProps.isSelectAllChecked,
+      isActivityChecked: nextProps.selectedActivities.includes(nextProps.id),
     };
   }
 
@@ -71,8 +73,11 @@ class ActivityCard extends Component {
    * @returns {void}
    */
   handleActivityChecked = () => {
+    const { id, handleDeselectActivity } = this.props;
     const { isActivityChecked } = this.state;
-    this.setState({ isActivityChecked: !isActivityChecked });
+    this.setState({ isActivityChecked: !isActivityChecked }, () => {
+      if (!this.state.isActivityChecked) handleDeselectActivity(id);
+    });
   }
 
   /**
