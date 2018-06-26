@@ -54,8 +54,9 @@ class ActivityCard extends Component {
    * @returns {Object} state
    */
   static getDerivedStateFromProps(nextProps) {
+    const { selectedActivities } = nextProps;
     return {
-      isActivityChecked: nextProps.selectedActivities.includes(nextProps.id),
+      isActivityChecked: selectedActivities ? selectedActivities.includes(nextProps.id) : false,
     };
   }
 

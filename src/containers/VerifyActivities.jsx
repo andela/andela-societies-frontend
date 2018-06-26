@@ -10,7 +10,7 @@ import Stats from '../components/sidebar/Stats';
 import stats from '../fixtures/stats';
 import { fetchSocietyInfo } from '../actions/societyInfoActions';
 import filterActivitiesByStatus from '../helpers/filterActivitiesByStatus';
-import { verifyActivity } from '../actions/verifyActivityActions';
+import { verifyActivity, verifyActivitiesOps } from '../actions/verifyActivityActions';
 import filterActivities from '../helpers/filterActivities';
 import dateFormatter from '../helpers/dateFormatter';
 
@@ -29,6 +29,11 @@ class VerifyActivities extends Component {
     history: PropTypes.shape({
       location: PropTypes.shape({ pathname: PropTypes.string.isRequired }).isRequired,
     }).isRequired,
+    verifyActivitiesOps: PropTypes.func,
+  }
+
+  static defaultProps = {
+    verifyActivitiesOps: () => {},
   }
 
   /**
@@ -105,7 +110,8 @@ class VerifyActivities extends Component {
   }
 
   handleApproveAllClick = () => {
-    // console.log('clicked');
+    const { selectedActivities } = this.state;
+    this.props.verifyActivitiesOps(selectedActivities);
   };
 
 
@@ -192,6 +198,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   fetchSocietyInfo: name => dispatch(fetchSocietyInfo(name)),
   verifyActivity: (isApproved, activityId) => dispatch(verifyActivity(isApproved, activityId)),
+  verifyActivitiesOps: activityIds => dispatch(verifyActivitiesOps(activityIds)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VerifyActivities);

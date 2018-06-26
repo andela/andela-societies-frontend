@@ -4,6 +4,9 @@ import {
   VERIFY_ACTIVITY_SUCCESS,
   VERIFY_ACTIVITY_FAILURE,
   VERIFY_ACTIVITY_REQUEST,
+  VERIFY_ACTIVITY_OPS_REQUEST,
+  VERIFY_ACTIVITY_OPS_FAILURE,
+  VERIFY_ACTIVITY_OPS_SUCCESS,
 } from '../types';
 import config from '../../config';
 
@@ -55,5 +58,59 @@ export const verifyActivity = (isApproved, activityId) => (
         dispatch(verifyActivitySuccess(response.data.data));
       })
       .catch(error => dispatch(verifyActivityFailure(error)));
+  }
+);
+
+/**
+ * @name verifyActivitiesOpsRequest
+ * @returns {Object}
+ */
+export const verifyActivitiesOpsRequest = () => (
+  {
+    type: VERIFY_ACTIVITY_OPS_REQUEST,
+  }
+);
+
+/**
+ * @name verifyActivitiesOpsSuccess
+ * @param {Array} activities
+ */
+export const verifyActivitiesOpsSuccess = (activities, activityIds) => (
+  {
+    type: VERIFY_ACTIVITY_OPS_SUCCESS,
+    activities,
+    activityIds,
+  }
+);
+
+/**
+ * @name verifyActivitiesOpsFailure
+ * @param {Object} error
+ */
+export const verifyActivitiesOpsFailure = error => (
+  {
+    type: VERIFY_ACTIVITY_OPS_FAILURE,
+    error,
+  }
+);
+
+/**
+ * @name verifyActivitiesOps
+ * @param {Array} activityIds
+ * @returns {(dispatch) => Promise<AxiosResponse>}
+ */
+export const verifyActivitiesOps = activityIds => (
+  (dispatch) => {
+    dispatch(verifyActivitiesOpsRequest());
+    return http.put(
+      `${config.API_BASE_URL}/logged-activities`,
+      { loggedActivitiesIds: activityIds, status: 'approved' },
+    )
+      .then((response) => {
+        dispatch(verifyActivitiesOpsSuccess(response.data.data, activityIds));
+      })
+      .catch((error) => {
+        dispatch(verifyActivitiesOpsFailure(error));
+      });
   }
 );
