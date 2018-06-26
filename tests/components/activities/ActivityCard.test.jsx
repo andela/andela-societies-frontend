@@ -4,12 +4,15 @@ import ActivityCard from '../../../src/components/activities/ActivityCard';
 import activity from '../../../src/fixtures/activity';
 
 describe('<ActivityCard />', () => {
+  const props = {
+    page: '/u/verify-activities',
+  };
   const wrapper = mount.bind(
     null,
     <ActivityCard {...activity} />,
   );
 
-  const shallowWrapper = shallow(<ActivityCard {...activity} />);
+  const shallowWrapper = shallow(<ActivityCard {...props} {...activity} />);
 
   it('should render without crashing', () => {
     expect(wrapper).not.toThrowError();
@@ -34,5 +37,20 @@ describe('<ActivityCard />', () => {
 
   it('should render activity details', () => {
     expect(wrapper().find('.activity').length).toBe(1);
+  });
+
+  it('should render approve and reject buttons on verify activities page', () => {
+    expect(shallowWrapper.find('.activity-button').length).toBe(2);
+  });
+
+  it('should render check box on verify activities page cards', () => {
+    expect(shallowWrapper.find('.activity__checkbox').length).toBe(1);
+  });
+
+  it('should change state when a checkbox of an activity is clicked', () => {
+    shallowWrapper.setState({ isActivityChecked: true });
+    const checkbox = shallowWrapper.find('.activity__checkbox');
+    checkbox.simulate('change');
+    expect(shallowWrapper.state().isActivityChecked).toBe(false);
   });
 });

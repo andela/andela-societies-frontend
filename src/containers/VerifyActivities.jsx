@@ -87,7 +87,7 @@ class VerifyActivities extends Component {
 
   /**
    * @name handleSelectAllClick
-   * @summary toggles state when select all is checked and updates state with selected activities
+   * @summary toggles state when select all is checked and updates it with selected activities
    * @returns {void}
    */
   handleSelectAllClick = () => {
@@ -109,6 +109,11 @@ class VerifyActivities extends Component {
     this.setState({ selectedActivities: selected });
   }
 
+  /**
+   * @name handleApproveAllClick
+   * @summary handles calling the action to approve selected activities
+   * @returns void
+   */
   handleApproveAllClick = () => {
     const { selectedActivities } = this.state;
     this.props.verifyActivitiesOps(selectedActivities);

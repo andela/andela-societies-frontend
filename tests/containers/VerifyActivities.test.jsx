@@ -1,5 +1,6 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
+import { spy } from 'sinon';
 import { createMockStore } from 'redux-test-utils';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
@@ -10,6 +11,7 @@ import society from '../../src/fixtures/society';
 
 const store = createMockStore(storeFixture);
 const history = { push: () => { }, location: { pathname: '' } };
+const verifyActivitiesOpsSpy = spy();
 
 describe('<VerifyActivities />', () => {
   const component = shallow(<VerifyActivities.WrappedComponent
@@ -20,6 +22,7 @@ describe('<VerifyActivities />', () => {
     fetchSocietyInfo={() => { }}
     societyActivities={society.loggedActivities}
     requesting={false}
+    verifyActivitiesOps={verifyActivitiesOpsSpy}
   />);
 
   it('should render without crashing', () => {
@@ -45,5 +48,28 @@ describe('<VerifyActivities />', () => {
   it('should show loader when fetching', () => {
     component.setProps({ requesting: true });
     expect(component.find('.loader').length).toBe(1);
+  });
+
+  it('should change state of isSelectAllChecked when you call handleSelectAllClick', () => {
+    component.setState({ isSelectAllChecked: true });
+    component.instance().handleSelectAllClick();
+    expect(component.state().isSelectAllChecked).toBe(false);
+  });
+
+  it('should update state after deselecting an item using handleDeselectActivity', () => {
+    const deselectedId = 'bnfad176-43cd-11e8-b3b9-9801a7ae0329';
+    // select all activities in review
+    component.instance().handleSelectAllClick();
+    const { selectedActivities } = component.state();
+    // deselect one activity
+    component.instance().handleDeselectActivity(deselectedId);
+    const selected = selectedActivities.filter(activity => activity.id !== deselectedId);
+    expect(selectedActivities).toEqual(selected);
+  });
+
+  it('should call verifyActivitiesOps props when handleApproveAllClick is invoked', () => {
+    const instance = component.instance();
+    instance.handleApproveAllClick();
+    expect(verifyActivitiesOpsSpy.called).toBeTruthy();
   });
 });
