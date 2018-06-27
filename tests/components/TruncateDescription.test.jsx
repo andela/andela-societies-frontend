@@ -12,8 +12,9 @@ import activity from '../../src/fixtures/activity';
 describe('<TruncateDescription />', () => {
   const setUpWrapper = ({
     description = activity.description,
+    wordCount = 50,
   } = {}) => {
-    const props = { description };
+    const props = { description, wordCount };
     return shallow(<TruncateDescription {...props} />);
   };
 

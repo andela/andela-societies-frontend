@@ -20,8 +20,12 @@ class ActivityCard extends Component {
   * @property {String} description - The description of the activity
   * @property {String} points - The points the activity is worth
   * @property {String} status - The current status of the activity
+  * @property {String} id - id of the activity
   * @property {Boolean} showUserDetails - Whether or not to show user details
   * @property {Boolean} showLocation - Whether or not to show user location
+  * @property {number} wordCount - number of words for the description
+  * @property {String} page - The page accessed by user
+  * @property {func} handleClick - handleClick event
   */
   static propTypes = {
     category: PropType.string.isRequired,
@@ -36,6 +40,7 @@ class ActivityCard extends Component {
     handleClick: PropType.func,
     id: PropType.string.isRequired,
     handleDeselectActivity: PropType.func,
+    wordCount: PropType.number,
   };
 
   static defaultProps = {
@@ -45,6 +50,7 @@ class ActivityCard extends Component {
     page: '',
     handleClick: () => {},
     handleDeselectActivity: () => {},
+    wordCount: 50,
   };
 
   /**
@@ -139,13 +145,13 @@ class ActivityCard extends Component {
           name='approve'
           value='Approve'
           className='activity-button approved'
-          onClick={() => this.props.handleClick(true, this.props.id)}
+          handleClick={() => this.props.handleClick(true, this.props.id)}
         />
         <Button
           name='reject'
           value='Reject'
           className='activity-button rejected'
-          onClick={() => this.props.handleClick(false, this.props.id)}
+          handleClick={() => this.props.handleClick(false, this.props.id)}
         />
       </div>
     );
@@ -159,6 +165,7 @@ class ActivityCard extends Component {
       showLocation,
       points,
       page,
+      wordCount,
     } = this.props;
     return (
       <div className='activity'>
@@ -172,7 +179,7 @@ class ActivityCard extends Component {
             { page === '/u/verify-activities' && this.renderCheckbox()}
           </div>
           <div className='activity__content'>
-            <TruncateDescription description={description} />
+            <TruncateDescription description={description} wordCount={wordCount} />
           </div>
           <div className='activity__footer'>
             {

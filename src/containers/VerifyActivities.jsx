@@ -122,6 +122,11 @@ class VerifyActivities extends Component {
     this.props.verifyActivitiesOps(selectedActivities);
   };
 
+  /**
+   * @name renderLayout
+   * @summary renders different layout depending on role
+   * @returns {void}
+   */
   renderLayout() {
     const {
       activities,
@@ -157,6 +162,7 @@ class VerifyActivities extends Component {
                 isSelectAllChecked={isSelectAllChecked}
                 selectedActivities={selectedActivities}
                 handleDeselectActivity={this.handleDeselectActivity}
+                wordCount={70}
               />);
             })
           }

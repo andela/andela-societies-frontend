@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /**
-   * @name Buttons
+   * @name Button
    * @summary Returns a button
    * @returns Returns a button
    */
@@ -12,7 +12,7 @@ const Button = props => (
     className={props.className}
     value={props.value}
     type={props.type}
-    onClick={props.onClick}
+    onClick={props.handleClick}
   >
     {props.value}
   </button>
@@ -38,7 +38,7 @@ Button.propTypes = {
   name: PropTypes.string.isRequired,
   className: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
+  handleClick: PropTypes.func.isRequired,
   type: PropTypes.string,
 };
 

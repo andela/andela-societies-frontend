@@ -11,6 +11,7 @@ import society from '../../src/fixtures/society';
 
 const store = createMockStore(storeFixture);
 const history = { push: () => { }, location: { pathname: '' } };
+const roles = { successOps: '' };
 const verifyActivitiesOpsSpy = spy();
 
 describe('<VerifyActivities />', () => {
@@ -23,6 +24,7 @@ describe('<VerifyActivities />', () => {
     societyActivities={society.loggedActivities}
     requesting={false}
     verifyActivitiesOps={verifyActivitiesOpsSpy}
+    roles={roles}
   />);
 
   it('should render without crashing', () => {
@@ -43,11 +45,6 @@ describe('<VerifyActivities />', () => {
       </Provider>,
     );
     expect(wrapper).not.toThrow();
-  });
-
-  it('should show loader when fetching', () => {
-    component.setProps({ requesting: true });
-    expect(component.find('.loader').length).toBe(1);
   });
 
   it('should change state of isSelectAllChecked when you call handleSelectAllClick', () => {
@@ -71,5 +68,19 @@ describe('<VerifyActivities />', () => {
     const instance = component.instance();
     instance.handleApproveAllClick();
     expect(verifyActivitiesOpsSpy.called).toBeTruthy();
+  });
+
+  it('should have the <MasonryLayout /> layout when role is not successOps', () => {
+    expect(component.find('MasonryLayout').length).toBe(1);
+  });
+
+  it('should have the <LinearLayout /> layout when role is successOps', () => {
+    component.setProps({ roles: { successOps: 'successOps1234abc' } });
+    expect(component.find('LinearLayout').length).toBe(1);
+  });
+
+  it('should show loader when fetching', () => {
+    component.setProps({ requesting: true });
+    expect(component.find('.loader').length).toBe(1);
   });
 });
