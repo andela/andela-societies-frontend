@@ -6,6 +6,7 @@ import myActivities from './myActivitiesReducer';
 import categories from './categoriesReducer';
 import societyActivities from './societyActivitiesReducer';
 import userProfile from './userProfileReducer';
+import redeemPointsInfo from './redeemPointsReducer';
 
 const rootReducer = combineReducers({
   userInfo,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   categories,
   societyActivities,
   userProfile,
+  redeemPointsInfo,
 });
 
 export default rootReducer;

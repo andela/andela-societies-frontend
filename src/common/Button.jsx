@@ -2,22 +2,30 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /**
-   * @name Buttun
+   * @name Button
    * @summary Returns a button
    * @returns Returns a button
    */
-const Buttons = props => (
-  <div className='form-group'>
-    <button
-      name={props.name}
-      className={props.className}
-      value={props.value}
-      onClick={props.onClick}
-    >
-      {props.value}
-    </button>
-  </div>
+const Button = props => (
+  <button
+    name={props.name}
+    className={props.className}
+    value={props.value}
+    type={props.type}
+    onClick={props.handleClick}
+  >
+    {props.value}
+  </button>
 );
+
+/**
+ * @name defaultProps
+ * @type {PropType}
+ * @property {String} type -button type
+ */
+Button.defaultProps = {
+  type: 'button',
+};
 /**
     * @name propTypes
     * @type {PropType}
@@ -26,10 +34,12 @@ const Buttons = props => (
     *@property {String} className - The ClassName of the button for syling
     *@property {String} value - The name to show in the button
   */
-Buttons.propTypes = {
+Button.propTypes = {
   name: PropTypes.string.isRequired,
   className: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
+  handleClick: PropTypes.func.isRequired,
+  type: PropTypes.string,
 };
-export default Buttons;
+
+export default Button;

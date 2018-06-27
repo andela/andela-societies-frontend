@@ -9,12 +9,13 @@ import storeFixture from '../../src/fixtures/store';
 import society from '../../src/fixtures/society';
 
 const store = createMockStore(storeFixture);
-const history = { push: () => { } };
+const history = { push: () => { }, location: { pathname: '' } };
 
 describe('<VerifyActivities />', () => {
   const component = shallow(<VerifyActivities.WrappedComponent
     history={history}
     fetchUserInfo={() => { }}
+    verifyActivity={() => {}}
     changePageTitle={() => { }}
     fetchSocietyInfo={() => { }}
     societyActivities={society.loggedActivities}
@@ -29,6 +30,7 @@ describe('<VerifyActivities />', () => {
           <VerifyActivities.WrappedComponent
             history={history}
             fetchUserInfo={() => { }}
+            verifyActivity={() => {}}
             changePageTitle={() => { }}
             fetchSocietyInfo={() => { }}
             societyActivities={society.loggedActivities}

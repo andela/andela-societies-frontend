@@ -34,6 +34,7 @@ const store = {
     activities: [],
     requesting: false,
     error: {},
+    updating: false,
   },
   userProfile: {
     requesting: false,
@@ -43,6 +44,11 @@ const store = {
       },
     },
     error: {},
+  },
+  redeemPointsInfo: {
+    message: {},
+    requesting: false,
+    redemptions: [],
   },
 };
 

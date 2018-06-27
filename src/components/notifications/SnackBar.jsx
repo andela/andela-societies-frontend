@@ -15,8 +15,8 @@ class SnackBar extends Component {
   static propTypes = {
     show: PropTypes.bool,
     message: PropTypes.shape({
-      type: PropTypes.string.isRequired,
-      text: PropTypes.string.isRequired,
+      type: PropTypes.string,
+      text: PropTypes.string,
     }).isRequired,
   };
 

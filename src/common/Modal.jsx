@@ -23,6 +23,7 @@ const Modal = props => (
 Modal.defaultProps = {
   className: '',
   close: () => {},
+  children: null,
 };
 
 /**
@@ -32,7 +33,7 @@ Modal.defaultProps = {
   * @property {Object} children - React nodes or DOM elements to render in the modal
 */
 Modal.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   className: PropTypes.string,
   close: PropTypes.func,
 };

@@ -77,7 +77,7 @@
 .activity__points {
   display: block;
   float: left;
-  line-height: 1.4rem;
+  line-height: 3rem;
 }
 
 .activity__pointsCount {
@@ -107,13 +107,43 @@
 }
 
 .activity__status--pending::before {
-  background-color: #dc8905;
+  background-color: $orange;
 }
 
 .activity__status--approved::before {
-  background-color: #5eb623;
+  background-color: $approveButton;
 }
 
 .activity__status--rejected::before {
-  background-color: #b23030;
+  background-color: $red;
+}
+
+.activity-button {
+  display: block;
+  width: 6rem;
+  height: 3rem;
+  float: right;
+  position: relative;
+  opacity: 0.9;
+  padding: 0.3rem;
+  border: 0 solid;
+  cursor: pointer;
+  border-radius: 0.4rem;
+  margin-right: 2rem;
+}
+
+.activity-button::before {
+  content: '';
+  vertical-align: middle;
+  height: 1.2rem;
+}
+
+.approved {
+  background-color: $approveButton;
+  color: $lightAccent;
+}
+
+.rejected {
+  background-color: $rejectButton;
+  color: $black;
 }

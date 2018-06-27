@@ -13,7 +13,9 @@ import SocietyBanner from '../components/header/SocietyBanner';
 import Sidebar from '../components/sidebar/Sidebar';
 import LogActivityForm from './forms/LogActivityForm';
 import FloatingButton from '../common/FloatingButton';
+import UpdateLoader from '../components/loaders/UpdateLoader';
 import Modal from '../common/Modal';
+import RedeemPointsForm from './forms/RedeemPointsForm';
 
 import {
   getToken, tokenIsValid, isFellow,
@@ -50,7 +52,7 @@ class Page extends Component {
         image: PropTypes.string.isRequired,
       }).isRequired,
     }).isRequired,
-    history: ReactRouterPropTypes.history.isRequired,
+    history: ReactRouterPropTypes.history,
     changePageTitle: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
     location: PropTypes.shape({ pathname: PropTypes.string.isRequired }).isRequired,
@@ -60,11 +62,13 @@ class Page extends Component {
         name: PropTypes.string.isRequired,
       }).isRequired,
     }),
+    updating: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
     categories: [],
     profile: null,
+    history: {},
   }
   constructor(props) {
     super(props);
@@ -117,24 +121,26 @@ class Page extends Component {
 
   renderModal = () => {
     const className = this.state.showModal ? 'modal--open' : '';
-    const { categories } = this.props;
+    const { categories, location } = this.props;
+    let modalContent;
+    if (location.pathname === '/u/my-activities') {
+      modalContent = categories.length && <LogActivityForm categories={categories} closeModal={this.closeModal} />;
+    } else if (location.pathname === '/u/redemptions') {
+      modalContent = <RedeemPointsForm closeModal={this.closeModal} />;
+    }
     return (
       <Modal close={this.closeModal} className={className}>
         {
-          categories.length ?
-            <LogActivityForm
-              closeModal={this.closeModal}
-              categories={categories}
-            />
-            :
-            ''
+          modalContent
         }
       </Modal>
     );
   }
 
   render() {
-    const { userInfo, societyInfo, profile } = this.props;
+    const {
+      userInfo, societyInfo, profile, updating,
+    } = this.props;
 
     return (
       <Fragment>
@@ -144,6 +150,7 @@ class Page extends Component {
         </div>
         <main className='mainPage mainPage--sidebarOpen'>
           {this.isASocietyPage() ? <SocietyBanner society={societyInfo.info} /> : null}
+          {updating && <div className='overlay'><UpdateLoader /></div>}
           <div className='pageContent'>
             <Header
               history={this.props.history}
@@ -171,6 +178,7 @@ const mapStateToProps = state => ({
   userInfo: state.userInfo,
   societyInfo: state.societyInfo,
   profile: state.userProfile.info,
+  updating: state.societyActivities.updating,
 });
 
 const mapDispatchToProps = dispatch => ({
