@@ -1,8 +1,9 @@
-/* eslint-disable */
-const express = require('/usr/local/share/.config/yarn/global/node_modules/express');
+#!/usr/local/bin/node
+
+const express = require(process.env.NODE_PATH + 'express');
 
 const app = express();
-const PORT = 4000;
+const PORT = process.argv[2];
 
 app.use((req, res, next) => {
   if(req.headers['x-forwarded-proto'] == "http"){

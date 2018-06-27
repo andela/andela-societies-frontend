@@ -12,7 +12,10 @@ WORKDIR /application
 
 COPY public /application
 
-COPY prodserver.js /application
+COPY prodserver /application
 
-CMD node prodserver.js
+ENV NODE_PATH /usr/local/share/.config/yarn/global/node_modules/
 
+RUN chmod +x ./prodserver
+
+CMD ./prodserver 4000
