@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import ActivityCard from '../components/activities/ActivityCard';
 import Page from './Page';
 import PageHeader from '../components/header/PageHeader';
+import MasonryLayout from '../containers/MasonryLayout';
 import LinearLayout from '../containers/LinearLayout';
 import Stats from '../components/sidebar/Stats';
 import stats from '../fixtures/stats';
@@ -30,10 +31,12 @@ class VerifyActivities extends Component {
       location: PropTypes.shape({ pathname: PropTypes.string.isRequired }).isRequired,
     }).isRequired,
     verifyActivitiesOps: PropTypes.func,
+    roles: PropTypes.shape({}),
   }
 
   static defaultProps = {
-    verifyActivitiesOps: () => {},
+    verifyActivitiesOps: () => { },
+    roles: {},
   }
 
   /**
@@ -77,13 +80,13 @@ class VerifyActivities extends Component {
    * Filters state based on the selectedStatus
    * @memberof MyActivities
    */
-   filterActivities = (status) => {
-     this.setState({
-       filteredActivities: filterActivities(status, this.state)
-         .filteredActivities,
-       selectedStatus: status,
-     });
-   };
+  filterActivities = (status) => {
+    this.setState({
+      filteredActivities: filterActivities(status, this.state)
+        .filteredActivities,
+      selectedStatus: status,
+    });
+  };
 
   /**
    * @name handleSelectAllClick
@@ -119,6 +122,76 @@ class VerifyActivities extends Component {
     this.props.verifyActivitiesOps(selectedActivities);
   };
 
+  renderLayout() {
+    const {
+      activities,
+      showUserDetails,
+      isSelectAllChecked,
+      selectedActivities,
+    } = this.state;
+    const page = this.props.history.location.pathname;
+    const { roles } = this.props;
+    if (roles.successOps) {
+      return (
+        <LinearLayout
+          items={
+            activities.map((activity) => {
+              const {
+                id,
+                category,
+                date,
+                description,
+                points,
+                status,
+              } = activity;
+              return (<ActivityCard
+                id={id}
+                category={category}
+                date={dateFormatter(date)}
+                description={description || 'There is no description for this activity'}
+                points={points}
+                status={status}
+                showUserDetails={showUserDetails}
+                page={page}
+                handleClick={this.handleClick}
+                isSelectAllChecked={isSelectAllChecked}
+                selectedActivities={selectedActivities}
+                handleDeselectActivity={this.handleDeselectActivity}
+              />);
+            })
+          }
+        />
+      );
+    }
+    return (
+      <MasonryLayout
+        items={
+          activities.map((activity) => {
+            const {
+              id,
+              category,
+              date,
+              description,
+              points,
+              status,
+            } = activity;
+            return (<ActivityCard
+              id={id}
+              category={category}
+              date={dateFormatter(date)}
+              description={description || 'There is no description for this activity'}
+              points={points}
+              status={status}
+              showUserDetails={showUserDetails}
+              page={page}
+              handleClick={this.handleClick}
+            />);
+          })
+        }
+      />
+
+    );
+  }
 
   /**
    * @name VerifyActivities
@@ -126,16 +199,9 @@ class VerifyActivities extends Component {
    * @return React node that displays the VerifyActivities page
    */
   render() {
-    const {
-      activities,
-      showUserDetails,
-      isSelectAllChecked,
-      selectedActivities,
-    } = this.state;
-    const { requesting } = this.props;
+    const { requesting, roles } = this.props;
     const hideFilter = true;
-    const showSelectAllApproveBtn = true;
-    const page = this.props.history.location.pathname;
+    const showSelectAllApproveBtn = !roles.successOps === false;
     return (
       <Page>
         <div className='mainContent'>
@@ -152,34 +218,7 @@ class VerifyActivities extends Component {
                 requesting ?
                   <h3 className='loader'>Loading... </h3>
                   :
-                  <LinearLayout
-                    items={
-                      activities.map((activity) => {
-                        const {
-                          id,
-                          category,
-                          date,
-                          description,
-                          points,
-                          status,
-                        } = activity;
-                        return (<ActivityCard
-                          id={id}
-                          category={category}
-                          date={dateFormatter(date)}
-                          description={description || 'There is no description for this activity'}
-                          points={points}
-                          status={status}
-                          showUserDetails={showUserDetails}
-                          page={page}
-                          handleClick={this.handleClick}
-                          isSelectAllChecked={isSelectAllChecked}
-                          selectedActivities={selectedActivities}
-                          handleDeselectActivity={this.handleDeselectActivity}
-                        />);
-                      })
-                    }
-                  />
+                  this.renderLayout()
               }
             </div>
           </div>
@@ -198,6 +237,7 @@ const mapStateToProps = state => ({
   societyActivities: state.societyActivities.activities,
   societyName: state.userProfile.info.society.name,
   requesting: state.societyActivities.requesting,
+  roles: state.userProfile.info.roles,
 });
 
 const mapDispatchToProps = dispatch => ({
