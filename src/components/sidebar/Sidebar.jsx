@@ -50,7 +50,11 @@ const Sidebar = ({ userRoles }) => (
 
 
 Sidebar.propTypes = {
-  userRoles: PropTypes.arrayOf(PropTypes.string).isRequired,
+  userRoles: PropTypes.arrayOf(PropTypes.string),
+};
+
+Sidebar.defaultProps = {
+  userRoles: [],
 };
 
 export default Sidebar;
