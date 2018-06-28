@@ -24,6 +24,9 @@ describe('<Page />', () => {
         society: {
           name: 'iStelle',
         },
+        roles: {
+          president: '-Kabc',
+        },
       },
       userInfo: {
         name: 'test test',

@@ -42,6 +42,7 @@ const store = {
       society: {
         name: '',
       },
+      roles: {},
     },
     error: {},
   },

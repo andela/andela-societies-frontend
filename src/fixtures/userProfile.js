@@ -12,6 +12,9 @@ const testProfile = {
     id: '-Kkh3MFLCBgVTSZ4s-de',
     name: 'SocietyName',
   },
+  roles: {
+    secretary: '-Kabc',
+  },
 };
 
 export default testProfile;
