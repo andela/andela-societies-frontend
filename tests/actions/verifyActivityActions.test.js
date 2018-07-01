@@ -7,14 +7,21 @@ import {
   verifyActivitySuccess,
   verifyActivityFailure,
   verifyActivity,
+  verifyActivitiesOpsRequest,
+  verifyActivitiesOpsFailure,
+  verifyActivitiesOps,
 } from '../../src/actions/verifyActivityActions';
 import {
   VERIFY_ACTIVITY_SUCCESS,
   VERIFY_ACTIVITY_FAILURE,
   VERIFY_ACTIVITY_REQUEST,
+  VERIFY_ACTIVITY_OPS_REQUEST,
+  VERIFY_ACTIVITY_OPS_FAILURE,
+  VERIFY_ACTIVITY_OPS_SUCCESS,
 } from '../../src/types';
 import storeFixture from '../../src/fixtures/store';
 import activity from '../../src/fixtures/activity';
+import { approvedActivities } from '../../src/fixtures/society';
 import config from '../../config';
 
 const mockStore = configureMockStore([thunk]);
@@ -94,7 +101,6 @@ describe('Verify Activity Actions', () => {
   });
 
   it('dispatches VERIFY_ACTIVITY_FAILURE when updating the activity fails', () => {
-
     store = mockStore({ societyActivities: storeFixture.societyActivities });
 
     const expectedActions = [
@@ -113,6 +119,61 @@ describe('Verify Activity Actions', () => {
     });
 
     return store.dispatch(verifyActivity(true, activity.id)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+
+  it('creates VERIFY_ACTIVITY_OPS_REQUEST action', () => {
+    expect(verifyActivitiesOpsRequest()).toEqual({ type: VERIFY_ACTIVITY_OPS_REQUEST });
+  });
+
+  it('creates VERIFY_ACTIVITY_OPS_FAILURE action', () => {
+    const error = 'There was an error while processing your request.';
+    expect(verifyActivitiesOpsFailure(error)).toEqual({ type: VERIFY_ACTIVITY_OPS_FAILURE, error });
+  });
+
+  it('dispatches VERIFY_ACTIVITY_OPS_SUCCES action when verifying activities is successful', () => {
+    store = mockStore({ societyActivities: storeFixture.societyActivities });
+    const activityIds = ['bnfad176-43cd-11e8-b3b9-9801a7ae0329'];
+    const expectedActions = [
+      {
+        type: VERIFY_ACTIVITY_OPS_REQUEST,
+      },
+      {
+        type: VERIFY_ACTIVITY_OPS_SUCCESS,
+        activities: approvedActivities,
+        activityIds,
+      },
+    ];
+
+    moxios.stubRequest(`${config.API_BASE_URL}/logged-activities`, {
+      status: 200,
+      response: { data: approvedActivities },
+    });
+
+    return store.dispatch(verifyActivitiesOps(activityIds)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+
+  it('dispatches VERIFY_ACTIVITY_OPS_FAILURE action when verifying activities is unsuccessful', () => {
+    store = mockStore({ societyActivities: storeFixture.societyActivities });
+    const activityIds = ['bnfad176-43cd-11e8-b3b9-9801a7ae0329'];
+    const expectedActions = [
+      {
+        type: VERIFY_ACTIVITY_OPS_REQUEST,
+      },
+      {
+        type: VERIFY_ACTIVITY_OPS_FAILURE,
+        error: new Error('Request failed with status code 400'),
+      },
+    ];
+
+    moxios.stubRequest(`${config.API_BASE_URL}/logged-activities`, {
+      status: 400,
+    });
+
+    return store.dispatch(verifyActivitiesOps(activityIds)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });

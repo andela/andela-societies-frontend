@@ -169,13 +169,13 @@ class LogActivityForm extends Component {
             name='fellowButtonSubmit'
             value='Log'
             className={`submitButton ${message && message.type === 'info' ? 'submitButton--disabled' : ''}`}
-            handleClick={this.handleAddEvent}
+            onClick={this.handleAddEvent}
           />
           <Button
             name='fellowButtonCancel'
             value='Cancel'
             className='cancelButton'
-            handleClick={this.cancelModal}
+            onClick={this.cancelModal}
           />
         </div>
         {

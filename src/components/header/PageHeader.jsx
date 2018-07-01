@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropType from 'prop-types';
 
+// components
+import Button from '../../common/Button';
+
 /**
  * @name PageHeader
  * @summary Renders a page's Header
@@ -12,11 +15,15 @@ class PageHeader extends Component {
     * @type {PropType}
     * @param {Object} propTypes - React PropTypes
     * @property {String} title - The title of the page
+    * @property {func} selectAllClick - prop to toggle state of selectAllChecked
   */
   static propTypes = {
     title: PropType.string.isRequired,
     filterActivities: PropType.func,
     hideFilter: PropType.bool,
+    showSelectAllApproveBtn: PropType.bool,
+    handleSelectAllClick: PropType.func,
+    handleApproveAllClick: PropType.func,
   };
 
   /**
@@ -28,6 +35,9 @@ class PageHeader extends Component {
   static defaultProps = {
     filterActivities: null,
     hideFilter: false,
+    showSelectAllApproveBtn: false,
+    handleSelectAllClick: () => {},
+    handleApproveAllClick: () => {},
   };
 
   /**
@@ -71,6 +81,23 @@ class PageHeader extends Component {
     }));
   };
 
+  renderSelectAllApprovebtn = () => (
+    <div className='pageHeader__selectApprove'>
+      <input
+        type='checkbox'
+        name='checkbox'
+        className='pageHeader__selectApprove__checkbox'
+        onChange={this.props.handleSelectAllClick}
+      /> Select all
+      <Button
+        name='approveAll'
+        value='Approve Selected'
+        className='pageHeader__selectApprove__button'
+        onClick={this.props.handleApproveAllClick}
+      />
+    </div>
+  )
+
   render() {
     const {
       selectedStatus,
@@ -81,6 +108,7 @@ class PageHeader extends Component {
     return (
       <header className='pageHeader'>
         <h1 className='pageTitle'>{this.props.title}</h1>
+        {this.props.showSelectAllApproveBtn && this.renderSelectAllApprovebtn()}
         {
           !this.props.hideFilter ?
             <div className='filterOptions'>

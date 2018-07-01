@@ -16,6 +16,7 @@ class TruncateDescription extends Component {
    */
   static propTypes = {
     description: PropType.string.isRequired,
+    wordCount: PropType.number.isRequired,
   }
 
   constructor(props) {
@@ -48,8 +49,9 @@ class TruncateDescription extends Component {
    * @return {String} desc
    */
   truncateDescription = (desc, longDescription) => {
-    if (desc.trim().length > 50 && longDescription) {
-      const shortDesc = desc.slice(0, 51).concat('...');
+    const { wordCount } = this.props;
+    if (desc.trim().length > wordCount && longDescription) {
+      const shortDesc = desc.slice(0, wordCount + 1).concat('...');
       return shortDesc;
     }
     return desc;

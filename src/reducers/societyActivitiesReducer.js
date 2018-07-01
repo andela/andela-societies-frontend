@@ -5,6 +5,9 @@ import {
   VERIFY_ACTIVITY_SUCCESS,
   VERIFY_ACTIVITY_FAILURE,
   VERIFY_ACTIVITY_REQUEST,
+  VERIFY_ACTIVITY_OPS_SUCCESS,
+  VERIFY_ACTIVITY_OPS_FAILURE,
+  VERIFY_ACTIVITY_OPS_REQUEST,
 } from '../types';
 import initialState from './initialState';
 
@@ -34,6 +37,23 @@ const societyActivities = (state = initialState.societyActivities, action) => {
     ));
     return { ...state, updating: false, activities };
   }
+  case VERIFY_ACTIVITY_OPS_REQUEST:
+    return { ...state, updating: true };
+  case VERIFY_ACTIVITY_OPS_SUCCESS:
+  {
+    const activities = state.activities.map((value) => {
+      let activitiesApproved;
+      if (action.activityIds.includes(value.activityId)) {
+        action.activities.forEach((val) => {
+          activitiesApproved = { ...value, ...val };
+        });
+      } else { activitiesApproved = { ...activitiesApproved, ...value }; }
+      return activitiesApproved;
+    });
+    return { ...state, updating: false, activities };
+  }
+  case VERIFY_ACTIVITY_OPS_FAILURE:
+    return { ...state, updating: false, error: action.error };
   default:
     return state;
   }

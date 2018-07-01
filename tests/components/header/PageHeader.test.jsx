@@ -8,6 +8,9 @@ const props = {
   selectedStatus: 'All',
   title: 'Invictus',
   hideFilter: false,
+  handleApproveAllClick: () => {},
+  handleSelectAllClick: () => {},
+  showSelectAllApproveBtn: false,
 };
 
 const status = {

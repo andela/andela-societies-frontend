@@ -20,8 +20,12 @@ class ActivityCard extends Component {
   * @property {String} description - The description of the activity
   * @property {String} points - The points the activity is worth
   * @property {String} status - The current status of the activity
+  * @property {String} id - id of the activity
   * @property {Boolean} showUserDetails - Whether or not to show user details
   * @property {Boolean} showLocation - Whether or not to show user location
+  * @property {number} wordCount - number of words for the description
+  * @property {String} page - The page accessed by user
+  * @property {func} handleClick - handleClick event
   */
   static propTypes = {
     category: PropType.string.isRequired,
@@ -33,8 +37,10 @@ class ActivityCard extends Component {
     showLocation: PropType.bool,
     owner: PropType.string,
     page: PropType.string,
-    handleClick: PropType.func.isRequired,
+    handleClick: PropType.func,
     id: PropType.string.isRequired,
+    handleDeselectActivity: PropType.func,
+    wordCount: PropType.number,
   };
 
   static defaultProps = {
@@ -42,8 +48,44 @@ class ActivityCard extends Component {
     showLocation: false,
     owner: null,
     page: '',
+    handleClick: () => {},
+    handleDeselectActivity: () => {},
+    wordCount: 50,
   };
+
+  /**
+   * @name getDerivedStateFromProps
+   * @summary Lifecylce methods that updates state of isActivityChecked if activity is checked or not
+   * @param {Object} nextProps
+   * @returns {Object} state
+   */
+  static getDerivedStateFromProps(nextProps) {
+    const { selectedActivities } = nextProps;
+    return {
+      isActivityChecked: selectedActivities ? selectedActivities.includes(nextProps.id) : false,
+    };
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      isActivityChecked: false,
+    };
+  }
   statuses = ['pending', 'rejected', 'approved', 'in review'];
+
+  /**
+   * @name handleActivityChecked
+   * @summary toggles state when checkbox is clicked
+   * @returns {void}
+   */
+  handleActivityChecked = () => {
+    const { id, handleDeselectActivity } = this.props;
+    const { isActivityChecked } = this.state;
+    this.setState({ isActivityChecked: !isActivityChecked }, () => {
+      if (!this.state.isActivityChecked) handleDeselectActivity(id);
+    });
+  }
 
   /**
    * @summary Renders the status indicator on the ActivityCard
@@ -80,6 +122,19 @@ class ActivityCard extends Component {
     );
   }
 
+  renderCheckbox = () => (
+    (
+      <input
+        type='checkbox'
+        name='checkbox'
+        value={this.props.id}
+        className='activity__checkbox'
+        checked={this.state.isActivityChecked}
+        onChange={this.handleActivityChecked}
+      />
+    )
+  );
+
   renderVerifyButtons() {
     if (this.props.owner) {
       return '';
@@ -110,17 +165,21 @@ class ActivityCard extends Component {
       showLocation,
       points,
       page,
+      wordCount,
     } = this.props;
     return (
       <div className='activity'>
         {this.renderUserDetails()}
         <div className='activity__right'>
           <div className='activity__header'>
-            <span className='activity__category'>{category}</span>
-            <span className='activity__date'>{date}</span>
+            <div>
+              <span className='activity__category'>{category}</span>
+              <span className='activity__date'>{date}</span>
+            </div>
+            { page === '/u/verify-activities' && this.renderCheckbox()}
           </div>
           <div className='activity__content'>
-            <TruncateDescription description={description} />
+            <TruncateDescription description={description} wordCount={wordCount} />
           </div>
           <div className='activity__footer'>
             {
