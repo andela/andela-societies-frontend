@@ -21,6 +21,7 @@ class ActivityCard extends Component {
    * @property {boolean} showUserDetails - Whether or not to show user details
    */
   static propTypes = {
+    center: PropType.string,
     date: PropType.string.isRequired,
     description: PropType.string.isRequired,
     points: PropType.number.isRequired,
@@ -29,16 +30,25 @@ class ActivityCard extends Component {
   };
 
   static defaultProps = {
+    center: '',
     showUserDetails: false,
   };
-  statuses = ['pending', 'expired', 'approved', 'default'];
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      statuses: ['pending', 'rejected', 'approved', 'default'],
+    };
+  }
+
   /**
    * @summary Renders the status indicator on the ActivityCard
    */
   renderStatus = () => {
+    const { statuses } = this.state;
     const status = this.props.status.toLowerCase();
 
-    if (this.statuses.indexOf(status.toLowerCase()) < 0) {
+    if (statuses.indexOf(status.toLowerCase()) < 0) {
       return '';
     }
 
@@ -52,7 +62,8 @@ class ActivityCard extends Component {
   };
 
   renderUserDetails() {
-    if (!this.props.showUserDetails) {
+    const { showUserDetails } = this.props;
+    if (!showUserDetails) {
       return '';
     }
     return (
@@ -64,22 +75,28 @@ class ActivityCard extends Component {
   }
 
   render() {
+    const {
+      points,
+      date,
+      description,
+      center,
+    } = this.props;
     return (
       <div className='activity'>
         {this.renderUserDetails()}
         <div className='activity__right'>
           <div className='activity__header'>
-            <span className='redemption__points'>{this.props.points} Points</span>
+            <span className='redemption__points'>{points} Points</span>
             <span className='redemption__amount'>USD 5.00</span>
-            <span className='activity__date'>{this.props.date}</span>
+            <span className='activity__date'>{date}</span>
           </div>
           <div className='activity__content'>
-            <h1 className='activity__description'>{this.props.description}</h1>
+            <h1 className='activity__description'>{description}</h1>
           </div>
           <div className='activity__footer'>
             <span className='redemption__location'>
               <Globe />
-              Nairobi
+              {center}
             </span>
             {this.renderStatus()}
           </div>

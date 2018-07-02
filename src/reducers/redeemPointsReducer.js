@@ -5,6 +5,9 @@ import {
   FETCH_REDEMPTIONS_FAILURE,
   FETCH_REDEMPTIONS_REQUEST,
   FETCH_REDEMPTIONS_SUCCESS,
+  VERIFY_REDEMPTION_SUCCESS,
+  VERIFY_REDEMPTION_FAILURE,
+  VERIFY_REDEMPTION_REQUEST,
 } from '../types';
 import initialState from './initialState';
 
@@ -56,6 +59,24 @@ const redeemPointsReducer = (state = initialState.redemptionsInfo, action) => {
       ...state,
       requesting: false,
       hasError: true,
+    };
+  case VERIFY_REDEMPTION_REQUEST:
+    return {
+      ...state,
+      updating: true,
+    };
+  case VERIFY_REDEMPTION_SUCCESS: {
+    const redemptions = state.redemptions.map(redemption => (
+      redemption.id !== action.redemption.id ? redemption : action.redemption
+    ));
+    return { ...state, updating: false, redemptions };
+  }
+  case VERIFY_REDEMPTION_FAILURE:
+    return {
+      ...state,
+      updating: false,
+      hasError: true,
+      error: action.error,
     };
   default:
     return state;

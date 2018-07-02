@@ -10,6 +10,12 @@ import {
   fetchRedemptionsSuccess,
 } from '../../src/actions/redeemPointsAction';
 
+import {
+  verifyRedemptionRequest,
+  verifyRedemptionSuccess,
+  verifyRedemptionFailure,
+} from '../../src/actions/verifyRedemptionActions';
+
 
 // types
 import { FETCH_REDEMPTIONS_FAILURE } from '../../src/types';
@@ -93,5 +99,41 @@ describe('Redeem points reducer', () => {
       hasError: true,
     };
     expect(redeemPointsReducer(defaultState, { type: FETCH_REDEMPTIONS_FAILURE })).toEqual(expectedOutput);
+  });
+
+  it('should return hasError state true when FETCH_REDEMPTIONS_FAILURE action is provided', () => {
+    const expectedOutput = {
+      ...defaultState,
+      hasError: true,
+    };
+    expect(redeemPointsReducer(defaultState, { type: FETCH_REDEMPTIONS_FAILURE })).toEqual(expectedOutput);
+  });
+
+  it('should set updating to true for FETCH_REDEMPTIONS_REQUEST', () => {
+    expect(redeemPointsReducer(defaultState, verifyRedemptionRequest())).toEqual({
+      ...defaultState,
+      updating: true,
+    });
+  });
+
+  it('should return redemption with updated status for VERIFY_REDEMPTION_SUCCESS', () => {
+    defaultState.redemptions = [...redemptions, redemption];
+    redemption.status = 'approved';
+    const expectedOutput = {
+      ...defaultState,
+      requesting: false,
+      hasError: false,
+      redemptions: [...redemptions, redemption],
+    };
+    expect(redeemPointsReducer(defaultState, verifyRedemptionSuccess(redemption))).toEqual(expectedOutput);
+  });
+
+  it('should set error for VERIFY_REDEMPTION_FAILURE', () => {
+    const expectedOutput = {
+      ...defaultState,
+      hasError: true,
+      error: { error: 404 },
+    };
+    expect(redeemPointsReducer(defaultState, verifyRedemptionFailure({ error: 404 }))).toEqual(expectedOutput);
   });
 });

@@ -84,11 +84,13 @@ export const fetchRedemptionsSuccess = redemptions => ({
  * @param {String} societyId
  * @returns {(dispatch) => Promise<AxiosResponse>}
  */
-export const fetchRedemption = societyId => (
-  (dispatch) => {
+export const fetchRedemption = (ref) => {
+  const path = ref === 'full' ? '' : `/${ref}`;
+  return (dispatch) => {
     dispatch(fetchRedemptionsRequest());
-    return axios.get(`${config.API_BASE_URL}/societies/redeem/${societyId}`)
+    return axios.get(`${config.API_BASE_URL}/societies/redeem${path}`)
       .then((response) => {
         dispatch(fetchRedemptionsSuccess(response.data.data));
       }).catch(() => dispatch({ type: FETCH_REDEMPTIONS_FAILURE }));
-  });
+  };
+};

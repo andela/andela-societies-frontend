@@ -1,7 +1,7 @@
 export const redemption = {
-  pointsDueRedemption: 8000,
+  pointsRedeemed: 8000,
   reason: null,
-  id: 'abfb3328-43cd-11e8-82be-9801a7ae0329',
+  id: 'abcd-43cd-11e8-82be-9801a7ae0329',
   status: 'pending',
   createdAt: '2018-04-19T12:33:59.167160+00:00',
   society: {
@@ -44,15 +44,28 @@ const redemptionIds = [
   'abfb3328-43cd-11e8-82be-9801a7ae0331',
 ];
 
+const statuses = [
+  'pending',
+  'approved',
+  'rejected',
+];
+
+const societyNames = [
+  'invictus',
+  'istelle',
+  'sparks',
+  'phoenix',
+];
+
 export const redemptions = Array(3).fill({}).map((el, index) => ({
   pointsRedeemed: 8000,
   reason: reasons[index],
   id: redemptionIds[index],
-  status: 'pending',
+  status: statuses[index],
   createdAt: '2018-04-19T12:33:59.167160+00:00',
   society: {
     id: '-Kkh3MFLCBgVTSZ4s-de',
-    name: 'Invictus',
+    name: societyNames[index],
   },
   location: {
     createdAt: '2018-05-29T17:34:45.859205+00:00',
