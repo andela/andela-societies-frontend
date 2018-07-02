@@ -11,9 +11,9 @@ import capitalizeString from '../../src/helpers/stringFormatter';
  */
 const TextContent = ({ name, content }) => (
   <div className='formField formField--text-display'>
-    { /* eslint-disable */}
+    { /* eslint-disable */ }
     <label className='formField__label formField__label--text-display'>{capitalizeString(name)}</label>
-    { /* eslint-disable  enable*/}
+    { /* eslint-enable */ }
     <p className='formField formField__textField formField__textField--text-display'>{content}</p>
   </div>
 );

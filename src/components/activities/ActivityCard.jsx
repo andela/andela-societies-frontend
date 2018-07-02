@@ -201,16 +201,16 @@ class ActivityCard extends Component {
               {
                 showPoints && <span className='redemption__points'>{points} Points</span>
               }
-              {
-                showAmount &&
-                <span className='redemption__amount'>
-                  {
-                    `USD ${pointsToDollarConverter(points)}`
-                  }
-                </span>
-              }
               <span className='activity__date'>{date}</span>
             </div>
+            {
+              showAmount &&
+              <span className='redemption__amount'>
+                {
+                  `USD ${pointsToDollarConverter(points)}`
+                }
+              </span>
+            }
             {page === '/u/verify-activities' && this.renderCheckbox()}
           </div>
           <div className='activity__content'>
