@@ -48,9 +48,9 @@ export const createRedeemPointsSuccess = redemption => ({
  * @param {Object} redemptionData - data that contains points to redeem
  * @returns {(dispatch) => Promise<AxiosResponse>}
  */
-export const redeemPoints = (redemptionData, societyId) => ((dispatch) => {
+export const redeemPoints = redemptionData => ((dispatch) => {
   dispatch(createRedeemPointsRequest());
-  return axios.post(`${config.API_BASE_URL}/societies/redeem/${societyId}`, redemptionData)
+  return axios.post(`${config.API_BASE_URL}/societies/redeem`, redemptionData)
     .then(response => (
       dispatch(createRedeemPointsSuccess(response.data))
     )).catch(error => (
@@ -85,7 +85,7 @@ export const fetchRedemptionsSuccess = redemptions => ({
  * @returns {(dispatch) => Promise<AxiosResponse>}
  */
 export const fetchRedemption = (ref) => {
-  const path = ref === 'full' ? '' : `/${ref}`;
+  const path = ref === 'full' ? '' : `?society=${ref}`;
   return (dispatch) => {
     dispatch(fetchRedemptionsRequest());
     return axios.get(`${config.API_BASE_URL}/societies/redeem${path}`)

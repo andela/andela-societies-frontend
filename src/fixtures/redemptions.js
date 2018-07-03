@@ -1,5 +1,5 @@
 export const redemption = {
-  pointsRedeemed: 8000,
+  value: 8000,
   reason: null,
   id: 'abcd-43cd-11e8-82be-9801a7ae0329',
   status: 'pending',
@@ -8,7 +8,7 @@ export const redemption = {
     id: '-Kkh3MFLCBgVTSZ4s-de',
     name: 'Invictus',
   },
-  location: {
+  center: {
     createdAt: '2018-05-29T17:34:45.859205+00:00',
     description: null,
     id: '-JqPKs52HaqLXCVQlwZL',
@@ -58,7 +58,7 @@ const societyNames = [
 ];
 
 export const redemptions = Array(3).fill({}).map((el, index) => ({
-  pointsRedeemed: 8000,
+  value: 8000,
   reason: reasons[index],
   id: redemptionIds[index],
   status: statuses[index],
@@ -67,7 +67,7 @@ export const redemptions = Array(3).fill({}).map((el, index) => ({
     id: '-Kkh3MFLCBgVTSZ4s-de',
     name: societyNames[index],
   },
-  location: {
+  center: {
     createdAt: '2018-05-29T17:34:45.859205+00:00',
     description: null,
     id: '-JqPKs52HaqLXCVQlwZL',

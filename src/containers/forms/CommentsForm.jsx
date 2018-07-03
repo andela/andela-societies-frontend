@@ -109,14 +109,14 @@ class CommentsForm extends Component {
     const {
       society,
       center,
-      pointsRedeemed,
+      value,
       reason,
     } = selectedItem;
     const fields = {
       society: society.name,
-      center,
-      points: pointsRedeemed.toString(),
-      amount: `$${pointsToDollarConverter(pointsRedeemed)}`,
+      center: center.name,
+      points: value.toString(),
+      amount: `$${pointsToDollarConverter(value)}`,
       reason,
     };
     const displayNodes = Object.keys(fields).map(field =>

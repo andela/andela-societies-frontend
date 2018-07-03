@@ -28,7 +28,7 @@ import testProfile from '../../src/fixtures/userProfile';
 
 const mockStore = configureMockStore([thunk]);
 let store;
-const societyId = testProfile.society.id;
+const societyName = testProfile.society.id;
 
 describe('Redeem Points Actions', () => {
   beforeEach(() => {
@@ -46,7 +46,7 @@ describe('Redeem Points Actions', () => {
   });
 
   it('should create a redeemption successfuly', () => {
-    moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem/${societyId}`, {
+    moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem`, {
       status: 200,
       response: {
         data: { ...redemption },
@@ -66,7 +66,7 @@ describe('Redeem Points Actions', () => {
       points: '50',
       reason: 'good reason for this',
     };
-    return store.dispatch(redeemPoints(redemptionData, societyId))
+    return store.dispatch(redeemPoints(redemptionData, societyName))
       .then(() => (expect(store.getActions()[1]).toEqual(expectedSuccessAction)));
   });
 
@@ -76,19 +76,19 @@ describe('Redeem Points Actions', () => {
   });
 
   it('should return fetch redemptions success action', () => {
-    moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem/${societyId}`, {
+    moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem?society=${societyName}`, {
       status: 200,
       response: {
         data: redemptions,
       },
     });
     const expectedSuccessAction = { type: FETCH_REDEMPTIONS_SUCCESS, redemptions };
-    return store.dispatch(fetchRedemption(societyId))
+    return store.dispatch(fetchRedemption(societyName))
       .then(() => (expect(store.getActions()[1]).toEqual(expectedSuccessAction)));
   });
 
   it('should call createRedeemPointsFailure when there is a error', () => {
-    moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem/${societyId}`, {
+    moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem`, {
       status: 400,
       response: {
         message: 'There was an error while processing your request.',
@@ -104,17 +104,17 @@ describe('Redeem Points Actions', () => {
       points: '50',
       reason: 'good reason for this',
     };
-    return store.dispatch(redeemPoints(redemptionData, societyId))
+    return store.dispatch(redeemPoints(redemptionData, societyName))
       .then(() => (expect(store.getActions()[1]).toEqual(expectedFailureAction)));
   });
 
 
   it('should call the fetch failure action', () => {
-    moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem/${'-Kkh3MFLCBgVTSZ4s'}`, { status: 400 });
+    moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem?society=Istelle`, { status: 400 });
     const expectedErrorAction = {
       type: FETCH_REDEMPTIONS_FAILURE,
     };
-    return store.dispatch(fetchRedemption('-Kkh3MFLCBgVTSZ4s'))
+    return store.dispatch(fetchRedemption('Istelle'))
       .then(() => (expect(store.getActions()[1]).toEqual(expectedErrorAction)));
   });
 });

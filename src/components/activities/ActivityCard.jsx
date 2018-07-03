@@ -87,10 +87,10 @@ class ActivityCard extends Component {
     super(props);
     this.state = {
       isActivityChecked: false,
+      statuses: ['pending', 'rejected', 'approved', 'in review'],
       needButtons: ['pending', 'in review'],
     };
   }
-  statuses = ['pending', 'rejected', 'approved', 'in review'];
 
   /**
    * @name handleActivityChecked
@@ -111,7 +111,7 @@ class ActivityCard extends Component {
   renderStatus = () => {
     const status = this.props.status.toLowerCase();
 
-    if (this.statuses.indexOf(status.toLowerCase()) < 0) {
+    if (this.state.statuses.indexOf(status.toLowerCase()) < 0) {
       return '';
     }
 
@@ -175,20 +175,38 @@ class ActivityCard extends Component {
     );
   }
 
+  renderButtonsOrStatus() {
+    const { needButtons } = this.state;
+    const { showButtons, status } = this.props;
+    return needButtons.includes(status.toLowerCase()) && showButtons ? this.renderVerifyButtons() : this.renderStatus();
+  }
+
+  renderLocationOrPoints() {
+    const { center, points, showLocation } = this.props;
+    return (
+      showLocation ?
+        <span className='redemption__location'>
+          <Globe />
+          {center}
+        </span>
+        :
+        <span className='activity__points'>
+          <span className='activity__pointsCount'>{points}</span>
+          Points
+        </span>
+    );
+  }
+
   render() {
     const {
       category,
-      center,
       date,
       description,
-      showLocation,
       points,
       page,
       wordCount,
-      showButtons,
       showPoints,
       showAmount,
-      status,
     } = this.props;
 
     return (
@@ -218,20 +236,10 @@ class ActivityCard extends Component {
           </div>
           <div className='activity__footer'>
             {
-              showLocation ?
-                <span className='redemption__location'>
-                  <Globe />
-                  {center}
-                </span>
-                :
-                <span className='activity__points'>
-                  <span className='activity__pointsCount'>{points}</span>
-                  Points
-                </span>
+              this.renderLocationOrPoints()
             }
             {
-              this.state.needButtons.includes(status.toLowerCase()) && showButtons ?
-                this.renderVerifyButtons() : this.renderStatus()
+              this.renderButtonsOrStatus()
             }
           </div>
         </div>

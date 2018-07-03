@@ -103,5 +103,5 @@ export const isFellow = (tokenInfo) => {
  * @return {boolean} whether user role is amongst allowed roles
  */
 export const hasAllowedRole = (userRoles, allowedRoles) => (
-  userRoles.some(role => allowedRoles.includes(role))
+  userRoles.some(role => allowedRoles.includes(role.toLowerCase()))
 );

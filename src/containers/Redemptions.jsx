@@ -36,7 +36,7 @@ class Redemptions extends React.Component {
    * @name defaultProps
    */
   static defaultProps = {
-    societyId: '',
+    societyName: '',
     hasError: false,
     userRoles: [],
     requesting: false,
@@ -48,7 +48,7 @@ class Redemptions extends React.Component {
   static propTypes = {
     hasError: PropTypes.bool,
     requesting: PropTypes.bool,
-    societyId: PropTypes.string,
+    societyName: PropTypes.string,
     fetchRedemption: PropTypes.func.isRequired,
     verifyRedemption: PropTypes.func.isRequired,
     userRoles: PropTypes.arrayOf(PropTypes.string),
@@ -61,7 +61,7 @@ class Redemptions extends React.Component {
    * @param {Object} state
    */
   static getDerivedStateFromProps(props, state) {
-    if (props.redemptions !== state.allActivities && props.redemptions.length !== 0) {
+    if (props.userRoles.length) {
       const userRoles = props.userRoles ? props.userRoles : [];
       const showButtons = userRoles.length > 0 && hasAllowedRole(userRoles, VERIFICATION_USERS);
       let preSelectedRemptions = props.redemptions;
@@ -95,7 +95,7 @@ class Redemptions extends React.Component {
         selectedStatus,
       };
     }
-    return state;
+    return { ...state, userRoles: null };
   }
 
   constructor(props) {
@@ -124,8 +124,8 @@ class Redemptions extends React.Component {
    * @summary Lifecycle method called when component is mounted
    */
   componentDidMount() {
-    const { societyId } = this.props;
-    const reference = this.setPathReference(societyId);
+    const { societyName } = this.props;
+    const reference = this.setPathReference(societyName);
     this.props.fetchRedemption(reference);
   }
 
@@ -134,11 +134,10 @@ class Redemptions extends React.Component {
    * @summary Lifecycle method called when there are updates
    * @param {Object} prevProps
    */
-  componentDidUpdate(prevProps, prevState) {
-    const { societyId } = this.props;
-    const { allActivities } = this.state;
-    if (prevState.allActivities.length !== allActivities.length) {
-      const reference = this.setPathReference(societyId);
+  componentDidUpdate() {
+    const { societyName } = this.props;
+    if (this.state.userRoles == null) {
+      const reference = this.setPathReference(societyName);
       this.props.fetchRedemption(reference);
     }
   }
@@ -146,11 +145,11 @@ class Redemptions extends React.Component {
   /**
    * @name setPathReference
    * @summary returns modifier for the fetchRedemption url depending on role
-   * @param {String} societyId society id
+   * @param {String} societyName society name
    * @returns {String} url modifier
    */
-  setPathReference = societyId => (this.state.userRoles &&
-    hasAllowedRole(this.state.userRoles, STAFF_USERS) ? 'full' : societyId);
+  setPathReference = societyName => (this.state.userRoles &&
+    hasAllowedRole(this.state.userRoles, STAFF_USERS) ? 'full' : societyName);
 
   /**
    * @name changeFilterHandler
@@ -239,7 +238,7 @@ class Redemptions extends React.Component {
    * @returns Masonry Layout component to display redemptions
    */
   renderRedemptionsContent = (filteredActivities) => {
-    const { hasError, requesting, societyId } = this.props;
+    const { hasError, requesting, societyName } = this.props;
     const {
       showPoints,
       showUserDetails,
@@ -262,7 +261,7 @@ class Redemptions extends React.Component {
         <ErrorMessage
           icon={exclamationIcon}
           message='An error occured while fetching your data.'
-          param={societyId}
+          param={societyName}
           retry={this.props.fetchRedemption}
         />);
     }
@@ -275,15 +274,15 @@ class Redemptions extends React.Component {
               center,
               createdAt,
               reason,
-              pointsRedeemed,
+              value,
               status,
             } = activity;
             return (<ActivityCard
               id={id}
-              center={center}
+              center={center.name}
               date={dateFormatter(createdAt)}
               description={reason}
-              points={pointsRedeemed}
+              points={value}
               status={status}
               showAmount={showAmount}
               showButtons={showButtons}
@@ -352,13 +351,13 @@ const mapStateToProps = (state) => {
     redemptions: redeemPointsInfo.redemptions,
     hasError: redeemPointsInfo.hasError,
     requesting: redeemPointsInfo.requesting,
-    societyId: userProfile.info.society.id,
+    societyName: userProfile.info.society.name,
     userRoles: Object.keys(userProfile.info.roles),
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  fetchRedemption: societyId => dispatch(fetchRedemption(societyId)),
+  fetchRedemption: societyName => dispatch(fetchRedemption(societyName)),
   verifyRedemption: (redemptionId, isApproved) => dispatch(verifyRedemption(redemptionId, isApproved)),
 });
 

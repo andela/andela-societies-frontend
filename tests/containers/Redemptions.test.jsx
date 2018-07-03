@@ -8,16 +8,20 @@ import Redemptions from '../../src/containers/Redemptions';
 import storeFixture from '../../src/fixtures/store';
 import { redemptions, redemption } from '../../src/fixtures/redemptions';
 import filterActivitiesByStatus from '../../src/helpers/filterActivitiesByStatus';
+import testProfile from '../../src/fixtures/userProfile';
 
 const store = createMockStore(storeFixture);
 const history = { push: () => { }, action: 'PUSH', location: { pathname: '' } };
 const event = { preventDefault: () => { } };
 const verifyRedemption = jest.fn();
 const testRedemptions = [...redemptions, { ...redemption, status: 'rejected' }];
+const userProfile = { ...testProfile, roles: { 'society president': 'Kabc' } };
 
 const testProps = {
   requesting: false,
   hasError: false,
+  userRoles: Object.keys(userProfile.roles),
+  societyName: 'Invictus',
   redemptions,
   history,
   fetchUserInfo: stub(),
@@ -71,10 +75,7 @@ describe('<Redemptions />', () => {
 
   it('should render RedemptionCards', () => {
     const mountedWrapper = setUpWrapper();
-    mountedWrapper.setState({
-      allActivities: redemptions,
-      filteredActivities: redemptions,
-    });
+    mountedWrapper.setState({ allActivities: redemptions, filteredActivities: redemptions });
     expect(mountedWrapper.state().allActivities).toEqual(redemptions);
     expect(mountedWrapper.find('ActivityCard').length).toBe(3);
   });
@@ -117,12 +118,12 @@ describe('<Redemptions />', () => {
   });
 
   it('should update state with details for selected society', () => {
-    const testRedemptions = [...redemptions, { ...redemption, status: 'rejected' }];
+    const tRedemptions = [...redemptions, { ...redemption, status: 'rejected' }];
     const instance = shallowWrapper.instance();
     instance.setState({
       allActivities: testRedemptions,
-      filteredActivities: testRedemptions,
-      societyRedemptions: testRedemptions,
+      filteredActivities: tRedemptions,
+      societyRedemptions: tRedemptions,
       selectedSociety: 'istelle',
       selectedStatus: 'all',
     });

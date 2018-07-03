@@ -1,10 +1,10 @@
 // user roles
 export const CIO = 'cio';
 export const FELLOW = 'fellow';
-export const SOCIETY_SECRETARY = 'secretary';
+export const SOCIETY_SECRETARY = 'society secretary';
 export const SUCCESS = 'success';
 export const SUCCESS_OPS = 'success ops';
-export const SOCIETY_PRESIDENT = 'president';
+export const SOCIETY_PRESIDENT = 'society president';
 
 // user groups
 export const STAFF_USERS = [CIO, SUCCESS_OPS, SUCCESS];

@@ -8,11 +8,19 @@ const ErrorMessage = (props) => {
     param,
     icon,
   } = props;
+  let iconHtml = '';
+  let retryHtml = '';
+  if (icon) {
+    iconHtml = <img src={icon} alt='error-icon' />;
+  }
+  if (retry) {
+    retryHtml = <button className='error-message__retry' onClick={() => { retry(param); }}>Try again</button>;
+  }
   return (
     <div className='error-message'>
-      {icon && <img src={icon} alt='error-icon' />}
+      {iconHtml}
       <h2>{message}</h2>
-      {retry && <button className='error-message__retry' onClick={() => { retry(param); }}>Try again</button>}
+      {retryHtml}
     </div>
   );
 };
