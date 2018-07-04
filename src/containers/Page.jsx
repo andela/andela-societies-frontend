@@ -16,10 +16,14 @@ import FloatingButton from '../common/FloatingButton';
 import UpdateLoader from '../components/loaders/UpdateLoader';
 import Modal from '../common/Modal';
 import RedeemPointsForm from './forms/RedeemPointsForm';
+import CommentsForm from './forms/CommentsForm';
+
+import { STAFF_USERS, SOCIETY_PRESIDENT } from '../../src/constants/roles';
 
 import {
   getToken, tokenIsValid, isFellow,
   setSignInError, decodeToken, getUserInfo,
+  hasAllowedRole,
 } from '../helpers/authentication';
 
 /**
@@ -62,13 +66,20 @@ class Page extends Component {
         name: PropTypes.string.isRequired,
       }).isRequired,
     }),
-    updating: PropTypes.bool.isRequired,
+    updating: PropTypes.bool,
+    openModal: PropTypes.bool,
+    toggleOpenModal: PropTypes.func,
+    selectedItem: PropTypes.shape({}),
   }
 
   static defaultProps = {
     categories: [],
     profile: null,
     history: {},
+    updating: false,
+    openModal: false,
+    selectedItem: {},
+    toggleOpenModal: () => { },
   }
   constructor(props) {
     super(props);
@@ -120,13 +131,27 @@ class Page extends Component {
   }
 
   renderModal = () => {
-    const className = this.state.showModal ? 'modal--open' : '';
-    const { categories, location } = this.props;
+    const {
+      categories,
+      location,
+      openModal,
+      profile,
+      toggleOpenModal,
+      selectedItem,
+    } = this.props;
+    const className = this.state.showModal || openModal ? 'modal--open' : '';
     let modalContent;
     if (location.pathname === '/u/my-activities') {
       modalContent = categories.length && <LogActivityForm categories={categories} closeModal={this.closeModal} />;
-    } else if (location.pathname === '/u/redemptions') {
+    } else if (location.pathname === '/u/redemptions' &&
+      hasAllowedRole(Object.keys(profile.roles), [SOCIETY_PRESIDENT])) {
       modalContent = <RedeemPointsForm closeModal={this.closeModal} />;
+    } else if (hasAllowedRole(Object.keys(profile.roles), STAFF_USERS)) {
+      modalContent = (
+        <CommentsForm
+          selectedItem={selectedItem}
+          toggleOpenModal={toggleOpenModal}
+        />);
     }
     return (
       <Modal close={this.closeModal} className={className}>
@@ -169,7 +194,7 @@ class Page extends Component {
         </main>
         {this.renderModal()}
         {
-          this.state.showModal ?
+          this.state.showModal || hasAllowedRole(userRoles, STAFF_USERS) ?
             ''
             : <FloatingButton onClick={this.onFabClick} />
         }
@@ -178,12 +203,15 @@ class Page extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  userInfo: state.userInfo,
-  societyInfo: state.societyInfo,
-  profile: state.userProfile.info,
-  updating: state.societyActivities.updating,
-});
+const mapStateToProps = (state) => {
+  const updating = state.societyActivities.updating || state.redeemPointsInfo.updating;
+  return ({
+    userInfo: state.userInfo,
+    societyInfo: state.societyInfo,
+    profile: state.userProfile.info,
+    updating,
+  });
+};
 
 const mapDispatchToProps = dispatch => ({
   changePageTitle: history => dispatch(changeTitle(history)),

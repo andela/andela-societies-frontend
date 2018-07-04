@@ -50,6 +50,7 @@ const store = {
     message: {},
     requesting: false,
     redemptions: [],
+    updating: false,
   },
 };
 

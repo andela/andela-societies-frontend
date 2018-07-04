@@ -10,7 +10,13 @@ import IstelleIcon from '../components/svgIcons/societyIcons/Istelle';
 import SparksIcon from '../components/svgIcons/societyIcons/Sparks';
 import PhoenixIcon from '../components/svgIcons/societyIcons/Phoenix';
 import Redemptions from '../containers/Redemptions';
-import { SOCIETY_SECRETARY, SUCCESS_OPS, SOCIETY_PRESIDENT } from '../constants/roles';
+import {
+  SOCIETY_SECRETARY,
+  SUCCESS_OPS,
+  SOCIETY_PRESIDENT,
+  CIO,
+  FELLOW,
+} from '../constants/roles';
 
 const pageInfo = {
   pages: [
@@ -25,6 +31,7 @@ const pageInfo = {
       url: '/u/my-activities',
       component: MyActivities,
       menuIcon: MyActivitiesIcon,
+      allowedRoles: [FELLOW, SOCIETY_SECRETARY, SOCIETY_PRESIDENT],
     },
     {
       title: 'Verify Activities',
@@ -38,7 +45,7 @@ const pageInfo = {
       url: '/u/redemptions',
       component: Redemptions,
       menuIcon: RedemptionsIcon,
-      allowedRoles: [SUCCESS_OPS, SOCIETY_PRESIDENT],
+      allowedRoles: [SUCCESS_OPS, SOCIETY_PRESIDENT, CIO],
     },
   ],
   societyPages: [

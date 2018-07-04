@@ -10,7 +10,7 @@ const testProfile = {
   photo: 'https://lh3.googleusercontent.com/-Ke1NKb5MPuk/AAAAAAAAAAI/AAAAAAAAABg/8ofOe_CueLA/photo.jpg?sz=50',
   society: {
     id: '-Kkh3MFLCBgVTSZ4s-de',
-    name: 'SocietyName',
+    name: 'invictus',
   },
   roles: {
     secretary: '-Kabc',

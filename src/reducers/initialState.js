@@ -44,6 +44,7 @@ const initialState = {
     requesting: false,
     redemptions: [],
     hasError: false,
+    updating: false,
   },
 };
 

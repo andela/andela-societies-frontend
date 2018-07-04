@@ -5,6 +5,8 @@ import TruncateDescription from '../TruncateDescription';
 import Globe from '../svgIcons/activityIcons/Globe';
 import Button from '../../common/Button';
 
+import pointsToDollarConverter from '../../helpers/pointsToDollarsConverter';
+
 /**
  * @summary Renders an activity card
  * @class ActivityCard
@@ -16,9 +18,10 @@ class ActivityCard extends Component {
   * @type {PropType}
   * @param {Object} propTypes - React PropTypes
   * @property {String} category - The type of an Activity
+  * @property {String} center - Where the redeemed points go to
   * @property {String} date - The date on which a fellow participated in an activity
   * @property {String} description - The description of the activity
-  * @property {String} points - The points the activity is worth
+  * @property {Number} points - The points the activity is worth
   * @property {String} status - The current status of the activity
   * @property {String} id - id of the activity
   * @property {Boolean} showUserDetails - Whether or not to show user details
@@ -26,15 +29,22 @@ class ActivityCard extends Component {
   * @property {number} wordCount - number of words for the description
   * @property {String} page - The page accessed by user
   * @property {func} handleClick - handleClick event
+  * @property {Boolean} showButtons - Whether or not to show buttons
+  * @property {Boolean} showPoints - Whether or not to show user points
+  * @property {Boolean} showAmount - Whether or not to show user amount
   */
   static propTypes = {
-    category: PropType.string.isRequired,
+    category: PropType.string,
+    center: PropType.string,
     date: PropType.string.isRequired,
-    description: PropType.string.isRequired,
-    points: PropType.number.isRequired,
+    description: PropType.string,
+    points: PropType.number,
     status: PropType.string.isRequired,
     showUserDetails: PropType.bool,
     showLocation: PropType.bool,
+    showButtons: PropType.bool,
+    showPoints: PropType.bool,
+    showAmount: PropType.bool,
     owner: PropType.string,
     page: PropType.string,
     handleClick: PropType.func,
@@ -44,12 +54,19 @@ class ActivityCard extends Component {
   };
 
   static defaultProps = {
+    category: '',
+    center: '',
+    points: 0,
+    description: '',
     showUserDetails: false,
     showLocation: false,
+    showButtons: false,
+    showPoints: false,
+    showAmount: false,
     owner: null,
     page: '',
-    handleClick: () => {},
-    handleDeselectActivity: () => {},
+    handleClick: () => { },
+    handleDeselectActivity: () => { },
     wordCount: 50,
   };
 
@@ -70,9 +87,10 @@ class ActivityCard extends Component {
     super(props);
     this.state = {
       isActivityChecked: false,
+      statuses: ['pending', 'rejected', 'approved', 'in review'],
+      needButtons: ['pending', 'in review'],
     };
   }
-  statuses = ['pending', 'rejected', 'approved', 'in review'];
 
   /**
    * @name handleActivityChecked
@@ -93,7 +111,7 @@ class ActivityCard extends Component {
   renderStatus = () => {
     const status = this.props.status.toLowerCase();
 
-    if (this.statuses.indexOf(status.toLowerCase()) < 0) {
+    if (this.state.statuses.indexOf(status.toLowerCase()) < 0) {
       return '';
     }
 
@@ -144,16 +162,38 @@ class ActivityCard extends Component {
         <Button
           name='approve'
           value='Approve'
-          className='activity-button approved'
-          handleClick={() => this.props.handleClick(true, this.props.id)}
+          className='verifyButtons__button verifyButtons__button--approve'
+          onClick={() => this.props.handleClick(true, this.props.id)}
         />
         <Button
           name='reject'
           value='Reject'
-          className='activity-button rejected'
-          handleClick={() => this.props.handleClick(false, this.props.id)}
+          className='verifyButtons__button verifyButtons__button--reject'
+          onClick={() => this.props.handleClick(false, this.props.id)}
         />
       </div>
+    );
+  }
+
+  renderButtonsOrStatus() {
+    const { needButtons } = this.state;
+    const { showButtons, status } = this.props;
+    return needButtons.includes(status.toLowerCase()) && showButtons ? this.renderVerifyButtons() : this.renderStatus();
+  }
+
+  renderLocationOrPoints() {
+    const { center, points, showLocation } = this.props;
+    return (
+      showLocation ?
+        <span className='redemption__location'>
+          <Globe />
+          {center}
+        </span>
+        :
+        <span className='activity__points'>
+          <span className='activity__pointsCount'>{points}</span>
+          Points
+        </span>
     );
   }
 
@@ -162,11 +202,13 @@ class ActivityCard extends Component {
       category,
       date,
       description,
-      showLocation,
       points,
       page,
       wordCount,
+      showPoints,
+      showAmount,
     } = this.props;
+
     return (
       <div className='activity'>
         {this.renderUserDetails()}
@@ -174,29 +216,30 @@ class ActivityCard extends Component {
           <div className='activity__header'>
             <div>
               <span className='activity__category'>{category}</span>
+              {
+                showPoints && <span className='redemption__points'>{points} Points</span>
+              }
               <span className='activity__date'>{date}</span>
             </div>
-            { page === '/u/verify-activities' && this.renderCheckbox()}
+            {
+              showAmount &&
+              <span className='redemption__amount'>
+                {
+                  `USD ${pointsToDollarConverter(points)}`
+                }
+              </span>
+            }
+            {page === '/u/verify-activities' && this.renderCheckbox()}
           </div>
           <div className='activity__content'>
             <TruncateDescription description={description} wordCount={wordCount} />
           </div>
           <div className='activity__footer'>
             {
-              showLocation ?
-                <span className='redemption__location'>
-                  <Globe />
-                  Nairobi
-                </span>
-                :
-                <span className='activity__points'>
-                  <span className='activity__pointsCount'>{points}</span>
-                  Points
-                </span>
+              this.renderLocationOrPoints()
             }
             {
-              page === '/u/verify-activities' ?
-                this.renderVerifyButtons() : this.renderStatus()
+              this.renderButtonsOrStatus()
             }
           </div>
         </div>

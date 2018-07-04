@@ -1,0 +1,22 @@
+.tabs {
+  display: inline-block;
+
+  &__tab-title {
+    margin-right: 2rem;
+    padding-left: .7rem;
+    padding-right: .9rem;
+    padding-bottom: .8rem;
+    outline: none;
+    color: $black;
+    vertical-align: bottom;
+  
+    &:link, &:visited {
+      text-decoration: none;
+    }
+  
+    &--active {
+      color: $orange;
+      border-bottom: 0.1rem $orange solid;
+    }
+  }
+}

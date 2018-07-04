@@ -12,7 +12,11 @@ describe('<ActivityCard />', () => {
     <ActivityCard {...activity} />,
   );
 
-  const shallowWrapper = shallow(<ActivityCard {...props} {...activity} />);
+  let shallowWrapper;
+
+  beforeEach(() => {
+    shallowWrapper = shallow(<ActivityCard {...props} {...activity} />);
+  });
 
   it('should render without crashing', () => {
     expect(wrapper).not.toThrowError();
@@ -40,7 +44,8 @@ describe('<ActivityCard />', () => {
   });
 
   it('should render approve and reject buttons on verify activities page', () => {
-    expect(shallowWrapper.find('.activity-button').length).toBe(2);
+    shallowWrapper.setProps({ status: 'in review', showButtons: true });
+    expect(shallowWrapper.find('.verifyButtons__button').length).toBe(2);
   });
 
   it('should render check box on verify activities page cards', () => {

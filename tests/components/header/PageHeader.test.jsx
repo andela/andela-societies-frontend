@@ -4,10 +4,17 @@ import { shallow } from 'enzyme';
 import PageHeader from '../../../src/components/header/PageHeader';
 
 const props = {
-  filterActivities: () => {},
-  selectedStatus: 'All',
-  title: 'Invictus',
+  changeFilterHandler: jest.fn(),
+  filterActivities: jest.fn(),
+  filterRedemptions: jest.fn(),
+  handleChangeTab: jest.fn(),
   hideFilter: false,
+  selectedSociety: 'istelle',
+  selectedStatus: 'All',
+  showTabs: false,
+  statuses: ['All', 'In review', 'Pending', 'Rejected', 'Approved'],
+  tabs: [],
+  title: 'Invictus',
   handleApproveAllClick: () => {},
   handleSelectAllClick: () => {},
   showSelectAllApproveBtn: false,

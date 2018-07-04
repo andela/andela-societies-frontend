@@ -24,7 +24,6 @@ import centers from '../../fixtures/centers';
 
 class RedeemPointsForm extends Component {
   static defaultProps = {
-    societyId: '',
     message: {},
   };
   /**
@@ -32,7 +31,6 @@ class RedeemPointsForm extends Component {
    */
   static propTypes = {
     closeModal: PropTypes.func.isRequired,
-    societyId: PropTypes.string,
     redeemPoints: PropTypes.func.isRequired,
     message: PropTypes.shape({
       type: PropTypes.string,
@@ -94,7 +92,7 @@ class RedeemPointsForm extends Component {
       points,
       reason,
     } = this.state;
-    const { societyId } = this.props;
+
     // check if the fields have errors. Dispatch an action if there are no errors
     this.setState({
       errors: validateFormFields({ center, points, reason }),
@@ -104,7 +102,7 @@ class RedeemPointsForm extends Component {
           center,
           points,
           reason,
-        }, societyId);
+        });
       }
     });
   }

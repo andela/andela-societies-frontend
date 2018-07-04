@@ -60,6 +60,7 @@ class VerifyActivities extends Component {
       societyName: '',
       isSelectAllChecked: false,
       selectedActivities: [],
+      showButtons: true,
     };
   }
 
@@ -133,6 +134,7 @@ class VerifyActivities extends Component {
       showUserDetails,
       isSelectAllChecked,
       selectedActivities,
+      showButtons,
     } = this.state;
     const page = this.props.history.location.pathname;
     const { roles } = this.props;
@@ -189,6 +191,7 @@ class VerifyActivities extends Component {
               points={points}
               status={status}
               showUserDetails={showUserDetails}
+              showButtons={showButtons}
               page={page}
               handleClick={this.handleClick}
             />);
@@ -206,8 +209,9 @@ class VerifyActivities extends Component {
    */
   render() {
     const { requesting, roles } = this.props;
-    const hideFilter = true;
     const showSelectAllApproveBtn = !roles.successOps === false;
+    const hideFilter = true;
+
     return (
       <Page>
         <div className='mainContent'>

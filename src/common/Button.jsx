@@ -12,7 +12,7 @@ const Button = props => (
     className={props.className}
     value={props.value}
     type={props.type}
-    onClick={props.handleClick}
+    onClick={props.onClick}
   >
     {props.value}
   </button>
@@ -38,7 +38,7 @@ Button.propTypes = {
   name: PropTypes.string.isRequired,
   className: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
-  handleClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
   type: PropTypes.string,
 };
 

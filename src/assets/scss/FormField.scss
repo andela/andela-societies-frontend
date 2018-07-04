@@ -5,6 +5,10 @@
   padding-right: 6rem;
   padding-top: 1rem;
   border-radius: 0.4rem;
+
+  &--text-display {
+    padding-top: .5rem;
+  }
 }
 
 .formField__label {
@@ -12,6 +16,11 @@
   padding-right: 3rem;
   text-align: right;
   margin-top: 2rem;
+
+  &--text-display {
+    margin-top: 0;
+    padding-bottom: .7rem;
+  }
 }
 
 .formField__control {
@@ -32,7 +41,14 @@
   outline: none;
   margin-top: 2rem;
   font-size: inherit;
-  border:0.1rem solid #eeeeee
+  border:0.1rem solid #eeeeee;
+
+  &--text-display {
+    height: 0;
+    margin-top: 0;
+    border: none;
+    color:#4d4d4d;
+  }
 }
 
 .cancelButton {
@@ -69,7 +85,13 @@
 }
 
 .titleForm{
-  font-size: 1.8rem
+  font-size: 1.8rem;
+
+  &--comment {
+    font-weight: 700;
+    margin-left: 2rem;
+    margin-bottom: 2.5rem;
+  }
 }
 
 .activityCategory{

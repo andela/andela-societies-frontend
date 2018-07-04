@@ -130,7 +130,7 @@
   background-color: $red;
 }
 
-.activity-button {
+.verifyButtons__button {
   display: block;
   width: 6rem;
   height: 3rem;
@@ -138,24 +138,24 @@
   position: relative;
   opacity: 0.9;
   padding: 0.3rem;
-  border: 0 solid;
+  border: none;
   cursor: pointer;
   border-radius: 0.4rem;
-  margin-right: 2rem;
-}
 
-.activity-button::before {
-  content: '';
-  vertical-align: middle;
-  height: 1.2rem;
-}
+  &--approve {
+    background-color: $approveButton;
+    color: $lightAccent;
+  }
 
-.approved {
-  background-color: $approveButton;
-  color: $lightAccent;
-}
+  &--reject {
+    background-color: $rejectButton;
+    color: $black;
+    margin-right: 2rem;
+  }
 
-.rejected {
-  background-color: $rejectButton;
-  color: $black;
+  &:before {
+    content: '';
+    vertical-align: middle;
+    height: 1.2rem;
+  }
 }

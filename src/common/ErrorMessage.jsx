@@ -1,15 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import exclamationIcon from '../fixtures/icons';
-
 const ErrorMessage = (props) => {
-  const { message, retry, param } = props;
+  const {
+    message,
+    retry,
+    param,
+    icon,
+  } = props;
+  let iconHtml = '';
+  let retryHtml = '';
+  if (icon) {
+    iconHtml = <img src={icon} alt='error-icon' />;
+  }
+  if (retry) {
+    retryHtml = <button className='error-message__retry' onClick={() => { retry(param); }}>Try again</button>;
+  }
   return (
     <div className='error-message'>
-      <img src={exclamationIcon} alt='error-icon' />
+      {iconHtml}
       <h2>{message}</h2>
-      { retry && <button className='error-message__retry' onClick={() => { retry(param); }}>Try again</button>}
+      {retryHtml}
     </div>
   );
 };
@@ -18,6 +29,7 @@ const ErrorMessage = (props) => {
  * @name defaultProps
  */
 ErrorMessage.defaultProps = {
+  icon: '',
   message: '',
   param: '',
   retry: null,
@@ -30,6 +42,7 @@ ErrorMessage.defaultProps = {
  * @property retry - action to fetch data
  */
 ErrorMessage.propTypes = {
+  icon: PropTypes.string,
   message: PropTypes.string,
   param: PropTypes.string,
   retry: PropTypes.func,
