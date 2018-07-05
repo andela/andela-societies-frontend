@@ -75,7 +75,7 @@ describe('<VerifyActivities />', () => {
   });
 
   it('should have the <LinearLayout /> layout when role is successOps', () => {
-    component.setProps({ roles: { successOps: 'successOps1234abc' } });
+    component.setProps({ roles: { 'success ops': 'successOps1234abc' } });
     expect(component.find('LinearLayout').length).toBe(1);
   });
 
