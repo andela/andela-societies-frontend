@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import {
+  hasAllowedRole,
+  dateFormatter,
+  filterActivities,
+  filterActivitiesByStatus,
+} from '../helpers';
 import ActivityCard from '../components/activities/ActivityCard';
 import Page from './Page';
 import PageHeader from '../components/header/PageHeader';
@@ -10,10 +16,8 @@ import LinearLayout from '../containers/LinearLayout';
 import Stats from '../components/sidebar/Stats';
 import stats from '../fixtures/stats';
 import { fetchSocietyInfo } from '../actions/societyInfoActions';
-import filterActivitiesByStatus from '../helpers/filterActivitiesByStatus';
 import { verifyActivity, verifyActivitiesOps } from '../actions/verifyActivityActions';
-import filterActivities from '../helpers/filterActivities';
-import dateFormatter from '../helpers/dateFormatter';
+import SnackBar from '../components/notifications/SnackBar';
 
 
 class VerifyActivities extends Component {
@@ -61,6 +65,7 @@ class VerifyActivities extends Component {
       isSelectAllChecked: false,
       selectedActivities: [],
       showButtons: true,
+      message: null,
     };
   }
 
@@ -120,6 +125,16 @@ class VerifyActivities extends Component {
    */
   handleApproveAllClick = () => {
     const { selectedActivities } = this.state;
+    if (!selectedActivities.length) {
+      this.setState({
+        show: true,
+        message: ({
+          text: 'Please Select an Activity to Approve',
+          type: 'error',
+        }),
+      });
+    }
+
     this.props.verifyActivitiesOps(selectedActivities);
   };
 
@@ -138,7 +153,7 @@ class VerifyActivities extends Component {
     } = this.state;
     const page = this.props.history.location.pathname;
     const { roles } = this.props;
-    if (roles.successOps) {
+    if (roles && hasAllowedRole(Object.keys(roles), ['success ops'])) {
       return (
         <LinearLayout
           items={
@@ -209,9 +224,13 @@ class VerifyActivities extends Component {
    */
   render() {
     const { requesting, roles } = this.props;
-    const showSelectAllApproveBtn = !roles.successOps === false;
+    const { message } = this.state;
+    let snackBarMessage = '';
+    if (message) {
+      snackBarMessage = <SnackBar message={message} />;
+    }
     const hideFilter = true;
-
+    const showSelectAllApproveBtn = (roles && hasAllowedRole(Object.keys(roles), ['success ops']));
     return (
       <Page>
         <div className='mainContent'>
@@ -238,6 +257,7 @@ class VerifyActivities extends Component {
             stats={stats}
           />
         </aside>
+        { snackBarMessage }
       </Page>
     );
   }
