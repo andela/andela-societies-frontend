@@ -1,3 +1,4 @@
+import Home from '../containers/Home';
 import MyActivities from '../containers/MyActivities';
 import Society from '../containers/Society';
 import VerifyActivities from '../containers/VerifyActivities';
@@ -22,8 +23,8 @@ const pageInfo = {
   pages: [
     {
       title: 'Home',
-      url: '/u/my-activities',
-      component: MyActivities,
+      url: '/u/',
+      component: Home,
       menuIcon: HomeIcon,
     },
     {

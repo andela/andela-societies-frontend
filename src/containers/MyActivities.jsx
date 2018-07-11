@@ -7,6 +7,8 @@ import PageHeader from '../components/header/PageHeader';
 import MasonryLayout from '../containers/MasonryLayout';
 import ActivityCard from '../components/activities/ActivityCard';
 import Stats from '../components/sidebar/Stats';
+import Loader from '../components/loaders/Loader';
+
 import { fetchMyActivities } from '../actions/myActivitiesActions';
 import { fetchCategories } from '../actions/categoriesActions';
 import dateFormatter from '../helpers/dateFormatter';
@@ -105,7 +107,7 @@ class MyActivities extends Component {
             <div className='activities'>
               {
                 requesting ?
-                  <h3>Loading... </h3>
+                  <Loader />
                   :
                   <MasonryLayout
                     items={

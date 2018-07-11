@@ -7,7 +7,7 @@ import RedemptionIcon from '../components/svgIcons/menuIcons/Redemptions';
 import SocietiesIcon from '../components/svgIcons/menuIcons/Societies';
 import LogActivitiesIcon from '../components/svgIcons/menuIcons/LogActivities';
 import config from '../../config';
-import { getToken, tokenIsValid, isFellow, setSignInError, decodeToken } from '../helpers/authentication';
+import { getToken, tokenIsValid, setSignInError, decodeToken } from '../helpers/authentication';
 import ErrorIcon from '../components/svgIcons/notificationIcons/Error';
 import logo from '../assets/images/logos/andelaLogoBlue.png';
 
@@ -43,9 +43,9 @@ class SignIn extends Component {
     // retrieve token from cookie
     const token = getToken();
     const tokenInfo = decodeToken(token);
-    if (token && tokenIsValid(tokenInfo) && isFellow(tokenInfo)) {
+    if (token && tokenIsValid(tokenInfo)) {
       localStorage.removeItem('signInError');
-      this.props.history.push('/u/my-activities');
+      this.props.history.push('/u/');
     } else {
       localStorage.removeItem('signInError');
       setSignInError();
