@@ -1,16 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 /**
  * @name Breadcrumb
  * @summary Renders the Breadcrumb in the header section
  */
 const Breadcrumb = (props) => {
   const breadcrumbLinkClass = props.pageInfo.url.split('/')[1] === 'society' ? 'breadcrumb__link--white' : '';
+
+  let titleHtml = '';
+  if (props.pageInfo.title.toLowerCase() !== 'home') {
+    titleHtml = props.pageInfo.title;
+  }
+
   return (
     <div className='breadcrumb'>
-      <a href='/' className={`breadcrumb__link ${breadcrumbLinkClass}`}>Dashboard</a>
-      <a href={props.pageInfo.url} className={`breadcrumb__link ${breadcrumbLinkClass}`}>{props.pageInfo.title}</a>
+      <Link to='/u/' className={`breadcrumb__link ${breadcrumbLinkClass}`}>Dashboard</Link>
+      <Link to={props.pageInfo.url} className={`breadcrumb__link ${breadcrumbLinkClass}`}>
+        {titleHtml}
+      </Link>
     </div>
   );
 };

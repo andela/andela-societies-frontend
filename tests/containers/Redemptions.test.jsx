@@ -39,12 +39,13 @@ const setUpWrapper = ({
     requesting,
     hasError,
   };
-  return mount(
+  return mount((
     <Provider store={store}>
       <MemoryRouter>
         <Redemptions.WrappedComponent {...props} />
       </MemoryRouter>
-    </Provider>);
+    </Provider>
+  ));
 };
 
 let shallowWrapper;
@@ -85,9 +86,9 @@ describe('<Redemptions />', () => {
     expect(mountedWrapper.find('.error-message').length).toBe(1);
   });
 
-  it('should render an Loading... text when requesting is true', () => {
+  it('should render a loader when requesting is true', () => {
     const mountedWrapper = setUpWrapper({ requesting: true });
-    expect(mountedWrapper.find('.activities').html()).toContain('Loading...');
+    expect(mountedWrapper.find('.loader').length).toBe(1);
   });
 
   it('should filter redemptions given status', () => {

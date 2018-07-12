@@ -14,6 +14,7 @@ import PageHeader from '../components/header/PageHeader';
 import MasonryLayout from '../containers/MasonryLayout';
 import LinearLayout from '../containers/LinearLayout';
 import Stats from '../components/sidebar/Stats';
+import Loader from '../components/loaders/Loader';
 import stats from '../fixtures/stats';
 import { fetchSocietyInfo } from '../actions/societyInfoActions';
 import { verifyActivity, verifyActivitiesOps } from '../actions/verifyActivityActions';
@@ -245,7 +246,7 @@ class VerifyActivities extends Component {
             <div className='activities'>
               {
                 requesting ?
-                  <h3 className='loader'>Loading... </h3>
+                  <Loader />
                   :
                   this.renderLayout()
               }
@@ -257,7 +258,7 @@ class VerifyActivities extends Component {
             stats={stats}
           />
         </aside>
-        { snackBarMessage }
+        {snackBarMessage}
       </Page>
     );
   }

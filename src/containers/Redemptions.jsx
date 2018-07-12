@@ -11,6 +11,7 @@ import PageHeader from '../components/header/PageHeader';
 import MasonryLayout from '../containers/MasonryLayout';
 import Stats from '../components/sidebar/Stats';
 import ErrorMessage from '../common/ErrorMessage';
+import Loader from '../components/loaders/Loader';
 
 // thunk
 import { fetchRedemption } from '../actions/redeemPointsAction';
@@ -249,7 +250,7 @@ class Redemptions extends React.Component {
     } = this.state;
 
     if (requesting) {
-      return (<h3>Loading... </h3>);
+      return (<Loader />);
     } else if (!requesting && !filteredActivities.length) {
       return (
         <ErrorMessage

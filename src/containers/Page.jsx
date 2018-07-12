@@ -25,6 +25,7 @@ import {
   setSignInError, decodeToken, getUserInfo,
   hasAllowedRole,
 } from '../helpers/authentication';
+import pageInfo from '../helpers/pageInfo';
 
 /**
  * @name Page
@@ -175,7 +176,7 @@ class Page extends Component {
       <Fragment>
         <div className='headerBackground' />
         <div className='sidebarWrapper sidebarWrapper--sidebarOpen'>
-          <Sidebar userRoles={userRoles} />
+          <Sidebar userRoles={userRoles} pageInfo={pageInfo} />
         </div>
         <main className='mainPage mainPage--sidebarOpen'>
           {this.isASocietyPage() ? <SocietyBanner society={societyInfo.info} /> : null}
@@ -194,7 +195,7 @@ class Page extends Component {
         </main>
         {this.renderModal()}
         {
-          this.state.showModal || hasAllowedRole(userRoles, STAFF_USERS) ?
+          this.state.showModal || hasAllowedRole(userRoles, STAFF_USERS) || userRoles.length === 0 ?
             ''
             : <FloatingButton onClick={this.onFabClick} />
         }
