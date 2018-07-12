@@ -11,6 +11,7 @@ import PageHeader from '../components/header/PageHeader';
 import MasonryLayout from '../containers/MasonryLayout';
 import Stats from '../components/sidebar/Stats';
 import ErrorMessage from '../common/ErrorMessage';
+import Loader from '../components/loaders/Loader';
 
 // thunk
 import { fetchRedemption } from '../actions/redeemPointsAction';
@@ -20,6 +21,7 @@ import { verifyRedemption } from '../actions/verifyRedemptionActions';
 import dateFormatter from '../helpers/dateFormatter';
 import filterActivities from '../helpers/filterActivities';
 import { hasAllowedRole } from '../helpers/authentication';
+import statsGenerator from '../helpers/statsGenerator';
 import filterActivitiesByStatus from '../helpers/filterActivitiesByStatus';
 
 // constants
@@ -27,7 +29,6 @@ import { VERIFICATION_USERS, SUCCESS_OPS, CIO, STAFF_USERS } from '../constants/
 import { ALL, APPROVED, PENDING, REJECTED } from '../constants/statuses';
 
 // fixtures
-import stats from '../fixtures/stats';
 import tabs from '../fixtures/tabs';
 import exclamationIcon from '../fixtures/icons';
 
@@ -249,7 +250,7 @@ class Redemptions extends React.Component {
     } = this.state;
 
     if (requesting) {
-      return (<h3>Loading... </h3>);
+      return (<Loader />);
     } else if (!requesting && !filteredActivities.length) {
       return (
         <ErrorMessage
@@ -311,6 +312,7 @@ class Redemptions extends React.Component {
       selectedRedemption,
       statuses,
       openModal,
+      societyRedemptions,
     } = this.state;
 
     return (
@@ -337,7 +339,7 @@ class Redemptions extends React.Component {
         </div>
         <aside className='sideContent'>
           <Stats
-            stats={stats}
+            stats={statsGenerator(societyRedemptions, 'Pending redemptions', 'Total points')}
           />
         </aside>
       </Page>

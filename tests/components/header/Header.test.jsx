@@ -2,6 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { createMockStore } from 'redux-test-utils';
 import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 
 import Header from '../../../src/components/header/Header';
 import { nonFellowTokenInfo } from '../../__mocks__/tokenInfoMock';
@@ -14,11 +15,13 @@ const history = { push: () => { } };
 const mounted = mount.bind(
   null,
   <Provider store={store}>
-    <Header
-      userInfo={nonFellowTokenInfo.UserInfo}
-      history={history}
-      profile={testProfile}
-    />
+    <MemoryRouter>
+      <Header
+        userInfo={nonFellowTokenInfo.UserInfo}
+        history={history}
+        profile={testProfile}
+      />
+    </MemoryRouter>
   </Provider>,
 );
 describe('<Header />', () => {

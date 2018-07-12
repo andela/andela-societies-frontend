@@ -81,6 +81,6 @@ describe('<VerifyActivities />', () => {
 
   it('should show loader when fetching', () => {
     component.setProps({ requesting: true });
-    expect(component.find('.loader').length).toBe(1);
+    expect(component.find('Loader').length).toBe(1);
   });
 });

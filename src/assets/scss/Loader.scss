@@ -1,0 +1,37 @@
+
+.loader {
+  width: 8rem;
+  height: 8rem;
+  border-radius: 100%;
+  position: relative;
+  margin-left: 28rem;
+
+  &:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 10rem;
+    border-radius: 100%;
+    border: 1rem solid transparent;
+    border-top-color: $andelaBlue;
+    z-index: 100;
+    animation: spin .8s ease-out infinite;
+  }
+}
+
+@keyframes spin{
+  0%{
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100%{
+    -webkit-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
