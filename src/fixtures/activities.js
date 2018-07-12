@@ -7,9 +7,14 @@ const activity = {
   activity: '',
   points: 250,
   status: 'default',
+  owner: 'Lawrence Wachira',
+  activityDate: '2017-11-03',
+  name: 'insert name here',
+  societyName: '',
 };
 
 const statuses = ['pending', 'expired', 'approved', 'default'];
+const societyIds = [1, 2, 3, 4];
 
 const descriptions = [
   'Mentored teens how to code. (DBC 2016 at Redemption camp)',
@@ -25,6 +30,7 @@ for (let i = 0; i < numberOfItems; i += 1) {
     id: Math.random().toString(),
     status: statuses[Math.floor(Math.random() * statuses.length)],
     activity: descriptions[Math.floor(Math.random() * descriptions.length)],
+    societyName: societyIds[Math.floor(Math.random() * statuses.length)],
   });
 }
 

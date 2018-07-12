@@ -2,6 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+// helpers
+import {
+  hasAllowedRole,
+  dateFormatter,
+  filterActivities,
+  filterActivitiesByStatus,
+} from '../helpers';
+import statsGenerator from '../helpers/statsGenerator';
+
 // components
 import ActivityCard from '../components/activities/ActivityCard';
 import Page from './Page';
@@ -15,15 +24,14 @@ import SnackBar from '../components/notifications/SnackBar';
 // actions
 import { fetchSocietyInfo } from '../actions/societyInfoActions';
 import { verifyActivity, verifyActivitiesOps } from '../actions/verifyActivityActions';
+import { fetchAllActivities } from '../actions/allActivitiesActions';
 
-// helpers
-import {
-  hasAllowedRole,
-  dateFormatter,
-  filterActivities,
-  filterActivitiesByStatus,
-} from '../helpers';
-import statsGenerator from '../helpers/statsGenerator';
+import { SUCCESS_OPS, SOCIETY_SECRETARY } from '../constants/roles';
+import { PENDING, IN_REVIEW } from '../constants/statuses';
+import generateIdForSociety from '../constants/societyNames';
+
+// fixtures
+import tabs from '../fixtures/tabs';
 
 class VerifyActivities extends Component {
   /**
@@ -33,58 +41,103 @@ class VerifyActivities extends Component {
     * @property {Function} fetchSocietyInfo - fetches society details
     */
   static propTypes = {
-    fetchSocietyInfo: PropTypes.func.isRequired,
+    fetchAllActivities: PropTypes.func,
     requesting: PropTypes.bool.isRequired,
-    verifyActivity: PropTypes.func.isRequired,
     history: PropTypes.shape({
       location: PropTypes.shape({ pathname: PropTypes.string.isRequired }).isRequired,
     }).isRequired,
+    verifyActivity: PropTypes.func,
     verifyActivitiesOps: PropTypes.func,
-    roles: PropTypes.shape({}),
+    allActivities: PropTypes.arrayOf(PropTypes.shape({})),
+    userRoles: PropTypes.arrayOf(PropTypes.string),
   }
 
   static defaultProps = {
     verifyActivitiesOps: () => { },
-    roles: {},
+    fetchAllActivities: () => {},
+    verifyActivity: () => {},
+    userRoles: [],
+    allActivities: [],
   }
 
   /**
    * React component lifecycle method getDerivedStateFromProps
    * @param {Object} nextProps - props
    */
-  static getDerivedStateFromProps(nextProps) {
-    const { societyName, societyActivities } = nextProps;
-    const activities = filterActivitiesByStatus(societyActivities, 'in review');
-    return {
-      activities,
-      societyName,
-    };
+  static getDerivedStateFromProps(props, state) {
+    if (props.userRoles.length) {
+      const { allActivities, societyName } = props;
+      const { selectedSociety } = state;
+      const userRoles = props.userRoles ? props.userRoles : [];
+      const showButtons = userRoles.length > 0 && hasAllowedRole(userRoles, [SOCIETY_SECRETARY, SUCCESS_OPS]);
+      let {
+        showTabs,
+      } = state;
+
+      let filteredActivities;
+      if (hasAllowedRole(userRoles, [SUCCESS_OPS])) {
+        showTabs = true;
+        filteredActivities = filterActivitiesByStatus(allActivities, PENDING)
+          .filter(activity => (activity.societyName === generateIdForSociety(selectedSociety)));
+      } else {
+        filteredActivities = filterActivitiesByStatus(allActivities, IN_REVIEW)
+          .filter(activity => (activity.societyName === generateIdForSociety(societyName)));
+      }
+
+      return {
+        filteredActivities,
+        societyName,
+        showTabs,
+        showButtons,
+      };
+    }
+    return { ...state, userRoles: null };
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      activities: [],
+      filteredActivities: [],
       showUserDetails: true,
-      societyName: '',
+      selectedStatus: PENDING,
       isSelectAllChecked: false,
       selectedActivities: [],
-      showButtons: true,
       message: null,
+      selectedSociety: 'istelle',
+      showTabs: false,
     };
   }
 
+  /**
+   * @name componentDidMount
+   * @summary Lifecycle method called when component is mounted
+   */
   componentDidMount() {
-    if (this.state.societyName) this.props.fetchSocietyInfo(this.state.societyName);
+    this.props.fetchAllActivities();
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.societyName !== this.state.societyName) {
-      this.props.fetchSocietyInfo(this.state.societyName);
+  /**
+   * @name componentDidUpdate
+   * @summary Lifecycle method called when there are updates
+   *
+   */
+  componentDidUpdate() {
+    if (!this.props.userRoles) {
+      this.props.fetchAllActivities();
     }
   }
+
+  /**
+   * handle the click event for the verify button
+   * @memberof handleClick
+   */
   handleClick = (clickAction, activityId) => {
-    this.props.verifyActivity(clickAction, activityId);
+    const { userRoles } = this.props;
+    if (hasAllowedRole(userRoles, [SUCCESS_OPS])) {
+      this.props.verifyActivitiesOps(activityId);
+    } else {
+      this.props.verifyActivity(clickAction, activityId);
+    }
   }
 
   /**
@@ -105,8 +158,8 @@ class VerifyActivities extends Component {
    * @returns {void}
    */
   handleSelectAllClick = () => {
-    const { isSelectAllChecked, activities } = this.state;
-    const selectedActivities = activities.filter(activity =>
+    const { isSelectAllChecked, filteredActivities } = this.state;
+    const selectedActivities = filteredActivities.filter(activity =>
       (!isSelectAllChecked && activity.id)).map(activity => activity.id);
     this.setState({ isSelectAllChecked: !isSelectAllChecked, selectedActivities });
   }
@@ -116,11 +169,25 @@ class VerifyActivities extends Component {
    * @summary updates state with activities deselected using the checkbox
    * @param {string} id - id of the activity deselected
    * @returns {void}
-   */
+                                                                                                           */
   handleDeselectActivity = (id) => {
     const { selectedActivities } = this.state;
     const selected = selectedActivities.filter(activityId => activityId !== id);
     this.setState({ selectedActivities: selected });
+  }
+
+  /**
+   * @name handleChangeTab
+   * @summary states appropriate state values when a specific society is selected
+   */
+  handleChangeTab = (event, title) => {
+    event.preventDefault();
+    const selectedSocietyActivities = filterActivitiesByStatus(this.props.allActivities, PENDING)
+      .filter(activity => (activity.societyName === generateIdForSociety(title)));
+    this.setState({
+      selectedSociety: title.toLowerCase(),
+      filteredActivities: selectedSocietyActivities,
+    });
   }
 
   /**
@@ -139,7 +206,6 @@ class VerifyActivities extends Component {
         }),
       });
     }
-
     this.props.verifyActivitiesOps(selectedActivities);
   };
 
@@ -150,19 +216,19 @@ class VerifyActivities extends Component {
    */
   renderLayout() {
     const {
-      activities,
+      filteredActivities,
       showUserDetails,
       isSelectAllChecked,
       selectedActivities,
       showButtons,
     } = this.state;
-    const page = this.props.history.location.pathname;
-    const { roles } = this.props;
-    if (roles && hasAllowedRole(Object.keys(roles), ['success ops'])) {
+    const { history: { location: { pathname } }, userRoles } = this.props;
+    const showCheckBox = hasAllowedRole(userRoles, [SUCCESS_OPS]);
+    if (userRoles.length > 0 && hasAllowedRole(userRoles, [SUCCESS_OPS])) {
       return (
         <LinearLayout
           items={
-            activities.map((activity) => {
+            filteredActivities.map((activity) => {
               const {
                 id,
                 category,
@@ -179,11 +245,13 @@ class VerifyActivities extends Component {
                 points={points}
                 status={status}
                 showUserDetails={showUserDetails}
-                page={page}
+                page={pathname}
+                showButtons={showButtons}
                 handleClick={this.handleClick}
                 isSelectAllChecked={isSelectAllChecked}
                 selectedActivities={selectedActivities}
                 handleDeselectActivity={this.handleDeselectActivity}
+                showCheckBox={showCheckBox}
                 wordCount={70}
               />);
             })
@@ -194,7 +262,7 @@ class VerifyActivities extends Component {
     return (
       <MasonryLayout
         items={
-          activities.map((activity) => {
+          filteredActivities.map((activity) => {
             const {
               id,
               category,
@@ -212,13 +280,12 @@ class VerifyActivities extends Component {
               status={status}
               showUserDetails={showUserDetails}
               showButtons={showButtons}
-              page={page}
+              page={pathname}
               handleClick={this.handleClick}
             />);
           })
         }
       />
-
     );
   }
 
@@ -228,14 +295,20 @@ class VerifyActivities extends Component {
    * @return React node that displays the VerifyActivities page
    */
   render() {
-    const { requesting, roles } = this.props;
-    const { message, activities } = this.state;
+    const { requesting, userRoles } = this.props;
+    const {
+      message,
+      filteredActivities,
+      showTabs,
+      selectedStatus,
+      selectedSociety,
+    } = this.state;
     let snackBarMessage = '';
     if (message) {
       snackBarMessage = <SnackBar message={message} />;
     }
     const hideFilter = true;
-    const showSelectAllApproveBtn = (roles && hasAllowedRole(Object.keys(roles), ['success ops']));
+    const showSelectAllApproveBtn = (userRoles.length > 0 && hasAllowedRole(userRoles, [SUCCESS_OPS]));
     return (
       <Page>
         <div className='mainContent'>
@@ -243,9 +316,16 @@ class VerifyActivities extends Component {
             <PageHeader
               title='Verify Activities'
               hideFilter={hideFilter}
+              filterActivities={this.filterActivities}
+              selectedStatus={selectedStatus}
+              selectedSociety={selectedSociety}
               showSelectAllApproveBtn={showSelectAllApproveBtn}
               handleSelectAllClick={this.handleSelectAllClick}
               handleApproveAllClick={this.handleApproveAllClick}
+              userRoles={this.props.userRoles}
+              showTabs={showTabs}
+              tabs={tabs}
+              handleChangeTab={this.handleChangeTab}
             />
             <div className='activities'>
               {
@@ -259,7 +339,7 @@ class VerifyActivities extends Component {
         </div>
         <aside className='sideContent'>
           <Stats
-            stats={statsGenerator(activities, 'Verify activities', 'Total points')}
+            stats={statsGenerator(filteredActivities, 'Verify activities', 'Total points')}
           />
         </aside>
         {snackBarMessage}
@@ -269,16 +349,15 @@ class VerifyActivities extends Component {
 }
 
 const mapStateToProps = state => ({
-  societyActivities: state.societyActivities.activities,
+  allActivities: state.allActivities.activities,
   societyName: state.userProfile.info.society.name,
-  requesting: state.societyActivities.requesting,
-  roles: state.userProfile.info.roles,
+  requesting: state.allActivities.requesting,
+  userRoles: Object.keys(state.userProfile.info.roles),
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchSocietyInfo: name => dispatch(fetchSocietyInfo(name)),
-  verifyActivity: (clickAction, activityId) => dispatch(verifyActivity(clickAction, activityId)),
-  verifyActivitiesOps: activityIds => dispatch(verifyActivitiesOps(activityIds)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(VerifyActivities);
+export default connect(mapStateToProps, {
+  fetchAllActivities,
+  fetchSocietyInfo,
+  verifyActivity,
+  verifyActivitiesOps,
+})(VerifyActivities);

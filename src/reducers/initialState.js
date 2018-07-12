@@ -18,6 +18,11 @@ const initialState = {
     },
     error: {},
   },
+  allActivities: {
+    requesting: false,
+    activities: [],
+    error: null,
+  },
   categories: {
     requesting: false,
     categories: [],

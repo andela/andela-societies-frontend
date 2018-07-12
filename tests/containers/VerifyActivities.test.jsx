@@ -11,36 +11,34 @@ import society from '../../src/fixtures/society';
 
 const store = createMockStore(storeFixture);
 const history = { push: () => { }, location: { pathname: '' } };
-const roles = { successOps: '' };
+const roles = ['success ops'];
 const verifyActivitiesOpsSpy = spy();
+const verifyActivitySpy = spy();
+const event = { preventDefault: () => { } };
 
 describe('<VerifyActivities />', () => {
+  const props = {
+    history,
+    fetchUserInfo: () => { },
+    changePageTitle: () => { },
+    fetchSocietyInfo: () => { },
+    societyActivities: society.loggedActivities,
+    requesting: false,
+    verifyActivitiesOps: verifyActivitiesOpsSpy,
+    verifyActivity: verifyActivitySpy,
+  };
+
   const component = shallow(<VerifyActivities.WrappedComponent
-    history={history}
-    fetchUserInfo={() => { }}
-    verifyActivity={() => {}}
-    changePageTitle={() => { }}
-    fetchSocietyInfo={() => { }}
-    societyActivities={society.loggedActivities}
-    requesting={false}
-    verifyActivitiesOps={verifyActivitiesOpsSpy}
-    roles={roles}
+    {...props}
   />);
 
   it('should render without crashing', () => {
+    const wrapperProps = { ...props, userRoles: roles };
     const wrapper = mount.bind(
       null,
       <Provider store={store}>
         <MemoryRouter>
-          <VerifyActivities.WrappedComponent
-            history={history}
-            fetchUserInfo={() => { }}
-            verifyActivity={() => {}}
-            changePageTitle={() => { }}
-            fetchSocietyInfo={() => { }}
-            societyActivities={society.loggedActivities}
-            requesting={false}
-          />
+          <VerifyActivities.WrappedComponent {...wrapperProps} />
         </MemoryRouter>
       </Provider>,
     );
@@ -75,12 +73,31 @@ describe('<VerifyActivities />', () => {
   });
 
   it('should have the <LinearLayout /> layout when role is successOps', () => {
-    component.setProps({ roles: { 'success ops': 'successOps1234abc' } });
+    component.setProps({ userRoles: ['success ops'] });
     expect(component.find('LinearLayout').length).toBe(1);
   });
 
   it('should show loader when fetching', () => {
     component.setProps({ requesting: true });
     expect(component.find('Loader').length).toBe(1);
+  });
+
+  it('should change state of selectedSociety when handleChangeTab is called with a title', () => {
+    component.instance().handleChangeTab(event, 'phoenix');
+    expect(component.state().selectedSociety).toEqual('phoenix');
+  });
+
+  it('should call verifyActivity when handleClick is invoked without role as SUCCESS_OPS', () => {
+    component.setProps({ userRoles: ['cio'] });
+    const instance = component.instance();
+    instance.handleClick('isApproved', '1234t645');
+    expect(verifyActivitySpy.called).toBeTruthy();
+  });
+
+  it('should call verifyActivitiesOps when handleClick is invoked with role as SUCCESS_OPS', () => {
+    component.setProps({ userRoles: roles });
+    const instance = component.instance();
+    instance.handleClick('isApproved', '1234t645');
+    expect(verifyActivitiesOpsSpy.called).toBeTruthy();
   });
 });

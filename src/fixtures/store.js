@@ -46,6 +46,11 @@ const store = {
     },
     error: {},
   },
+  allActivities: {
+    requesting: false,
+    activities: [],
+    error: null,
+  },
   redeemPointsInfo: {
     message: {},
     requesting: false,
