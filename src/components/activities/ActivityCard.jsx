@@ -134,7 +134,7 @@ class ActivityCard extends Component {
     }
     return (
       <div className='activity__left'>
-        <img className='activity__userPicture' src='http://placehold.it/55x55' alt='John Doe' />
+        <img className='activity__userPicture' src='https://placehold.it/55x55' alt='John Doe' />
         <span className='activity__owner'>{this.props.owner}</span>
       </div>
     );
