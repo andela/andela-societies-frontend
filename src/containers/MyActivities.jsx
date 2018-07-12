@@ -12,7 +12,7 @@ import Loader from '../components/loaders/Loader';
 import { fetchMyActivities } from '../actions/myActivitiesActions';
 import { fetchCategories } from '../actions/categoriesActions';
 import dateFormatter from '../helpers/dateFormatter';
-import stats from '../fixtures/stats';
+import statsGenerator from '../helpers/statsGenerator';
 import filterActivities from '../helpers/filterActivities';
 import { getUserInfo } from '../helpers/authentication';
 
@@ -92,7 +92,11 @@ class MyActivities extends Component {
    * @return {Object} JSX for MyActivities component
    */
   render() {
-    const { filteredActivities, selectedStatus } = this.state;
+    const {
+      filteredActivities,
+      selectedStatus,
+      allActivities,
+    } = this.state;
     const { requesting, categories } = this.props;
 
     return (
@@ -130,7 +134,7 @@ class MyActivities extends Component {
         <aside className='sideContent'>
           <Stats
             title='My Stats'
-            stats={stats}
+            stats={statsGenerator(allActivities, 'Activities logged', 'Points earned')}
           />
         </aside>
       </Page>

@@ -2,12 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import {
-  hasAllowedRole,
-  dateFormatter,
-  filterActivities,
-  filterActivitiesByStatus,
-} from '../helpers';
+// components
 import ActivityCard from '../components/activities/ActivityCard';
 import Page from './Page';
 import PageHeader from '../components/header/PageHeader';
@@ -15,11 +10,20 @@ import MasonryLayout from '../containers/MasonryLayout';
 import LinearLayout from '../containers/LinearLayout';
 import Stats from '../components/sidebar/Stats';
 import Loader from '../components/loaders/Loader';
-import stats from '../fixtures/stats';
-import { fetchSocietyInfo } from '../actions/societyInfoActions';
-import { verifyActivity, verifyActivitiesOps } from '../actions/verifyActivityActions';
 import SnackBar from '../components/notifications/SnackBar';
 
+// actions
+import { fetchSocietyInfo } from '../actions/societyInfoActions';
+import { verifyActivity, verifyActivitiesOps } from '../actions/verifyActivityActions';
+
+// helpers
+import {
+  hasAllowedRole,
+  dateFormatter,
+  filterActivities,
+  filterActivitiesByStatus,
+} from '../helpers';
+import statsGenerator from '../helpers/statsGenerator';
 
 class VerifyActivities extends Component {
   /**
@@ -225,7 +229,7 @@ class VerifyActivities extends Component {
    */
   render() {
     const { requesting, roles } = this.props;
-    const { message } = this.state;
+    const { message, activities } = this.state;
     let snackBarMessage = '';
     if (message) {
       snackBarMessage = <SnackBar message={message} />;
@@ -255,7 +259,7 @@ class VerifyActivities extends Component {
         </div>
         <aside className='sideContent'>
           <Stats
-            stats={stats}
+            stats={statsGenerator(activities, 'Verify activities', 'Total points')}
           />
         </aside>
         {snackBarMessage}
