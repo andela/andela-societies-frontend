@@ -112,7 +112,6 @@ describe('<Redemptions />', () => {
       filteredActivities: redemptions,
       societyRedemptions: redemptions,
     });
-    jest.spyOn(instance, 'filterRedemptions');
     instance.filterRedemptions(event, 'all');
     expect(instance.state.selectedStatus).toBe('all');
     expect(instance.state.filteredActivities.length).toBe(redemptions.length);
@@ -130,7 +129,6 @@ describe('<Redemptions />', () => {
     });
     jest.spyOn(instance, 'handleChangeTab');
     instance.handleChangeTab(event, 'invictus');
-    expect(instance.state.selectedStatus).toBe('pending');
     expect(instance.state.selectedSociety).toBe('invictus');
     expect(instance.state.societyRedemptions.length).toBe(2);
     expect(instance.state.filteredActivities.length).toBe(1);
