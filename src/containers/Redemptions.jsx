@@ -312,7 +312,6 @@ class Redemptions extends React.Component {
       selectedRedemption,
       statuses,
       openModal,
-      societyRedemptions,
     } = this.state;
 
     return (
@@ -339,7 +338,7 @@ class Redemptions extends React.Component {
         </div>
         <aside className='sideContent'>
           <Stats
-            stats={statsGenerator(societyRedemptions, 'Pending redemptions', 'Total points')}
+            stats={statsGenerator(filteredActivities, 'Pending redemptions', 'Total points')}
           />
         </aside>
       </Page>

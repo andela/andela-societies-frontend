@@ -2,7 +2,7 @@ const configs = {
   production: {
     AUTH_API: 'https://api.andela.com/login?redirect_url=',
     APP_URL: 'https://societies.andela.com',
-    API_BASE_URL: 'https://api-societies.andela.com/api/v1',
+    API_BASE_URL: 'https://societies-api.andela.com/api/v1',
   },
   staging: {
     AUTH_API: 'https://api.andela.com/login?redirect_url=',
