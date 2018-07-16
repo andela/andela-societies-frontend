@@ -88,13 +88,35 @@ describe('Verify Redemption Actions', () => {
       response: { data: redemption },
     });
 
-    return store.dispatch(verifyRedemption(redemption.id, false, 'Insubstantial reason')).then(() => {
+    return store.dispatch(verifyRedemption(redemption.id, 'rejected', 'Insubstantial reason')).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+
+  it('dispatches VERIFY_REDEMPTION_SUCCESS after when requesting for more information', () => {
+    store = mockStore({ redeemPointsInfo: storeFixture.redeemPointsInfo });
+
+    const expectedActions = [
+      {
+        type: VERIFY_REDEMPTION_REQUEST,
+      },
+      {
+        type: VERIFY_REDEMPTION_SUCCESS,
+        redemption,
+      },
+    ];
+
+    moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem/${redemption.id}`, {
+      status: 200,
+      response: { data: redemption },
+    });
+
+    return store.dispatch(verifyRedemption(redemption.id, 'moreInfo', 'Elaborate')).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
 
   it('dispatches VERIFY_REDEMPTION_FAILURE when updating the redemption fails', () => {
-
     store = mockStore({ redeemPointsInfo: storeFixture.redeemPointsInfo });
 
     const expectedActions = [

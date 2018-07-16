@@ -7,6 +7,10 @@ import Button from '../../common/Button';
 
 import pointsToDollarConverter from '../../helpers/pointsToDollarsConverter';
 
+// constants
+import clickActions from '../../constants/clickAction';
+import { PENDING } from '../../constants/statuses';
+
 /**
  * @summary Renders an activity card
  * @class ActivityCard
@@ -36,37 +40,44 @@ class ActivityCard extends Component {
   static propTypes = {
     category: PropType.string,
     center: PropType.string,
-    date: PropType.string.isRequired,
+    date: PropType.string,
     description: PropType.string,
     points: PropType.number,
     status: PropType.string.isRequired,
     showUserDetails: PropType.bool,
     showLocation: PropType.bool,
     showButtons: PropType.bool,
+    showMoreInfoButton: PropType.bool,
     showPoints: PropType.bool,
     showAmount: PropType.bool,
+    userCanEdit: PropType.bool,
     owner: PropType.string,
     page: PropType.string,
     handleClick: PropType.func,
     id: PropType.string.isRequired,
     handleDeselectActivity: PropType.func,
+    handleClickToEdit: PropType.func,
     wordCount: PropType.number,
   };
 
   static defaultProps = {
     category: '',
     center: '',
+    date: '',
     points: 0,
     description: '',
     showUserDetails: false,
     showLocation: false,
     showButtons: false,
+    showMoreInfoButton: false,
     showPoints: false,
     showAmount: false,
+    userCanEdit: false,
     owner: null,
     page: '',
     handleClick: () => { },
     handleDeselectActivity: () => { },
+    handleClickToEdit: () => { },
     wordCount: 50,
   };
 
@@ -103,6 +114,22 @@ class ActivityCard extends Component {
     this.setState({ isActivityChecked: !isActivityChecked }, () => {
       if (!this.state.isActivityChecked) handleDeselectActivity(id);
     });
+  }
+
+  /**
+   * @name handleClickableAreaClick
+   * @summary responds to clicking on clickable area of the activity card
+   */
+  handleClickableAreaClick = () => {
+    const {
+      status,
+      userCanEdit,
+      id,
+      handleClickToEdit,
+    } = this.props;
+    if (status === PENDING && userCanEdit) {
+      handleClickToEdit(id);
+    }
   }
 
   /**
@@ -154,8 +181,18 @@ class ActivityCard extends Component {
   );
 
   renderVerifyButtons() {
-    if (this.props.owner) {
-      return '';
+    const { showMoreInfoButton, id, handleClick } = this.props;
+    const { APPROVE, MORE_INFO, REJECT } = clickActions;
+    let moreInfoButtonHtml = '';
+    if (showMoreInfoButton) {
+      moreInfoButtonHtml = (
+        <Button
+          name='moreInfo'
+          value='Comment'
+          className='verifyButtons__button verifyButtons__button--moreInfo'
+          onClick={() => handleClick(MORE_INFO, id)}
+        />
+      );
     }
     return (
       <div className='verifyButtons'>
@@ -163,14 +200,15 @@ class ActivityCard extends Component {
           name='approve'
           value='Approve'
           className='verifyButtons__button verifyButtons__button--approve'
-          onClick={() => this.props.handleClick(true, this.props.id)}
+          onClick={() => handleClick(APPROVE, id)}
         />
         <Button
           name='reject'
           value='Reject'
           className='verifyButtons__button verifyButtons__button--reject'
-          onClick={() => this.props.handleClick(false, this.props.id)}
+          onClick={() => handleClick(REJECT, id)}
         />
+        { moreInfoButtonHtml }
       </div>
     );
   }
@@ -207,12 +245,25 @@ class ActivityCard extends Component {
       wordCount,
       showPoints,
       showAmount,
+      userCanEdit,
+      status,
     } = this.props;
+
+    const locationOrPointsHtml = this.renderLocationOrPoints();
+    const buttonsOrStatusHtml = this.renderButtonsOrStatus();
+
+    const clickableAreaClassName = `activity__right ${
+      status === PENDING && userCanEdit ? 'activity__right--editable' : ''}`;
 
     return (
       <div className='activity'>
         {this.renderUserDetails()}
-        <div className='activity__right'>
+        {/* eslint-disable */}
+        <div
+          className={clickableAreaClassName}
+          onClick={this.handleClickableAreaClick}
+        >
+          {/* eslint-enable */}
           <div className='activity__header'>
             <div>
               <span className='activity__category'>{category}</span>
@@ -234,14 +285,14 @@ class ActivityCard extends Component {
           <div className='activity__content'>
             <TruncateDescription description={description} wordCount={wordCount} />
           </div>
-          <div className='activity__footer'>
-            {
-              this.renderLocationOrPoints()
-            }
-            {
-              this.renderButtonsOrStatus()
-            }
-          </div>
+        </div>
+        <div className='activity__footer'>
+          {
+            locationOrPointsHtml
+          }
+          {
+            buttonsOrStatusHtml
+          }
         </div>
       </div>
     );

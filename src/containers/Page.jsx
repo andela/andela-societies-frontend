@@ -65,11 +65,10 @@ class Page extends Component {
     profile: PropTypes.shape({
       society: PropTypes.shape({
         name: PropTypes.string.isRequired,
-      }).isRequired,
+      }),
     }),
     updating: PropTypes.bool,
-    openModal: PropTypes.bool,
-    toggleOpenModal: PropTypes.func,
+    deselectItem: PropTypes.func,
     selectedItem: PropTypes.shape({}),
   }
 
@@ -78,10 +77,19 @@ class Page extends Component {
     profile: null,
     history: {},
     updating: false,
-    openModal: false,
     selectedItem: {},
-    toggleOpenModal: () => { },
+    deselectItem: () => { },
   }
+
+  static getDerivedStateFromProps = (props, state) => {
+    if (!props.location.pathname === '/u/my-activities') {
+      return ({
+        showModal: props.showModal,
+      });
+    }
+    return state;
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -90,8 +98,7 @@ class Page extends Component {
     props.changePageTitle(props.history.location.pathname);
   }
 
-  componentWillMount() {
-    // retrieve token from cookie
+  componentDidMount() {
     const token = getToken();
     const tokenInfo = decodeToken(token);
     if (token === null || tokenIsValid(tokenInfo) === false || isFellow(tokenInfo) === false) {
@@ -99,9 +106,6 @@ class Page extends Component {
       this.props.history.push({ pathname: '/', search: '?error=unauthorized' });
     }
     this.props.fetchUserInfo(tokenInfo);
-  }
-
-  componentDidMount() {
     const userId = getUserInfo() && getUserInfo().id;
     this.props.fetchUserProfile(userId);
     if (this.isASocietyPage()) {
@@ -134,24 +138,31 @@ class Page extends Component {
   renderModal = () => {
     const {
       categories,
+      deselectItem,
       location,
-      openModal,
       profile,
-      toggleOpenModal,
       selectedItem,
     } = this.props;
-    const className = this.state.showModal || openModal ? 'modal--open' : '';
+
+    const className = this.state.showModal ? 'modal--open' : '';
     let modalContent;
     if (location.pathname === '/u/my-activities') {
       modalContent = categories.length && <LogActivityForm categories={categories} closeModal={this.closeModal} />;
     } else if (location.pathname === '/u/redemptions' &&
       hasAllowedRole(Object.keys(profile.roles), [SOCIETY_PRESIDENT])) {
-      modalContent = <RedeemPointsForm closeModal={this.closeModal} />;
+      modalContent = (
+        <RedeemPointsForm
+          closeModal={this.closeModal}
+          selectedItem={selectedItem}
+          deselectItem={deselectItem}
+        />
+      );
     } else if (hasAllowedRole(Object.keys(profile.roles), STAFF_USERS)) {
       modalContent = (
         <CommentsForm
+          closeModal={this.closeModal}
           selectedItem={selectedItem}
-          toggleOpenModal={toggleOpenModal}
+          deselectItem={deselectItem}
         />);
     }
     return (

@@ -18,27 +18,46 @@ import { verifyRedemption } from '../../actions/verifyRedemptionActions';
 import validateFormFields from '../../helpers/validateForm';
 import pointsToDollarConverter from '../../../src/helpers/pointsToDollarsConverter';
 
+// fixtures
+import { moreInfoText, rejectionText } from '../../fixtures/commentsFormText';
+
+// constants
+import clickActions from '../../constants/clickAction';
+
 class CommentsForm extends Component {
   static defaultProps = {
     message: {},
     selectedItem: {},
+    deselectItem: () => { },
+    closeModal: () => { },
   };
   /**
    * @name propTypes
    */
   static propTypes = {
     verifyRedemption: PropTypes.func.isRequired,
-    toggleOpenModal: PropTypes.func.isRequired,
+    closeModal: PropTypes.func,
     message: PropTypes.shape({
       type: PropTypes.string,
       text: PropTypes.string,
     }),
-    selectedItem: PropTypes.shape({}),
+    selectedItem: PropTypes.shape({ id: PropTypes.string }),
+    deselectItem: PropTypes.func,
+  }
+
+  static getDerivedStateFromProps = (props, state) => {
+    if (props.selectedItem.rejectClicked) {
+      return {
+        ...rejectionText,
+      };
+    }
+    return state;
   }
 
   constructor(props) {
     super(props);
     this.state = {
+      ...moreInfoText,
       comment: '',
       errors: [],
     };
@@ -65,18 +84,17 @@ class CommentsForm extends Component {
    * @returns {void}
    */
   handleSubmit = () => {
-    const {
-      comment,
-    } = this.state;
+    const { comment } = this.state;
+    const { MORE_INFO, REJECT } = clickActions;
     const { selectedItem } = this.props;
     const errors = validateFormFields({ comment });
+    const clickAction = selectedItem.rejectClicked ? REJECT : MORE_INFO;
 
     if (errors.length) {
       this.setState({ errors });
     } else {
-      this.props.verifyRedemption(selectedItem.id, false, comment);
-      this.resetState();
-      this.props.toggleOpenModal();
+      this.props.verifyRedemption(selectedItem.id, clickAction, comment);
+      this.handleCloseModal();
     }
   }
 
@@ -86,6 +104,7 @@ class CommentsForm extends Component {
    */
   resetState = () => {
     this.setState({
+      ...moreInfoText,
       comment: '',
       errors: [],
     });
@@ -96,7 +115,10 @@ class CommentsForm extends Component {
    * @summary handles the closing of the modal
    */
   handleCloseModal = () => {
-    this.props.toggleOpenModal();
+    this.props.closeModal();
+    if (this.props.selectedItem.id) {
+      this.props.deselectItem();
+    }
     this.resetState();
   }
 
@@ -126,10 +148,17 @@ class CommentsForm extends Component {
 
   render() {
     const { message, selectedItem } = this.props;
+    const {
+      buttonText,
+      comment,
+      errors,
+      placeholderText,
+      title,
+    } = this.state;
 
     return (
       <form>
-        <div className='titleForm titleForm--comment'>Comment on Rejection</div>
+        <div className='titleForm titleForm--comment'>{title}</div>
         {
           Object.keys(selectedItem).length && this.renderItemDetails(selectedItem)
         }
@@ -138,14 +167,14 @@ class CommentsForm extends Component {
           rows={5}
           resize={false}
           name='comment'
-          value={this.state.comment}
-          placeholder='Reason why this request has been rejected'
+          value={comment}
+          placeholder={placeholderText}
           handleChange={this.handleChange}
         />
-        <FormError errors={this.state.errors} fieldName='comment' />
+        <FormError errors={errors} fieldName='comment' />
         <Button
           name='rejectionButtonSubmit'
-          value='Reject'
+          value={buttonText}
           className='submitButton'
           onClick={this.handleSubmit}
         />
@@ -164,7 +193,8 @@ class CommentsForm extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  verifyRedemption: (redemption, isApproved, comment) => (dispatch(verifyRedemption(redemption, isApproved, comment))),
+  verifyRedemption: (redemption, clickAction, comment) =>
+    (dispatch(verifyRedemption(redemption, clickAction, comment))),
 });
 
 export default connect(null, mapDispatchToProps)(CommentsForm);

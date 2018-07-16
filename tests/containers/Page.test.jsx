@@ -12,41 +12,44 @@ const history = { push: () => { }, location: { pathname: '/u/my-activities' }, a
 
 describe('<Page />', () => {
   // setting up a mount wrapper with props
+  const testProps = {
+    location: '',
+    history,
+    categories,
+    children: '',
+    profile: {},
+    userInfo: {
+      name: 'test test',
+      picture: 'https://lh3.googleusercontent.com/-Ke1NKb5MPuk/AAAAAAAAAAI/AAAAAAAAABg/8ofOe_CueLA/photo.jpg?sz=50',
+    },
+    fetchUserProfile: () => { },
+    fetchSocietyInfo: () => { },
+    fetchUserInfo: () => { },
+    changePageTitle: () => { },
+    updating: false,
+    societyInfo: {
+      requesting: false,
+      error: {},
+      info: {
+        name: 'iStelle',
+        remainingPoints: 0,
+        image: '',
+      },
+    },
+  };
+
   const setUpWrapper = ({
     location = { pathname: '/u/my-activities' },
+    profile = {
+      society: {
+        name: 'iStelle',
+      },
+      roles: {
+        'society president': '-Kabc',
+      },
+    },
   } = {}) => {
-    const props = {
-      location,
-      history,
-      categories,
-      children: '',
-      profile: {
-        society: {
-          name: 'iStelle',
-        },
-        roles: {
-          'society president': '-Kabc',
-        },
-      },
-      userInfo: {
-        name: 'test test',
-        picture: 'https://lh3.googleusercontent.com/-Ke1NKb5MPuk/AAAAAAAAAAI/AAAAAAAAABg/8ofOe_CueLA/photo.jpg?sz=50',
-      },
-      fetchUserProfile: () => {},
-      fetchSocietyInfo: () => {},
-      fetchUserInfo: () => { },
-      changePageTitle: () => { },
-      updating: false,
-      societyInfo: {
-        requesting: false,
-        error: {},
-        info: {
-          name: 'iStelle',
-          remainingPoints: 0,
-          image: '',
-        },
-      },
-    };
+    const props = { ...testProps, location, profile };
 
     return mount(<Provider store={store}><MemoryRouter><Page.WrappedComponent {...props} /></MemoryRouter></Provider>);
   };
@@ -95,5 +98,15 @@ describe('<Page />', () => {
   it('should contain the RedeemPointsForm when pathname is /u/redemptions', () => {
     const redeemPointsForm = setUpWrapper({ location: { pathname: '/u/redemptions' } }).find('RedeemPointsForm');
     expect(redeemPointsForm).toHaveLength(1);
+  });
+
+  it('should show comments form for the cio on the redemptions page', () => {
+    const commentsForm = setUpWrapper({
+      location: { pathname: '/u/redemptions' },
+      profile: {
+        roles: { cio: 'abcd' },
+      },
+    }).find('CommentsForm');
+    expect(commentsForm).toHaveLength(1);
   });
 });

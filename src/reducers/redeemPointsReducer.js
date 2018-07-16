@@ -5,6 +5,9 @@ import {
   FETCH_REDEMPTIONS_FAILURE,
   FETCH_REDEMPTIONS_REQUEST,
   FETCH_REDEMPTIONS_SUCCESS,
+  UPDATE_REDEMPTION_REQUEST,
+  UPDATE_REDEMPTION_FAILURE,
+  UPDATE_REDEMPTION_SUCCESS,
   VERIFY_REDEMPTION_SUCCESS,
   VERIFY_REDEMPTION_FAILURE,
   VERIFY_REDEMPTION_REQUEST,
@@ -14,6 +17,7 @@ import initialState from './initialState';
 const redeemPointsReducer = (state = initialState.redemptionsInfo, action) => {
   switch (action.type) {
   case CREATE_REDEEM_POINTS_REQUEST:
+  case UPDATE_REDEMPTION_REQUEST:
     return {
       ...state,
       message: {
@@ -32,7 +36,22 @@ const redeemPointsReducer = (state = initialState.redemptionsInfo, action) => {
       redemptions: [...state.redemptions, action.redemption.data],
       requesting: false,
     };
+  case UPDATE_REDEMPTION_SUCCESS: {
+    const redemptions = state.redemptions.map(redemption => (
+      redemption.id !== action.redemption.id ? redemption : action.redemption
+    ));
+    return {
+      ...state,
+      message: {
+        type: 'success',
+        text: action.redemption.message,
+      },
+      redemptions,
+      requesting: false,
+    };
+  }
   case CREATE_REDEEM_POINTS_FAILURE:
+  case UPDATE_REDEMPTION_FAILURE:
     return {
       ...state,
       message: {

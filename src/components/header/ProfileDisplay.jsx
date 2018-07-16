@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 const ProfileDisplay = ({ logOut, userInfo, profile }) => (
   <div className='profileDisplay'>
     <span className='profileDisplay__name'>{userInfo.name}</span>
-    <span className='profileDisplay__society'>{profile.society.name}</span>
+    <span className='profileDisplay__society'>{profile.society && profile.society.name}</span>
     <footer className='profileDisplay__footer'>
       <button onClick={logOut} className='profileDisplay__signOutButton'>Sign out</button>
     </footer>

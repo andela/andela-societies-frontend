@@ -1,6 +1,6 @@
 export const redemption = {
   value: 8000,
-  reason: null,
+  reason: 'For t-shirts',
   id: 'abcd-43cd-11e8-82be-9801a7ae0329',
   status: 'pending',
   createdAt: '2018-04-19T12:33:59.167160+00:00',

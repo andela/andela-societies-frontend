@@ -7,6 +7,10 @@ import {
 } from '../types';
 import config from '../../config';
 
+// constants
+import clickActions from '../constants/clickAction';
+import { PENDING } from '../constants/statuses';
+
 /**
  * @function verifyRedemptionRequest
  * @return {Object} {{type: VERIFY_REDEMPTION_REQUEST}}
@@ -42,16 +46,20 @@ export const verifyRedemptionFailure = error => (
 
 /**
  * @function verifyRedemption thunk
- * @param {Boolean} isApproved - whether request for points redemption is granted
+ * @param {Boolean} action - whether request for points redemption is granted
  * @param {String} id - identifier for redemption request
  * @param {String} comment - comment for when a redemption request is rejected
  * @returns {(dispatch) => Promise<AxiosResponse>}
  */
-export const verifyRedemption = (id, isApproved, comment = '') => {
-  const requestData = { status: isApproved ? 'approved' : 'rejected' };
-  if (comment) {
-    requestData.comment = comment;
+export const verifyRedemption = (id, clickAction, comment = '') => {
+  let requestData = { status: clickAction };
+  if (comment && clickAction === clickActions.REJECT) {
+    requestData.rejection = comment;
   }
+  if (clickAction === clickActions.MORE_INFO) {
+    requestData = { ...requestData, status: PENDING, comment };
+  }
+
   return (
     (dispatch) => {
       dispatch(verifyRedemptionRequest());

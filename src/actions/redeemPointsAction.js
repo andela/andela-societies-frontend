@@ -8,6 +8,9 @@ import {
   FETCH_REDEMPTIONS_REQUEST,
   FETCH_REDEMPTIONS_FAILURE,
   FETCH_REDEMPTIONS_SUCCESS,
+  UPDATE_REDEMPTION_REQUEST,
+  UPDATE_REDEMPTION_FAILURE,
+  UPDATE_REDEMPTION_SUCCESS,
 } from '../types';
 
 import config from '../../config';
@@ -94,3 +97,50 @@ export const fetchRedemption = (ref) => {
       }).catch(() => dispatch({ type: FETCH_REDEMPTIONS_FAILURE }));
   };
 };
+
+/**
+ * @name updateRedemptionRequest
+ * @summary action creator for an update redemption request
+ * @returns {Object} { type: UPDATE_REDEMPTION_REQUEST }
+ */
+export const updateRedemptionRequest = () => ({ type: UPDATE_REDEMPTION_REQUEST });
+
+/**
+ * @name updateRedemptionFailure
+ * @summary action creator for an update redemption request failure
+ * @param {Object} error - payload error
+ * @returns {Object} action
+ */
+export const updateRedemptionFailure = error => ({
+  type: UPDATE_REDEMPTION_FAILURE,
+  error,
+});
+
+/**
+ * @name updateRedemptionSuccess
+ * @summary action creator for an update redemption request success
+ * @param {Object} redemption - updated redemption payload
+ * @returns {Object} action
+ */
+export const updateRedemptionSuccess = redemption => ({
+  type: UPDATE_REDEMPTION_SUCCESS,
+  redemption,
+});
+
+/**
+ * @name updateRedemption
+ * @summary thunk to update a redemption
+ * @param {Object} redemption - redemption to be updated payload
+ * @returns {(dispatch) => Promise<AxiosResponse>}
+ */
+export const updateRedemption = redemption => ((dispatch) => {
+  const updateData = { ...redemption };
+  delete updateData.id;
+  dispatch(updateRedemptionRequest());
+  return axios.put(`${config.API_BASE_URL}/societies/redeem/${redemption.id}`, updateData)
+    .then(response => (
+      dispatch(updateRedemptionSuccess(response.data))
+    )).catch(error => (
+      dispatch(updateRedemptionFailure(error.response.data.message))
+    ));
+});
