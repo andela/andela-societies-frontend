@@ -82,7 +82,7 @@ class Page extends Component {
   }
 
   static getDerivedStateFromProps = (props, state) => {
-    if (!props.location.pathname === '/u/my-activities') {
+    if (props.location.pathname !== '/u/my-activities') {
       return ({
         showModal: props.showModal,
       });

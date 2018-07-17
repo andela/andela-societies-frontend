@@ -3,9 +3,12 @@ import { mount, shallow } from 'enzyme';
 import ActivityCard from '../../../src/components/activities/ActivityCard';
 import activity from '../../../src/fixtures/activity';
 import { redemption } from '../../../src/fixtures/redemptions';
+import clickActions from '../../../src/constants/clickAction';
+
+const { EDIT } = clickActions;
 
 describe('<ActivityCard />', () => {
-  const handleClickToEdit = jest.fn();
+  const handleClick = jest.fn();
   const props = {
     page: '/u/verify-activities',
   };
@@ -61,18 +64,18 @@ describe('<ActivityCard />', () => {
     expect(shallowWrapper.state().isActivityChecked).toBe(false);
   });
 
-  it('should call handleClickToEdit with redemption id when handleClickableAreaClick is called', () => {
+  it('should call handleClick with redemption id when handleClickableAreaClick is called', () => {
     const userCanEdit = true;
     const component = shallow((
       <ActivityCard
         {...redemption}
-        handleClickToEdit={handleClickToEdit}
+        handleClick={handleClick}
         userCanEdit={userCanEdit}
       />
     ));
     const instance = component.instance();
     instance.handleClickableAreaClick();
-    expect(handleClickToEdit).toBeCalledWith(redemption.id);
+    expect(handleClick).toBeCalledWith(EDIT, redemption.id);
   });
 
   it('should show more info button', () => {
@@ -82,7 +85,7 @@ describe('<ActivityCard />', () => {
     const component = shallow((
       <ActivityCard
         {...redemption}
-        handleClickToEdit={handleClickToEdit}
+        handleClick={handleClick}
         userCanEdit={userCanEdit}
         showButtons={showButtons}
         showMoreInfoButton={showMoreInfoButton}
@@ -93,7 +96,6 @@ describe('<ActivityCard />', () => {
 
   describe('Verify Buttons', () => {
     let component;
-    const handleClick = jest.fn();
 
     beforeEach(() => {
       const userCanEdit = true;
@@ -102,7 +104,6 @@ describe('<ActivityCard />', () => {
       component = mount((
         <ActivityCard
           {...redemption}
-          handleClickToEdit={handleClickToEdit}
           userCanEdit={userCanEdit}
           showButtons={showButtons}
           showMoreInfoButton={showMoreInfoButton}

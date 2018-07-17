@@ -9,6 +9,9 @@ import storeFixture from '../../src/fixtures/store';
 import { redemptions, redemption } from '../../src/fixtures/redemptions';
 import filterActivitiesByStatus from '../../src/helpers/filterActivitiesByStatus';
 import testProfile from '../../src/fixtures/userProfile';
+import clickActions from '../../src/constants/clickAction';
+
+const { EDIT } = clickActions;
 
 const store = createMockStore(storeFixture);
 const history = { push: () => { }, action: 'PUSH', location: { pathname: '' } };
@@ -152,7 +155,7 @@ describe('<Redemptions />', () => {
       filteredActivities: testRedemptions,
       societyRedemptions: testRedemptions,
     });
-    instance.handleClickToEdit(redemption.id);
+    instance.handleClick(EDIT, redemption.id);
     expect(instance.state.showModal).toBe(true);
     expect(instance.state.selectedRedemption.id).toBe(redemption.id);
   });

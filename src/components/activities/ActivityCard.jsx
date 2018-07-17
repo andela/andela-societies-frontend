@@ -56,7 +56,6 @@ class ActivityCard extends Component {
     handleClick: PropType.func,
     id: PropType.string.isRequired,
     handleDeselectActivity: PropType.func,
-    handleClickToEdit: PropType.func,
     wordCount: PropType.number,
   };
 
@@ -77,7 +76,6 @@ class ActivityCard extends Component {
     page: '',
     handleClick: () => { },
     handleDeselectActivity: () => { },
-    handleClickToEdit: () => { },
     wordCount: 50,
   };
 
@@ -125,10 +123,11 @@ class ActivityCard extends Component {
       status,
       userCanEdit,
       id,
-      handleClickToEdit,
+      handleClick,
     } = this.props;
+    const { EDIT } = clickActions;
     if (status === PENDING && userCanEdit) {
-      handleClickToEdit(id);
+      handleClick(EDIT, id);
     }
   }
 

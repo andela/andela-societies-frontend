@@ -219,25 +219,33 @@ class Redemptions extends React.Component {
    * @summary calls verifyRedemption action creator when approve or reject button is clicked
    */
   handleClick = (clickAction, redemptionId) => {
-    const { APPROVE, REJECT, MORE_INFO } = clickActions;
-    if (clickAction === REJECT || clickAction === MORE_INFO) {
+    const {
+      APPROVE,
+      EDIT,
+      REJECT,
+      MORE_INFO,
+    } = clickActions;
+
+    switch (clickAction) {
+    case APPROVE:
+      this.props.verifyRedemption(redemptionId, clickAction);
+      break;
+    case EDIT:
+    case MORE_INFO:
+    case REJECT:
+    {
       const selectedRedemption = this.state.filteredActivities.find(r => r.id === redemptionId);
       selectedRedemption.rejectClicked = clickAction === REJECT;
       this.setState({
         showModal: true,
         selectedRedemption,
       });
-    } else if (clickAction === APPROVE) {
-      this.props.verifyRedemption(redemptionId, clickAction);
+      break;
     }
-  }
-
-  handleClickToEdit = (redemptionId) => {
-    const selectedRedemption = this.state.filteredActivities.find(r => r.id === redemptionId);
-    this.setState({
-      showModal: true,
-      selectedRedemption,
-    });
+    default:
+      break;
+    }
+    return null;
   }
 
   deselectRedemption = () => {
@@ -290,7 +298,7 @@ class Redemptions extends React.Component {
               id,
               center,
               createdAt,
-              reason,
+              name,
               value,
               status,
             } = activity;
@@ -298,7 +306,7 @@ class Redemptions extends React.Component {
               id={id}
               center={center.name}
               date={dateFormatter(createdAt)}
-              description={reason}
+              description={name}
               points={value}
               status={status}
               showAmount={showAmount}
@@ -309,7 +317,6 @@ class Redemptions extends React.Component {
               showUserDetails={showUserDetails}
               handleClick={this.handleClick}
               userCanEdit={userCanEdit}
-              handleClickToEdit={this.handleClickToEdit}
             />);
           })
         }
