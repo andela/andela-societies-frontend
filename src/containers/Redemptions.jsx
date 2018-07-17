@@ -248,10 +248,31 @@ class Redemptions extends React.Component {
     return null;
   }
 
+  /**
+   * @name deselectRedemption
+   * @summary removes selected item from state and closes the modal
+   */
   deselectRedemption = () => {
     this.setState({
       selectedRedemption: {},
       showModal: false,
+    });
+  }
+
+  /**
+   * @name updateSelectedItem
+   * @param {Object} newValues updated values
+   * @summary updates selectedItem values when changed
+   */
+  updateSelectedRedemption = (newValues) => {
+    const { center, points, reason } = newValues;
+    this.setState({
+      selectedRedemption: {
+        ...this.state.selectedRedemption,
+        value: points,
+        name: reason,
+        center: { name: center },
+      },
     });
   }
 
@@ -345,6 +366,7 @@ class Redemptions extends React.Component {
         selectedItem={selectedRedemption}
         deselectItem={this.deselectRedemption}
         showModal={showModal}
+        updateSelectedItem={this.updateSelectedRedemption}
       >
         <div className='mainContent'>
           <div className='RecentRedemptions'>

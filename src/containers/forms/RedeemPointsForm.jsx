@@ -27,6 +27,7 @@ class RedeemPointsForm extends Component {
     message: {},
     selectedItem: {},
     deselectItem: () => { },
+    updateSelectedItem: () => { },
   };
   /**
    * @name propTypes
@@ -41,6 +42,7 @@ class RedeemPointsForm extends Component {
     }),
     selectedItem: PropTypes.shape({ id: PropTypes.string }),
     deselectItem: PropTypes.func,
+    updateSelectedItem: PropTypes.func,
   }
 
   static getDerivedStateFromProps = (props, state) => {
@@ -128,6 +130,7 @@ class RedeemPointsForm extends Component {
     }, () => {
       if (this.state.errors.length === 0) {
         if (selectedItem.id) {
+          this.props.updateSelectedItem(this.state);
           this.props.updateRedemption({
             id: selectedItem.id,
             center,

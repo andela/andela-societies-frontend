@@ -181,4 +181,18 @@ describe('<Redemptions />', () => {
     expect(instance.state.showModal).toBe(true);
     expect(instance.state.selectedRedemption.id).toBe(redemption.id);
   });
+
+  it('should update selected redemption', () => {
+    const instance = shallowWrapper.instance();
+    const update = {
+      center: 'Kigali',
+      points: '8000',
+      reason: 'Wanna go to Minnesota but ...',
+    };
+    instance.setState({
+      selectedRedemption: redemption,
+    });
+    instance.updateSelectedRedemption(update);
+    expect(instance.state.selectedRedemption.value).toBe(update.points);
+  });
 });

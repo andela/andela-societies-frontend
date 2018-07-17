@@ -22,17 +22,18 @@ const ProfileDisplay = ({ logOut, userInfo, profile }) => (
 ProfileDisplay.propTypes = {
   userInfo: PropTypes.shape({
     name: PropTypes.string,
-  }).isRequired,
+  }),
   logOut: PropTypes.func.isRequired,
   profile: PropTypes.shape({
     society: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-    }).isRequired,
+      name: PropTypes.string,
+    }),
   }),
 };
 
 ProfileDisplay.defaultProps = {
-  profile: null,
+  userInfo: {},
+  profile: {},
 };
 
 export default ProfileDisplay;

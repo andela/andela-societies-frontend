@@ -44,6 +44,7 @@ class Page extends Component {
     fetchUserInfo: PropTypes.func.isRequired,
     fetchSocietyInfo: PropTypes.func.isRequired,
     fetchUserProfile: PropTypes.func.isRequired,
+    updateSelectedItem: PropTypes.func,
     userInfo: PropTypes.shape({
       name: PropTypes.string,
       picture: PropTypes.string,
@@ -79,6 +80,7 @@ class Page extends Component {
     updating: false,
     selectedItem: {},
     deselectItem: () => { },
+    updateSelectedItem: () => { },
   }
 
   static getDerivedStateFromProps = (props, state) => {
@@ -142,6 +144,7 @@ class Page extends Component {
       location,
       profile,
       selectedItem,
+      updateSelectedItem,
     } = this.props;
 
     const className = this.state.showModal ? 'modal--open' : '';
@@ -155,6 +158,7 @@ class Page extends Component {
           closeModal={this.closeModal}
           selectedItem={selectedItem}
           deselectItem={deselectItem}
+          updateSelectedItem={updateSelectedItem}
         />
       );
     } else if (hasAllowedRole(Object.keys(profile.roles), STAFF_USERS)) {
