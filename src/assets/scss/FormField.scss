@@ -27,7 +27,6 @@
  flex: 1;
  height: 5rem;
  outline: none;
- margin-top: 2rem;
  font-size: large;
  border:0.1rem solid #eeeeee;
  border-radius: 0.5rem;
@@ -114,7 +113,6 @@
   font: normal normal normal 1.8rem/1 FontAwesome;
   color: black;
   right: 8rem;
-  top: 3rem;
   padding: 1rem 0rem 0rem 1rem;
   border-left: 0.1rem solid #eeeeeeee;
   position: absolute;
@@ -124,7 +122,8 @@
 
 .activityCategory select {
   -webkit-appearance: none;
-  -moz-appearance: none; 
+  -moz-appearance: none;
+  appearance: none;
   display: block;
   flex: 1;
   max-width: 100%;

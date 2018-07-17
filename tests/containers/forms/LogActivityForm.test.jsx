@@ -19,6 +19,7 @@ const defaultState = {
   description: '',
   errors: [],
   message: null,
+  numberOf: '',
 };
 
 const event = { preventDefault: () => {} };
@@ -53,12 +54,12 @@ describe('<LogActivityForm />', () => {
   });
 
   it('should show the <SingleInput/> component when it has loaded', () => {
-    wrapper.setState({ selectValue: 'eef0e594-43cd-11e8-87a7-9801a7ae0329' });
+    wrapper.setState({ activityTypeId: 'id1' });
     expect(wrapper.find('SingleInput').length).toEqual(1);
   });
 
   it('should render the SingleInput with the correct label', () => {
-    wrapper.setState({ selectValue: 'eef0e594-43cd-11e8-87a7-9801a7ae0329' });
+    wrapper.setState({ activityTypeId: 'id1' });
     expect(wrapper.find('SingleInput').dive().find('.formField__label').text()).toEqual('# of interviewees');
   });
 
@@ -121,8 +122,10 @@ describe('<LogActivityForm />', () => {
       createActivity={() => { }}
     />);
     const instance = mounted.instance();
+    jest.spyOn(instance, 'selectedCategory');
+    instance.selectedCategory();
     instance.setState({
-      activityTypeId: 'asd78sad8ads8ad7',
+      activityTypeId: 'id1',
       date: '2018-12-12',
     }, () => {
       instance.resetState();
@@ -153,5 +156,13 @@ describe('<LogActivityForm />', () => {
     jest.spyOn(instance, 'renderValidationError');
     instance.handleAddEvent(event, 'date');
     expect(instance.renderValidationError).toHaveBeenCalled();
+  });
+
+  it('should add numberOf to errors fields if is not set when bootcamp interviews is selected', () => {
+    const instance = wrapper.instance();
+    jest.spyOn(instance, 'handleAddEvent');
+    wrapper.setState({ activityTypeId: 'id1' });
+    instance.handleAddEvent(event);
+    expect(instance.state.errors).toContain('numberOf');
   });
 });
