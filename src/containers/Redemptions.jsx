@@ -25,8 +25,9 @@ import statsGenerator from '../helpers/statsGenerator';
 import filterActivitiesByStatus from '../helpers/filterActivitiesByStatus';
 
 // constants
-import { VERIFICATION_USERS, SUCCESS_OPS, CIO, STAFF_USERS } from '../constants/roles';
+import { VERIFICATION_USERS, SUCCESS_OPS, CIO, SOCIETY_PRESIDENT, STAFF_USERS } from '../constants/roles';
 import { ALL, APPROVED, PENDING, REJECTED } from '../constants/statuses';
+import clickActions from '../constants/clickAction';
 
 // fixtures
 import tabs from '../fixtures/tabs';
@@ -65,6 +66,8 @@ class Redemptions extends React.Component {
     if (props.userRoles.length) {
       const userRoles = props.userRoles ? props.userRoles : [];
       const showButtons = userRoles.length > 0 && hasAllowedRole(userRoles, VERIFICATION_USERS);
+      const showMoreInfoButton = userRoles.length > 0 && hasAllowedRole(userRoles, [CIO]);
+      const userCanEdit = userRoles.length > 0 && hasAllowedRole(userRoles, [SOCIETY_PRESIDENT]);
       let preSelectedRemptions = props.redemptions;
       let {
         initialStatus,
@@ -88,10 +91,12 @@ class Redemptions extends React.Component {
       return {
         allActivities: props.redemptions,
         filteredActivities: preSelectedRemptions,
+        userCanEdit,
         societyRedemptions,
         userRoles,
         showTabs,
         showButtons,
+        showMoreInfoButton,
         initialStatus,
         selectedStatus,
       };
@@ -103,6 +108,7 @@ class Redemptions extends React.Component {
     super(props);
     this.state = {
       allActivities: [],
+      userCanEdit: false,
       filteredActivities: [],
       societyRedemptions: [],
       selectedStatus: ALL,
@@ -110,12 +116,13 @@ class Redemptions extends React.Component {
       showUserDetails: true,
       showLocation: true,
       showButtons: false,
+      showMoreInfoButton: false,
       showPoints: true,
       showAmount: true,
       selectedSociety: 'istelle',
       selectedRedemption: {},
       showTabs: false,
-      openModal: false,
+      showModal: false,
       statuses: [ALL, PENDING, REJECTED, APPROVED],
     };
   }
@@ -172,19 +179,6 @@ class Redemptions extends React.Component {
   };
 
   /**
-   * @name toggleOpenModal
-   * @summary open/closes modal and sets value of selectedRedemption
-   * @param {Object} redemption that has been clicked
-   */
-  toggleOpenModal = (redemption) => {
-    const selectedRedemption = this.state.openModal ? {} : redemption;
-    this.setState(currentState => ({
-      openModal: !currentState.openModal,
-      selectedRedemption,
-    }));
-  };
-
-  /**
    * @name filterRedemptions
    * @summary filters redemptions based on status
    */
@@ -220,17 +214,66 @@ class Redemptions extends React.Component {
 
   /**
    * @name handleClick
-   * @param {Boolean} isApproved whether or not a redemption request has been approved
+   * @param {Boolean} clickAction which button has been clicked
    * @param {String} redemptionId id of clicked redemption request
    * @summary calls verifyRedemption action creator when approve or reject button is clicked
    */
-  handleClick = (isApproved, redemptionId) => {
-    if (!isApproved) {
-      const redemption = this.state.filteredActivities.find(r => r.id === redemptionId);
-      this.toggleOpenModal(redemption);
-    } else {
-      this.props.verifyRedemption(redemptionId, isApproved);
+  handleClick = (clickAction, redemptionId) => {
+    const {
+      APPROVE,
+      EDIT,
+      REJECT,
+      MORE_INFO,
+    } = clickActions;
+
+    switch (clickAction) {
+    case APPROVE:
+      this.props.verifyRedemption(redemptionId, clickAction);
+      break;
+    case EDIT:
+    case MORE_INFO:
+    case REJECT:
+    {
+      const selectedRedemption = this.state.filteredActivities.find(r => r.id === redemptionId);
+      selectedRedemption.rejectClicked = clickAction === REJECT;
+      this.setState({
+        showModal: true,
+        selectedRedemption,
+      });
+      break;
     }
+    default:
+      break;
+    }
+    return null;
+  }
+
+  /**
+   * @name deselectRedemption
+   * @summary removes selected item from state and closes the modal
+   */
+  deselectRedemption = () => {
+    this.setState({
+      selectedRedemption: {},
+      showModal: false,
+    });
+  }
+
+  /**
+   * @name updateSelectedItem
+   * @param {Object} newValues updated values
+   * @summary updates selectedItem values when changed
+   */
+  updateSelectedRedemption = (newValues) => {
+    const { center, points, reason } = newValues;
+    this.setState({
+      selectedRedemption: {
+        ...this.state.selectedRedemption,
+        value: points,
+        name: reason,
+        center: { name: center },
+      },
+    });
   }
 
   /**
@@ -245,8 +288,10 @@ class Redemptions extends React.Component {
       showUserDetails,
       showLocation,
       showButtons,
+      showMoreInfoButton,
       showAmount,
       selectedStatus,
+      userCanEdit,
     } = this.state;
 
     if (requesting) {
@@ -274,7 +319,7 @@ class Redemptions extends React.Component {
               id,
               center,
               createdAt,
-              reason,
+              name,
               value,
               status,
             } = activity;
@@ -282,15 +327,17 @@ class Redemptions extends React.Component {
               id={id}
               center={center.name}
               date={dateFormatter(createdAt)}
-              description={reason}
+              description={name}
               points={value}
               status={status}
               showAmount={showAmount}
               showButtons={showButtons}
+              showMoreInfoButton={showMoreInfoButton}
               showLocation={showLocation}
               showPoints={showPoints}
               showUserDetails={showUserDetails}
               handleClick={this.handleClick}
+              userCanEdit={userCanEdit}
             />);
           })
         }
@@ -311,11 +358,16 @@ class Redemptions extends React.Component {
       selectedSociety,
       selectedRedemption,
       statuses,
-      openModal,
+      showModal,
     } = this.state;
 
     return (
-      <Page openModal={openModal} toggleOpenModal={this.toggleOpenModal} selectedItem={selectedRedemption} >
+      <Page
+        selectedItem={selectedRedemption}
+        deselectItem={this.deselectRedemption}
+        showModal={showModal}
+        updateSelectedItem={this.updateSelectedRedemption}
+      >
         <div className='mainContent'>
           <div className='RecentRedemptions'>
             <PageHeader
@@ -359,7 +411,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
   fetchRedemption: societyName => dispatch(fetchRedemption(societyName)),
-  verifyRedemption: (redemptionId, isApproved) => dispatch(verifyRedemption(redemptionId, isApproved)),
+  verifyRedemption: (redemptionId, clickAction) => dispatch(verifyRedemption(redemptionId, clickAction)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Redemptions);

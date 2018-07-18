@@ -2,8 +2,13 @@ import React from 'react';
 import { mount, shallow } from 'enzyme';
 import ActivityCard from '../../../src/components/activities/ActivityCard';
 import activity from '../../../src/fixtures/activity';
+import { redemption } from '../../../src/fixtures/redemptions';
+import clickActions from '../../../src/constants/clickAction';
+
+const { EDIT } = clickActions;
 
 describe('<ActivityCard />', () => {
+  const handleClick = jest.fn();
   const props = {
     page: '/u/verify-activities',
   };
@@ -57,5 +62,70 @@ describe('<ActivityCard />', () => {
     const checkbox = shallowWrapper.find('.activity__checkbox');
     checkbox.simulate('change');
     expect(shallowWrapper.state().isActivityChecked).toBe(false);
+  });
+
+  it('should call handleClick with redemption id when handleClickableAreaClick is called', () => {
+    const userCanEdit = true;
+    const component = shallow((
+      <ActivityCard
+        {...redemption}
+        handleClick={handleClick}
+        userCanEdit={userCanEdit}
+      />
+    ));
+    const instance = component.instance();
+    instance.handleClickableAreaClick();
+    expect(handleClick).toBeCalledWith(EDIT, redemption.id);
+  });
+
+  it('should show more info button', () => {
+    const userCanEdit = true;
+    const showMoreInfoButton = true;
+    const showButtons = true;
+    const component = shallow((
+      <ActivityCard
+        {...redemption}
+        handleClick={handleClick}
+        userCanEdit={userCanEdit}
+        showButtons={showButtons}
+        showMoreInfoButton={showMoreInfoButton}
+      />
+    ));
+    expect(component.find('.verifyButtons__button--moreInfo').length).toBe(1);
+  });
+
+  describe('Verify Buttons', () => {
+    let component;
+
+    beforeEach(() => {
+      const userCanEdit = true;
+      const showMoreInfoButton = true;
+      const showButtons = true;
+      component = mount((
+        <ActivityCard
+          {...redemption}
+          userCanEdit={userCanEdit}
+          showButtons={showButtons}
+          showMoreInfoButton={showMoreInfoButton}
+          handleClick={handleClick}
+        />
+      ));
+      handleClick.mockClear();
+    });
+
+    it('should call handleclick when approve button is clicked', () => {
+      component.find('button.verifyButtons__button--approve').simulate('click');
+      expect(handleClick.mock.calls.length).toEqual(1);
+    });
+
+    it('should call handleclick when reject button is clicked', () => {
+      component.find('button.verifyButtons__button--reject').simulate('click');
+      expect(handleClick.mock.calls.length).toEqual(1);
+    });
+
+    it('should call handleclick when moreInfo button is clicked', () => {
+      component.find('button.verifyButtons__button--moreInfo').simulate('click');
+      expect(handleClick.mock.calls.length).toEqual(1);
+    });
   });
 });

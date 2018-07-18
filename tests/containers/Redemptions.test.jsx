@@ -9,6 +9,9 @@ import storeFixture from '../../src/fixtures/store';
 import { redemptions, redemption } from '../../src/fixtures/redemptions';
 import filterActivitiesByStatus from '../../src/helpers/filterActivitiesByStatus';
 import testProfile from '../../src/fixtures/userProfile';
+import clickActions from '../../src/constants/clickAction';
+
+const { EDIT } = clickActions;
 
 const store = createMockStore(storeFixture);
 const history = { push: () => { }, action: 'PUSH', location: { pathname: '' } };
@@ -88,7 +91,7 @@ describe('<Redemptions />', () => {
 
   it('should render a loader when requesting is true', () => {
     const mountedWrapper = setUpWrapper({ requesting: true });
-    expect(mountedWrapper.find('.loader').length).toBe(1);
+    expect(mountedWrapper.find('Loader').length).toBe(1);
   });
 
   it('should filter redemptions given status', () => {
@@ -134,13 +137,6 @@ describe('<Redemptions />', () => {
     expect(instance.state.filteredActivities.length).toBe(1);
   });
 
-  it('should open the modal and set the selected redemption in state', () => {
-    const instance = shallowWrapper.instance();
-    instance.toggleOpenModal(redemption);
-    expect(instance.state.openModal).toBe(true);
-    expect(instance.state.selectedRedemption.id).toBe(redemption.id);
-  });
-
   it('should call verifyRedemption thunk when redemption is approved', () => {
     const instance = shallowWrapper.instance();
     instance.setState({
@@ -148,19 +144,55 @@ describe('<Redemptions />', () => {
       filteredActivities: testRedemptions,
       societyRedemptions: testRedemptions,
     });
-    instance.handleClick(true, redemption.id);
+    instance.handleClick('approved', redemption.id);
     expect(verifyRedemption).toHaveBeenCalled();
   });
 
-  it('should open a modal when a redemption is rejected', () => {
+  it('should open modal and set selectedRedemption when redemption is clicked', () => {
     const instance = shallowWrapper.instance();
-    jest.spyOn(instance, 'toggleOpenModal');
     instance.setState({
       allActivities: testRedemptions,
       filteredActivities: testRedemptions,
       societyRedemptions: testRedemptions,
     });
-    instance.handleClick(false, redemption.id);
-    expect(instance.toggleOpenModal).toHaveBeenCalled();
+    instance.handleClick(EDIT, redemption.id);
+    expect(instance.state.showModal).toBe(true);
+    expect(instance.state.selectedRedemption.id).toBe(redemption.id);
+  });
+
+  it('should close modal and clear selected redemption', () => {
+    const instance = shallowWrapper.instance();
+    instance.setState({
+      selectedRedemption: redemption,
+    });
+    instance.deselectRedemption();
+    expect(instance.state.selectedRedemption.id).toBe(undefined);
+    expect(instance.state.showModal).toBe(false);
+  });
+
+  it('should selected redemption in state and show modal when reject button is clicked', () => {
+    const instance = shallowWrapper.instance();
+    instance.setState({
+      allActivities: testRedemptions,
+      filteredActivities: testRedemptions,
+      societyRedemptions: testRedemptions,
+    });
+    instance.handleClick('rejected', redemption.id);
+    expect(instance.state.showModal).toBe(true);
+    expect(instance.state.selectedRedemption.id).toBe(redemption.id);
+  });
+
+  it('should update selected redemption', () => {
+    const instance = shallowWrapper.instance();
+    const update = {
+      center: 'Kigali',
+      points: '8000',
+      reason: 'Wanna go to Minnesota but ...',
+    };
+    instance.setState({
+      selectedRedemption: redemption,
+    });
+    instance.updateSelectedRedemption(update);
+    expect(instance.state.selectedRedemption.value).toBe(update.points);
   });
 });

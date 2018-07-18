@@ -83,8 +83,8 @@ class VerifyActivities extends Component {
       this.props.fetchSocietyInfo(this.state.societyName);
     }
   }
-  handleClick = (isApproved, activityId) => {
-    this.props.verifyActivity(isApproved, activityId);
+  handleClick = (clickAction, activityId) => {
+    this.props.verifyActivity(clickAction, activityId);
   }
 
   /**
@@ -277,7 +277,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchSocietyInfo: name => dispatch(fetchSocietyInfo(name)),
-  verifyActivity: (isApproved, activityId) => dispatch(verifyActivity(isApproved, activityId)),
+  verifyActivity: (clickAction, activityId) => dispatch(verifyActivity(clickAction, activityId)),
   verifyActivitiesOps: activityIds => dispatch(verifyActivitiesOps(activityIds)),
 });
 

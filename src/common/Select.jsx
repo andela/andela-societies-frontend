@@ -6,20 +6,27 @@ import PropTypes from 'prop-types';
 * @summary Returns a label and a select
 * @returns Returns a label and a select
 */
-const Select = props => (
+const Select = ({
+  title,
+  name,
+  value,
+  placeholder,
+  options,
+  handleChange,
+}) => (
   <div className='activityCategory'>
-    { /* eslint-disable */ }
-    <label className='formField__label'>{props.title}</label>
+    { /* eslint-disable */}
+    <label className='formField__label'>{title}</label>
     { /* eslint-disable  enable*/}
     <select
-      name={props.name}
+      name={name}
       className='formField__control'
-      onChange={props.handleChange}
-      value={props.value}
+      onChange={handleChange}
+      value={value}
     >
 
-      <option value={props.placeholder}>{props.placeholder}</option>
-      {props.options.map(opt =>
+      <option value={placeholder}>{value || placeholder}</option>
+      {options.map(opt =>
         (
           <option
             key={opt.id}
@@ -30,7 +37,7 @@ const Select = props => (
       }
     </select>
   </div>
-);
+  );
 /**
  * @name propTypes
  * @type {PropType}
@@ -45,7 +52,9 @@ const Select = props => (
 Select.propTypes = {
   name: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  value: PropTypes.string,
   options: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   placeholder: PropTypes.string.isRequired,
+  handleChange: PropTypes.func,
 };
 export default Select;

@@ -36,8 +36,8 @@ export default class Header extends Component {
     societyBanner: PropTypes.bool,
     profile: PropTypes.shape({
       society: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-      }).isRequired,
+        name: PropTypes.string,
+      }),
     }),
   }
   constructor(props) {

@@ -9,6 +9,8 @@ import {
   VERIFY_ACTIVITY_OPS_SUCCESS,
 } from '../types';
 import config from '../../config';
+import { PENDING, REJECTED } from '../constants/statuses';
+import clickActions from '../constants/clickAction';
 
 /**
  * @function verifyActivityRequest
@@ -47,12 +49,12 @@ export const verifyActivityFailure = error => (
  * @function verifyActivity thunk
  * @returns {(dispatch) => Promise<AxiosResponse>}
  */
-export const verifyActivity = (isApproved, activityId) => (
+export const verifyActivity = (clickAction, activityId) => (
   (dispatch) => {
     dispatch(verifyActivityRequest());
     return http.put(
       `${config.API_BASE_URL}/logged-activities/${activityId}`,
-      { status: isApproved ? 'pending' : 'rejected' },
+      { status: clickAction === clickActions.APPROVE ? PENDING : REJECTED },
     )
       .then((response) => {
         dispatch(verifyActivitySuccess(response.data.data));

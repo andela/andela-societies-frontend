@@ -9,6 +9,10 @@ import {
   redeemPoints,
   fetchRedemptionsRequest,
   fetchRedemption,
+  updateRedemptionRequest,
+  updateRedemptionFailure,
+  updateRedemptionSuccess,
+  updateRedemption,
 } from '../../src/actions/redeemPointsAction';
 
 // types
@@ -19,6 +23,9 @@ import {
   FETCH_REDEMPTIONS_REQUEST,
   FETCH_REDEMPTIONS_SUCCESS,
   FETCH_REDEMPTIONS_FAILURE,
+  UPDATE_REDEMPTION_REQUEST,
+  UPDATE_REDEMPTION_FAILURE,
+  UPDATE_REDEMPTION_SUCCESS,
 } from '../../src/types';
 
 // helpers
@@ -116,5 +123,66 @@ describe('Redeem Points Actions', () => {
     };
     return store.dispatch(fetchRedemption('Istelle'))
       .then(() => (expect(store.getActions()[1]).toEqual(expectedErrorAction)));
+  });
+
+  it('should dispatch update redemption request', () => {
+    expect(updateRedemptionRequest()).toEqual({ type: UPDATE_REDEMPTION_REQUEST });
+  });
+
+  it('should dispatch update redemption request failure', () => {
+    expect(updateRedemptionFailure()).toEqual({ type: UPDATE_REDEMPTION_FAILURE });
+  });
+
+  it('should dispatch update redemption request success', () => {
+    expect(updateRedemptionSuccess(redemption)).toEqual({ type: UPDATE_REDEMPTION_SUCCESS, redemption });
+  });
+
+  it('should update a redemption successfuly', () => {
+    moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem/${redemption.id}`, {
+      status: 200,
+      response: {
+        data: { ...redemption },
+        message: 'Redemption succesfully updated',
+      },
+    });
+
+    const expectedSuccessAction = {
+      type: UPDATE_REDEMPTION_SUCCESS,
+      redemption: {
+        data: { ...redemption },
+        message: 'Redemption succesfully updated',
+      },
+    };
+    const updateData = {
+      id: redemption.id,
+      center: redemption.center.name,
+      points: redemption.value,
+      reason: redemption.reason,
+    };
+    return store.dispatch(updateRedemption(updateData))
+      .then(() => (expect(store.getActions()[1]).toEqual(expectedSuccessAction)));
+  });
+
+  it('should dispatch FETCH_REDEMPTIONS_FAILURE if update redemption failed', () => {
+    moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem/${redemption.id}`, {
+      status: 401,
+      response: {
+        data: { ...redemption },
+        message: 'There was an error',
+      },
+    });
+
+    const expectedFailureAction = {
+      type: UPDATE_REDEMPTION_FAILURE,
+      error: 'There was an error',
+    };
+    const updateData = {
+      id: redemption.id,
+      center: redemption.center.name,
+      points: redemption.value,
+      reason: redemption.reason,
+    };
+    return store.dispatch(updateRedemption(updateData))
+      .then(() => (expect(store.getActions()[1]).toEqual(expectedFailureAction)));
   });
 });
