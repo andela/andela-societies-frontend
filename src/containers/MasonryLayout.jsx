@@ -57,11 +57,16 @@ class MasonryLayout extends Component {
   render() {
     return (
       <div className='masonry'>
-        <div className='masonry-layout'>
-          {
-            this.createItems(this.state.items)
-          }
-        </div>
+        {
+          this.props.items.length > 0 ?
+            <div className='masonry-layout'>
+              {
+                this.createItems(this.state.items)
+              }
+            </div>
+            :
+            <h2 className='items-unavailable-message'>There are no activities at the moment</h2>
+        }
       </div>
     );
   }
