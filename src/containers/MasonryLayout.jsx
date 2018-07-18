@@ -55,13 +55,14 @@ class MasonryLayout extends Component {
    * @return {object} JSX for MasonryLayout component
    */
   render() {
+    const { items } = this.state;
     return (
       <div className='masonry'>
         {
-          this.props.items.length > 0 ?
+          items.length ?
             <div className='masonry-layout'>
               {
-                this.createItems(this.state.items)
+                this.createItems(items)
               }
             </div>
             :
