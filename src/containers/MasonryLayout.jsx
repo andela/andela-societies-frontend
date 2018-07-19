@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ErrorMessage from '../common/ErrorMessage';
 
 /**
  * @name MasonryLayout
@@ -55,13 +56,19 @@ class MasonryLayout extends Component {
    * @return {object} JSX for MasonryLayout component
    */
   render() {
+    const { items } = this.state;
     return (
       <div className='masonry'>
-        <div className='masonry-layout'>
-          {
-            this.createItems(this.state.items)
-          }
-        </div>
+        {
+          items.length ?
+            <div className='masonry-layout'>
+              {
+                this.createItems(items)
+              }
+            </div>
+            :
+            <ErrorMessage message='There are no activities at the moment' />
+        }
       </div>
     );
   }

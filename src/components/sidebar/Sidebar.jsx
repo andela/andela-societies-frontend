@@ -26,10 +26,12 @@ const renderMenuItem = pageInfoData => (
  */
 const Sidebar = ({ userRoles, pageInfo }) => (
   <aside className='sidebar'>
-    <header className='sidebar__header'>
-      <span className='sidebar__logoWrapper' style={{ backgroundImage: `url(${logo})` }} />
-      <span className='sidebar__appName'>Andela Societies</span>
-    </header>
+    <Link to='/u/' className='sidebar__homeLink'>
+      <header className='sidebar__header'>
+        <span className='sidebar__logoWrapper' style={{ backgroundImage: `url(${logo})` }} />
+        <span className='sidebar__appName'>Andela Societies</span>
+      </header>
+    </Link>
     <nav className='sidebar__nav'>
       <div className='sidebar__navGroup'>
         {pageInfo.pages.map((page) => {
