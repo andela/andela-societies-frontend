@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ErrorMessage from '../common/ErrorMessage';
 
 /**
  * @name MasonryLayout
@@ -66,7 +67,7 @@ class MasonryLayout extends Component {
               }
             </div>
             :
-            <h2 className='items-unavailable-message'>There are no activities at the moment</h2>
+            <ErrorMessage message='There are no activities at the moment' />
         }
       </div>
     );
