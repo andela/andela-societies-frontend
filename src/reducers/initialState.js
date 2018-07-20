@@ -51,6 +51,12 @@ const initialState = {
     hasError: false,
     updating: false,
   },
+  commentsInfo: {
+    comment: [],
+    hasError: false,
+    message: {},
+    requesting: false,
+  },
 };
 
 export default initialState;

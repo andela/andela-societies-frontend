@@ -57,6 +57,12 @@ const store = {
     redemptions: [],
     updating: false,
   },
+  commentsInfo: {
+    comment: [],
+    hasError: false,
+    message: {},
+    requesting: false,
+  },
 };
 
 export default store;

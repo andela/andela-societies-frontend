@@ -241,6 +241,7 @@ class Redemptions extends React.Component {
     {
       const selectedRedemption = this.state.filteredActivities.find(r => r.id === redemptionId);
       selectedRedemption.rejectClicked = clickAction === REJECT;
+      selectedRedemption.itemType = 'redemption';
       this.setState({
         showModal: true,
         selectedRedemption,

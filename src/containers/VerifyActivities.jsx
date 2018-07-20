@@ -6,10 +6,9 @@ import { connect } from 'react-redux';
 import {
   hasAllowedRole,
   dateFormatter,
-  filterActivities,
   filterActivitiesByStatus,
+  statsGenerator,
 } from '../helpers';
-import statsGenerator from '../helpers/statsGenerator';
 
 // components
 import ActivityCard from '../components/activities/ActivityCard';
@@ -26,8 +25,10 @@ import { fetchSocietyInfo } from '../actions/societyInfoActions';
 import { verifyActivity, verifyActivitiesOps } from '../actions/verifyActivityActions';
 import { fetchAllActivities } from '../actions/allActivitiesActions';
 
+// constants
 import { SUCCESS_OPS, SOCIETY_SECRETARY } from '../constants/roles';
 import { PENDING, IN_REVIEW } from '../constants/statuses';
+import clickActions from '../constants/clickAction';
 
 // fixtures
 import tabs from '../fixtures/tabs';
@@ -53,8 +54,8 @@ class VerifyActivities extends Component {
 
   static defaultProps = {
     verifyActivitiesOps: () => { },
-    fetchAllActivities: () => {},
-    verifyActivity: () => {},
+    fetchAllActivities: () => { },
+    verifyActivity: () => { },
     userRoles: [],
     allActivities: [],
   }
@@ -69,10 +70,10 @@ class VerifyActivities extends Component {
       const { selectedSociety } = state;
       const userRoles = props.userRoles ? props.userRoles : [];
       const showButtons = userRoles.length > 0 && hasAllowedRole(userRoles, [SOCIETY_SECRETARY, SUCCESS_OPS]);
+      const showMoreInfoButton = userRoles.length > 0 && hasAllowedRole(userRoles, [SUCCESS_OPS]);
       let {
         showTabs,
       } = state;
-
       let filteredActivities;
       if (hasAllowedRole(userRoles, [SUCCESS_OPS])) {
         showTabs = true;
@@ -88,6 +89,7 @@ class VerifyActivities extends Component {
         societyName,
         showTabs,
         showButtons,
+        showMoreInfoButton,
       };
     }
     return { ...state, userRoles: null };
@@ -101,9 +103,12 @@ class VerifyActivities extends Component {
       selectedStatus: PENDING,
       isSelectAllChecked: false,
       selectedActivities: [],
+      selectedActivity: {},
       message: null,
       selectedSociety: 'istelle',
       showTabs: false,
+      showMoreInfoButton: false,
+      showModal: false,
     };
   }
 
@@ -127,29 +132,40 @@ class VerifyActivities extends Component {
   }
 
   /**
+   * @name handleClick
    * handle the click event for the verify button
-   * @memberof handleClick
    */
   handleClick = (clickAction, activityId) => {
     const { userRoles } = this.props;
-    if (hasAllowedRole(userRoles, [SUCCESS_OPS])) {
-      this.props.verifyActivitiesOps(activityId);
-    } else {
+    const { APPROVE, MORE_INFO } = clickActions;
+    switch (clickAction) {
+    case APPROVE:
+    {
+      if (hasAllowedRole(userRoles, [SUCCESS_OPS])) {
+        this.props.verifyActivitiesOps(activityId);
+      }
       this.props.verifyActivity(clickAction, activityId);
+      break;
+    }
+    case MORE_INFO:
+    {
+      const selectedActivity = this.state.filteredActivities.find(activity => (activity.id === activityId));
+      selectedActivity.itemType = 'activity';
+      this.setState({ showModal: true, selectedActivity });
+      break;
+    }
+    default:
+      break;
     }
   }
 
   /**
-   * Filters state based on the selectedStatus
-   * @memberof MyActivities
+   * @name deselectActivity
+   * @summary closes the comment form modal
    */
-  filterActivities = (status) => {
-    this.setState({
-      filteredActivities: filterActivities(status, this.state)
-        .filteredActivities,
-      selectedStatus: status,
-    });
-  };
+  deselectActivity = () => {
+    this.setState({ selectedActivity: {}, showModal: false });
+  }
 
   /**
    * @name handleSelectAllClick
@@ -198,7 +214,6 @@ class VerifyActivities extends Component {
     const { selectedActivities } = this.state;
     if (!selectedActivities.length) {
       this.setState({
-        show: true,
         message: ({
           text: 'Please Select an Activity to Approve',
           type: 'error',
@@ -220,6 +235,7 @@ class VerifyActivities extends Component {
       isSelectAllChecked,
       selectedActivities,
       showButtons,
+      showMoreInfoButton,
     } = this.state;
     const { history: { location: { pathname } }, userRoles } = this.props;
     const showCheckBox = hasAllowedRole(userRoles, [SUCCESS_OPS]);
@@ -246,6 +262,7 @@ class VerifyActivities extends Component {
                 showUserDetails={showUserDetails}
                 page={pathname}
                 showButtons={showButtons}
+                showMoreInfoButton={showMoreInfoButton}
                 handleClick={this.handleClick}
                 isSelectAllChecked={isSelectAllChecked}
                 selectedActivities={selectedActivities}
@@ -301,6 +318,8 @@ class VerifyActivities extends Component {
       showTabs,
       selectedStatus,
       selectedSociety,
+      selectedActivity,
+      showModal,
     } = this.state;
     let snackBarMessage = '';
     if (message) {
@@ -309,13 +328,16 @@ class VerifyActivities extends Component {
     const hideFilter = true;
     const showSelectAllApproveBtn = (userRoles.length > 0 && hasAllowedRole(userRoles, [SUCCESS_OPS]));
     return (
-      <Page>
+      <Page
+        showModal={showModal}
+        selectedItem={selectedActivity}
+        deselectItem={this.deselectActivity}
+      >
         <div className='mainContent'>
           <div className='VerifyActivities'>
             <PageHeader
               title='Verify Activities'
               hideFilter={hideFilter}
-              filterActivities={this.filterActivities}
               selectedStatus={selectedStatus}
               selectedSociety={selectedSociety}
               showSelectAllApproveBtn={showSelectAllApproveBtn}

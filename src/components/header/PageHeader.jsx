@@ -172,7 +172,17 @@ class PageHeader extends Component {
       title,
       selectedSociety,
       showTabs,
+      showSelectAllApproveBtn,
+      hideFilter,
     } = this.props;
+    let showSelectAllApproveBtnHtml;
+    let filterStatusHtml;
+    if (showSelectAllApproveBtn) {
+      showSelectAllApproveBtnHtml = this.renderSelectAllApprovebtn();
+    }
+    if (!hideFilter) {
+      filterStatusHtml = this.renderFilterStatus();
+    }
     return (
       <header className='pageHeader'>
         {
@@ -185,12 +195,8 @@ class PageHeader extends Component {
             : <h1 className='pageTitle'>{title}</h1>
 
         }
-        { this.props.showSelectAllApproveBtn && this.renderSelectAllApprovebtn()}
-        {
-          !this.props.hideFilter ?
-            this.renderFilterStatus()
-            : null
-        }
+        { showSelectAllApproveBtnHtml }
+        { filterStatusHtml }
       </header>
     );
   }

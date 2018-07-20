@@ -5,6 +5,11 @@ const activity = {
   description: 'Mentored teens how to code. (DBC 2016 at Redemption camp). Jim Shelton of ChanZuckerberginitiative sits down with Andela fellows',
   points: 250,
   status: 'default',
+  owner: 'Test User',
+  society: {
+    name: 'phoenix',
+  },
+  itemType: 'activity',
 };
 
 export default activity;
