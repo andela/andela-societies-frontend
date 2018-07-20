@@ -135,6 +135,9 @@
 .activity__status--rejected::before {
   background-color: $red;
 }
+.activity__status--completed::before{
+  background-color: $primary;
+}
 
 .verifyButtons__button {
   display: block;
