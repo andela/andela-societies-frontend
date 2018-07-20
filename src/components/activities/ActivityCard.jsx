@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropType from 'prop-types';
 
 import TruncateDescription from '../TruncateDescription';
@@ -48,6 +48,7 @@ class ActivityCard extends Component {
     showLocation: PropType.bool,
     showButtons: PropType.bool,
     showMoreInfoButton: PropType.bool,
+    showCompleteButton: PropType.bool,
     showPoints: PropType.bool,
     showAmount: PropType.bool,
     userCanEdit: PropType.bool,
@@ -69,6 +70,7 @@ class ActivityCard extends Component {
     showLocation: false,
     showButtons: false,
     showMoreInfoButton: false,
+    showCompleteButton: false,
     showPoints: false,
     showAmount: false,
     userCanEdit: false,
@@ -96,7 +98,7 @@ class ActivityCard extends Component {
     super(props);
     this.state = {
       isActivityChecked: false,
-      statuses: ['pending', 'rejected', 'approved', 'in review'],
+      statuses: ['pending', 'rejected', 'approved', 'in review', 'completed'],
       needButtons: ['pending', 'in review'],
     };
   }
@@ -136,7 +138,7 @@ class ActivityCard extends Component {
    */
   renderStatus = () => {
     const status = this.props.status.toLowerCase();
-
+    console.log(status, '******************');
     if (this.state.statuses.indexOf(status.toLowerCase()) < 0) {
       return '';
     }
@@ -180,9 +182,14 @@ class ActivityCard extends Component {
   );
 
   renderVerifyButtons() {
-    const { showMoreInfoButton, id, handleClick } = this.props;
-    const { APPROVE, MORE_INFO, REJECT } = clickActions;
+    const {
+      showMoreInfoButton, id, handleClick, showCompleteButton,
+    } = this.props;
+    const {
+      APPROVE, MORE_INFO, REJECT, COMPLETE,
+    } = clickActions;
     let moreInfoButtonHtml = '';
+    let showCompleteButtonHtml = '';
     if (showMoreInfoButton) {
       moreInfoButtonHtml = (
         <Button
@@ -193,28 +200,46 @@ class ActivityCard extends Component {
         />
       );
     }
+    if (showCompleteButton) {
+      showCompleteButtonHtml = (
+        <Button
+          name='complete'
+          value='Complete'
+          className='verifyButtons__button verifyButtons__button--moreInfo'
+          onClick={() => handleClick(COMPLETE, id)}
+        />
+      );
+    }
     return (
-      <div className='verifyButtons'>
-        <Button
-          name='approve'
-          value='Approve'
-          className='verifyButtons__button verifyButtons__button--approve'
-          onClick={() => handleClick(APPROVE, id)}
-        />
-        <Button
-          name='reject'
-          value='Reject'
-          className='verifyButtons__button verifyButtons__button--reject'
-          onClick={() => handleClick(REJECT, id)}
-        />
-        { moreInfoButtonHtml }
-      </div>
+      <Fragment>
+        {
+          showCompleteButton ?
+            showCompleteButtonHtml
+            :
+            <div className='verifyButtons'>
+              <Button
+                name='approve'
+                value='Approve'
+                className='verifyButtons__button verifyButtons__button--approve'
+                onClick={() => handleClick(APPROVE, id)}
+              />
+              <Button
+                name='reject'
+                value='Reject'
+                className='verifyButtons__button verifyButtons__button--reject'
+                onClick={() => handleClick(REJECT, id)}
+              />
+              { moreInfoButtonHtml }
+            </div>
+        }
+      </Fragment>
     );
   }
 
   renderButtonsOrStatus() {
     const { needButtons } = this.state;
     const { showButtons, status } = this.props;
+    console.log(this.props.name, this.props.status);
     return needButtons.includes(status.toLowerCase()) && showButtons ? this.renderVerifyButtons() : this.renderStatus();
   }
 
