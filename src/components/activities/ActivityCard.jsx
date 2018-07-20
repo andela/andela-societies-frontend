@@ -138,7 +138,6 @@ class ActivityCard extends Component {
    */
   renderStatus = () => {
     const status = this.props.status.toLowerCase();
-    console.log(status, '******************');
     if (this.state.statuses.indexOf(status.toLowerCase()) < 0) {
       return '';
     }
@@ -239,7 +238,6 @@ class ActivityCard extends Component {
   renderButtonsOrStatus() {
     const { needButtons } = this.state;
     const { showButtons, status } = this.props;
-    console.log(this.props.name, this.props.status);
     return needButtons.includes(status.toLowerCase()) && showButtons ? this.renderVerifyButtons() : this.renderStatus();
   }
 
