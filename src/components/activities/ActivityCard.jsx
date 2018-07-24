@@ -135,7 +135,7 @@ class ActivityCard extends Component {
       status, userCanEdit, id, handleClick,
     } = this.props;
     const { EDIT } = clickActions;
-    if (status === STATUSES[2] && userCanEdit) {
+    if (status === STATUSES[2] || status === STATUSES[1]  && userCanEdit) {
       handleClick(EDIT, id);
     }
   }
@@ -281,7 +281,7 @@ class ActivityCard extends Component {
     const buttonsOrStatusHtml = this.renderButtonsOrStatus();
 
     const clickableAreaClassName = `activity__right ${
-      status === STATUSES[2] && userCanEdit
+      (status === STATUSES[2] || status === STATUSES[1]) && userCanEdit
         ? 'activity__right--editable'
         : ''}`;
     return (
