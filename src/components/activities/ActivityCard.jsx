@@ -9,7 +9,7 @@ import pointsToDollarConverter from '../../helpers/pointsToDollarsConverter';
 
 // constants
 import clickActions from '../../constants/clickAction';
-import { PENDING } from '../../constants/statuses';
+import { STATUSES } from '../../constants/statuses';
 
 /**
  * @summary Renders an activity card
@@ -76,8 +76,8 @@ class ActivityCard extends Component {
     userCanEdit: false,
     owner: null,
     page: '',
-    handleClick: () => { },
-    handleDeselectActivity: () => { },
+    handleClick: () => {},
+    handleDeselectActivity: () => {},
     wordCount: 50,
   };
 
@@ -90,7 +90,9 @@ class ActivityCard extends Component {
   static getDerivedStateFromProps(nextProps) {
     const { selectedActivities } = nextProps;
     return {
-      isActivityChecked: selectedActivities ? selectedActivities.includes(nextProps.id) : false,
+      isActivityChecked: selectedActivities
+        ? selectedActivities.includes(nextProps.id)
+        : false,
     };
   }
 
@@ -98,8 +100,8 @@ class ActivityCard extends Component {
     super(props);
     this.state = {
       isActivityChecked: false,
-      statuses: ['pending', 'rejected', 'approved', 'in review', 'completed'],
-      needButtons: ['pending', 'in review'],
+      statuses: Object.values(STATUSES),
+      statusNeedingButtons: [STATUSES[1], STATUSES[2], STATUSES[6]],
     };
   }
 
@@ -111,8 +113,12 @@ class ActivityCard extends Component {
   handleActivityChecked = () => {
     const { id, handleDeselectActivity } = this.props;
     const { isActivityChecked } = this.state;
-    this.setState({ isActivityChecked: !isActivityChecked }, () => {
-      if (!this.state.isActivityChecked) handleDeselectActivity(id);
+    this.setState({
+      isActivityChecked: !isActivityChecked,
+    }, () => {
+      if (!this.state.isActivityChecked) {
+        handleDeselectActivity(id);
+      }
     });
   }
 
@@ -122,13 +128,10 @@ class ActivityCard extends Component {
    */
   handleClickableAreaClick = () => {
     const {
-      status,
-      userCanEdit,
-      id,
-      handleClick,
+      status, userCanEdit, id, handleClick,
     } = this.props;
     const { EDIT } = clickActions;
-    if (status === PENDING && userCanEdit) {
+    if (status === STATUSES[2] && userCanEdit) {
       handleClick(EDIT, id);
     }
   }
@@ -137,7 +140,10 @@ class ActivityCard extends Component {
    * @summary Renders the status indicator on the ActivityCard
    */
   renderStatus = () => {
-    const status = this.props.status.toLowerCase();
+    const status = this
+      .props
+      .status
+      .toLowerCase();
     if (this.state.statuses.indexOf(status.toLowerCase()) < 0) {
       return '';
     }
@@ -148,7 +154,9 @@ class ActivityCard extends Component {
       );
     }
 
-    let statusText = status.charAt(0).toUpperCase();
+    let statusText = status
+      .charAt(0)
+      .toUpperCase();
     statusText += status.slice(1);
     return (
       <span className={`activity__status activity__status--${status}`}>{statusText}</span>
@@ -161,24 +169,24 @@ class ActivityCard extends Component {
     }
     return (
       <div className='activity__left'>
-        <img className='activity__userPicture' src='https://placehold.it/55x55' alt='John Doe' />
+        <img
+          className='activity__userPicture'
+          src='https://placehold.it/55x55'
+          alt='John Doe'
+        />
         <span className='activity__owner'>{this.props.owner}</span>
       </div>
     );
   }
 
-  renderCheckbox = () => (
-    (
-      <input
-        type='checkbox'
-        name='checkbox'
-        value={this.props.id}
-        className='activity__checkbox'
-        checked={this.state.isActivityChecked}
-        onChange={this.handleActivityChecked}
-      />
-    )
-  );
+  renderCheckbox = () => ((<input
+    type='checkbox'
+    name='checkbox'
+    value={this.props.id}
+    className='activity__checkbox'
+    checked={this.state.isActivityChecked}
+    onChange={this.handleActivityChecked}
+  />));
 
   renderVerifyButtons() {
     const {
@@ -190,71 +198,64 @@ class ActivityCard extends Component {
     let moreInfoButtonHtml = '';
     let showCompleteButtonHtml = '';
     if (showMoreInfoButton) {
-      moreInfoButtonHtml = (
-        <Button
-          name='moreInfo'
-          value='Comment'
-          className='verifyButtons__button verifyButtons__button--moreInfo'
-          onClick={() => handleClick(MORE_INFO, id)}
-        />
-      );
+      moreInfoButtonHtml = (<Button
+        name='moreInfo'
+        value='Comment'
+        className='verifyButtons__button verifyButtons__button--moreInfo'
+        onClick={() => handleClick(MORE_INFO, id)}
+      />);
     }
     if (showCompleteButton) {
-      showCompleteButtonHtml = (
-        <Button
-          name='complete'
-          value='Complete'
-          className='verifyButtons__button verifyButtons__button--moreInfo'
-          onClick={() => handleClick(COMPLETE, id)}
-        />
-      );
+      showCompleteButtonHtml = (<Button
+        name='complete'
+        value='Complete'
+        className='verifyButtons__button verifyButtons__button--complete'
+        onClick={() => handleClick(COMPLETE, id)}
+      />);
     }
     return (
       <Fragment>
-        {
-          showCompleteButton ?
-            showCompleteButtonHtml
-            :
-            <div className='verifyButtons'>
-              <Button
-                name='approve'
-                value='Approve'
-                className='verifyButtons__button verifyButtons__button--approve'
-                onClick={() => handleClick(APPROVE, id)}
-              />
-              <Button
-                name='reject'
-                value='Reject'
-                className='verifyButtons__button verifyButtons__button--reject'
-                onClick={() => handleClick(REJECT, id)}
-              />
-              { moreInfoButtonHtml }
-            </div>
+        {showCompleteButton
+          ? showCompleteButtonHtml
+          :
+          <div className='verifyButtons'>
+            <Button
+              name='approve'
+              value='Approve'
+              className='verifyButtons__button verifyButtons__button--approve'
+              onClick={() => handleClick(APPROVE, id)}
+            />
+            <Button
+              name='reject'
+              value='Reject'
+              className='verifyButtons__button verifyButtons__button--reject'
+              onClick={() => handleClick(REJECT, id)}
+            /> {moreInfoButtonHtml}
+          </div>
         }
       </Fragment>
     );
   }
 
   renderButtonsOrStatus() {
-    const { needButtons } = this.state;
+    const { statusNeedingButtons } = this.state;
     const { showButtons, status } = this.props;
-    return needButtons.includes(status.toLowerCase()) && showButtons ? this.renderVerifyButtons() : this.renderStatus();
+    return statusNeedingButtons.includes(status.toLowerCase()) && showButtons
+      ? this.renderVerifyButtons()
+      : this.renderStatus();
   }
 
   renderLocationOrPoints() {
     const { center, points, showLocation } = this.props;
-    return (
-      showLocation ?
-        <span className='redemption__location'>
-          <Globe />
-          {center}
-        </span>
-        :
-        <span className='activity__points'>
-          <span className='activity__pointsCount'>{points}</span>
-          Points
-        </span>
-    );
+    return (showLocation ?
+      <span className='redemption__location'>
+        <Globe /> {center}
+      </span>
+      :
+      <span className='activity__points'>
+        <span className='activity__pointsCount'>{points}</span>
+        Points
+      </span>);
   }
 
   render() {
@@ -275,30 +276,29 @@ class ActivityCard extends Component {
     const buttonsOrStatusHtml = this.renderButtonsOrStatus();
 
     const clickableAreaClassName = `activity__right ${
-      status === PENDING && userCanEdit ? 'activity__right--editable' : ''}`;
+      status === STATUSES[2] && userCanEdit
+        ? 'activity__right--editable'
+        : ''}`;
 
     return (
       <div className='activity'>
         {this.renderUserDetails()}
         {/* eslint-disable */}
-        <div
-          className={clickableAreaClassName}
-          onClick={this.handleClickableAreaClick}
-        >
+        <div className={clickableAreaClassName} onClick={this.handleClickableAreaClick}>
           {/* eslint-enable */}
           <div className='activity__header'>
             <div>
               <span className='activity__category'>{category}</span>
-              {
-                showPoints && <span className='redemption__points'>{points} Points</span>
+              {showPoints &&
+                <span className='redemption__points'>{points}
+                Points
+                </span>
               }
               <span className='activity__date'>{date}</span>
             </div>
-            {
-              showAmount &&
+            {showAmount &&
               <span className='redemption__amount'>
-                {
-                  `USD ${pointsToDollarConverter(points)}`
+                {`USD ${pointsToDollarConverter(points)}`
                 }
               </span>
             }
@@ -309,11 +309,9 @@ class ActivityCard extends Component {
           </div>
         </div>
         <div className='activity__footer'>
-          {
-            locationOrPointsHtml
+          {locationOrPointsHtml
           }
-          {
-            buttonsOrStatusHtml
+          {buttonsOrStatusHtml
           }
         </div>
       </div>
