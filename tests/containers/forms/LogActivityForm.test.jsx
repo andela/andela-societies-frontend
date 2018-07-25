@@ -1,5 +1,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
+import moment from 'moment';
+
 import LogActivityForm from '../../../src/containers/forms/LogActivityForm';
 import categories from '../../../src/fixtures/categories';
 
@@ -17,11 +19,12 @@ const defaultState = {
   activityTypeId: '',
   date: '',
   description: '',
-  errors: [],
+  errors: {},
   message: null,
   numberOf: '',
 };
 
+const createActivity = jest.fn();
 const event = { preventDefault: () => {} };
 
 describe('<LogActivityForm />', () => {
@@ -31,7 +34,7 @@ describe('<LogActivityForm />', () => {
     wrapper = shallow(<LogActivityForm.WrappedComponent
       categories={categories}
       closeModal={() => { }}
-      createActivity={() => { }}
+      createActivity={createActivity}
     />);
     jest.spyOn(event, 'preventDefault');
   }));
@@ -163,6 +166,19 @@ describe('<LogActivityForm />', () => {
     jest.spyOn(instance, 'handleAddEvent');
     wrapper.setState({ activityTypeId: 'id1' });
     instance.handleAddEvent(event);
-    expect(instance.state.errors).toContain('numberOf');
+    expect(Object.keys(instance.state.errors)).toContain('numberOf');
+  });
+
+  it('should call createActivity if data is valid', () => {
+    const instance = wrapper.instance();
+    const today = moment().format('YYYY-MM-DD');
+    jest.spyOn(instance, 'handleAddEvent');
+    wrapper.setState({
+      activityTypeId: 'id2',
+      date: today,
+      description: 'Qwerty',
+    });
+    instance.handleAddEvent(event);
+    expect(createActivity).toHaveBeenCalled();
   });
 });

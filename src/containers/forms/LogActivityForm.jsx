@@ -10,7 +10,6 @@ import Button from '../../common/Button';
 import TextArea from '../../common/TextArea';
 import { createActivity } from '../../actions/activityActions';
 import validateFormFields from '../../helpers/validate';
-import capitalizeString from '../../helpers/stringFormatter';
 import labels from '../../fixtures/labels';
 
 /**
@@ -38,7 +37,7 @@ class LogActivityForm extends Component {
         numberOf: '',
         date: '',
         description: '',
-        errors: [],
+        errors: {},
         message: nextProps.message,
       };
     }
@@ -58,7 +57,7 @@ class LogActivityForm extends Component {
       numberOf: '',
       date: '',
       description: '',
-      errors: [],
+      errors: {},
       message: null,
     };
   }
@@ -80,11 +79,9 @@ class LogActivityForm extends Component {
    */
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
-    // if input value is not empty remove it from error list
-    if (!this.state[event.target.name]) {
-      const errors = this.state.errors.filter(error => !error.includes(event.target.name));
-      this.setState({ errors });
-    }
+    const errors = { ...this.state.errors };
+    if (event.target.value) delete errors[event.target.name];
+    this.setState({ errors });
   }
 
   handleAddEvent = (event) => {
@@ -106,7 +103,7 @@ class LogActivityForm extends Component {
     this.setState({
       errors: validateFormFields(activity),
     }, () => {
-      if (this.state.errors.length === 0) {
+      if (Object.keys(this.state.errors).length === 0) {
         this.props.createActivity(activity);
       }
     });
@@ -122,7 +119,7 @@ class LogActivityForm extends Component {
       numberOf: '',
       date: '',
       description: '',
-      errors: [],
+      errors: {},
       message: null,
     });
   }
@@ -154,9 +151,9 @@ class LogActivityForm extends Component {
     return activityTypeId && this.selectedCategory().supportsMultipleParticipants;
   }
 
-  renderValidationError = (field, replaceWord) => {
-    if (this.state.errors.indexOf(field) >= 0) {
-      return `${capitalizeString(replaceWord || field)} is required`;
+  renderValidationError = (field) => {
+    if (typeof this.state.errors[field] !== 'undefined') {
+      return this.state.errors[field];
     }
     return '';
   }

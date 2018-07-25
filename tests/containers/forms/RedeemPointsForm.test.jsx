@@ -48,14 +48,14 @@ describe('<RedeemPointsForm />', () => {
     const submitButton = shallowWrapper.find('.submitButton');
     shallowWrapper.setState({ center: '', points: '50', reason: 'good enough' });
     submitButton.simulate('click');
-    expect(shallowWrapper.state().errors).toEqual(['center']);
+    expect(Object.keys(shallowWrapper.state().errors)).toContain('center');
   });
 
   it('should call redeemPoints thunk when all fields are filled or no errors', () => {
     const submitButton = shallowWrapper.find('.submitButton');
     shallowWrapper.setState({ center: 'Nairobi', points: '50', reason: 'good enough' });
     submitButton.simulate('click');
-    expect(shallowWrapper.state().errors).toHaveLength(0);
+    expect(Object.keys(shallowWrapper.state().errors)).toHaveLength(0);
   });
 
   it('should reset state when cancel is clicked', () => {

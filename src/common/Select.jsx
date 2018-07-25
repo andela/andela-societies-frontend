@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 * @returns Returns a label and a select
 */
 const Select = ({
+  id,
   title,
   name,
   value,
@@ -25,7 +26,7 @@ const Select = ({
       value={value}
     >
 
-      <option value={placeholder}>{value || placeholder}</option>
+      <option value={''}>{(id && value) || placeholder}</option>
       {options.map(opt =>
         (
           <option
@@ -50,6 +51,7 @@ const Select = ({
  * @property {String} value - selected option
  */
 Select.propTypes = {
+  id: PropTypes.string,
   name: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   value: PropTypes.string,
