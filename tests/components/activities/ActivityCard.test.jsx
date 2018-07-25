@@ -93,38 +93,62 @@ describe('<ActivityCard />', () => {
     ));
     expect(component.find('.verifyButtons__button--moreInfo').length).toBe(1);
   });
+});
 
-  describe('Verify Buttons', () => {
-    let component;
+describe('Verify Buttons', () => {
+  let component;
+  const handleClick = jest.fn();
+
+  beforeEach(() => {
+    const userCanEdit = true;
+    const showMoreInfoButton = true;
+    const showButtons = true;
+    component = mount((
+      <ActivityCard
+        {...redemption}
+        userCanEdit={userCanEdit}
+        showButtons={showButtons}
+        showMoreInfoButton={showMoreInfoButton}
+        handleClick={handleClick}
+      />
+    ));
+    handleClick.mockClear();
+  });
+
+  it('should call handleclick when approve button is clicked', () => {
+    component.find('button.verifyButtons__button--approve').simulate('click');
+    expect(handleClick.mock.calls.length).toEqual(1);
+  });
+
+  it('should call handleclick when reject button is clicked', () => {
+    component.find('button.verifyButtons__button--reject').simulate('click');
+    expect(handleClick.mock.calls.length).toEqual(1);
+  });
+
+  it('should call handleclick when moreInfo button is clicked', () => {
+    component.find('button.verifyButtons__button--moreInfo').simulate('click');
+    expect(handleClick.mock.calls.length).toEqual(1);
+  });
+  describe('Complete Button', () => {
+    let componentComplete;
 
     beforeEach(() => {
-      const userCanEdit = true;
-      const showMoreInfoButton = true;
+      const showCompleteButton = true;
       const showButtons = true;
-      component = mount((
+      componentComplete = mount((
         <ActivityCard
           {...redemption}
-          userCanEdit={userCanEdit}
           showButtons={showButtons}
-          showMoreInfoButton={showMoreInfoButton}
+          status='pending'
           handleClick={handleClick}
+          showCompleteButton={showCompleteButton}
         />
       ));
       handleClick.mockClear();
     });
 
-    it('should call handleclick when approve button is clicked', () => {
-      component.find('button.verifyButtons__button--approve').simulate('click');
-      expect(handleClick.mock.calls.length).toEqual(1);
-    });
-
-    it('should call handleclick when reject button is clicked', () => {
-      component.find('button.verifyButtons__button--reject').simulate('click');
-      expect(handleClick.mock.calls.length).toEqual(1);
-    });
-
-    it('should call handleclick when moreInfo button is clicked', () => {
-      component.find('button.verifyButtons__button--moreInfo').simulate('click');
+    it('should call handleclick when complete button is clicked', () => {
+      componentComplete.find('button.verifyButtons__button--complete').simulate('click');
       expect(handleClick.mock.calls.length).toEqual(1);
     });
   });
