@@ -15,7 +15,7 @@ import SnackBar from '../../components/notifications/SnackBar';
 import { verifyRedemption } from '../../actions/verifyRedemptionActions';
 
 // helpers
-import validateFormFields from '../../helpers/validateForm';
+import validateFormFields from '../../helpers/validate';
 import pointsToDollarConverter from '../../../src/helpers/pointsToDollarsConverter';
 
 // fixtures
@@ -59,7 +59,7 @@ class CommentsForm extends Component {
     this.state = {
       ...moreInfoText,
       comment: '',
-      errors: [],
+      errors: {},
     };
   }
 
@@ -72,10 +72,9 @@ class CommentsForm extends Component {
     const { name, value } = event.target;
     this.setState(() => ({ [name]: value }));
 
-    if (!this.state[value]) {
-      const errors = this.state.errors.filter(error => (error !== name));
-      this.setState({ errors });
-    }
+    const errors = { ...this.state.errors };
+    if (event.target.value) delete errors[event.target.name];
+    this.setState({ errors });
   }
 
   /**
@@ -90,7 +89,7 @@ class CommentsForm extends Component {
     const errors = validateFormFields({ comment });
     const clickAction = selectedItem.rejectClicked ? REJECT : MORE_INFO;
 
-    if (errors.length) {
+    if (Object.keys(errors).length) {
       this.setState({ errors });
     } else {
       this.props.verifyRedemption(selectedItem.id, clickAction, comment);
@@ -106,7 +105,7 @@ class CommentsForm extends Component {
     this.setState({
       ...moreInfoText,
       comment: '',
-      errors: [],
+      errors: {},
     });
   }
 

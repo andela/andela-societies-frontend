@@ -6,7 +6,7 @@ import { moreInfoText } from '../../../src/fixtures/commentsFormText';
 
 const defaultState = {
   comment: '',
-  errors: [],
+  errors: {},
   ...moreInfoText,
 };
 
@@ -103,7 +103,7 @@ describe('<CommentsForm />', () => {
       const instance = wrapper.instance();
       jest.spyOn(instance, 'handleCloseModal');
       instance.handleSubmit();
-      expect(instance.state.errors.length).toBe(1);
+      expect(Object.keys(instance.state.errors)).toHaveLength(1);
     });
   });
 });

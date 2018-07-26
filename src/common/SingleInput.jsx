@@ -17,6 +17,7 @@ const SingleInput = props => (
       type={props.type}
       value={props.value}
       onChange={props.handleChange}
+      min={props.min}
     />
     {props.additionalClass && <span className='formField__currency--active'>USD <span className='formField__currency__value'>{props.dollars}</span></span>}
   </div>
@@ -30,6 +31,7 @@ const SingleInput = props => (
 SingleInput.defaultProps = {
   dollars: '0.00',
   value: '',
+  min: '1',
 }
 /**
  * @name propTypes
@@ -49,5 +51,6 @@ SingleInput.propTypes = {
   additionalClass: PropTypes.string,
   dollars: PropTypes.string,
   value: PropTypes.string,
+  min: PropTypes.string,
 };
 export default SingleInput;

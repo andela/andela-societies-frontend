@@ -16,7 +16,7 @@ import SnackBar from '../../components/notifications/SnackBar';
 import { redeemPoints, updateRedemption } from '../../actions/redeemPointsAction';
 
 // helpers
-import validateFormFields from '../../helpers/validateForm';
+import validateFormFields from '../../helpers/validate';
 import pointsToDollarConverter from '../../helpers/pointsToDollarsConverter';
 
 // fixtures
@@ -73,7 +73,7 @@ class RedeemPointsForm extends Component {
       points: '',
       reason: '',
       dollars: '0.00',
-      errors: [],
+      errors: {},
       formTitle: 'Redeem Points',
       btnText: 'Redeem',
     };
@@ -105,10 +105,9 @@ class RedeemPointsForm extends Component {
     if (name === 'points') {
       this.setState(() => ({ dollars: pointsToDollarConverter(value) }));
     }
-    if (!this.state[value]) {
-      const errors = this.state.errors.filter(error => (error !== name));
-      this.setState({ errors });
-    }
+    const errors = { ...this.state.errors };
+    if (event.target.value) delete errors[event.target.name];
+    this.setState({ errors });
   }
 
   /**
@@ -128,7 +127,7 @@ class RedeemPointsForm extends Component {
     this.setState({
       errors: validateFormFields({ center, points, reason }),
     }, () => {
-      if (this.state.errors.length === 0) {
+      if (Object.keys(this.state.errors).length === 0) {
         if (selectedItem.id) {
           this.props.updateSelectedItem(this.state);
           this.props.updateRedemption({
@@ -158,7 +157,7 @@ class RedeemPointsForm extends Component {
       points: '',
       reason: '',
       dollars: '0.00',
-      errors: [],
+      errors: {},
       formTitle: 'Redeem Points',
       btnText: 'Redeem',
     });
