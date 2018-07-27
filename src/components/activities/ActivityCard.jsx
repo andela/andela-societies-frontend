@@ -6,6 +6,7 @@ import Globe from '../svgIcons/activityIcons/Globe';
 import Button from '../../common/Button';
 
 import pointsToDollarConverter from '../../helpers/pointsToDollarsConverter';
+import capitalizeString from '../../helpers/stringFormatter';
 
 // constants
 import clickActions from '../../constants/clickAction';
@@ -154,10 +155,7 @@ class ActivityCard extends Component {
       );
     }
 
-    let statusText = status
-      .charAt(0)
-      .toUpperCase();
-    statusText += status.slice(1);
+    const statusText = capitalizeString(status);
     return (
       <span className={`activity__status activity__status--${status}`}>{statusText}</span>
     );
