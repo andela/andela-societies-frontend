@@ -135,6 +135,9 @@
 .activity__status--rejected::before {
   background-color: $red;
 }
+.activity__status--completed::before{
+  background-color: $primary;
+}
 
 .verifyButtons__button {
   display: block;
@@ -159,7 +162,7 @@
     margin-right: 1rem;
   }
 
-  &--moreInfo {
+  &--moreInfo, &--complete {
     background-color: $googleButtonBlue;
     color: $lightAccent;
     margin-right: 1rem;

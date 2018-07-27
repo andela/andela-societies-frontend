@@ -148,6 +148,18 @@ describe('<Redemptions />', () => {
     expect(verifyRedemption).toHaveBeenCalled();
   });
 
+  it('should call verifyRedemption thunk when redemption is completed', () => {
+    const instance = shallowWrapper.instance();
+    instance.setState({
+      allActivities: testRedemptions,
+      filteredActivities: testRedemptions,
+      societyRedemptions: testRedemptions,
+    });
+    instance.handleClick('completed', redemption.id);
+    expect(verifyRedemption).toBeCalledWith(redemption.id, 'completed');
+  });
+
+
   it('should open modal and set selectedRedemption when redemption is clicked', () => {
     const instance = shallowWrapper.instance();
     instance.setState({

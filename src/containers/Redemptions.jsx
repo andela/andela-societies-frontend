@@ -25,7 +25,7 @@ import statsGenerator from '../helpers/statsGenerator';
 import filterActivitiesByStatus from '../helpers/filterActivitiesByStatus';
 
 // constants
-import { VERIFICATION_USERS, SUCCESS_OPS, CIO, SOCIETY_PRESIDENT, STAFF_USERS } from '../constants/roles';
+import { VERIFICATION_USERS, SUCCESS_OPS, CIO, SOCIETY_PRESIDENT, STAFF_USERS, FINANCE } from '../constants/roles';
 import { ALL, APPROVED, PENDING, REJECTED } from '../constants/statuses';
 import clickActions from '../constants/clickAction';
 
@@ -66,6 +66,7 @@ class Redemptions extends React.Component {
     if (props.userRoles.length) {
       const userRoles = props.userRoles ? props.userRoles : [];
       const showButtons = userRoles.length > 0 && hasAllowedRole(userRoles, VERIFICATION_USERS);
+      const showCompleteButton = userRoles.length > 0 && hasAllowedRole(userRoles, [FINANCE]);
       const showMoreInfoButton = userRoles.length > 0 && hasAllowedRole(userRoles, [CIO]);
       const userCanEdit = userRoles.length > 0 && hasAllowedRole(userRoles, [SOCIETY_PRESIDENT]);
       let preSelectedRemptions = props.redemptions;
@@ -77,7 +78,7 @@ class Redemptions extends React.Component {
       } = state;
 
       // state values for cio/success ops role
-      if (hasAllowedRole(userRoles, [CIO, SUCCESS_OPS])) {
+      if (hasAllowedRole(userRoles, [CIO, SUCCESS_OPS, FINANCE])) {
         showTabs = true;
         initialStatus = PENDING;
         selectedStatus = PENDING;
@@ -96,6 +97,7 @@ class Redemptions extends React.Component {
         userRoles,
         showTabs,
         showButtons,
+        showCompleteButton,
         showMoreInfoButton,
         initialStatus,
         selectedStatus,
@@ -117,6 +119,7 @@ class Redemptions extends React.Component {
       showLocation: true,
       showButtons: false,
       showMoreInfoButton: false,
+      showCompleteButton: false,
       showPoints: true,
       showAmount: true,
       selectedSociety: 'istelle',
@@ -164,7 +167,7 @@ class Redemptions extends React.Component {
    * @summary whether or not to use custom filter handler
    * @returns {Boolean} whether or not to use custom filter handler
    */
-  changeFilterHandler = () => hasAllowedRole(this.state.userRoles, [CIO, SUCCESS_OPS]);
+  changeFilterHandler = () => hasAllowedRole(this.state.userRoles, [CIO, SUCCESS_OPS, FINANCE]);
 
   /**
    * @name filterActivities
@@ -224,9 +227,11 @@ class Redemptions extends React.Component {
       EDIT,
       REJECT,
       MORE_INFO,
+      COMPLETE,
     } = clickActions;
 
     switch (clickAction) {
+    case COMPLETE:
     case APPROVE:
       this.props.verifyRedemption(redemptionId, clickAction);
       break;
@@ -292,6 +297,7 @@ class Redemptions extends React.Component {
       showAmount,
       selectedStatus,
       userCanEdit,
+      showCompleteButton,
     } = this.state;
 
     if (requesting) {
@@ -333,6 +339,7 @@ class Redemptions extends React.Component {
               showAmount={showAmount}
               showButtons={showButtons}
               showMoreInfoButton={showMoreInfoButton}
+              showCompleteButton={showCompleteButton}
               showLocation={showLocation}
               showPoints={showPoints}
               showUserDetails={showUserDetails}

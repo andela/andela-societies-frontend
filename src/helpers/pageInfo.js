@@ -17,6 +17,7 @@ import {
   SOCIETY_PRESIDENT,
   CIO,
   FELLOW,
+  FINANCE,
 } from '../constants/roles';
 
 const pageInfo = {
@@ -46,7 +47,7 @@ const pageInfo = {
       url: '/u/redemptions',
       component: Redemptions,
       menuIcon: RedemptionsIcon,
-      allowedRoles: [SUCCESS_OPS, SOCIETY_PRESIDENT, CIO],
+      allowedRoles: [SUCCESS_OPS, SOCIETY_PRESIDENT, CIO, FINANCE],
     },
   ],
   societyPages: [
