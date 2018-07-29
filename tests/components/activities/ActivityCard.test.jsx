@@ -9,6 +9,8 @@ const { EDIT } = clickActions;
 
 const showCheckBox = true;
 
+const showCheckBox = true;
+
 describe('<ActivityCard />', () => {
   const handleClick = jest.fn();
   const props = {

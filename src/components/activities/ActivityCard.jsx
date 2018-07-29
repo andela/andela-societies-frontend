@@ -182,18 +182,18 @@ class ActivityCard extends Component {
 
 
   renderCheckbox = () => {
-    const activityCheckBox = (<input
-      type='checkbox'
-      name='checkbox'
-      value={this.props.id}
-      className='activity__checkbox'
-      checked={this.state.isActivityChecked}
-      onChange={this.handleActivityChecked}
-    />);
+    let activityCheckBox = null;
     if (this.props.showCheckBox) {
-      return (activityCheckBox);
+      activityCheckBox = (<input
+        type='checkbox'
+        name='checkbox'
+        value={this.props.id}
+        className='activity__checkbox'
+        checked={this.state.isActivityChecked}
+        onChange={this.handleActivityChecked}
+      />);
     }
-    return '';
+    return activityCheckBox;
   }
 
   renderVerifyButtons() {
@@ -287,7 +287,6 @@ class ActivityCard extends Component {
       status === STATUSES[2] && userCanEdit
         ? 'activity__right--editable'
         : ''}`;
-
     return (
       <div className='activity'>
         {this.renderUserDetails()}

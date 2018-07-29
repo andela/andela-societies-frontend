@@ -28,7 +28,6 @@ import { fetchAllActivities } from '../actions/allActivitiesActions';
 
 import { SUCCESS_OPS, SOCIETY_SECRETARY } from '../constants/roles';
 import { PENDING, IN_REVIEW } from '../constants/statuses';
-import generateIdForSociety from '../constants/societyNames';
 
 // fixtures
 import tabs from '../fixtures/tabs';
@@ -78,10 +77,10 @@ class VerifyActivities extends Component {
       if (hasAllowedRole(userRoles, [SUCCESS_OPS])) {
         showTabs = true;
         filteredActivities = filterActivitiesByStatus(allActivities, PENDING)
-          .filter(activity => (activity.societyName === generateIdForSociety(selectedSociety)));
+          .filter(activity => (activity.society.name.toLowerCase() === selectedSociety));
       } else {
         filteredActivities = filterActivitiesByStatus(allActivities, IN_REVIEW)
-          .filter(activity => (activity.societyName === generateIdForSociety(societyName)));
+          .filter(activity => (activity.society.name.toLowerCase() === societyName.toLowerCase()));
       }
 
       return {
@@ -183,7 +182,7 @@ class VerifyActivities extends Component {
   handleChangeTab = (event, title) => {
     event.preventDefault();
     const selectedSocietyActivities = filterActivitiesByStatus(this.props.allActivities, PENDING)
-      .filter(activity => (activity.societyName === generateIdForSociety(title)));
+      .filter(activity => (activity.society.name.toLowerCase() === title.toLowerCase()));
     this.setState({
       selectedSociety: title.toLowerCase(),
       filteredActivities: selectedSocietyActivities,
