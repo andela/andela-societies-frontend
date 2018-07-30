@@ -105,3 +105,4 @@ export const isFellow = (tokenInfo) => {
 export const hasAllowedRole = (userRoles, allowedRoles) => (
   userRoles.some(role => allowedRoles.includes(role.toLowerCase()))
 );
+

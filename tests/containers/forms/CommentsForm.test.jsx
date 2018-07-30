@@ -3,6 +3,7 @@ import { shallow, mount } from 'enzyme';
 import CommentsForm from '../../../src/containers/forms/CommentsForm';
 import { redemption } from '../../../src/fixtures/redemptions';
 import { moreInfoText } from '../../../src/fixtures/commentsFormText';
+import activity from '../../../src/fixtures/activity';
 
 const defaultState = {
   comment: '',
@@ -14,6 +15,7 @@ const event = { preventDefault: () => { } };
 const verifyRedemption = jest.fn();
 const closeModal = jest.fn();
 const deselectItem = jest.fn();
+const requestMoreInfo = jest.fn();
 
 describe('<CommentsForm />', () => {
   let shallowWrapper;
@@ -24,6 +26,8 @@ describe('<CommentsForm />', () => {
     />);
     mountedWrapper = mount(<CommentsForm.WrappedComponent
       verifyRedemption={verifyRedemption}
+      selectedItem={redemption}
+      requestMoreInfo={requestMoreInfo}
     />);
     jest.spyOn(event, 'preventDefault');
     verifyRedemption.mockClear();
@@ -59,15 +63,19 @@ describe('<CommentsForm />', () => {
     expect(instance.state).toEqual(defaultState);
   });
 
-  it('should call verifyRedemption thunk when submitted', () => {
-    const wrapper = mount(<CommentsForm.WrappedComponent
-      verifyRedemption={verifyRedemption}
-      selectedItem={redemption}
-    />);
-    const instance = wrapper.instance();
+  it('should call verifyRedemption thunk when redemption is submitted ', () => {
+    const instance = mountedWrapper.instance();
     instance.setState({ comment: 'Be more specific' });
     instance.handleSubmit();
     expect(verifyRedemption).toHaveBeenCalled();
+  });
+
+  it('should call requestMoreInfo thunk when an activity is submitted ', () => {
+    mountedWrapper.setProps({ selectedItem: activity });
+    const instance = mountedWrapper.instance();
+    instance.setState({ comment: 'Be more specific' });
+    instance.handleSubmit();
+    expect(requestMoreInfo).toHaveBeenCalled();
   });
 
   describe('Button Actions', () => {
@@ -81,12 +89,11 @@ describe('<CommentsForm />', () => {
       />);
     });
 
-    it('should close the modal clear selected item and reset state', () => {
+    it('should call closeModal prop and resetState function when handleCloseModal is called', () => {
       const instance = wrapper.instance();
       jest.spyOn(instance, 'resetState');
       instance.handleCloseModal();
       expect(closeModal).toHaveBeenCalled();
-      expect(deselectItem).toHaveBeenCalled();
       expect(instance.resetState).toHaveBeenCalled();
     });
 
@@ -96,7 +103,6 @@ describe('<CommentsForm />', () => {
       instance.setState({ comment: 'more info required' });
       instance.handleSubmit();
       expect(verifyRedemption).toHaveBeenCalled();
-      expect(instance.handleCloseModal).toHaveBeenCalled();
     });
 
     it('should should not submit in without comment', () => {

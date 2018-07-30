@@ -31,6 +31,7 @@ export const redemption = {
       secretary: 'sec1234abc',
     },
   },
+  itemType: 'redemption',
 };
 
 const reasons = [

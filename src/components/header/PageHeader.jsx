@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropType from 'prop-types';
 
 // components
@@ -172,7 +172,17 @@ class PageHeader extends Component {
       title,
       selectedSociety,
       showTabs,
+      showSelectAllApproveBtn,
+      hideFilter,
     } = this.props;
+    let showSelectAllApproveBtnHtml;
+    let filterStatusHtml;
+    if (showSelectAllApproveBtn) {
+      showSelectAllApproveBtnHtml = this.renderSelectAllApprovebtn();
+    }
+    if (!hideFilter) {
+      filterStatusHtml = this.renderFilterStatus();
+    }
     return (
       <header className='pageHeader'>
         {
@@ -182,17 +192,11 @@ class PageHeader extends Component {
               handleChangeTab={this.props.handleChangeTab}
               selectedTab={selectedSociety}
             />
-            :
-            <Fragment>
-              <h1 className='pageTitle'>{title}</h1>
-              {this.props.showSelectAllApproveBtn && this.renderSelectAllApprovebtn()}
-            </Fragment>
+            : <h1 className='pageTitle'>{title}</h1>
+
         }
-        {
-          !this.props.hideFilter ?
-            this.renderFilterStatus()
-            : null
-        }
+        { showSelectAllApproveBtnHtml }
+        { filterStatusHtml }
       </header>
     );
   }

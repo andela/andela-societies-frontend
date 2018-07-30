@@ -22,23 +22,8 @@ class TruncateDescription extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      description: this.props.description,
       longDescription: true,
     };
-  }
-
-  /**
-   * @name componentDidUpdate
-   * @summary Lifecycle method that is called when prop of description changes
-   * @param {Object} prevProps
-   */
-  componentDidUpdate(prevProps) {
-    if (this.props.description !== prevProps.description) {
-      return {
-        description: this.props.description,
-      };
-    }
-    return null;
   }
 
   /**
@@ -68,9 +53,9 @@ class TruncateDescription extends Component {
   }
 
   render() {
-    const { description, longDescription } = this.state;
+    const { longDescription } = this.state;
+    const { description } = this.props;
     let buttonHtml = null;
-
     if (description.trim().length > 50) {
       buttonHtml = (
         <button className='activity__description__btn--more--less' onClick={this.handleViewMoreLessClick}>

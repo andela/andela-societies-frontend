@@ -18,6 +18,11 @@ const initialState = {
     },
     error: {},
   },
+  allActivities: {
+    requesting: false,
+    activities: [],
+    error: null,
+  },
   categories: {
     requesting: false,
     categories: [],
@@ -45,6 +50,12 @@ const initialState = {
     redemptions: [],
     hasError: false,
     updating: false,
+  },
+  commentsInfo: {
+    comment: [],
+    hasError: false,
+    message: {},
+    requesting: false,
   },
 };
 

@@ -46,11 +46,22 @@ const store = {
     },
     error: {},
   },
+  allActivities: {
+    requesting: false,
+    activities: [],
+    error: null,
+  },
   redeemPointsInfo: {
     message: {},
     requesting: false,
     redemptions: [],
     updating: false,
+  },
+  commentsInfo: {
+    comment: [],
+    hasError: false,
+    message: {},
+    requesting: false,
   },
 };
 

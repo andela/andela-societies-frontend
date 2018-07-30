@@ -7,10 +7,14 @@ import clickActions from '../../../src/constants/clickAction';
 
 const { EDIT } = clickActions;
 
+const showCheckBox = true;
+
+
 describe('<ActivityCard />', () => {
   const handleClick = jest.fn();
   const props = {
     page: '/u/verify-activities',
+    showCheckBox,
   };
   const wrapper = mount.bind(
     null,

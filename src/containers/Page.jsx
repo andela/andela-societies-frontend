@@ -134,6 +134,9 @@ class Page extends Component {
     if (document && document.body) {
       document.body.classList.remove('noScroll');
     }
+    if (this.props.selectedItem) {
+      this.props.deselectItem();
+    }
     this.setState({ showModal: false });
   }
 
@@ -166,7 +169,6 @@ class Page extends Component {
         <CommentsForm
           closeModal={this.closeModal}
           selectedItem={selectedItem}
-          deselectItem={deselectItem}
         />);
     }
     return (
