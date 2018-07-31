@@ -144,10 +144,7 @@ class ActivityCard extends Component {
    * @summary Renders the status indicator on the ActivityCard
    */
   renderStatus = () => {
-    const status = this
-      .props
-      .status
-      .toLowerCase();
+    const status = this.props.status.toLowerCase();
     if (this.state.statuses.indexOf(status.toLowerCase()) < 0) {
       return '';
     }

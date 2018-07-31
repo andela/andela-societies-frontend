@@ -51,6 +51,11 @@ describe('<ActivityCard />', () => {
     expect(wrapper().find('.activity').length).toBe(1);
   });
 
+  it('should render in review status', () => {
+    shallowWrapper.setProps({ status: 'in review' });
+    expect(shallowWrapper.find('.activity__status--inReview').length).toBe(1);
+  });
+
   it('should render approve and reject buttons on verify activities page', () => {
     shallowWrapper.setProps({ status: 'in review', showButtons: true });
     expect(shallowWrapper.find('.verifyButtons__button').length).toBe(2);

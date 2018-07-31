@@ -22,6 +22,7 @@ const initialState = {
     requesting: false,
     activities: [],
     error: null,
+    updating: false,
   },
   categories: {
     requesting: false,
