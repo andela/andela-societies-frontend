@@ -14,6 +14,10 @@ import store from '../../src/fixtures/store';
 describe('myActivitiesReducer', () => {
   const initialState = store.myActivities;
 
+  it('should set default initial state', () => {
+    expect(myActivitiesReducer(undefined, {})).toEqual(initialState);
+  });
+
   it('should return the initial state when the action is not handled', () => {
     expect(myActivitiesReducer(initialState, { type: 'DOES_NOT_EXIST' })).toEqual(initialState);
   });

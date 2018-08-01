@@ -50,6 +50,7 @@ const store = {
     requesting: false,
     activities: [],
     error: null,
+    updating: false,
   },
   redeemPointsInfo: {
     message: {},

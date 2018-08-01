@@ -9,6 +9,7 @@ import MasonryLayout from '../containers/MasonryLayout';
 import Stats from '../components/sidebar/Stats';
 import filterActivities from '../helpers/filterActivities';
 import dateFormatter from '../helpers/dateFormatter';
+import Loader from '../components/loaders/Loader';
 
 /**
  * @name Society
@@ -88,6 +89,7 @@ class Society extends Component {
         selectedStatus,
         showUserDetails,
       } = this.state;
+      const { societyInfo } = this.props;
       return (
         <Page>
           <div className='mainContent'>
@@ -98,22 +100,27 @@ class Society extends Component {
                 filterActivities={this.filterActivities}
               />
               <div className='activities'>
-                <MasonryLayout
-                  items={
-                    filteredActivities.map(activity => (
-                      <ActivityCard
-                        id={activity.id}
-                        category={activity.category}
-                        date={dateFormatter(activity.date)}
-                        description={activity.activity}
-                        points={activity.points}
-                        status={activity.status}
-                        showUserDetails={showUserDetails}
-                        owner={activity.owner}
-                      />
-                    ))
-                  }
-                />
+                {
+                  societyInfo.requesting ?
+                    <Loader />
+                    :
+                    <MasonryLayout
+                      items={
+                        filteredActivities.map(activity => (
+                          <ActivityCard
+                            id={activity.id}
+                            category={activity.category}
+                            date={dateFormatter(activity.date)}
+                            description={activity.activity}
+                            points={activity.points}
+                            status={activity.status}
+                            showUserDetails={showUserDetails}
+                            owner={activity.owner}
+                          />
+                        ))
+                      }
+                    />
+                }
               </div>
             </div>
           </div>
@@ -148,6 +155,7 @@ class Society extends Component {
 
 const mapStateToProps = state => ({
   societyInfo: state.societyInfo,
+  requesting: state.societyInfo.requesting,
 });
 
 export default connect(mapStateToProps, null)(Society);

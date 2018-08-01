@@ -113,8 +113,4 @@ const mapStateToProps = state => ({
   profile: state.userProfile.info,
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchUserProfile: userId => dispatch(fetchUserProfile(userId)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, { fetchUserProfile })(Home);
