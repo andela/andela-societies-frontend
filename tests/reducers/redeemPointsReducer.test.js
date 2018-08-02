@@ -10,14 +10,10 @@ import {
   fetchRedemptionsSuccess,
   updateRedemptionRequest,
   updateRedemptionSuccess,
-} from '../../src/actions/redeemPointsAction';
-
-import {
   verifyRedemptionRequest,
   verifyRedemptionSuccess,
   verifyRedemptionFailure,
-} from '../../src/actions/verifyRedemptionActions';
-
+} from '../../src/actions/redeemPointsAction';
 
 // types
 import { FETCH_REDEMPTIONS_FAILURE } from '../../src/types';
@@ -65,15 +61,16 @@ describe('Redeem points reducer', () => {
     expect(redeemPointsReducer(defaultState, createRedeemPointsSuccessAction)).toEqual(expectedOutput);
   });
 
-  it('should return reqesting state false when CREATE_REDEEM_POINTS_FAILURE action is provided', () => {
-    const error = 'There was an error while processing your request.';
+  it('should return hasError state true when CREATE_REDEEM_POINTS_FAILURE action is provided', () => {
+    const error = new Error('An error has occurred while processing your request.');
     const expectedOutput = {
       ...defaultState,
       message: {
         type: 'error',
-        text: 'There was an error while processing your request.',
+        text: 'An error has occurred while processing your request.',
       },
-      requesting: false,
+      error,
+      hasError: true,
     };
     expect(redeemPointsReducer(defaultState, createRedeemPointsFailure(error))).toEqual(expectedOutput);
   });
@@ -155,8 +152,7 @@ describe('Redeem points reducer', () => {
   it('should update redemption successfully ', () => {
     const updatedRedemption = {
       ...redemption,
-      reason: 'A better description',
-      message: 'Redemption request succesfully updated',
+      reason: 'For t-shirts edited',
     };
     const updateRedemptionSuccessAction = updateRedemptionSuccess(updatedRedemption);
     const newRedemptions = defaultState.redemptions.map((r) => {
@@ -170,7 +166,7 @@ describe('Redeem points reducer', () => {
       ...defaultState,
       message: {
         type: 'success',
-        text: 'Redemption request succesfully updated',
+        text: 'Successfully edited redemption',
       },
       redemptions: newRedemptions,
       requesting: false,

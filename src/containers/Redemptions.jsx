@@ -14,8 +14,7 @@ import ErrorMessage from '../common/ErrorMessage';
 import Loader from '../components/loaders/Loader';
 
 // thunk
-import { fetchRedemption } from '../actions/redeemPointsAction';
-import { verifyRedemption } from '../actions/verifyRedemptionActions';
+import { fetchRedemption, verifyRedemption } from '../actions/redeemPointsAction';
 
 // helpers
 import dateFormatter from '../helpers/dateFormatter';
@@ -216,6 +215,21 @@ class Redemptions extends React.Component {
   }
 
   /**
+   * @name selectRedemption
+   * @summary Used to select a redemption
+   * @param {string} redemptionId - redemption id
+   * @returns void
+   */
+  selectRedemption = (redemptionId, clickAction) => {
+    const selectedRedemption = this.state.filteredActivities.find(r => r.id === redemptionId);
+    selectedRedemption.clickAction = clickAction;
+    this.setState({
+      showModal: true,
+      selectedRedemption,
+    });
+  }
+
+  /**
    * @name handleClick
    * @param {Boolean} clickAction which button has been clicked
    * @param {String} redemptionId id of clicked redemption request
@@ -229,7 +243,6 @@ class Redemptions extends React.Component {
       MORE_INFO,
       COMPLETE,
     } = clickActions;
-
     switch (clickAction) {
     case COMPLETE:
     case APPROVE:
@@ -239,13 +252,7 @@ class Redemptions extends React.Component {
     case MORE_INFO:
     case REJECT:
     {
-      const selectedRedemption = this.state.filteredActivities.find(r => r.id === redemptionId);
-      selectedRedemption.rejectClicked = clickAction === REJECT;
-      selectedRedemption.itemType = 'redemption';
-      this.setState({
-        showModal: true,
-        selectedRedemption,
-      });
+      this.selectRedemption(redemptionId, clickAction);
       break;
     }
     default:

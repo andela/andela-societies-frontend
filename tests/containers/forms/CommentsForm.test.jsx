@@ -28,6 +28,8 @@ describe('<CommentsForm />', () => {
       verifyRedemption={verifyRedemption}
       selectedItem={redemption}
       requestMoreInfo={requestMoreInfo}
+      closeModal={closeModal}
+      deselectItem={deselectItem}
     />);
     jest.spyOn(event, 'preventDefault');
     verifyRedemption.mockClear();
@@ -64,6 +66,7 @@ describe('<CommentsForm />', () => {
   });
 
   it('should call verifyRedemption thunk when redemption is submitted ', () => {
+    mountedWrapper.setProps({ selectedItem: { ...redemption, clickAction: 'rejected' } });
     const instance = mountedWrapper.instance();
     instance.setState({ comment: 'Be more specific' });
     instance.handleSubmit();
@@ -79,34 +82,16 @@ describe('<CommentsForm />', () => {
   });
 
   describe('Button Actions', () => {
-    let wrapper;
-    beforeEach(() => {
-      wrapper = mount(<CommentsForm.WrappedComponent
-        verifyRedemption={verifyRedemption}
-        selectedItem={redemption}
-        closeModal={closeModal}
-        deselectItem={deselectItem}
-      />);
-    });
-
     it('should call closeModal prop and resetState function when handleCloseModal is called', () => {
-      const instance = wrapper.instance();
+      const instance = mountedWrapper.instance();
       jest.spyOn(instance, 'resetState');
       instance.handleCloseModal();
       expect(closeModal).toHaveBeenCalled();
       expect(instance.resetState).toHaveBeenCalled();
     });
 
-    it('should send verify redemption request and close modal when the form is submitted', () => {
-      const instance = wrapper.instance();
-      jest.spyOn(instance, 'handleCloseModal');
-      instance.setState({ comment: 'more info required' });
-      instance.handleSubmit();
-      expect(verifyRedemption).toHaveBeenCalled();
-    });
-
     it('should should not submit in without comment', () => {
-      const instance = wrapper.instance();
+      const instance = mountedWrapper.instance();
       jest.spyOn(instance, 'handleCloseModal');
       instance.handleSubmit();
       expect(Object.keys(instance.state.errors)).toHaveLength(1);

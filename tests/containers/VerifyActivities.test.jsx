@@ -101,11 +101,18 @@ describe('<VerifyActivities />', () => {
     expect(verifyActivitiesOpsSpy.called).toBeTruthy();
   });
 
+  it('should call verifyActivity when handleClick is invoked with reject action and role as society secretary', () => {
+    component.setProps({ userRoles: ['society secretary'] });
+    const instance = component.instance();
+    instance.handleClick('rejected', '1234t645');
+    expect(verifyActivitySpy.called).toBeTruthy();
+  });
+
   it('should change state of showModal to true when handleClick is invoked with the MORE_INFO click action', () => {
     component.setProps({ userRoles: roles });
     component.setState({ filteredActivities: [activity], showModal: false });
     const instance = component.instance();
-    instance.handleClick('moreInfo', '7387721305415687');
+    instance.handleClick('moreInfo', '8437fa68-8e6b-11e8-a05c-9801a7ae0330');
     expect(component.state().showModal).toBeTruthy();
   });
 

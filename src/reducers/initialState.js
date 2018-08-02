@@ -22,6 +22,7 @@ const initialState = {
     requesting: false,
     activities: [],
     error: null,
+    updating: false,
   },
   categories: {
     requesting: false,
@@ -50,6 +51,7 @@ const initialState = {
     redemptions: [],
     hasError: false,
     updating: false,
+    error: {},
   },
   commentsInfo: {
     comment: [],

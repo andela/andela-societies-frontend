@@ -222,7 +222,7 @@ class Page extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const updating = state.societyActivities.updating || state.redeemPointsInfo.updating;
+  const updating = state.allActivities.updating || state.redeemPointsInfo.updating;
   return ({
     userInfo: state.userInfo,
     societyInfo: state.societyInfo,

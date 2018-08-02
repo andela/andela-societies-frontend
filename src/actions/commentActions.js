@@ -41,6 +41,12 @@ export const moreInfoSuccess = comment => (
   }
 );
 
+/**
+ * @name requestMoreInfo
+ * Used to comment or request more information on an activity or redemption
+ * @param {string} id - id of the activity/redemption
+ * @param {string} comment - comment to submitted
+ */
 export const requestMoreInfo = (id, comment) => (
   (dispatch) => {
     const commentData = {

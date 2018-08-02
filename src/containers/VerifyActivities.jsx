@@ -133,16 +133,19 @@ class VerifyActivities extends Component {
 
   /**
    * @name handleClick
-   * handle the click event for the verify button
+   * handle the click event for all the buttons
+   * @param {string} clickAction - action clicked/status
+   * @param {string} activityId - id of the activity clicked
    */
   handleClick = (clickAction, activityId) => {
     const { userRoles } = this.props;
-    const { APPROVE, MORE_INFO } = clickActions;
+    const { APPROVE, MORE_INFO, REJECT } = clickActions;
     switch (clickAction) {
     case APPROVE:
     {
       if (hasAllowedRole(userRoles, [SUCCESS_OPS])) {
-        this.props.verifyActivitiesOps(activityId);
+        this.props.verifyActivitiesOps([activityId]);
+        break;
       }
       this.props.verifyActivity(clickAction, activityId);
       break;
@@ -152,6 +155,11 @@ class VerifyActivities extends Component {
       const selectedActivity = this.state.filteredActivities.find(activity => (activity.id === activityId));
       selectedActivity.itemType = 'activity';
       this.setState({ showModal: true, selectedActivity });
+      break;
+    }
+    case REJECT:
+    {
+      this.props.verifyActivity(clickAction, activityId);
       break;
     }
     default:
@@ -194,6 +202,7 @@ class VerifyActivities extends Component {
   /**
    * @name handleChangeTab
    * @summary states appropriate state values when a specific society is selected
+   * @param {string} title
    */
   handleChangeTab = (event, title) => {
     event.preventDefault();
