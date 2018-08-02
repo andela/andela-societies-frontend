@@ -22,9 +22,6 @@ import pointsToDollarConverter from '../../../src/helpers/pointsToDollarsConvert
 // fixtures
 import { moreInfoText, rejectionText } from '../../fixtures/commentsFormText';
 
-// constants
-import clickActions from '../../constants/clickAction';
-
 class CommentsForm extends Component {
   static defaultProps = {
     message: {
@@ -101,17 +98,15 @@ class CommentsForm extends Component {
    */
   handleSubmit = () => {
     const { comment } = this.state;
-    const { MORE_INFO, REJECT } = clickActions;
     const { selectedItem } = this.props;
     const errors = validateFormFields({ comment });
-    const clickAction = selectedItem.rejectClicked ? REJECT : MORE_INFO;
 
     if (Object.keys(errors).length) {
       this.setState({ errors });
-    } else if (selectedItem.itemType === 'redemption') {
-      this.props.verifyRedemption(selectedItem.id, clickAction, comment);
-    } else if (selectedItem.itemType === 'activity') {
-      this.props.requestMoreInfo(selectedItem.id, comment);
+    }
+    this.props.requestMoreInfo(selectedItem.id, comment);
+    if (selectedItem.clickAction === 'rejected') {
+      this.props.verifyRedemption(selectedItem.id, selectedItem.clickAction);
     }
   }
 

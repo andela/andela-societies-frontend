@@ -136,10 +136,11 @@ export const updateRedemptionSuccess = redemption => ({
 export const updateRedemption = redemption => ((dispatch) => {
   const updateData = { ...redemption };
   delete updateData.id;
+  delete updateData.clickAction;
   dispatch(updateRedemptionRequest());
   return axios.put(`${config.API_BASE_URL}/societies/redeem/${redemption.id}`, updateData)
     .then(response => (
-      dispatch(updateRedemptionSuccess(response.data))
+      dispatch(updateRedemptionSuccess(response.data.data))
     )).catch(error => (
       dispatch(updateRedemptionFailure(error.response.data.message))
     ));

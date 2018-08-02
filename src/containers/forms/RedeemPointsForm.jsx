@@ -177,7 +177,15 @@ class RedeemPointsForm extends Component {
 
   render() {
     const { message } = this.props;
-    const { formTitle, btnText } = this.state;
+    const {
+      formTitle,
+      btnText,
+      center,
+      points,
+      dollars,
+      errors,
+      reason,
+    } = this.state;
     return (
       <form>
         <h3>{formTitle}</h3>
@@ -186,30 +194,30 @@ class RedeemPointsForm extends Component {
           placeholder='Select center'
           options={centers}
           title='Center'
-          value={this.state.center}
+          value={center}
           handleChange={this.handleChange}
         />
-        <FormError errors={this.state.errors} fieldName='center' />
+        <FormError errors={errors} fieldName='center' />
         <SingleInput
           name='points'
           type='number'
           title='Points'
-          value={this.state.points}
+          value={points}
           additionalClass='formField__currency'
-          dollars={this.state.dollars}
+          dollars={dollars}
           handleChange={this.handleChange}
         />
-        <FormError errors={this.state.errors} fieldName='points' />
+        <FormError errors={errors} fieldName='points' />
         <TextArea
           title='Reason'
           rows={5}
           resize={false}
           name='reason'
-          value={this.state.reason}
+          value={reason}
           placeholder='reason for redemption'
           handleChange={this.handleChange}
         />
-        <FormError errors={this.state.errors} fieldName='reason' />
+        <FormError errors={errors} fieldName='reason' />
         <Button
           name='redeemButtonSubmit'
           value={btnText}

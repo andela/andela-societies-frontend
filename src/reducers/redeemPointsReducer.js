@@ -44,7 +44,7 @@ const redeemPointsReducer = (state = initialState.redemptionsInfo, action) => {
       ...state,
       message: {
         type: 'success',
-        text: action.redemption.message,
+        text: 'Successfully edited redemption',
       },
       redemptions,
       requesting: false,
