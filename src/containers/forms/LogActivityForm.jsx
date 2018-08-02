@@ -9,6 +9,7 @@ import Select from '../../common/Select';
 import Button from '../../common/Button';
 import TextArea from '../../common/TextArea';
 import { createActivity } from '../../actions/activityActions';
+import { updateActivity } from '../../actions/myActivitiesActions';
 import validateFormFields from '../../helpers/validate';
 import labels from '../../fixtures/labels';
 
@@ -18,6 +19,14 @@ import labels from '../../fixtures/labels';
    * @returns Returns a form
    */
 class LogActivityForm extends Component {
+  static defaultProps = {
+    selectedItem: {},
+    updateSelectedItem: () => { },
+    message: {
+      type: '',
+      text: '',
+    },
+  }
   /**
    * @name propTypes
    * @type {PropType}
@@ -27,23 +36,40 @@ class LogActivityForm extends Component {
     categories: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     closeModal: PropTypes.func.isRequired,
     createActivity: PropTypes.func.isRequired,
+    updateActivity: PropTypes.func.isRequired,
+    selectedItem: PropTypes.shape({ id: PropTypes.string }),
+    updateSelectedItem: PropTypes.func,
+    message: PropTypes.shape({
+      type: PropTypes.string,
+      text: PropTypes.string,
+    }),
   };
 
-  static getDerivedStateFromProps = (nextProps) => {
-    // clear form fields if activity was logged successfully
-    if (nextProps.message && nextProps.message.type === 'success') {
+  static getDerivedStateFromProps = (nextProps, state) => {
+    const { selectedItem } = nextProps;
+    if (selectedItem.id) {
+      const {
+        description,
+        category,
+        date,
+        numberOf,
+        activityTypeId,
+      } = selectedItem;
+
+      const formTitle = 'Edit Activity Request Form';
+      const btnText = 'Update';
       return {
-        activityTypeId: '',
-        numberOf: '',
-        date: '',
-        description: '',
+        date,
+        description,
+        category,
+        numberOf,
+        formTitle,
+        btnText,
+        activityTypeId,
         errors: {},
-        message: nextProps.message,
       };
     }
-    return {
-      message: nextProps.message,
-    };
+    return state;
   };
 
   /**
@@ -58,8 +84,29 @@ class LogActivityForm extends Component {
       date: '',
       description: '',
       errors: {},
-      message: null,
+      formTitle: 'Log An Activity',
+      btnText: 'Log',
     };
+  }
+
+  /**
+   * @name componentDidUpdate
+   * @summary Lifecycle method that is called when props changes
+   * @param {Object} prevProps
+   */
+  componentDidUpdate(prevProps) {
+    const { message, selectedItem } = prevProps;
+    if (message) {
+      if (prevProps.message.type !== this.props.message.type && this.props.message.type === 'success') {
+        if (selectedItem && selectedItem.id) {
+          setTimeout(() => {
+            this.cancelModal();
+          }, 2000);
+        } else {
+          this.resetState();
+        }
+      }
+    }
   }
 
   /**
@@ -84,8 +131,7 @@ class LogActivityForm extends Component {
     this.setState({ errors });
   }
 
-  handleAddEvent = (event) => {
-    event.preventDefault();
+  handleAddEvent = () => {
     const {
       activityTypeId,
       date,
@@ -97,6 +143,7 @@ class LogActivityForm extends Component {
       date,
       description,
     };
+    const { selectedItem } = this.props;
     if (this.requiresNumberOf()) {
       activity.numberOf = numberOf;
     }
@@ -104,7 +151,18 @@ class LogActivityForm extends Component {
       errors: validateFormFields(activity),
     }, () => {
       if (Object.keys(this.state.errors).length === 0) {
-        this.props.createActivity(activity);
+        if (selectedItem.id) {
+          this.props.updateSelectedItem(this.state);
+          this.props.updateActivity({
+            id: selectedItem.id,
+            date,
+            description,
+            activityTypeId,
+            numberOf,
+          });
+        } else {
+          this.props.createActivity(activity);
+        }
       }
     });
   }
@@ -120,7 +178,8 @@ class LogActivityForm extends Component {
       date: '',
       description: '',
       errors: {},
-      message: null,
+      formTitle: 'Log An Activity',
+      btnText: 'Log',
     });
   }
 
@@ -128,10 +187,9 @@ class LogActivityForm extends Component {
    * @name cancelModal
    * @summary reset state and close modal
    */
-  cancelModal = (event) => {
-    event.preventDefault();
-    this.resetState();
+  cancelModal = () => {
     this.props.closeModal();
+    this.resetState();
   }
 
   /**
@@ -159,12 +217,12 @@ class LogActivityForm extends Component {
   }
 
   render() {
-    const { message, activityTypeId, numberOf } = this.state;
-    const { categories } = this.props;
-
+    const { activityTypeId, numberOf } = this.state;
+    const { categories, message } = this.props;
+    const { formTitle, btnText } = this.state;
     return (
       <form>
-        <div className='titleForm'>Log an Activity</div>
+        <div className='titleForm'>{formTitle}</div>
         <DateField
           handleChange={this.handleChange}
           value={this.state.date}
@@ -215,7 +273,7 @@ class LogActivityForm extends Component {
         <div>
           <Button
             name='fellowButtonSubmit'
-            value='Log'
+            value={btnText}
             className={`submitButton ${message && message.type === 'info' ? 'submitButton--disabled' : ''}`}
             onClick={this.handleAddEvent}
           />
@@ -238,8 +296,7 @@ const mapStateToProps = state => ({
   message: state.myActivities.message,
 });
 
-const mapDispatchToProps = dispatch => ({
-  createActivity: activity => dispatch(createActivity(activity)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(LogActivityForm);
+export default connect(mapStateToProps, {
+  createActivity,
+  updateActivity,
+})(LogActivityForm);

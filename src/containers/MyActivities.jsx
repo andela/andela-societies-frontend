@@ -16,6 +16,7 @@ import dateFormatter from '../helpers/dateFormatter';
 import statsGenerator from '../helpers/statsGenerator';
 import filterActivities from '../helpers/filterActivities';
 import { getUserInfo } from '../helpers/authentication';
+import clickActions from '../constants/clickAction';
 
 /**
  * @name MyActivities
@@ -27,12 +28,12 @@ class MyActivities extends Component {
   /**
    * @name propTypes
    * @type {PropType}
-   * @property {Function} fetchActivities - function(thunk) as a prop
+   * @property {Function} fetchMyActivities - function(thunk) as a prop
    * @property {Array} myActivities - Array of activities
    * @property {Boolean} requesting - React router history object
   */
   static propTypes = {
-    fetchActivities: PropTypes.func.isRequired,
+    fetchMyActivities: PropTypes.func.isRequired,
     fetchCategories: PropTypes.func.isRequired,
     categories: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     requesting: PropTypes.bool,
@@ -55,6 +56,7 @@ class MyActivities extends Component {
     return {
       allActivities: nextProps.myActivities,
       filteredActivities: nextProps.myActivities,
+      userCanEdit: true,
     };
   }
 
@@ -65,6 +67,9 @@ class MyActivities extends Component {
       filteredActivities: [],
       selectedStatus: 'All',
       initialStatus: 'All',
+      userCanEdit: false,
+      showModal: false,
+      selectedActivity: {},
     };
   }
 
@@ -74,7 +79,7 @@ class MyActivities extends Component {
    */
   componentDidMount() {
     const userId = getUserInfo() && getUserInfo().id;
-    this.props.fetchActivities(userId);
+    this.props.fetchMyActivities(userId);
     this.props.fetchCategories();
   }
 
@@ -88,6 +93,47 @@ class MyActivities extends Component {
       selectedStatus: status,
     });
   };
+
+  handleClick = (clickAction, myActivityId) => {
+    const { EDIT } = clickActions;
+    if (clickAction === EDIT) {
+      const selectedActivity = this.state.filteredActivities.find(activity => activity.id === myActivityId);
+      this.setState({
+        showModal: true,
+        selectedActivity,
+      });
+    }
+    return null;
+  }
+
+  updateSelectedActivity = (newValues) => {
+    const {
+      date,
+      category,
+      description,
+      numberOf,
+      activityTypeId,
+    } = newValues;
+
+    this.setState({
+      selectedActivity: {
+        ...this.state.selectedActivity,
+        category,
+        date,
+        description,
+        activityTypeId,
+        numberOf,
+      },
+    });
+  }
+
+  deselectActivity = () => {
+    this.setState(() => ({
+      selectedActivity: {},
+      showModal: false,
+    }));
+  }
+
   /**
    * Render MyActivities Page
    * @return {Object} JSX for MyActivities component
@@ -97,12 +143,21 @@ class MyActivities extends Component {
       filteredActivities,
       selectedStatus,
       allActivities,
+      userCanEdit,
+      showModal,
+      selectedActivity,
     } = this.state;
     const { requesting, categories } = this.props;
     const approvedActivities = allActivities.filter(activities => activities.status === APPROVED);
 
     return (
-      <Page categories={categories}>
+      <Page
+        selectedItem={selectedActivity}
+        categories={categories}
+        deselectItem={this.deselectActivity}
+        showModal={showModal}
+        updateSelectedItem={this.updateSelectedActivity}
+      >
         <div className='mainContent'>
           <div className='myActivities'>
             <PageHeader
@@ -124,6 +179,8 @@ class MyActivities extends Component {
                           description={activity.description || activity.activity}
                           points={activity.points}
                           status={activity.status}
+                          userCanEdit={userCanEdit}
+                          handleClick={this.handleClick}
                         />
                       ))
                     }
@@ -149,9 +206,7 @@ const mapStateToProps = state => ({
   categories: state.categories.categories,
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchActivities: userId => dispatch(fetchMyActivities(userId)),
-  fetchCategories: () => dispatch(fetchCategories()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(MyActivities);
+export default connect(mapStateToProps, {
+  fetchMyActivities,
+  fetchCategories,
+})(MyActivities);

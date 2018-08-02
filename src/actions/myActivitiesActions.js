@@ -4,6 +4,9 @@ import {
   FETCH_MY_ACTIVITIES_REQUEST,
   FETCH_MY_ACTIVITIES_SUCCESS,
   FETCH_MY_ACTIVITIES_FAILURE,
+  UPDATE_MY_ACTIVITIES_SUCCESS,
+  UPDATE_MY_ACTIVITIES,
+  UPDATE_MY_ACTIVITIES_FAILURE,
 } from '../types';
 import config from '../../config';
 
@@ -46,6 +49,40 @@ export const myActivitiesGetSuccess = activities => (
 );
 
 /**
+ * @name updateActivitiesRequest
+ * @summary action creator for an update myactivities request
+ * @param null
+ * @return {Object} {{type: UPDATE_MY_ACTIVITIES, bool: bool}}
+ */
+export const updateActivitiesRequest = () => ({ type: UPDATE_MY_ACTIVITIES });
+
+/**
+ * @name updateActivitiesRequestSuccess
+ * @summary action creator for an update myactivities request success
+ * @param {Object} activity - updated myactivities payload
+ * @return {Object} action
+ */
+export const updateActivitiesRequestSuccess = activity => (
+  {
+    type: UPDATE_MY_ACTIVITIES_SUCCESS,
+    activity,
+  }
+);
+
+/**
+ * @name updateActivitiesRequestFailure
+ * @summary action creator for an update myactivities request failure
+ * @param {Object} error - payload error
+ * @return {Object} action
+ */
+export const updateActivitiesRequestFailure = error => (
+  {
+    type: UPDATE_MY_ACTIVITIES_FAILURE,
+    error,
+  }
+);
+
+/**
  * fetch myActivities thunk
  * @param {string} - user id
  * @returns {(dispatch) => Promise<AxiosResponse>}
@@ -60,3 +97,21 @@ export const fetchMyActivities = userId => (
       .catch((error) => { dispatch(myActivitiesGetFailure(error)); });
   }
 );
+
+/**
+ * @name updateActivity
+ * @summary thunk to update myactivities
+ * @param {string} - logged activity id
+ * @returns {(dispatch) => Promise<AxiosResponse>}
+ */
+export const updateActivity = myActivity => ((dispatch) => {
+  const updateData = { ...myActivity };
+  delete updateData.id;
+  dispatch(updateActivitiesRequest());
+  return axios.put(`${config.API_BASE_URL}/logged-activities/${myActivity.id}`, updateData)
+    .then(response => (
+      dispatch(updateActivitiesRequestSuccess(response.data.data))
+    )).catch(error => (
+      dispatch(updateActivitiesRequestFailure(error.response.data.message))
+    ));
+});
