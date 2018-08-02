@@ -51,6 +51,7 @@ const initialState = {
     redemptions: [],
     hasError: false,
     updating: false,
+    error: {},
   },
   commentsInfo: {
     comment: [],

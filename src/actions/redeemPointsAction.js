@@ -142,6 +142,6 @@ export const updateRedemption = redemption => ((dispatch) => {
     .then(response => (
       dispatch(updateRedemptionSuccess(response.data.data))
     )).catch(error => (
-      dispatch(updateRedemptionFailure(error.response.data.message))
+      dispatch(updateRedemptionFailure(error))
     ));
 });

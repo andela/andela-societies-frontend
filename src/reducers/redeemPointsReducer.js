@@ -56,8 +56,11 @@ const redeemPointsReducer = (state = initialState.redemptionsInfo, action) => {
       ...state,
       message: {
         type: 'error',
-        text: action.error,
+        text: action.error.response ?
+          action.error.response.data.message : 'An error has occurred while processing your request.',
       },
+      error: action.error,
+      hasError: true,
       requesting: false,
     };
   case FETCH_REDEMPTIONS_REQUEST:

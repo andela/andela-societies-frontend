@@ -176,7 +176,7 @@ class RedeemPointsForm extends Component {
   }
 
   render() {
-    const { message } = this.props;
+    const { message, selectedItem } = this.props;
     const {
       formTitle,
       btnText,
@@ -190,6 +190,7 @@ class RedeemPointsForm extends Component {
       <form>
         <h3>{formTitle}</h3>
         <Select
+          id={selectedItem.id}
           name='center'
           placeholder='Select center'
           options={centers}

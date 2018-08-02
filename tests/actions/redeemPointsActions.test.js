@@ -36,6 +36,7 @@ import testProfile from '../../src/fixtures/userProfile';
 const mockStore = configureMockStore([thunk]);
 let store;
 const societyName = testProfile.society.id;
+const error = new Error('Request failed with status code 401');
 
 describe('Redeem Points Actions', () => {
   beforeEach(() => {
@@ -142,16 +143,12 @@ describe('Redeem Points Actions', () => {
       status: 200,
       response: {
         data: { ...redemption },
-        message: 'Redemption succesfully updated',
       },
     });
 
     const expectedSuccessAction = {
       type: UPDATE_REDEMPTION_SUCCESS,
-      redemption: {
-        data: { ...redemption },
-        message: 'Redemption succesfully updated',
-      },
+      redemption,
     };
     const updateData = {
       id: redemption.id,
@@ -163,18 +160,14 @@ describe('Redeem Points Actions', () => {
       .then(() => (expect(store.getActions()[1]).toEqual(expectedSuccessAction)));
   });
 
-  it('should dispatch FETCH_REDEMPTIONS_FAILURE if update redemption failed', () => {
+  it('should dispatch UPDATE_REDEMPTION_FAILURE if update redemption failed', () => {
     moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem/${redemption.id}`, {
-      status: 401,
-      response: {
-        data: { ...redemption },
-        message: 'There was an error',
-      },
+      status: 401
     });
 
     const expectedFailureAction = {
       type: UPDATE_REDEMPTION_FAILURE,
-      error: 'There was an error',
+      error,
     };
     const updateData = {
       id: redemption.id,

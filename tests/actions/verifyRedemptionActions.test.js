@@ -60,7 +60,7 @@ describe('Verify Redemption Actions', () => {
       },
     ];
 
-    moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem/${redemption.id}`, {
+    moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem/verify/${redemption.id}`, {
       status: 200,
       response: { data: redemption },
     });
@@ -83,35 +83,12 @@ describe('Verify Redemption Actions', () => {
       },
     ];
 
-    moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem/${redemption.id}`, {
+    moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem/verify/${redemption.id}`, {
       status: 200,
       response: { data: redemption },
     });
 
     return store.dispatch(verifyRedemption(redemption.id, 'rejected', 'Insubstantial reason')).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
-  });
-
-  it('dispatches VERIFY_REDEMPTION_SUCCESS after when requesting for more information', () => {
-    store = mockStore({ redeemPointsInfo: storeFixture.redeemPointsInfo });
-
-    const expectedActions = [
-      {
-        type: VERIFY_REDEMPTION_REQUEST,
-      },
-      {
-        type: VERIFY_REDEMPTION_SUCCESS,
-        redemption,
-      },
-    ];
-
-    moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem/${redemption.id}`, {
-      status: 200,
-      response: { data: redemption },
-    });
-
-    return store.dispatch(verifyRedemption(redemption.id, 'moreInfo', 'Elaborate')).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
@@ -129,7 +106,7 @@ describe('Verify Redemption Actions', () => {
       },
     ];
 
-    moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem/${redemption.id}`, {
+    moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem/verify/${redemption.id}`, {
       status: 401,
       response: {},
     });
