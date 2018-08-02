@@ -10,14 +10,10 @@ import {
   fetchRedemptionsSuccess,
   updateRedemptionRequest,
   updateRedemptionSuccess,
-} from '../../src/actions/redeemPointsAction';
-
-import {
   verifyRedemptionRequest,
   verifyRedemptionSuccess,
   verifyRedemptionFailure,
-} from '../../src/actions/verifyRedemptionActions';
-
+} from '../../src/actions/redeemPointsAction';
 
 // types
 import { FETCH_REDEMPTIONS_FAILURE } from '../../src/types';

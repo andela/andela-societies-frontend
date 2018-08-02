@@ -14,8 +14,7 @@ import ErrorMessage from '../common/ErrorMessage';
 import Loader from '../components/loaders/Loader';
 
 // thunk
-import { fetchRedemption } from '../actions/redeemPointsAction';
-import { verifyRedemption } from '../actions/verifyRedemptionActions';
+import { fetchRedemption, verifyRedemption } from '../actions/redeemPointsAction';
 
 // helpers
 import dateFormatter from '../helpers/dateFormatter';

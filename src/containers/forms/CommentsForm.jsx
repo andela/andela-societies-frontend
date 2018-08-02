@@ -12,7 +12,7 @@ import FormError from '../../components/formErrors/FormError';
 import SnackBar from '../../components/notifications/SnackBar';
 
 // thunk
-import { verifyRedemption } from '../../actions/verifyRedemptionActions';
+import { verifyRedemption } from '../../actions/redeemPointsAction';
 import { requestMoreInfo } from '../../actions/commentActions';
 
 // helpers
