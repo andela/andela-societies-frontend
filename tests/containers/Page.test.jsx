@@ -25,7 +25,7 @@ describe('<Page />', () => {
     fetchUserProfile: () => { },
     fetchSocietyInfo: () => { },
     fetchUserInfo: () => { },
-    changePageTitle: () => { },
+    changeTitle: () => { },
     updating: false,
     societyInfo: {
       requesting: false,
@@ -49,7 +49,11 @@ describe('<Page />', () => {
       },
     },
   } = {}) => {
-    const props = { ...testProps, location, profile };
+    const props = {
+      ...testProps,
+      location,
+      profile,
+    };
 
     return mount(<Provider store={store}><MemoryRouter><Page.WrappedComponent {...props} /></MemoryRouter></Provider>);
   };
@@ -95,6 +99,15 @@ describe('<Page />', () => {
     const logActivityForm = setUpWrapper().find('LogActivityForm');
     expect(logActivityForm).toHaveLength(1);
   });
+
+  it('should show modal when path name is /u/my-activities and selectedItem has property of id', () => {
+    const modal = setUpWrapper({
+      location: { pathname: '/u/my-activities' },
+      selectedItem: { id: 'qwertyuio' },
+    }).find('Modal');
+    expect(modal).toHaveLength(1);
+  });
+
   it('should contain the RedeemPointsForm when pathname is /u/redemptions', () => {
     const redeemPointsForm = setUpWrapper({ location: { pathname: '/u/redemptions' } }).find('RedeemPointsForm');
     expect(redeemPointsForm).toHaveLength(1);
