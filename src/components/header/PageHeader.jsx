@@ -5,6 +5,10 @@ import PropType from 'prop-types';
 import Button from '../../common/Button';
 import Tabs from '../../components/header/Tabs';
 
+// constants
+import { STATUSES } from '../../constants/statuses';
+
+// helpers
 import capitalizeString from '../../helpers/stringFormatter';
 
 /**
@@ -23,8 +27,6 @@ class PageHeader extends Component {
    * @property {Object} statuses - Array of status types
    * @property {Boolean} showTabs - Whether or not to show tabs
    * @property {Function} handleChangeTab - called when a tab is clicked
-   * @property {Function} filterRedemptions - Returns a list of redemptions depending on selected tab
-   * @property {Function} changeFilterHandler - filters redemptions by tab
    * @property {Function} selectAllClick - prop to toggle state of selectAllChecked
    */
   static propTypes = {
@@ -33,11 +35,8 @@ class PageHeader extends Component {
     hideFilter: PropType.bool,
     showSelectAllApproveBtn: PropType.bool,
     tabs: PropType.arrayOf(PropType.string),
-    statuses: PropType.arrayOf(PropType.string),
     showTabs: PropType.bool,
     handleChangeTab: PropType.func,
-    filterRedemptions: PropType.func,
-    changeFilterHandler: PropType.func,
     filterActivities: PropType.func,
     handleSelectAllClick: PropType.func,
     handleApproveAllClick: PropType.func,
@@ -56,12 +55,9 @@ class PageHeader extends Component {
     showSelectAllApproveBtn: false,
     showTabs: false,
     tabs: [],
-    statuses: ['All', 'In review', 'Pending', 'Rejected', 'Approved'],
     handleSelectAllClick: () => { },
     handleApproveAllClick: () => { },
-    changeFilterHandler: () => { },
     handleChangeTab: () => { },
-    filterRedemptions: () => { },
   };
 
   /**
@@ -128,7 +124,6 @@ class PageHeader extends Component {
       showFilterOptionsDropdown,
       activeClass,
     } = this.state;
-    const { statuses } = this.props;
     return (
       <div className='filterOptions'>
         <button
@@ -143,21 +138,17 @@ class PageHeader extends Component {
         )}
         >
           {
-            statuses.map(status => (
+            Object.keys(STATUSES).map(status => (
               <div
                 key={status}
                 onMouseDown={(e) => {
-                  if (this.props.changeFilterHandler()) {
-                    this.props.filterRedemptions(e, status);
-                  } else {
-                    this.props.filterActivities(e.currentTarget.textContent);
-                  }
+                  this.props.filterActivities(e.currentTarget.textContent);
                 }}
-                className={`filterOptions__option ${selectedStatus === status ? activeClass : ''}`}
+                className={`filterOptions__option ${selectedStatus === STATUSES[status] ? activeClass : ''}`}
                 role='button'
                 tabIndex='0'
               >
-                {status && capitalizeString(status)}
+                {STATUSES[status] && capitalizeString(STATUSES[status])}
               </div>
             ))
           }
