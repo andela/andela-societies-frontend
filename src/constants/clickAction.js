@@ -9,4 +9,3 @@ const clickActions = {
 };
 
 export default clickActions;
-

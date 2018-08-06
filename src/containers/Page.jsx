@@ -1,3 +1,4 @@
+/* eslint-disable  no-prototype-builtins */
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -59,7 +60,7 @@ class Page extends Component {
       }).isRequired,
     }).isRequired,
     history: ReactRouterPropTypes.history,
-    changePageTitle: PropTypes.func.isRequired,
+    changeTitle: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
     location: PropTypes.shape({ pathname: PropTypes.string.isRequired }).isRequired,
     categories: PropTypes.arrayOf(PropTypes.shape({})),
@@ -84,9 +85,10 @@ class Page extends Component {
   }
 
   static getDerivedStateFromProps = (props, state) => {
-    if (props.location.pathname !== '/u/my-activities') {
+    const { location, showModal, selectedItem } = props;
+    if (location.pathname !== 'u/my-activities' && selectedItem.hasOwnProperty('id')) {
       return ({
-        showModal: props.showModal,
+        showModal,
       });
     }
     return state;
@@ -97,7 +99,7 @@ class Page extends Component {
     this.state = {
       showModal: false,
     };
-    props.changePageTitle(props.history.location.pathname);
+    props.changeTitle(props.history.location.pathname);
   }
 
   componentDidMount() {
@@ -153,7 +155,13 @@ class Page extends Component {
     const className = this.state.showModal ? 'modal--open' : '';
     let modalContent;
     if (location.pathname === '/u/my-activities') {
-      modalContent = categories.length && <LogActivityForm categories={categories} closeModal={this.closeModal} />;
+      modalContent = (categories.length &&
+      <LogActivityForm
+        categories={categories}
+        closeModal={this.closeModal}
+        selectedItem={selectedItem}
+        updateSelectedItem={updateSelectedItem}
+      />);
     } else if (location.pathname === '/u/redemptions' &&
       hasAllowedRole(Object.keys(profile.roles), [SOCIETY_PRESIDENT])) {
       modalContent = (
@@ -188,7 +196,6 @@ class Page extends Component {
       updating,
     } = this.props;
     const userRoles = Object.keys(profile.roles);
-
     return (
       <Fragment>
         <div className='headerBackground' />
@@ -231,13 +238,9 @@ const mapStateToProps = (state) => {
   });
 };
 
-const mapDispatchToProps = dispatch => ({
-  changePageTitle: history => dispatch(changeTitle(history)),
-  fetchUserInfo: tokenInfo => (
-    dispatch(fetchUserInfo(tokenInfo))
-  ),
-  fetchSocietyInfo: name => dispatch(fetchSocietyInfo(name)),
-  fetchUserProfile: userId => dispatch(fetchUserProfile(userId)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Page));
+export default connect(mapStateToProps, {
+  changeTitle,
+  fetchUserInfo,
+  fetchSocietyInfo,
+  fetchUserProfile,
+})(withRouter(Page));
