@@ -109,10 +109,9 @@ class MyActivities extends Component {
               selectedStatus={selectedStatus}
             />
             <div className='activities'>
+              { requesting && <Loader /> }
               {
-                requesting ?
-                  <Loader />
-                  :
+                !requesting &&
                   <MasonryLayout
                     items={
                       filteredActivities.map(activity => (

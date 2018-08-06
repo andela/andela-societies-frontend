@@ -19,6 +19,10 @@ let expectedState;
 const error = 'Error encountered while submitting your comment. Try again';
 
 describe('Comments Reducer tests', () => {
+  it('should set default initial state', () => {
+    expect(commentsReducer(undefined, {})).toEqual(defaultState);
+  });
+
   it('should return the default state when given no action ', () => {
     expect(commentsReducer(defaultState, {})).toEqual(defaultState);
   });

@@ -1,6 +1,3 @@
-// initial state
-import initialState from '../../src/reducers/initialState';
-
 // actions
 import {
   fetchAllActivitiesFailure,
@@ -29,56 +26,61 @@ import activity from '../../src/fixtures/activity';
 import info, { approvedActivities } from '../../src/fixtures/society';
 import store from '../../src/fixtures/store';
 
-const defaultState = initialState.allActivities;
 let expectedOutput;
 const error = new Error('Request failed with status code 400');
 
 describe('All activities reducer', () => {
+  const initialState = store.allActivities;
+
+  it('should set default initial state', () => {
+    expect(allActivities(undefined, {})).toEqual(initialState);
+  });
+
   it('should return default initial state when no action is provided', () => {
-    expect(allActivities(defaultState, {})).toEqual(defaultState);
+    expect(allActivities(initialState, {})).toEqual(initialState);
   });
 
   it('should return requesting state true when FETCH_ALL_ACTIVITIES_REQUEST action is fired ', () => {
     expectedOutput = {
-      ...defaultState,
+      ...initialState,
       requesting: true,
     };
-    expect(allActivities(defaultState, fetchAllActivitiesRequests())).toEqual(expectedOutput);
+    expect(allActivities(initialState, fetchAllActivitiesRequests())).toEqual(expectedOutput);
   });
 
   it('should handle FETCH_ALL_ACTIVITIES_SUCCESS case', () => {
     expectedOutput = {
-      ...defaultState,
+      ...initialState,
       requesting: false,
       activities,
     };
-    expect(allActivities(defaultState, fetchAllActivitiesSuccess(activities))).toEqual(expectedOutput);
+    expect(allActivities(initialState, fetchAllActivitiesSuccess(activities))).toEqual(expectedOutput);
   });
 
   it('should handle FETCH_ALL_ACTIVITIES_FAILURE case', () => {
     expectedOutput = {
-      ...defaultState,
+      ...initialState,
       requesting: false,
       error,
     };
-    expect(allActivities(defaultState, fetchAllActivitiesFailure(error))).toEqual(expectedOutput);
+    expect(allActivities(initialState, fetchAllActivitiesFailure(error))).toEqual(expectedOutput);
   });
 
   it('should handle VERIFY_ACTIVITY_REQUEST', () => {
-    expect(allActivities(defaultState, {
+    expect(allActivities(initialState, {
       type: VERIFY_ACTIVITY_REQUEST,
     })).toEqual({
-      ...defaultState,
+      ...initialState,
       updating: true,
     });
   });
 
   it('should handle VERIFY_ACTIVITY_FAILURE', () => {
-    expect(allActivities(defaultState, {
+    expect(allActivities(initialState, {
       type: VERIFY_ACTIVITY_FAILURE,
       error: { error: 404 },
     })).toEqual({
-      ...defaultState,
+      ...initialState,
       updating: false,
       error: { error: 404 },
       activities: store.societyActivities.activities,
@@ -86,42 +88,40 @@ describe('All activities reducer', () => {
   });
 
   it('should handle VERIFY_ACTIVITY_SUCCESS', () => {
-    defaultState.activities = info.loggedActivities;
-    defaultState.activities.push(activity);
+    initialState.activities = info.loggedActivities;
+    initialState.activities.push(activity);
     activity.status = 'pending';
     const newActivities = info.loggedActivities;
-    expect(allActivities(defaultState, {
+    expect(allActivities(initialState, {
       type: VERIFY_ACTIVITY_SUCCESS,
       activity,
     })).toEqual({
-      ...defaultState,
+      ...initialState,
       updating: false,
       activities: newActivities,
     });
   });
 
   it('should handle VERIFY_ACTIVITY_OPS_REQUEST', () => {
-    const expectedOutput = {
-      ...defaultState,
-      updating: true
+    expectedOutput = {
+      ...initialState,
+      updating: true,
     };
-    expect(allActivities(defaultState, { type: VERIFY_ACTIVITY_OPS_REQUEST })).toEqual(expectedOutput);
+    expect(allActivities(initialState, { type: VERIFY_ACTIVITY_OPS_REQUEST })).toEqual(expectedOutput);
   });
 
   it('should handle VERIFY_ACTIVITY_OPS_FAILURE', () => {
-    const expectedOutput = {
-      ...defaultState,
+    expectedOutput = {
+      ...initialState,
       error,
     };
-    expect(allActivities(defaultState, verifyActivitiesOpsFailure(error))).toEqual(expectedOutput);
+    expect(allActivities(initialState, verifyActivitiesOpsFailure(error))).toEqual(expectedOutput);
   });
 
   it('should handle VERIFY_ACTIVITY_OPS_SUCCESS', () => {
     const activityIds = ['bnfad176-43cd-11e8-b3b9-9801a7ae0329'];
-    defaultState.activities = info.loggedActivities;
-    const result = allActivities(defaultState, verifyActivitiesOpsSuccess(approvedActivities, activityIds));
+    initialState.activities = info.loggedActivities;
+    const result = allActivities(initialState, verifyActivitiesOpsSuccess(approvedActivities, activityIds));
     expect(result.activities[0]).toEqual(approvedActivities[0]);
   });
 });
-
-
