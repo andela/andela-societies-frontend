@@ -295,6 +295,7 @@ class Redemptions extends React.Component {
    * @returns Masonry Layout component to display redemptions
    */
   renderRedemptionsContent = (filteredActivities) => {
+    const noRedemptionFoundMsg = 'This redemption does not have a description';
     const { hasError, requesting, societyName } = this.props;
     const {
       showPoints,
@@ -341,7 +342,7 @@ class Redemptions extends React.Component {
               id={id}
               center={center.name}
               date={dateFormatter(createdAt)}
-              description={name}
+              description={name || noRedemptionFoundMsg}
               points={value}
               status={status}
               showAmount={showAmount}
