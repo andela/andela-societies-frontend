@@ -1,0 +1,3 @@
+const SNACKBARTIMEOUT = 3000;
+
+export default SNACKBARTIMEOUT;

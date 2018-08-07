@@ -22,6 +22,9 @@ import pointsToDollarConverter from '../../helpers/pointsToDollarsConverter';
 // fixtures
 import centers from '../../fixtures/centers';
 
+// constants
+import SNACKBARTIMEOUT from '../../constants/snackbarTimeout';
+
 class RedeemPointsForm extends Component {
   static defaultProps = {
     message: {},
@@ -86,10 +89,8 @@ class RedeemPointsForm extends Component {
    */
   componentDidUpdate(prevProps) {
     const { type } = this.props.message;
-    if (type !== prevProps.message.type) {
-      if (type === 'success') {
-        setTimeout(() => { this.handleCloseModal(); }, 2000);
-      }
+    if (type !== prevProps.message.type && type === 'success') {
+      setTimeout(() => { this.handleCloseModal(); }, SNACKBARTIMEOUT);
     }
   }
 
