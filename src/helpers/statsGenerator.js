@@ -1,6 +1,6 @@
 /**
  * @name statsGenerator
- * @summary Generates an stats for a given array
+ * @summary Generates a stats for a given array
  * @param {Array} arr - activity/redemption array to get stats from
  * @param {String} activityLabel - label for the number of activities/redemptions
  * @param {String} pointsLabel - label for the total number of points
