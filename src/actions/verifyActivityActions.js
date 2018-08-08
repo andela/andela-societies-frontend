@@ -9,7 +9,6 @@ import {
   VERIFY_ACTIVITY_OPS_SUCCESS,
 } from '../types';
 import config from '../../config';
-import { APPROVED } from '../constants/statuses';
 
 /**
  * @function verifyActivityRequest
@@ -106,8 +105,8 @@ export const verifyActivitiesOps = activityIds => (
   (dispatch) => {
     dispatch(verifyActivitiesOpsRequest());
     return http.put(
-      `${config.API_BASE_URL}/logged-activities/approve/`,
-      { loggedActivitiesIds: activityIds, status: APPROVED },
+      `${config.API_BASE_URL}/approve/logged-activities/`,
+      { loggedActivitiesIds: activityIds },
     )
       .then((response) => {
         dispatch(verifyActivitiesOpsSuccess(response.data.data, activityIds));

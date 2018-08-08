@@ -22,6 +22,9 @@ import pointsToDollarConverter from '../../../src/helpers/pointsToDollarsConvert
 // fixtures
 import { moreInfoText, rejectionText } from '../../fixtures/commentsFormText';
 
+// constants
+import SNACKBARTIMEOUT from '../../constants/snackbarTimeout';
+
 class CommentsForm extends Component {
   static defaultProps = {
     message: {
@@ -73,7 +76,7 @@ class CommentsForm extends Component {
   componentDidUpdate(prevProps) {
     const { message } = this.props;
     if (prevProps.message.type !== message.type && message.type === 'success') {
-      setTimeout(() => this.handleCloseModal(), 3100);
+      setTimeout(() => this.handleCloseModal(), SNACKBARTIMEOUT);
     }
   }
 
