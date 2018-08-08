@@ -5,12 +5,14 @@ import VerifyActivities from '../containers/VerifyActivities';
 import HomeIcon from '../components/svgIcons/menuIcons/Home';
 import MyActivitiesIcon from '../components/svgIcons/menuIcons/MyActivities';
 import VerifyActivitiesIcon from '../components/svgIcons/menuIcons/VerifyActivities';
+import CategoriesIcon from '../components/svgIcons/menuIcons/Categories';
 import RedemptionsIcon from '../components/svgIcons/menuIcons/Redemptions';
 import InvictusIcon from '../components/svgIcons/societyIcons/Invictus';
 import IstelleIcon from '../components/svgIcons/societyIcons/Istelle';
 import SparksIcon from '../components/svgIcons/societyIcons/Sparks';
 import PhoenixIcon from '../components/svgIcons/societyIcons/Phoenix';
 import Redemptions from '../containers/Redemptions';
+import Categories from '../containers/Categories';
 import {
   SOCIETY_SECRETARY,
   SUCCESS_OPS,
@@ -48,6 +50,13 @@ const pageInfo = {
       component: Redemptions,
       menuIcon: RedemptionsIcon,
       allowedRoles: [SUCCESS_OPS, SOCIETY_PRESIDENT, CIO, FINANCE],
+    },
+    {
+      title: 'Categories',
+      url: '/u/categories',
+      component: Categories,
+      menuIcon: CategoriesIcon,
+      allowedRoles: [SUCCESS_OPS, CIO],
     },
   ],
   societyPages: [

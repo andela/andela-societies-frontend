@@ -29,6 +29,8 @@ const store = {
     requesting: false,
     categories: [],
     error: {},
+    message: {},
+    updating: false,
   },
   societyActivities: {
     activities: [],

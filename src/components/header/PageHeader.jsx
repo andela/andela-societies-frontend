@@ -102,7 +102,7 @@ class PageHeader extends Component {
   };
 
   renderSelectAllApprovebtn = () => (
-    <div className='pageHeader__selectApprove'>
+    <div className='pageHeader__selectAction'>
       <input
         type='checkbox'
         name='checkbox'
@@ -112,7 +112,7 @@ class PageHeader extends Component {
       <Button
         name='approveAll'
         value='Approve Selected'
-        className='pageHeader__selectApprove__button'
+        className='pageHeader__selectAction__button pageHeader__selectApprove__button '
         onClick={this.props.handleApproveAllClick}
       />
     </div>

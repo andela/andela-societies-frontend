@@ -2,6 +2,12 @@ import {
   FETCH_CATEGORIES_REQUEST,
   FETCH_CATEGORIES_SUCCESS,
   FETCH_CATEGORIES_FAILURE,
+  CREATE_CATEGORY_REQUEST,
+  CREATE_CATEGORY_SUCCESS,
+  CREATE_CATEGORY_FAILURE,
+  DELETE_CATEGORY_REQUEST,
+  DELETE_CATEGORY_SUCCESS,
+  DELETE_CATEGORY_FAILURE,
 } from '../types';
 import initialState from './initialState';
 
@@ -32,6 +38,54 @@ const categories = (state = initialState.categories, action) => {
       requesting: false,
       categories: action.categories,
     };
+  case CREATE_CATEGORY_REQUEST:
+    return {
+      ...state,
+      message: {
+        type: 'info',
+        text: 'Creating ...',
+      },
+    };
+  case CREATE_CATEGORY_FAILURE:
+    return {
+      ...state,
+      error: action.error,
+      message: {
+        type: 'error',
+        text: action.error.response ? action.error.response.data.message : 'An error has occurred',
+      },
+    };
+  case CREATE_CATEGORY_SUCCESS: {
+    return {
+      ...state,
+      categories: [action.category].concat(state.categories),
+      message: {
+        type: 'success',
+        text: 'Category Created Successfully',
+      },
+    };
+  }
+  case DELETE_CATEGORY_REQUEST:
+    return {
+      ...state,
+      updating: true,
+    };
+  case DELETE_CATEGORY_FAILURE:
+    return {
+      ...state,
+      updating: false,
+      error: action.error,
+    };
+  case DELETE_CATEGORY_SUCCESS: {
+    const updatedCategories = state.categories.filter(category => (
+      category.id !== action.id
+    ));
+    return {
+      ...state,
+      updating: false,
+      categories: updatedCategories,
+    };
+  }
   default:
     return state;
   }

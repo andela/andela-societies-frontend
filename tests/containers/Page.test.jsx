@@ -108,6 +108,16 @@ describe('<Page />', () => {
     expect(modal).toHaveLength(1);
   });
 
+  it('should show the CreateCategoryForm for the Success Ops user on the categories page', () => {
+    const createCategoryForm = setUpWrapper({
+      location: { pathname: '/u/categories' },
+      profile: {
+        roles: { 'success ops': 'abcd' },
+      },
+    }).find('CreateCategoryForm');
+    expect(createCategoryForm).toHaveLength(1);
+  });
+
   it('should contain the RedeemPointsForm when pathname is /u/redemptions', () => {
     const redeemPointsForm = setUpWrapper({ location: { pathname: '/u/redemptions' } }).find('RedeemPointsForm');
     expect(redeemPointsForm).toHaveLength(1);
@@ -123,3 +133,4 @@ describe('<Page />', () => {
     expect(commentsForm).toHaveLength(1);
   });
 });
+

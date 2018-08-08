@@ -18,8 +18,9 @@ import UpdateLoader from '../components/loaders/UpdateLoader';
 import Modal from '../common/Modal';
 import RedeemPointsForm from './forms/RedeemPointsForm';
 import CommentsForm from './forms/CommentsForm';
+import CreateCategoryForm from './forms/CreateCategoryForm';
 
-import { STAFF_USERS, SOCIETY_PRESIDENT } from '../../src/constants/roles';
+import { STAFF_USERS, SOCIETY_PRESIDENT, SUCCESS_OPS } from '../../src/constants/roles';
 
 import {
   getToken, tokenIsValid, isFellow,
@@ -142,6 +143,20 @@ class Page extends Component {
     this.setState({ showModal: false });
   }
 
+  renderFloatingButton = () => {
+    const { profile, location } = this.props;
+    const userRoles = Object.keys(profile.roles);
+    let FAB;
+    if (location.pathname === '/u/categories' && hasAllowedRole(userRoles, SUCCESS_OPS)) {
+      FAB = <FloatingButton onClick={this.onFabClick} />;
+    } else if (this.state.showModal || hasAllowedRole(userRoles, STAFF_USERS || userRoles.length === 0)) {
+      FAB = '';
+    } else {
+      FAB = <FloatingButton onClick={this.onFabClick} />;
+    }
+    return (FAB);
+  }
+
   renderModal = () => {
     const {
       categories,
@@ -172,6 +187,10 @@ class Page extends Component {
           updateSelectedItem={updateSelectedItem}
         />
       );
+    } else if (location.pathname === '/u/categories' &&
+      hasAllowedRole(Object.keys(profile.roles), SUCCESS_OPS)
+    ) {
+      modalContent = (<CreateCategoryForm closeModal={this.closeModal} />);
     } else if (hasAllowedRole(Object.keys(profile.roles), STAFF_USERS)) {
       modalContent = (
         <CommentsForm
@@ -218,18 +237,14 @@ class Page extends Component {
           </div>
         </main>
         {this.renderModal()}
-        {
-          this.state.showModal || hasAllowedRole(userRoles, STAFF_USERS) || userRoles.length === 0 ?
-            ''
-            : <FloatingButton onClick={this.onFabClick} />
-        }
+        {this.renderFloatingButton()}
       </Fragment>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  const updating = state.allActivities.updating || state.redeemPointsInfo.updating;
+  const updating = state.societyActivities.updating || state.redeemPointsInfo.updating || state.categories.updating;
   return ({
     userInfo: state.userInfo,
     societyInfo: state.societyInfo,

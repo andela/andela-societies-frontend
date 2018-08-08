@@ -54,9 +54,9 @@ class TruncateDescription extends Component {
 
   render() {
     const { longDescription } = this.state;
-    const { description } = this.props;
+    const { description, wordCount } = this.props;
     let buttonHtml = null;
-    if (description.trim().length > 50) {
+    if (description.trim().length > wordCount) {
       buttonHtml = (
         <button className='activity__description__btn--more--less' onClick={this.handleViewMoreLessClick}>
           {longDescription ? 'More' : 'Less'}
