@@ -8,6 +8,7 @@ import MasonryLayout from '../containers/MasonryLayout';
 import ActivityCard from '../components/activities/ActivityCard';
 import Stats from '../components/sidebar/Stats';
 import Loader from '../components/loaders/Loader';
+import { APPROVED } from '../constants/statuses';
 
 import { fetchMyActivities } from '../actions/myActivitiesActions';
 import { fetchCategories } from '../actions/categoriesActions';
@@ -98,6 +99,7 @@ class MyActivities extends Component {
       allActivities,
     } = this.state;
     const { requesting, categories } = this.props;
+    const approvedActivities = allActivities.filter(activities => activities.status === APPROVED);
 
     return (
       <Page categories={categories}>
@@ -133,7 +135,7 @@ class MyActivities extends Component {
         <aside className='sideContent'>
           <Stats
             title='My Stats'
-            stats={statsGenerator(allActivities, 'Activities logged', 'Points earned')}
+            stats={statsGenerator(approvedActivities, 'Activities logged', 'Points earned')}
           />
         </aside>
       </Page>

@@ -18,7 +18,6 @@ import { fetchRedemption, verifyRedemption } from '../actions/redeemPointsAction
 
 // helpers
 import dateFormatter from '../helpers/dateFormatter';
-import filterActivities from '../helpers/filterActivities';
 import { hasAllowedRole } from '../helpers/authentication';
 import statsGenerator from '../helpers/statsGenerator';
 import filterActivitiesByStatus from '../helpers/filterActivitiesByStatus';
@@ -41,6 +40,7 @@ class Redemptions extends React.Component {
     hasError: false,
     userRoles: [],
     requesting: false,
+    redemptions: [],
   }
 
   /**
@@ -53,6 +53,7 @@ class Redemptions extends React.Component {
     fetchRedemption: PropTypes.func.isRequired,
     verifyRedemption: PropTypes.func.isRequired,
     userRoles: PropTypes.arrayOf(PropTypes.string),
+    redemptions: PropTypes.arrayOf(PropTypes.shape({})),
   }
 
   /**
@@ -62,43 +63,38 @@ class Redemptions extends React.Component {
    * @param {Object} state
    */
   static getDerivedStateFromProps(props, state) {
-    if (props.userRoles.length) {
-      const userRoles = props.userRoles ? props.userRoles : [];
-      const showButtons = userRoles.length > 0 && hasAllowedRole(userRoles, VERIFICATION_USERS);
-      const showCompleteButton = userRoles.length > 0 && hasAllowedRole(userRoles, [FINANCE]);
-      const showMoreInfoButton = userRoles.length > 0 && hasAllowedRole(userRoles, [CIO]);
-      const userCanEdit = userRoles.length > 0 && hasAllowedRole(userRoles, [SOCIETY_PRESIDENT]);
-      let preSelectedRemptions = props.redemptions;
+    const { redemptions, societyName, userRoles } = props;
+    const { selectedSociety } = state;
+    if (userRoles.length) {
+      const showButtons = hasAllowedRole(userRoles, VERIFICATION_USERS);
+      const showCompleteButton = hasAllowedRole(userRoles, [FINANCE]);
+      const showMoreInfoButton = hasAllowedRole(userRoles, [CIO]);
+      const userCanEdit = hasAllowedRole(userRoles, [SOCIETY_PRESIDENT]);
+      let preSelectedRemptions;
       let {
-        initialStatus,
         selectedStatus,
         showTabs,
-        societyRedemptions,
       } = state;
 
       // state values for cio/success ops role
       if (hasAllowedRole(userRoles, [CIO, SUCCESS_OPS, FINANCE])) {
         showTabs = true;
-        initialStatus = PENDING;
         selectedStatus = PENDING;
-
-        societyRedemptions = props.redemptions
-          .filter(redemption => redemption.society.name.toLowerCase() === state.selectedSociety);
-
-        preSelectedRemptions = filterActivitiesByStatus(societyRedemptions, PENDING);
+        preSelectedRemptions = filterActivitiesByStatus(redemptions, PENDING)
+          .filter(redemption => redemption.society.name.toLowerCase() === selectedSociety.toLowerCase());
+      } else {
+        preSelectedRemptions = redemptions
+          .filter(redemption => (redemption.society.name.toLowerCase() === societyName.toLowerCase()));
       }
 
       return {
-        allActivities: props.redemptions,
         filteredActivities: preSelectedRemptions,
         userCanEdit,
-        societyRedemptions,
         userRoles,
         showTabs,
         showButtons,
         showCompleteButton,
         showMoreInfoButton,
-        initialStatus,
         selectedStatus,
       };
     }
@@ -108,12 +104,9 @@ class Redemptions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      allActivities: [],
       userCanEdit: false,
       filteredActivities: [],
-      societyRedemptions: [],
       selectedStatus: ALL,
-      initialStatus: ALL,
       showUserDetails: true,
       showLocation: true,
       showButtons: false,
@@ -162,35 +155,33 @@ class Redemptions extends React.Component {
     hasAllowedRole(this.state.userRoles, STAFF_USERS) ? 'full' : societyName);
 
   /**
-   * @name changeFilterHandler
-   * @summary whether or not to use custom filter handler
-   * @returns {Boolean} whether or not to use custom filter handler
+   * @name getSocietyRedemptions
+   * @summary gets redemptions for a society
+   * @returns {Array} redemptions
    */
-  changeFilterHandler = () => hasAllowedRole(this.state.userRoles, [CIO, SUCCESS_OPS, FINANCE]);
-
-  /**
-   * @name filterActivities
-   * Filters state based on the selectedStatus
-   * @memberof Redemptions
-   */
-  filterActivities = (status) => {
-    this.setState({
-      filteredActivities: filterActivities(status, this.state).filteredActivities,
-      selectedStatus: status,
-    });
-  };
+  getSocietyRedemptions = () => {
+    const { redemptions, societyName, userRoles } = this.props;
+    const { selectedSociety } = this.state;
+    if (hasAllowedRole(userRoles, [SOCIETY_PRESIDENT])) {
+      return redemptions
+        .filter(redemption => redemption.society.name.toLowerCase() === societyName.toLowerCase());
+    }
+    return redemptions
+      .filter(redemption => redemption.society.name.toLowerCase() === selectedSociety.toLowerCase());
+  }
 
   /**
    * @name filterRedemptions
    * @summary filters redemptions based on status
    */
-  filterRedemptions = (event, status) => {
-    event.preventDefault();
-    let filterResult = filterActivitiesByStatus(this.state.societyRedemptions, status);
-    if (status.toLowerCase() === ALL) {
-      filterResult = this.state.societyRedemptions;
+  filterRedemptions = (status) => {
+    const filterStatus = status.toLowerCase();
+    let filterResult;
+    const societyRedemptions = this.getSocietyRedemptions();
+    filterResult = filterActivitiesByStatus(societyRedemptions, filterStatus);
+    if (filterStatus === ALL) {
+      filterResult = societyRedemptions;
     }
-
     this.setState({
       filteredActivities: filterResult,
       selectedStatus: status,
@@ -203,12 +194,10 @@ class Redemptions extends React.Component {
    */
   handleChangeTab = (event, title) => {
     event.preventDefault();
-    const filteredRedemptions = this.state.allActivities
+    const pendingRedemptions = filterActivitiesByStatus(this.props.redemptions, PENDING)
       .filter(red => red.society.name.toLowerCase() === title.toLowerCase());
-    const pendingRedemptions = filterActivitiesByStatus(filteredRedemptions, PENDING);
     this.setState({
       filteredActivities: pendingRedemptions,
-      societyRedemptions: filteredRedemptions,
       selectedSociety: title.toLowerCase(),
       selectedStatus: 'pending',
     });
@@ -390,13 +379,11 @@ class Redemptions extends React.Component {
               title='Recent Redemptions'
               selectedStatus={selectedStatus}
               selectedSociety={selectedSociety}
-              filterActivities={this.filterActivities}
               userRoles={this.props.userRoles}
               showTabs={showTabs}
               tabs={tabs}
               handleChangeTab={this.handleChangeTab}
-              filterRedemptions={this.filterRedemptions}
-              changeFilterHandler={this.changeFilterHandler}
+              filterActivities={this.filterRedemptions}
               statuses={statuses}
             />
             <div className='activities'>

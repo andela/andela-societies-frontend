@@ -24,7 +24,7 @@ const testProps = {
   requesting: false,
   hasError: false,
   userRoles: Object.keys(userProfile.roles),
-  societyName: 'Invictus',
+  societyName: 'invictus',
   redemptions,
   history,
   fetchUserInfo: stub(),
@@ -34,126 +34,125 @@ const testProps = {
 };
 
 const setUpWrapper = ({
+  userProfile = { ...testProfile, roles: { 'society president': 'Kabc' } },
   requesting = false,
   hasError = false,
 } = {}) => {
   const props = {
     ...testProps,
+    userRoles: Object.keys(userProfile.roles),
     requesting,
     hasError,
   };
-  return mount((
+  const mountedWrapper = mount((
     <Provider store={store}>
       <MemoryRouter>
         <Redemptions.WrappedComponent {...props} />
       </MemoryRouter>
     </Provider>
-  ));
+  ))
+  const shallowWrapper = shallow(<Redemptions.WrappedComponent
+    {...props}
+  />);
+  return {
+    mountedWrapper,
+    shallowWrapper,
+  };
 };
 
-let shallowWrapper;
-
 beforeEach((() => {
-  shallowWrapper = shallow(<Redemptions.WrappedComponent
-    fetchUserInfo={stub()}
-    changePageTitle={stub()}
-    fetchRedemption={stub().resolves({})}
-    verifyRedemption={verifyRedemption}
-  />);
   verifyRedemption.mockClear();
   jest.spyOn(event, 'preventDefault');
 }));
 
 describe('<Redemptions />', () => {
   it('should render without crashing', () => {
-    expect(setUpWrapper().length).toBe(1);
+    const { mountedWrapper } = setUpWrapper();
+    expect(mountedWrapper.length).toBe(1);
   });
 
   it('should render PageHeader', () => {
-    expect(setUpWrapper().find('PageHeader').length).toBe(1);
+    const { mountedWrapper } = setUpWrapper();
+    expect(mountedWrapper.find('PageHeader').length).toBe(1);
   });
 
   it('should render MasonryLayout', () => {
-    expect(setUpWrapper().find('MasonryLayout').length).toBe(1);
+    const { mountedWrapper } = setUpWrapper();
+    expect(mountedWrapper.find('MasonryLayout').length).toBe(1);
   });
 
-  it('should render RedemptionCards', () => {
-    const mountedWrapper = setUpWrapper();
-    mountedWrapper.setState({ allActivities: redemptions, filteredActivities: redemptions });
-    expect(mountedWrapper.state().allActivities).toEqual(redemptions);
-    expect(mountedWrapper.find('ActivityCard').length).toBe(3);
+  it('should render pending RedemptionCards', () => {
+    const { mountedWrapper } = setUpWrapper();
+    mountedWrapper.setState({ filteredActivities: redemptions });
+    const filterRes = redemptions.filter(redemption => redemption.status === 'pending');
+    expect(mountedWrapper.find('ActivityCard').length).toBe(filterRes.length);
   });
 
   it('should render an error message when hasError is true', () => {
-    const mountedWrapper = setUpWrapper({ hasError: true });
+    const { mountedWrapper } = setUpWrapper({ hasError: true });
     expect(mountedWrapper.find('.error-message').length).toBe(1);
   });
 
   it('should render a loader when requesting is true', () => {
-    const mountedWrapper = setUpWrapper({ requesting: true });
+    const { mountedWrapper } = setUpWrapper({ requesting: true });
     expect(mountedWrapper.find('Loader').length).toBe(1);
   });
 
   it('should filter redemptions given status', () => {
+    const { shallowWrapper } = setUpWrapper();
     const instance = shallowWrapper.instance();
-    const pending = filterActivitiesByStatus(redemptions, 'pending');
+    const societyRedemptions = instance.getSocietyRedemptions();
+    const approved = filterActivitiesByStatus(societyRedemptions, 'approved');
     instance.setState({
-      allActivities: redemptions,
       filteredActivities: redemptions,
-      societyRedemptions: redemptions,
     });
-    jest.spyOn(instance, 'filterRedemptions');
-    instance.filterRedemptions(event, 'approved');
+    instance.filterRedemptions('approved');
     expect(instance.state.selectedStatus).toBe('approved');
-    expect(instance.state.filteredActivities.length).toBe(pending.length);
+    expect(instance.state.filteredActivities.length).toBe(approved.length);
   });
 
   it('should not filter redemptions if given status is all', () => {
+    const { shallowWrapper } = setUpWrapper();
     const instance = shallowWrapper.instance();
+    const societyRedemptions = instance.getSocietyRedemptions();
     instance.setState({
-      allActivities: redemptions,
       filteredActivities: redemptions,
-      societyRedemptions: redemptions,
     });
-    instance.filterRedemptions(event, 'all');
+    instance.filterRedemptions('all');
     expect(instance.state.selectedStatus).toBe('all');
-    expect(instance.state.filteredActivities.length).toBe(redemptions.length);
+    expect(instance.state.filteredActivities.length).toBe(societyRedemptions.length);
   });
 
   it('should update state with details for selected society', () => {
     const tRedemptions = [...redemptions, { ...redemption, status: 'rejected' }];
+    const { shallowWrapper } = setUpWrapper();
     const instance = shallowWrapper.instance();
     instance.setState({
-      allActivities: testRedemptions,
       filteredActivities: tRedemptions,
-      societyRedemptions: tRedemptions,
       selectedSociety: 'istelle',
       selectedStatus: 'all',
     });
     jest.spyOn(instance, 'handleChangeTab');
     instance.handleChangeTab(event, 'invictus');
     expect(instance.state.selectedSociety).toBe('invictus');
-    expect(instance.state.societyRedemptions.length).toBe(2);
     expect(instance.state.filteredActivities.length).toBe(1);
   });
 
   it('should call verifyRedemption thunk when redemption is approved', () => {
+    const { shallowWrapper } = setUpWrapper();
     const instance = shallowWrapper.instance();
     instance.setState({
-      allActivities: testRedemptions,
       filteredActivities: testRedemptions,
-      societyRedemptions: testRedemptions,
     });
     instance.handleClick('approved', redemption.id);
     expect(verifyRedemption).toHaveBeenCalled();
   });
 
   it('should call verifyRedemption thunk when redemption is completed', () => {
+    const { shallowWrapper } = setUpWrapper();
     const instance = shallowWrapper.instance();
     instance.setState({
-      allActivities: testRedemptions,
       filteredActivities: testRedemptions,
-      societyRedemptions: testRedemptions,
     });
     instance.handleClick('completed', redemption.id);
     expect(verifyRedemption).toBeCalledWith(redemption.id, 'completed');
@@ -161,11 +160,10 @@ describe('<Redemptions />', () => {
 
 
   it('should open modal and set selectedRedemption when redemption is clicked', () => {
+    const { shallowWrapper } = setUpWrapper();
     const instance = shallowWrapper.instance();
     instance.setState({
-      allActivities: testRedemptions,
       filteredActivities: testRedemptions,
-      societyRedemptions: testRedemptions,
     });
     instance.handleClick(EDIT, redemption.id);
     expect(instance.state.showModal).toBe(true);
@@ -173,6 +171,7 @@ describe('<Redemptions />', () => {
   });
 
   it('should close modal and clear selected redemption', () => {
+    const { shallowWrapper } = setUpWrapper();
     const instance = shallowWrapper.instance();
     instance.setState({
       selectedRedemption: redemption,
@@ -183,11 +182,10 @@ describe('<Redemptions />', () => {
   });
 
   it('should selected redemption in state and show modal when reject button is clicked', () => {
+    const { shallowWrapper } = setUpWrapper();
     const instance = shallowWrapper.instance();
     instance.setState({
-      allActivities: testRedemptions,
       filteredActivities: testRedemptions,
-      societyRedemptions: testRedemptions,
     });
     instance.handleClick('rejected', redemption.id);
     expect(instance.state.showModal).toBe(true);
@@ -195,6 +193,7 @@ describe('<Redemptions />', () => {
   });
 
   it('should update selected redemption', () => {
+    const { shallowWrapper } = setUpWrapper();
     const instance = shallowWrapper.instance();
     const update = {
       center: 'Kigali',
@@ -206,5 +205,23 @@ describe('<Redemptions />', () => {
     });
     instance.updateSelectedRedemption(update);
     expect(instance.state.selectedRedemption.value).toBe(update.points);
+  });
+
+  it('should return redemptions that match the societyName in props when role is society president', () => {
+    const { shallowWrapper } = setUpWrapper();
+    const instance = shallowWrapper.instance();
+    const societyRedemptions = instance.getSocietyRedemptions();
+    // filter redemptions by societyName
+    const filterRes = redemptions.filter(redemption => redemption.society.name === testProps.societyName);
+    expect(societyRedemptions).toEqual(filterRes);
+  });
+
+  it('should return redemptions that match the selected state when role is of SUCCESS_OPS', () => {
+    const { shallowWrapper } = setUpWrapper({ userProfile: { roles : { 'cio': 'Kabc' } } });
+    const instance = shallowWrapper.instance();
+    instance.setState({ selectedSociety: 'istelle' });
+    const filterRes = redemptions.filter(redemption => redemption.society.name === 'istelle');
+    const societyRedemptions = instance.getSocietyRedemptions();
+    expect(societyRedemptions).toEqual(filterRes);
   });
 });
