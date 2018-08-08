@@ -88,7 +88,7 @@ export const redemptions = Array(3).fill({}).map((el, index) => ({
       name: 'Invictus',
     },
     roles: {
-      president: 'sec1234abc',
+      'society president': 'sec1234abc',
     },
   },
 
