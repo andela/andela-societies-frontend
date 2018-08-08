@@ -412,9 +412,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  fetchRedemption: societyName => dispatch(fetchRedemption(societyName)),
-  verifyRedemption: (redemptionId, clickAction) => dispatch(verifyRedemption(redemptionId, clickAction)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Redemptions);
+export default connect(mapStateToProps, {
+  fetchRedemption,
+  verifyRedemption,
+})(Redemptions);

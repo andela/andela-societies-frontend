@@ -5,6 +5,9 @@ import {
   CREATE_ACTIVITY_REQUEST,
   CREATE_ACTIVITY_SUCCESS,
   CREATE_ACTIVITY_FAILURE,
+  UPDATE_MY_ACTIVITIES_SUCCESS,
+  UPDATE_MY_ACTIVITIES,
+  UPDATE_MY_ACTIVITIES_FAILURE,
 } from '../types';
 import initialState from './initialState';
 
@@ -32,6 +35,7 @@ const myActivities = (state = initialState.myActivities, action) => {
       requesting: false,
     };
   case CREATE_ACTIVITY_REQUEST:
+  case UPDATE_MY_ACTIVITIES:
     return {
       ...state,
       message: {
@@ -42,11 +46,11 @@ const myActivities = (state = initialState.myActivities, action) => {
   case CREATE_ACTIVITY_SUCCESS:
     return {
       ...state,
-      activities: [action.activity].concat(state.activities),
       message: {
         type: 'success',
         text: 'Activity Logged Successfully',
       },
+      activities: [...state.activities, action.activity],
     };
   case CREATE_ACTIVITY_FAILURE:
     return {
@@ -57,6 +61,32 @@ const myActivities = (state = initialState.myActivities, action) => {
         text: action.error.response ? action.error.response.data.message : 'An error has occurred',
       },
     };
+
+  case UPDATE_MY_ACTIVITIES_FAILURE:
+    return {
+      ...state,
+      error: action.error,
+      message: {
+        type: 'error',
+        text: 'An error has occurred',
+      },
+    };
+
+  case UPDATE_MY_ACTIVITIES_SUCCESS:
+  {
+    const updatedActivity = state.activities.map(activity => (
+      activity.id !== action.activity.id ? activity : action.activity
+    ));
+    return {
+      ...state,
+      message: {
+        type: 'success',
+        text: 'Activity Updated Successfully',
+      },
+      activities: updatedActivity,
+      requesting: false,
+    };
+  }
   default:
     return state;
   }

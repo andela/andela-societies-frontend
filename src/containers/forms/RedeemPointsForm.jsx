@@ -245,10 +245,7 @@ const mapStateToProps = state => ({
   societyId: state.userProfile.info.society.id,
 });
 
-
-const mapDispatchToProps = dispatch => ({
-  redeemPoints: redemption => dispatch(redeemPoints(redemption)),
-  updateRedemption: redemption => dispatch(updateRedemption(redemption)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(RedeemPointsForm);
+export default connect(mapStateToProps, {
+  redeemPoints,
+  updateRedemption,
+})(RedeemPointsForm);
