@@ -28,6 +28,8 @@ const initialState = {
     requesting: false,
     categories: [],
     error: {},
+    message: {},
+    updating: false,
   },
   societyActivities: {
     activities: [],

@@ -1,0 +1,165 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Delete /> should render correctly 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <Unknown />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": <g
+        id="Outline"
+      >
+        <g
+          id="ui_x5F_spec_x5F_header"
+        />
+        <path
+          d="M16,9v10H8V9H16 M14.5,3h-5l-1,1H5v2h14V4h-3.5L14.5,3L14.5,3z M18,7H6v12c0,1.1,0.9,2,2,2h8 c1.1,0,2-0.9,2-2V7L18,7z"
+          id="XMLID_282_"
+        />
+      </g>,
+      "height": "24px",
+      "version": "1.1",
+      "viewBox": "0 0 24 24",
+      "width": "24px",
+      "xmlSpace": "preserve",
+      "xmlns": "http://www.w3.org/2000/svg",
+    },
+    "ref": null,
+    "rendered": Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <g
+            id="ui_x5F_spec_x5F_header"
+          />,
+          <path
+            d="M16,9v10H8V9H16 M14.5,3h-5l-1,1H5v2h14V4h-3.5L14.5,3L14.5,3z M18,7H6v12c0,1.1,0.9,2,2,2h8 c1.1,0,2-0.9,2-2V7L18,7z"
+            id="XMLID_282_"
+          />,
+        ],
+        "id": "Outline",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "id": "ui_x5F_spec_x5F_header",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": "g",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "d": "M16,9v10H8V9H16 M14.5,3h-5l-1,1H5v2h14V4h-3.5L14.5,3L14.5,3z M18,7H6v12c0,1.1,0.9,2,2,2h8 c1.1,0,2-0.9,2-2V7L18,7z",
+            "id": "XMLID_282_",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": "path",
+        },
+      ],
+      "type": "g",
+    },
+    "type": "svg",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": <g
+          id="Outline"
+        >
+          <g
+            id="ui_x5F_spec_x5F_header"
+          />
+          <path
+            d="M16,9v10H8V9H16 M14.5,3h-5l-1,1H5v2h14V4h-3.5L14.5,3L14.5,3z M18,7H6v12c0,1.1,0.9,2,2,2h8 c1.1,0,2-0.9,2-2V7L18,7z"
+            id="XMLID_282_"
+          />
+        </g>,
+        "height": "24px",
+        "version": "1.1",
+        "viewBox": "0 0 24 24",
+        "width": "24px",
+        "xmlSpace": "preserve",
+        "xmlns": "http://www.w3.org/2000/svg",
+      },
+      "ref": null,
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <g
+              id="ui_x5F_spec_x5F_header"
+            />,
+            <path
+              d="M16,9v10H8V9H16 M14.5,3h-5l-1,1H5v2h14V4h-3.5L14.5,3L14.5,3z M18,7H6v12c0,1.1,0.9,2,2,2h8 c1.1,0,2-0.9,2-2V7L18,7z"
+              id="XMLID_282_"
+            />,
+          ],
+          "id": "Outline",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "id": "ui_x5F_spec_x5F_header",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": "g",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "d": "M16,9v10H8V9H16 M14.5,3h-5l-1,1H5v2h14V4h-3.5L14.5,3L14.5,3z M18,7H6v12c0,1.1,0.9,2,2,2h8 c1.1,0,2-0.9,2-2V7L18,7z",
+              "id": "XMLID_282_",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": "path",
+          },
+        ],
+        "type": "g",
+      },
+      "type": "svg",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;

@@ -8,22 +8,29 @@
   line-height: 3.5rem;
 }
 
-.pageHeader__selectApprove {
+.pageHeader__selectAction {
   float: right;
 }
 
-.pageHeader__selectApprove__button {
+.pageHeader__selectAction__button {
   padding: 0.6rem 1.4rem;
   margin-left: 1rem;
   border: solid 0.05rem #e2e2e2;
   border-radius: 0.4rem;
   font-size: inherit;
   color: white;
-  background-color: $approveButton;
   text-align: center;
 }
 
-.pageHeader__selectApprove__button, .pageHeader__selectApprove__checkbox:hover{
+.pageHeader__selectApprove__button {
+  background-color: $approveButton;
+}
+
+.pageHeader__selectDelete__button {
+  background-color: $red;
+}
+
+.pageHeader__selectAction__button, .pageHeader__selectApprove__checkbox:hover{
   cursor: pointer;
 }
 
