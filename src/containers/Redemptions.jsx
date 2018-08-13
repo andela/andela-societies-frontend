@@ -119,6 +119,7 @@ class Redemptions extends React.Component {
       showTabs: false,
       showModal: false,
       statuses: [ALL, PENDING, REJECTED, APPROVED],
+      statsRedemptionStatus: 'Pending Redemptions',
     };
   }
 
@@ -181,10 +182,12 @@ class Redemptions extends React.Component {
     filterResult = filterActivitiesByStatus(societyRedemptions, filterStatus);
     if (filterStatus === ALL) {
       filterResult = societyRedemptions;
+      this.setState(() => ({ statsRedemptionStatus: `${status} Redemptions` }));
     }
     this.setState({
       filteredActivities: filterResult,
       selectedStatus: status,
+      statsRedemptionStatus: `${status} Redemptions`,
     });
   }
 
@@ -364,8 +367,8 @@ class Redemptions extends React.Component {
       selectedRedemption,
       statuses,
       showModal,
+      statsRedemptionStatus,
     } = this.state;
-
     return (
       <Page
         selectedItem={selectedRedemption}
@@ -393,7 +396,7 @@ class Redemptions extends React.Component {
         </div>
         <aside className='sideContent'>
           <Stats
-            stats={statsGenerator(filteredActivities, 'Pending redemptions', 'Total points')}
+            stats={statsGenerator(filteredActivities, statsRedemptionStatus, 'Total points')}
           />
         </aside>
       </Page>
