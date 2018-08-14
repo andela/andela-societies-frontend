@@ -36,7 +36,7 @@ describe('All Activities Actions', () => {
   });
 
   it('should dispatch FETCH_ALL_ACTIVITIES_SUCCESS on successfull fetching of activities', async () => {
-    moxios.stubRequest(`${config.API_BASE_URL}/logged-activities`, {
+    moxios.stubRequest(`${config.API_BASE_URL}/logged-activities?paginate=false`, {
       status: 200,
       response: {
         data: {
@@ -50,7 +50,7 @@ describe('All Activities Actions', () => {
   });
 
   it('should dispatch FETCH_ALL_ACTIVITIES_FAILURE on unsuccessfull fetching of activities', async () => {
-    moxios.stubRequest(`${config.API_BASE_URL}/logged-activities`, { status: 400 });
+    moxios.stubRequest(`${config.API_BASE_URL}/logged-activities?paginate=false`, { status: 400 });
     const expectedFailAction = {
       type: FETCH_ALL_ACTIVITIES_FAILURE,
       error: new Error('Request failed with status code 400', 400),

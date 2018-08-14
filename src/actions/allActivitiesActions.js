@@ -48,7 +48,7 @@ export const fetchAllActivitiesFailure = error => (
 export const fetchAllActivities = () => (
   (dispatch) => {
     dispatch(fetchAllActivitiesRequests());
-    return axios.get(`${config.API_BASE_URL}/logged-activities`)
+    return axios.get(`${config.API_BASE_URL}/logged-activities?paginate=false`)
       .then((response) => {
         dispatch(fetchAllActivitiesSuccess(response.data.data.loggedActivities));
       })

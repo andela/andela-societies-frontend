@@ -163,8 +163,9 @@ class VerifyActivities extends Component {
       break;
     }
     default:
-      break;
+      return null;
     }
+    return null;
   }
 
   /**
@@ -256,7 +257,7 @@ class VerifyActivities extends Component {
               const {
                 id,
                 category,
-                date,
+                activityDate,
                 description,
                 points,
                 status,
@@ -264,7 +265,7 @@ class VerifyActivities extends Component {
               return (<ActivityCard
                 id={id}
                 category={category}
-                date={dateFormatter(date)}
+                date={dateFormatter(activityDate)}
                 description={description || 'There is no description for this activity'}
                 points={points}
                 status={status}
@@ -291,7 +292,7 @@ class VerifyActivities extends Component {
             const {
               id,
               category,
-              date,
+              activityDate,
               description,
               points,
               status,
@@ -299,7 +300,7 @@ class VerifyActivities extends Component {
             return (<ActivityCard
               id={id}
               category={category}
-              date={dateFormatter(date)}
+              date={dateFormatter(activityDate)}
               description={description || 'There is no description for this activity'}
               points={points}
               status={status}
