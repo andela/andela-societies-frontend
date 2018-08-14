@@ -40,7 +40,6 @@ class Society extends Component {
   static getDerivedStateFromProps(nextProps) {
     const { loggedActivities } = nextProps.societyInfo.info;
     return {
-      allActivities: loggedActivities,
       filteredActivities: loggedActivities,
       ...nextProps.societyInfo.info,
     };
@@ -53,7 +52,6 @@ class Society extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      allActivities: [],
       filteredActivities: [],
       selectedStatus: 'All',
       initialStatus: 'All',
@@ -109,8 +107,8 @@ class Society extends Component {
                         <ActivityCard
                           id={activity.id}
                           category={activity.category}
-                          date={dateFormatter(activity.date)}
-                          description={activity.activity}
+                          date={dateFormatter(activity.activityDate)}
+                          description={activity.description}
                           points={activity.points}
                           status={activity.status}
                           showUserDetails={showUserDetails}
