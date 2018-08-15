@@ -182,7 +182,7 @@ describe('<LogActivityForm />', () => {
 
     const selectedItem = {
       activityTypeId: 'id2',
-      date: today,
+      activityDate: today,
       description: 'Qwerty',
       category: 'Participating in a tech event',
     };
