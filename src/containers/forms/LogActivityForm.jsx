@@ -51,7 +51,7 @@ class LogActivityForm extends Component {
       const {
         description,
         category,
-        date,
+        activityDate,
         numberOf,
         activityTypeId,
       } = selectedItem;
@@ -59,7 +59,7 @@ class LogActivityForm extends Component {
       const formTitle = 'Edit Activity Request Form';
       const btnText = 'Update';
       return {
-        date,
+        date: activityDate,
         description,
         category,
         numberOf,
