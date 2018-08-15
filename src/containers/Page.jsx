@@ -149,7 +149,9 @@ class Page extends Component {
     let FAB;
     if (location.pathname === '/u/categories' && hasAllowedRole(userRoles, SUCCESS_OPS)) {
       FAB = <FloatingButton onClick={this.onFabClick} />;
-    } else if (this.state.showModal || hasAllowedRole(userRoles, STAFF_USERS || userRoles.length === 0)) {
+    } else if (this.state.showModal ||
+      hasAllowedRole(userRoles, STAFF_USERS
+      || userRoles.length === 0) || location.pathname === '/u/verify-activities') {
       FAB = '';
     } else {
       FAB = <FloatingButton onClick={this.onFabClick} />;
