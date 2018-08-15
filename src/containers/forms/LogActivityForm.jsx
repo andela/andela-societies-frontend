@@ -51,7 +51,7 @@ class LogActivityForm extends Component {
       const {
         description,
         category,
-        date,
+        activityDate,
         numberOf,
         activityTypeId,
       } = selectedItem;
@@ -59,7 +59,7 @@ class LogActivityForm extends Component {
       const formTitle = 'Edit Activity Request Form';
       const btnText = 'Update';
       return {
-        date,
+        date: activityDate,
         description,
         category,
         numberOf,
@@ -220,6 +220,7 @@ class LogActivityForm extends Component {
     const { activityTypeId, numberOf } = this.state;
     const { categories, message } = this.props;
     const { formTitle, btnText } = this.state;
+    console.log(this.props.selectedItem, 'TTTTT');
     return (
       <form>
         <div className='titleForm'>{formTitle}</div>
