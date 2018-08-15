@@ -14,7 +14,7 @@ const successMessage = {
 
 const defaultState = {
   activityTypeId: '',
-  date: '',
+  activityDate: '',
   description: '',
   errors: {},
   numberOf: '',
@@ -117,7 +117,7 @@ describe('<LogActivityForm />', () => {
     instance.selectedCategory();
     instance.setState({
       activityTypeId: 'id1',
-      date: '2018-12-12',
+      activityDate: '2018-12-12',
     }, () => {
       instance.resetState();
     });
@@ -163,7 +163,7 @@ describe('<LogActivityForm />', () => {
     jest.spyOn(instance, 'handleAddEvent');
     shallowWrapper.setState({
       activityTypeId: 'id2',
-      date: today,
+      activityDate: today,
       description: 'Qwerty',
       category: 'Participating in a tech event',
     });
@@ -172,7 +172,7 @@ describe('<LogActivityForm />', () => {
   });
 
   it('should populate state with values from selectedItem', () => {
-    expect(mounted.state().date).toEqual('November 3, 2017');
+    expect(mounted.state().activityDate).toEqual('November 3, 2017');
   });
 
   it('should call update activity thunk when submitting a selected activity', () => {
