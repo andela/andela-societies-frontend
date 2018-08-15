@@ -40,6 +40,7 @@ class PageHeader extends Component {
     filterActivities: PropType.func,
     handleSelectAllClick: PropType.func,
     handleApproveAllClick: PropType.func,
+    disabled: PropType.bool,
   };
 
   /**
@@ -58,6 +59,7 @@ class PageHeader extends Component {
     handleSelectAllClick: () => { },
     handleApproveAllClick: () => { },
     handleChangeTab: () => { },
+    disabled: false,
   };
 
   /**
@@ -112,8 +114,12 @@ class PageHeader extends Component {
       <Button
         name='approveAll'
         value='Approve Selected'
-        className='pageHeader__selectAction__button pageHeader__selectApprove__button '
+        className={
+          this.props.disabled ?
+            'pageHeader__disable__button' : 'pageHeader__selectAction__button pageHeader__selectApprove__button '
+        }
         onClick={this.props.handleApproveAllClick}
+        disabled={this.props.disabled}
       />
     </div>
   )
