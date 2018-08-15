@@ -316,7 +316,7 @@ class VerifyActivities extends Component {
 
   /**
    * @name VerifyActivities
-   * @summary Renders My activities page
+   * @summary Renders Verify activities page
    * @return React node that displays the VerifyActivities page
    */
   render() {
@@ -336,6 +336,10 @@ class VerifyActivities extends Component {
     }
     const hideFilter = true;
     const showSelectAllApproveBtn = (userRoles.length > 0 && hasAllowedRole(userRoles, [SUCCESS_OPS]));
+    let disableButton = false;
+    if (!filteredActivities.length) {
+      disableButton = true;
+    }
     return (
       <Page
         showModal={showModal}
@@ -344,27 +348,30 @@ class VerifyActivities extends Component {
       >
         <div className='mainContent'>
           <div className='VerifyActivities'>
-            <PageHeader
-              title='Verify Activities'
-              hideFilter={hideFilter}
-              selectedStatus={selectedStatus}
-              selectedSociety={selectedSociety}
-              showSelectAllApproveBtn={showSelectAllApproveBtn}
-              handleSelectAllClick={this.handleSelectAllClick}
-              handleApproveAllClick={this.handleApproveAllClick}
-              userRoles={this.props.userRoles}
-              showTabs={showTabs}
-              tabs={tabs}
-              handleChangeTab={this.handleChangeTab}
-            />
-            <div className='activities'>
-              {
-                requesting ?
-                  <Loader />
-                  :
-                  this.renderLayout()
-              }
-            </div>
+            {
+              requesting ?
+                <Loader />
+                :
+                <div>
+                  <PageHeader
+                    title='Verify Activities'
+                    hideFilter={hideFilter}
+                    selectedStatus={selectedStatus}
+                    selectedSociety={selectedSociety}
+                    showSelectAllApproveBtn={showSelectAllApproveBtn}
+                    handleSelectAllClick={this.handleSelectAllClick}
+                    handleApproveAllClick={this.handleApproveAllClick}
+                    userRoles={this.props.userRoles}
+                    showTabs={showTabs}
+                    tabs={tabs}
+                    handleChangeTab={this.handleChangeTab}
+                    disabled={disableButton}
+                  />
+                  <div className='activities'>
+                    {this.renderLayout()}
+                  </div>
+                </div>
+            }
           </div>
         </div>
         <aside className='sideContent'>

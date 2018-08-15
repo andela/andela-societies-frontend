@@ -12,6 +12,7 @@ const Button = props => (
     className={props.className}
     value={props.value}
     type={props.type}
+    disabled={props.disabled}
     onClick={props.onClick}
   >
     {props.value}
@@ -25,6 +26,7 @@ const Button = props => (
  */
 Button.defaultProps = {
   type: 'button',
+  disabled: false,
 };
 /**
  * @name propTypes
@@ -40,6 +42,7 @@ Button.propTypes = {
   value: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   type: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 export default Button;
