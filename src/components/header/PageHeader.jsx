@@ -129,13 +129,15 @@ class PageHeader extends Component {
         <button
           className='filterOptions__button'
           onClick={this.createFilterOptionsButtonClickHandler()}
+          onBlur={this.createFilterOptionsButtonClickHandler()}
         >
           {capitalizeString(selectedStatus)}
         </button>
-        <div className={this.getDropdownClassName(
-          showFilterOptionsDropdown,
-          ['filterOptions__dropdown'],
-        )}
+        <div
+          className={this.getDropdownClassName(
+            showFilterOptionsDropdown,
+            ['filterOptions__dropdown'],
+          )}
         >
           {
             Object.keys(STATUSES).map(status => (
@@ -147,6 +149,8 @@ class PageHeader extends Component {
                 className={`filterOptions__option ${selectedStatus === STATUSES[status] ? activeClass : ''}`}
                 role='button'
                 tabIndex='0'
+                onClick={this.createFilterOptionsButtonClickHandler()}
+                onKeyDown={() => {}}
               >
                 {STATUSES[status] && capitalizeString(STATUSES[status])}
               </div>
