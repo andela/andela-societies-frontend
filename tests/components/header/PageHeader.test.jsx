@@ -24,6 +24,7 @@ const props = {
   handleSelectAllClick: () => {},
   showSelectAllApproveBtn: false,
   showSelectAllDeleteBtn: false,
+  disabled: false,
 };
 
 const wrapper = shallow(<PageHeader {...props} />);

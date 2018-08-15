@@ -40,6 +40,7 @@ class PageHeader extends Component {
     filterActivities: PropType.func,
     handleSelectAllClick: PropType.func,
     handleApproveAllClick: PropType.func,
+    disabled: PropType.bool,
   };
 
   /**
@@ -58,6 +59,7 @@ class PageHeader extends Component {
     handleSelectAllClick: () => { },
     handleApproveAllClick: () => { },
     handleChangeTab: () => { },
+    disabled: false,
   };
 
   /**
@@ -101,22 +103,29 @@ class PageHeader extends Component {
     }));
   };
 
-  renderSelectAllApprovebtn = () => (
-    <div className='pageHeader__selectAction'>
-      <input
-        type='checkbox'
-        name='checkbox'
-        className='pageHeader__selectApprove__checkbox'
-        onChange={this.props.handleSelectAllClick}
-      /> Select all
-      <Button
-        name='approveAll'
-        value='Approve Selected'
-        className='pageHeader__selectAction__button pageHeader__selectApprove__button '
-        onClick={this.props.handleApproveAllClick}
-      />
-    </div>
-  )
+  renderSelectAllApprovebtn = () => {
+    const { disabled, handleApproveAllClick, handleSelectAllClick } = this.props;
+    return (
+      <div className='pageHeader__selectAction'>
+        <input
+          type='checkbox'
+          name='checkbox'
+          className='pageHeader__selectApprove__checkbox'
+          onChange={handleSelectAllClick}
+        /> Select all
+        <Button
+          name='approveAll'
+          value='Approve Selected'
+          className={
+            disabled ?
+              'pageHeader__disable__button' : 'pageHeader__selectAction__button pageHeader__selectApprove__button '
+          }
+          onClick={handleApproveAllClick}
+          disabled={disabled}
+        />
+      </div>
+    );
+  }
 
   renderFilterStatus = () => {
     const {

@@ -119,7 +119,7 @@ class Redemptions extends React.Component {
       showTabs: false,
       showModal: false,
       statuses: [ALL, PENDING, REJECTED, APPROVED],
-      statsRedemptionStatus: 'Pending Redemptions',
+      statsRedemptionStatus: 'All Redemptions',
     };
   }
 
