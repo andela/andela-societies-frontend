@@ -70,6 +70,8 @@ class MyActivities extends Component {
       userCanEdit: false,
       showModal: false,
       selectedActivity: {},
+      statsTitle: 'Approved activities',
+      statsSubTitle: 'Points earned',
     };
   }
 
@@ -146,6 +148,8 @@ class MyActivities extends Component {
       userCanEdit,
       showModal,
       selectedActivity,
+      statsTitle,
+      statsSubTitle,
     } = this.state;
     const { requesting, categories } = this.props;
     const approvedActivities = allActivities.filter(activities => activities.status === APPROVED);
@@ -200,7 +204,7 @@ class MyActivities extends Component {
         <aside className='sideContent'>
           <Stats
             title='My Stats'
-            stats={statsGenerator(approvedActivities, 'Activities logged', 'Points earned')}
+            stats={statsGenerator(approvedActivities, statsTitle, statsSubTitle)}
           />
         </aside>
       </Page>
