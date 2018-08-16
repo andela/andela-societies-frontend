@@ -171,18 +171,26 @@ class MyActivities extends Component {
                 !requesting &&
                   <MasonryLayout
                     items={
-                      filteredActivities.map(activity => (
-                        <ActivityCard
-                          id={activity.id}
-                          category={activity.category}
-                          date={dateFormatter(activity.date)}
-                          description={activity.description || activity.activity}
-                          points={activity.points}
-                          status={activity.status}
+                      filteredActivities.map((activity) => {
+                        const {
+                          id,
+                          category,
+                          activityDate,
+                          description,
+                          points,
+                          status,
+                        } = activity;
+                        return (<ActivityCard
+                          id={id}
+                          category={category}
+                          date={dateFormatter(activityDate)}
+                          description={description}
+                          points={points}
+                          status={status}
                           userCanEdit={userCanEdit}
                           handleClick={this.handleClick}
-                        />
-                      ))
+                        />);
+                      })
                     }
                   />
               }
