@@ -36,11 +36,15 @@ const mounted = mount.bind(
 
 const setUpWrapper = ({
   requesting = false,
+  categories = [],
 } = {}) => {
   const props = {
+    activities,
+    categories,
     requesting,
     history,
     fetchUserInfo,
+    fetchCategories,
     changePageTitle,
     fetchMyActivities,
   };
@@ -83,10 +87,13 @@ describe('<MyActivities />', () => {
     expect(shallowWrapper.find('MasonryLayout').length).toBe(1);
   });
 
-  it('should render ActivityCards', () => {
+  it('should change state of allActivities', () => {
     const mountedWrapper = mounted();
     mountedWrapper.setState({ allActivities: activities, filteredActivities: activities, requesting: false });
     expect(mountedWrapper.state().allActivities).toEqual(activities);
+  });
+  it('should render ErrorMessage component when activities are not passed down as props', () => {
+    expect(shallowWrapper.find('MasonryLayout').dive().find('ErrorMessage').length).toBe(1);
   });
 
   it('should filter activity given status', () => {

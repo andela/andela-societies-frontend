@@ -9,6 +9,7 @@ import VerifyActivities from '../../src/containers/VerifyActivities';
 import storeFixture from '../../src/fixtures/store';
 import society from '../../src/fixtures/society';
 import activity from '../../src/fixtures/activity';
+import activities from '../../src/fixtures/activities';
 
 const store = createMockStore(storeFixture);
 const history = { push: () => { }, location: { pathname: '' } };
@@ -23,6 +24,8 @@ describe('<VerifyActivities />', () => {
     fetchUserInfo: () => { },
     changePageTitle: () => { },
     fetchSocietyInfo: () => { },
+    societyName: 'iStelle',
+    allActivities: activities,
     societyActivities: society.loggedActivities,
     requesting: false,
     verifyActivitiesOps: verifyActivitiesOpsSpy,
@@ -72,6 +75,15 @@ describe('<VerifyActivities />', () => {
     expect(component.find('MasonryLayout').length).toBe(1);
   });
 
+  it('should render ErrorMessage component when activities are not passed down as props', () => {
+    expect(component.find('MasonryLayout').dive().find('ErrorMessage').length).toBe(1);
+  });
+
+  it('should render Activity cards', () => {
+    component.setState({ filteredActivities: activities });
+    expect(component.find('MasonryLayout').dive().find('ActivityCard').length).toBe(4);
+  });
+
   it('should have the <LinearLayout /> layout when role is successOps', () => {
     component.setProps({ userRoles: ['success ops'] });
     expect(component.find('LinearLayout').length).toBe(1);
@@ -114,6 +126,12 @@ describe('<VerifyActivities />', () => {
     const instance = component.instance();
     instance.handleClick('moreInfo', '8437fa68-8e6b-11e8-a05c-9801a7ae0330');
     expect(component.state().showModal).toBeTruthy();
+  });
+
+  it('should return null the default case when handleClick is invoked with no click action', () => {
+    const instance = component.instance();
+    const result = instance.handleClick();
+    expect(result).toBeNull();
   });
 
   it('should change state of selectedActivity to {} when deselectActivity is invoked ', () => {
