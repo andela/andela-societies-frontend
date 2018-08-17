@@ -51,7 +51,7 @@ class LogActivityForm extends Component {
       const {
         description,
         category,
-        date,
+        activityDate,
         numberOf,
         activityTypeId,
       } = selectedItem;
@@ -59,7 +59,7 @@ class LogActivityForm extends Component {
       const formTitle = 'Edit Activity Request Form';
       const btnText = 'Update';
       return {
-        date,
+        activityDate,
         description,
         category,
         numberOf,
@@ -81,7 +81,7 @@ class LogActivityForm extends Component {
     this.state = {
       activityTypeId: '',
       numberOf: '',
-      date: '',
+      activityDate: '',
       description: '',
       errors: {},
       formTitle: 'Log An Activity',
@@ -134,13 +134,13 @@ class LogActivityForm extends Component {
   handleAddEvent = () => {
     const {
       activityTypeId,
-      date,
+      activityDate,
       description,
       numberOf,
     } = this.state;
     const activity = {
       activityTypeId,
-      date,
+      activityDate,
       description,
     };
     const { selectedItem } = this.props;
@@ -155,7 +155,7 @@ class LogActivityForm extends Component {
           this.props.updateSelectedItem(this.state);
           this.props.updateActivity({
             id: selectedItem.id,
-            date,
+            activityDate,
             description,
             activityTypeId,
             numberOf,
@@ -175,7 +175,7 @@ class LogActivityForm extends Component {
     this.setState({
       activityTypeId: '',
       numberOf: '',
-      date: '',
+      activityDate: '',
       description: '',
       errors: {},
       formTitle: 'Log An Activity',
@@ -219,13 +219,13 @@ class LogActivityForm extends Component {
   render() {
     const { activityTypeId, numberOf } = this.state;
     const { categories, message } = this.props;
-    const { formTitle, btnText } = this.state;
+    const { formTitle, btnText, activityDate } = this.state;
     return (
       <form>
         <div className='titleForm'>{formTitle}</div>
         <DateField
           handleChange={this.handleChange}
-          value={this.state.date}
+          value={activityDate}
         />
         <span className='validate__errors'>
           {this.renderValidationError('date')}
