@@ -147,7 +147,6 @@ class MyActivities extends Component {
       selectedStatus,
       allActivities,
       userCanEdit,
-      // showModal,
       selectedActivity,
       statsTitle,
       statsSubTitle,

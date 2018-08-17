@@ -17,7 +17,7 @@ const DateField = ({ handleChange, value }) => {
       <span className='formField__label'>Date</span>
       <input
         className='formField formField__control'
-        name='date'
+        name='activityDate'
         type='date'
         onChange={handleChange}
         value={value}

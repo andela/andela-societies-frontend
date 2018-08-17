@@ -135,7 +135,6 @@ describe('<MyActivities />', () => {
     });
     instance.deselectActivity();
     expect(instance.state.selectedActivity.id).toBe(undefined);
-    expect(instance.state.showModal).toBe(false);
   });
 
   it('should update selected activity', () => {

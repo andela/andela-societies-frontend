@@ -93,9 +93,7 @@ class Page extends Component {
 
   static getDerivedStateFromProps = (props) => {
     const { showModal } = props;
-    return ({
-      showModal,
-    });
+    return ({ showModal });
   }
 
   constructor(props) {
