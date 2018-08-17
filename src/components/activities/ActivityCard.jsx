@@ -285,6 +285,10 @@ class ActivityCard extends Component {
       (status === STATUSES[2] || status === STATUSES[1]) && userCanEdit
         ? 'activity__right--editable'
         : ''}`;
+    const descriptionHtml = description ?
+      <TruncateDescription description={description} wordCount={wordCount} />
+      : '';
+
     return (
       <div className='activity'>
         {this.renderUserDetails()}
@@ -310,7 +314,7 @@ class ActivityCard extends Component {
             {page === '/u/verify-activities' && this.renderCheckbox()}
           </div>
           <div className='activity__content'>
-            <TruncateDescription description={description} wordCount={wordCount} />
+            { descriptionHtml }
           </div>
         </div>
         <div className='activity__footer'>

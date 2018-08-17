@@ -2,14 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
+import DEFAULT_DATE_FORMAT from '../constants/dataFormats';
+
 /**
 * @name DateField
 * @summary Returns html 5 datefield
 * @returns Returns html 5 datefield
 */
 const DateField = ({ handleChange, value }) => {
-  const today = moment().format('YYYY-MM-DD');
-  const startOfMonth = moment().startOf('month').format('YYYY-MM-DD');
+  const today = moment().format(DEFAULT_DATE_FORMAT);
+  const minDate = moment().subtract(30, 'days').format(DEFAULT_DATE_FORMAT);
   return (
     <div className='formField'>
       <span className='formField__label'>Date</span>
@@ -20,7 +22,7 @@ const DateField = ({ handleChange, value }) => {
         onChange={handleChange}
         value={value}
         max={today}
-        min={startOfMonth}
+        min={minDate}
       />
     </div>
   );
