@@ -9,6 +9,7 @@ import allActivities from './allActivitiesReducer';
 import userProfile from './userProfileReducer';
 import redeemPointsInfo from './redeemPointsReducer';
 import commentsInfo from './commentsReducer';
+import modalInfo from './showModalReducer';
 
 const rootReducer = combineReducers({
   userInfo,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   redeemPointsInfo,
   allActivities,
   commentsInfo,
+  modalInfo,
 });
 
 export default rootReducer;
