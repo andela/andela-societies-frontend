@@ -151,7 +151,7 @@ class Page extends Component {
       FAB = <FloatingButton onClick={this.onFabClick} />;
     } else if (this.state.showModal ||
       hasAllowedRole(userRoles, STAFF_USERS
-      || userRoles.length === 0) || location.pathname === '/u/verify-activities') {
+      || !userRoles.length) || location.pathname === '/u/verify-activities') {
       FAB = '';
     } else {
       FAB = <FloatingButton onClick={this.onFabClick} />;
