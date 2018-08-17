@@ -77,7 +77,6 @@ class Page extends Component {
     openModal: PropTypes.func,
     closeModal: PropTypes.func,
     selectedItem: PropTypes.shape({}),
-    showModal: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -90,7 +89,6 @@ class Page extends Component {
     updateSelectedItem: () => { },
     openModal: () => {},
     closeModal: () => {},
-    showModal: false,
   }
 
   static getDerivedStateFromProps = (props) => {
@@ -132,7 +130,6 @@ class Page extends Component {
       document.body.classList.add('noScroll');
     }
     this.props.openModal();
-    // this.setState({ showModal: true });
   }
 
   isASocietyPage = () => (
@@ -219,8 +216,6 @@ class Page extends Component {
       updating,
     } = this.props;
     const userRoles = Object.keys(profile.roles);
-    console.log('props', this.props.showModal);
-    console.log('STATE', this.state.showModal);
     return (
       <Fragment>
         <div className='headerBackground' />

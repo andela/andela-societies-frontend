@@ -2,13 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+// components
 import SnackBar from '../../components/notifications/SnackBar';
 import SingleInput from '../../common/SingleInput';
 import Button from '../../common/Button';
 import TextArea from '../../common/TextArea';
 import FormError from '../../components/formErrors/FormError';
+
+// actions
 import { createCategory } from '../../actions/createCategoryActions';
+
+// helpers
 import validateFormFields from '../../helpers/validate';
+
+// constants
+import SNACKBARTIMEOUT from '../../constants/snackbarTimeout';
 
 /**
    * @name CreateCategoryForm
@@ -61,7 +69,7 @@ class CreateCategoryForm extends Component {
   componentDidUpdate(prevProps) {
     const { message } = this.props;
     if (prevProps.message.type !== message.type && message.type === 'success') {
-      setTimeout(() => this.cancelModal(), 3100);
+      setTimeout(() => this.cancelModal(), SNACKBARTIMEOUT);
     }
   }
 

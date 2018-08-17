@@ -71,7 +71,6 @@ class MyActivities extends Component {
       selectedStatus: 'All',
       initialStatus: 'All',
       userCanEdit: false,
-      // showModal: false,
       selectedActivity: {},
       statsTitle: 'Approved activities',
       statsSubTitle: 'Points earned',
@@ -105,7 +104,6 @@ class MyActivities extends Component {
       const selectedActivity = this.state.filteredActivities.find(activity => activity.id === myActivityId);
       this.props.openModal();
       this.setState({
-        // showModal: true,
         selectedActivity,
       });
     }
@@ -136,7 +134,6 @@ class MyActivities extends Component {
   deselectActivity = () => {
     this.setState(() => ({
       selectedActivity: {},
-      // showModal: false,
     }));
   }
 
@@ -163,7 +160,6 @@ class MyActivities extends Component {
         selectedItem={selectedActivity}
         categories={categories}
         deselectItem={this.deselectActivity}
-        // showModal={showModal}
         updateSelectedItem={this.updateSelectedActivity}
       >
         <div className='mainContent'>

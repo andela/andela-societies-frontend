@@ -2,16 +2,24 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+// components
 import SnackBar from '../../components/notifications/SnackBar';
 import SingleInput from '../../common/SingleInput';
 import DateField from '../../common/DateField';
 import Select from '../../common/Select';
 import Button from '../../common/Button';
 import TextArea from '../../common/TextArea';
+
+// actions
 import { createActivity } from '../../actions/activityActions';
 import { updateActivity } from '../../actions/myActivitiesActions';
+
+// helpers
 import validateFormFields from '../../helpers/validate';
 import labels from '../../fixtures/labels';
+
+// constants
+import SNACKBARTIMEOUT from '../../constants/snackbarTimeout';
 
 /**
    * @name LogActivityForm
@@ -95,16 +103,12 @@ class LogActivityForm extends Component {
    * @param {Object} prevProps
    */
   componentDidUpdate(prevProps) {
-    const { message, selectedItem } = prevProps;
+    const { message } = prevProps;
     if (message) {
       if (prevProps.message.type !== this.props.message.type && this.props.message.type === 'success') {
-        if (selectedItem && selectedItem.id) {
-          setTimeout(() => {
-            this.cancelModal();
-          }, 2000);
-        } else {
-          this.resetState();
-        }
+        setTimeout(() => {
+          this.cancelModal();
+        }, SNACKBARTIMEOUT);
       }
     }
   }
