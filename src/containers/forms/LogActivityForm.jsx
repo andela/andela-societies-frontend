@@ -219,13 +219,13 @@ class LogActivityForm extends Component {
   render() {
     const { activityTypeId, numberOf } = this.state;
     const { categories, message } = this.props;
-    const { formTitle, btnText } = this.state;
+    const { formTitle, btnText, activityDate } = this.state;
     return (
       <form>
         <div className='titleForm'>{formTitle}</div>
         <DateField
           handleChange={this.handleChange}
-          value={this.state.activityDate}
+          value={activityDate}
         />
         <span className='validate__errors'>
           {this.renderValidationError('date')}
