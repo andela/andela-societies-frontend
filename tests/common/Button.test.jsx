@@ -9,6 +9,7 @@ describe('<Button />', () => {
     value: 'Approve',
     className: 'activity-button approved',
     onClick: stub(),
+    disabled: 'false',
   };
 
   const wrapper = shallow(<Button {...props} />);

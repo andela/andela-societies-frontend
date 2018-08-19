@@ -132,9 +132,7 @@ const mapStateToProps = state => ({
   requesting: state.categories.requesting,
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchCategories: () => dispatch(fetchCategories()),
-  deleteCategory: categoryId => dispatch(deleteCategory(categoryId)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Categories);
+export default connect(mapStateToProps, {
+  fetchCategories,
+  deleteCategory,
+})(Categories);
