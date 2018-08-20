@@ -190,8 +190,6 @@ const mapStateToProps = state => ({
   message: state.categories.message,
 });
 
-const mapDispatchToProps = dispatch => ({
-  createCategory: category => dispatch(createCategory(category)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreateCategoryForm);
+export default connect(mapStateToProps, {
+  createCategory,
+})(CreateCategoryForm);

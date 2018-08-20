@@ -50,7 +50,7 @@ const setUpWrapper = ({
         <Redemptions.WrappedComponent {...props} />
       </MemoryRouter>
     </Provider>
-  ))
+  ));
   const shallowWrapper = shallow(<Redemptions.WrappedComponent
     {...props}
   />);
@@ -217,7 +217,7 @@ describe('<Redemptions />', () => {
   });
 
   it('should return redemptions that match the selected state when role is of SUCCESS_OPS', () => {
-    const { shallowWrapper } = setUpWrapper({ userProfile: { roles : { 'cio': 'Kabc' } } });
+    const { shallowWrapper } = setUpWrapper({ userProfile: { roles: { cio: 'Kabc' } } });
     const instance = shallowWrapper.instance();
     instance.setState({ selectedSociety: 'istelle' });
     const filterRes = redemptions.filter(redemption => redemption.society.name === 'istelle');
