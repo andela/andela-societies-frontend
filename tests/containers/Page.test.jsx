@@ -123,9 +123,9 @@ describe('<Page />', () => {
     expect(redeemPointsForm).toHaveLength(1);
   });
 
-  it('should contain not contain floating action button when pathname is /u/verify-activities', () => {
-    const verifyPageFloatingButton = setUpWrapper({ location: { pathname: '/u/verify-activities' } });
-    expect(verifyPageFloatingButton).toHaveLength(1);
+  it('Verify activities page should work without floating action button in /u/verify-activities', () => {
+    const verifyActivities = setUpWrapper({ location: { pathname: '/u/verify-activities' } });
+    expect(verifyActivities).toHaveLength(1);
   });
 
   it('should show comments form for the cio on the redemptions page', () => {
