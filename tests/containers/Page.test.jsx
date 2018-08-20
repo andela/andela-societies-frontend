@@ -95,6 +95,13 @@ describe('<Page />', () => {
     expect(floatingButton).toHaveLength(1);
   });
 
+  it('should not contain the FloatingActionButton when pathname is verify-activities', () => {
+    const floatingButton = setUpWrapper({
+      location: { pathname: '/u/verify-activities' },
+    }).find('FloatingButton');
+    expect(floatingButton).toHaveLength(0);
+  });
+
   it('should contain the LogActivityForm when pathname is /u/my-activities', () => {
     const logActivityForm = setUpWrapper().find('LogActivityForm');
     expect(logActivityForm).toHaveLength(1);
