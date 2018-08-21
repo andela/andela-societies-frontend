@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import promptModal from 'sweetalert';
 
 import CategoryCard from '../components/categories/CategoryCard';
 import Page from './Page';
@@ -42,7 +43,19 @@ class Categories extends Component {
   }
 
   handleClick = (categoryId) => {
-    this.props.deleteCategory(categoryId);
+    promptModal({
+      title: 'Are you sure?',
+      text: 'Once deleted, category cannot be recovered!',
+      icon: 'warning',
+      buttons: ['Cancel', 'Delete it'],
+      closeModal: true,
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          this.props.deleteCategory(categoryId);
+        }
+      });
   }
 
   /**
