@@ -6,6 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server --config=webpack.config.dev.js --open --history-api-fallback",
     "build": "webpack -p --config=webpack.config.prod.js && npm run copy:favicon",
+    "sandbox": "export NODE_ENV=sandbox && webpack --optimize-minimize --config=webpack.config.prod.js && npm run copy:favicon",
     "serve": "node server.js",
     "test": "export NODE_ENV=testing && jest --verbose",
     "test:dev": "export NODE_ENV=testing && jest --verbose --watch",
