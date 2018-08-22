@@ -67,6 +67,13 @@ describe('<Page />', () => {
     expect(document.body.classList.contains('noScroll')).toBe(true);
   });
 
+  it('should not open modal when the enter key is pressed', () => {
+    const wrapper = setUpWrapper();
+    wrapper.setState({ showModal: false });
+    wrapper.find('.fab').simulate('keydown', { key: 'Enter' });
+    expect(wrapper.state().showModal).toBe(false);
+  });
+
   it('should be able to scroll body when modal is closed', () => {
     const wrapper = setUpWrapper();
     // open modal
