@@ -144,7 +144,7 @@ class LogActivityForm extends Component {
     } = this.state;
     const activity = {
       activityTypeId,
-      activityDate,
+      date: activityDate,
       description,
     };
     const { selectedItem } = this.props;
@@ -159,7 +159,7 @@ class LogActivityForm extends Component {
           this.props.updateSelectedItem(this.state);
           this.props.updateActivity({
             id: selectedItem.id,
-            activityDate,
+            date: activityDate,
             description,
             activityTypeId,
             numberOf,

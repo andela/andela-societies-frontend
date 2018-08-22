@@ -126,7 +126,7 @@ class VerifyActivities extends Component {
    *
    */
   componentDidUpdate() {
-    if (!this.props.userRoles) {
+    if (!this.props.userRoles.length) {
       this.props.fetchAllActivities();
     }
   }
