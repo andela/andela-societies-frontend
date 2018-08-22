@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
+import NotificationIcon from '../svgIcons/headerIcons/Notification';
 import NotificationList from './NotificationList';
 import ProfileDisplay from './ProfileDisplay';
 import Breadcrumb from './Breadcrumb';
@@ -97,6 +99,16 @@ render() {
       </div>
       <div className='rightHeader'>
         <div className='headerIcon'>
+          <span
+            className='headerIcon__image'
+            onClick={this.showDropdown('showNotificationDropdown')}
+            onKeyDown={this.showDropdown('showNotificationDropdown')}
+            role='button'
+            tabIndex='0'
+          >
+            <NotificationIcon />
+          </span>
+          <span className='headerIcon__badge'>1</span>
           <div className={this.dropdownClass(this.state.menuState.showNotificationDropdown, ['headerDropdown'])}>
             <NotificationList />
           </div>
