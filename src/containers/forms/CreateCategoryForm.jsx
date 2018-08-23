@@ -48,6 +48,7 @@ class CreateCategoryForm extends Component {
     this.state = {
       value: '',
       name: '',
+      supportsMultiple: false,
       description: '',
       errors: {},
     };
@@ -66,6 +67,17 @@ class CreateCategoryForm extends Component {
   }
 
   /**
+   * @name handleCheck
+   * @summary toggles state when checkbox is clicked
+   * @returns {void}
+   */
+  handleCheck = () => {
+    this.setState({
+      supportsMultiple: !this.state.supportsMultiple,
+    });
+  }
+
+  /**
    * @memberOf CreateCategoryForm
    * change event handler
    * @param {Event} event - change event on select input
@@ -80,6 +92,7 @@ class CreateCategoryForm extends Component {
   handleAddEvent = () => {
     const {
       name,
+      supportsMultiple,
       description,
       value,
     } = this.state;
@@ -92,6 +105,7 @@ class CreateCategoryForm extends Component {
       errors: validateFormFields(category),
     }, () => {
       if (Object.keys(this.state.errors).length === 0) {
+        category.supports_multiple = supportsMultiple;
         this.props.createCategory(category);
       }
     });
@@ -105,6 +119,7 @@ class CreateCategoryForm extends Component {
     this.setState({
       name: '',
       value: '',
+      supportsMultiple: false,
       description: '',
       errors: {},
     });
@@ -151,6 +166,21 @@ class CreateCategoryForm extends Component {
         <span className='validate__errors'>
           {this.renderValidationError('value')}
         </span>
+        <div className='formField'>
+          { /* eslint-disable */ }
+          <label className='formField__label--checkbox'>Supports Multiple</label>
+          { /* eslint-disable */ }
+          <label className="switch">
+            <input
+              type='checkbox'
+              name='supportsMultiple'
+              className='create-category-checkbox'
+              checked={this.state.supportsMultiple}
+              onChange={this.handleCheck}
+            />
+            <span className="slider round"></span>
+          </label>
+        </div>
         <FormError errors={this.state.errors} fieldName='points' />
         <TextArea
           title='Description'
