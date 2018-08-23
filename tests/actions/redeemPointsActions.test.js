@@ -166,7 +166,7 @@ describe('Redeem Points Actions', () => {
 
   it('should dispatch UPDATE_REDEMPTION_FAILURE if update redemption failed', () => {
     moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem/${redemption.id}`, {
-      status: 401
+      status: 401,
     });
 
     const expectedFailureAction = {
@@ -187,8 +187,8 @@ describe('Redeem Points Actions', () => {
     it('dispatches VERIFY_REDEMPTION_SUCCESS after successfuly updating the redemption status to rejected', () => {
       const updatedRedemption = {
         ...redemption,
-        status: 'rejected'
-      }
+        status: 'rejected',
+      };
       const expectedActions = [
         {
           type: VERIFY_REDEMPTION_REQUEST,
@@ -198,22 +198,22 @@ describe('Redeem Points Actions', () => {
           redemption: updatedRedemption,
         },
       ];
-  
+
       moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem/verify/${updatedRedemption.id}`, {
         status: 200,
         response: { data: updatedRedemption },
       });
-  
+
       return store.dispatch(verifyRedemption(redemption.id, 'rejected')).then(() => {
         expect(store.getActions()).toEqual(expectedActions);
       });
     });
-  
+
     it('dispatches VERIFY_REDEMPTION_FAILURE when rejecting a redemption fails', () => {
       const updatedRedemption = {
         ...redemption,
-        status: 'rejected'
-      }
+        status: 'rejected',
+      };
       const expectedActions = [
         {
           type: VERIFY_REDEMPTION_REQUEST,
@@ -223,14 +223,14 @@ describe('Redeem Points Actions', () => {
           error: new Error('Request failed with status code 401'),
         },
       ];
-  
+
       moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem/verify/${updatedRedemption.id}`, {
         status: 401,
       });
-  
+
       return store.dispatch(verifyRedemption(redemption.id, 'rejected')).then(() => {
         expect(store.getActions()).toEqual(expectedActions);
       });
     });
-  })
+  });
 });
