@@ -4,6 +4,9 @@ import PropType from 'prop-types';
 import TruncateDescription from '../TruncateDescription';
 import Delete from '../svgIcons/categoryIcons/Delete';
 
+// constants
+import clickActions from '../../constants/clickAction';
+
 /**
  * @summary Renders an category card
  * @class categoryCard
@@ -38,32 +41,31 @@ class CategoryCard extends Component {
     wordCount: 80,
   };
 
-  /**
-   * @name getDerivedStateFromProps
-   * @summary Lifecylce methods that updates state of iscategoryChecked if category is checked or not
-   * @param {Object} nextProps
-   * @returns {Object} state
-   */
-  static getDerivedStateFromProps(nextProps) {
-    const { selectedCategories } = nextProps;
-    return {
-      isCategoryChecked: selectedCategories ? selectedCategories.includes(nextProps.id) : false,
-    };
-  }
-
   constructor(props) {
     super(props);
     this.state = {};
   }
 
+  /**
+  * @name handleCategoryClick
+  * @summary responds to clicking on a category card
+  */
+  handleCategoryClick = () => {
+    const { id, handleClick } = this.props;
+    const { EDIT } = clickActions;
+    handleClick(EDIT, id);
+  }
+
   renderDeleteButton() {
+    const { DELETE } = clickActions;
+    const { handleClick, id } = this.props;
     return (
       <div className='deleteCategoryButtons'>
         <button
           name='delete'
           className='deleteCategory__button'
           type='button'
-          onClick={() => this.props.handleClick(this.props.id)}
+          onClick={() => handleClick(DELETE, id)}
         >
           <Delete />
         </button>
@@ -91,7 +93,7 @@ class CategoryCard extends Component {
     } = this.props;
 
     return (
-      <div className='category'>
+      <div className='category' onClick={this.handleCategoryClick}>
         <div className='category__right'>
           <div className='category__header'>
             <div>
