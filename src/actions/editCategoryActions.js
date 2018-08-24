@@ -29,8 +29,9 @@ export const editCategorySuccess = category => ({
  * @name editCategoryFailure
  * @returns {Object} action
  */
-export const editCategoryFailure = () => ({
+export const editCategoryFailure = error => ({
   type: EDIT_CATEGORY_FAILURE,
+  error,
 });
 
 /**
