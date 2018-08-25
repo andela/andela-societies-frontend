@@ -15,8 +15,14 @@ const infoMessage = {
 const defaultState = {
   name: '',
   value: '',
+  supportsMultiple: false,
   description: '',
   errors: {},
+};
+
+const baseProps = {
+  closeModal: () => {},
+  createCategory: jest.fn(),
 };
 
 describe('<CreateCategoryForm />', () => {
@@ -24,12 +30,10 @@ describe('<CreateCategoryForm />', () => {
   let mounted;
   beforeEach((() => {
     wrapper = shallow(<CreateCategoryForm.WrappedComponent
-      closeModal={() => { }}
-      createCategory={() => { }}
+      {...baseProps}
     />);
     mounted = mount(<CreateCategoryForm.WrappedComponent
-      closeModal={() => { }}
-      createCategory={() => { }}
+      {...baseProps}
     />);
   }));
 
@@ -96,5 +100,27 @@ describe('<CreateCategoryForm />', () => {
     jest.spyOn(instance, 'renderValidationError');
     instance.handleAddEvent();
     expect(instance.renderValidationError).toHaveBeenCalled();
+  });
+
+
+  it('should change state when the checkbox is clicked', () => {
+    wrapper.setState({ supportsMultiple: true });
+    const checkbox = wrapper.find('.create-category-checkbox');
+    checkbox.simulate('change');
+    expect(wrapper.state().supportsMultiple).toBe(false);
+  });
+
+  it('should run createCategory when handleAddEvent is called', () => {
+    const instance = wrapper.instance();
+    jest.spyOn(instance, 'handleAddEvent');
+    instance.setState({
+      name: 'Test Category',
+      value: '34',
+      description: 'Lorem Ipsum',
+      supportsMultiple: true,
+    }, () => {
+      instance.handleAddEvent();
+    });
+    expect(baseProps.createCategory).toHaveBeenCalled();
   });
 });
