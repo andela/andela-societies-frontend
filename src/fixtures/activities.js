@@ -13,26 +13,26 @@ const activity = {
   society: '',
 };
 
-const activityIDs = ['8437fa68-8e6b-11e8-a05c-9801a7ae0330', '8437fa68-8e6b-11e8-a05c-9801a7ae0331', 
-'8437fa68-8e6b-11e8-a05c-9801a7ae0332', '8437fa68-8e6b-11e8-a05c-9801a7ae0333']
+const activityIDs = ['8437fa68-8e6b-11e8-a05c-9801a7ae0330', '8437fa68-8e6b-11e8-a05c-9801a7ae0331',
+  '8437fa68-8e6b-11e8-a05c-9801a7ae0332', '8437fa68-8e6b-11e8-a05c-9801a7ae0333'];
 const statuses = ['pending', 'expired', 'approved', 'default'];
 const societies = [
-{
-  id: '1',
-  name: 'iStelle'
-},
-{
-  id: '2',
-  name: 'invictus'
-},
-{
-  id: '3',
-  name: 'sparks'
-},
-{
-  id: '4',
-  name: 'phoenix'
-}];
+  {
+    id: '1',
+    name: 'iStelle',
+  },
+  {
+    id: '2',
+    name: 'invictus',
+  },
+  {
+    id: '3',
+    name: 'sparks',
+  },
+  {
+    id: '4',
+    name: 'phoenix',
+  }];
 
 const descriptions = [
   'Mentored teens how to code. (DBC 2016 at Redemption camp)',

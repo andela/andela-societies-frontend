@@ -1,7 +1,6 @@
 import moxios from 'moxios';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import sinon from 'sinon';
 
 import {
   createCategoryFailure,
