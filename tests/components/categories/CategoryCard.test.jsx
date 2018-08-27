@@ -32,17 +32,21 @@ describe('<CategoryCard />', () => {
   });
 
   it('should render delete button on categories page', () => {
-    expect(shallowWrapper.find('.deleteCategory__button').length).toBe(1);
+    expect(shallowWrapper.find('.categoryButtons__delete').length).toBe(1);
   });
 
-  it('should call handleClickSpy prop when one clicks on the delete button', () => {
-    const deleteBtn = shallowWrapper.find('.deleteCategory__button');
+  it('should render edit button on categories page', () => {
+    expect(shallowWrapper.find('.categoryButtons__edit').length).toBe(1);
+  });
+
+  it('should call handleClickSpy prop when one clicks on the delete icon', () => {
+    const deleteBtn = shallowWrapper.find('.categoryButtons__delete');
     deleteBtn.simulate('click');
     expect(handleClickSpy.called).toBeTruthy();
   });
 
-  it('should call handleClickSpy prop when a category card is clicked', () => {
-    const categoryCard = shallowWrapper.find('.category');
+  it('should call handleClickSpy prop when a edit icon is clicked', () => {
+    const categoryCard = shallowWrapper.find('.categoryButtons__edit');
     categoryCard.simulate('click');
     expect(handleClickSpy.called).toBeTruthy();
   });

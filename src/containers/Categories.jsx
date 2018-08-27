@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import promptModal from 'sweetalert';
 
-// Components
+// components
 import CategoryCard from '../components/categories/CategoryCard';
 import Page from './Page';
 import PageHeader from '../components/header/PageHeader';
@@ -12,9 +12,10 @@ import LinearLayout from '../containers/LinearLayout';
 import Loader from '../components/loaders/Loader';
 import SnackBar from '../components/notifications/SnackBar';
 
-// Actions
+// actions
 import { fetchCategories } from '../actions/categoriesActions';
 import { deleteCategory } from '../actions/deleteCategoryActions';
+import { openModal } from '../actions/showModalActions';
 
 // constants
 import clickActions from '../constants/clickAction';
@@ -35,6 +36,7 @@ class Categories extends Component {
       location: PropTypes.shape({ pathname: PropTypes.string }),
       pathname: PropTypes.string,
     }),
+    openModal: PropTypes.func,
   }
 
   /**
@@ -46,6 +48,7 @@ class Categories extends Component {
         pathname: '',
       },
     },
+    openModal: () => {},
     fetchCategories: () => {},
     deleteCategory: () => {},
   }
@@ -65,7 +68,6 @@ class Categories extends Component {
     super(props);
     this.state = {
       selectedCategory: {},
-      showModal: false,
     };
   }
 
@@ -106,9 +108,9 @@ class Categories extends Component {
 
   selectCategory = (id) => {
     const selectedCategory = this.props.categories.find(category => category.id === id);
+    this.props.openModal();
     this.setState({
       selectedCategory,
-      showModal: true,
     });
   }
 
@@ -116,7 +118,6 @@ class Categories extends Component {
     this.setState(() => ({
       categories: [],
       selectedCategory: {},
-      showModal: false,
     }));
   }
 
@@ -178,7 +179,6 @@ class Categories extends Component {
 
     return (
       <Page
-        showModal={this.state.showModal}
         selectedItem={selectedCategory}
       >
         <div className='mainContent'>
@@ -209,4 +209,5 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   fetchCategories,
   deleteCategory,
+  openModal,
 })(Categories);

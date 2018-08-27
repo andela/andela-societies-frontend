@@ -22,6 +22,7 @@ const roles = ['success ops'];
 const verifyActivitiesOpsSpy = spy();
 const verifyActivitySpy = spy();
 const fetchAllActivitiesSpy = spy();
+const openModalSpy = spy();
 const event = { preventDefault: () => { } };
 
 describe('<VerifyActivities />', () => {
@@ -37,6 +38,7 @@ describe('<VerifyActivities />', () => {
     verifyActivitiesOps: verifyActivitiesOpsSpy,
     verifyActivity: verifyActivitySpy,
     fetchAllActivities: fetchAllActivitiesSpy,
+    openModal: openModalSpy,
   };
 
   const component = shallow(<VerifyActivities.WrappedComponent
@@ -127,12 +129,12 @@ describe('<VerifyActivities />', () => {
     expect(verifyActivitySpy.called).toBeTruthy();
   });
 
-  it('should change state of showModal to true when handleClick is invoked with the MORE_INFO click action', () => {
+  it('should call openModal action when handleClick is invoked with the MORE_INFO click action', () => {
     component.setProps({ userRoles: roles });
-    component.setState({ filteredActivities: [activity], showModal: false });
+    component.setState({ filteredActivities: [activity]});
     const instance = component.instance();
     instance.handleClick('moreInfo', '8437fa68-8e6b-11e8-a05c-9801a7ae0330');
-    expect(component.state().showModal).toBeTruthy();
+    expect(openModalSpy.called).toBeTruthy();
   });
 
   it('should return null the default case when handleClick is invoked with no click action', () => {
@@ -146,7 +148,6 @@ describe('<VerifyActivities />', () => {
     const instance = component.instance();
     component.setState({ selectedActivity: activity });
     instance.deselectActivity();
-    expect(component.state().showModal).toBeFalsy();
     expect(component.state().selectedActivity).toEqual({});
   });
   it('should call componentDidUpdate and fetchAllActivities', () => {

@@ -24,6 +24,7 @@ import SnackBar from '../components/notifications/SnackBar';
 import { fetchSocietyInfo } from '../actions/societyInfoActions';
 import { verifyActivity, verifyActivitiesOps } from '../actions/verifyActivityActions';
 import { fetchAllActivities } from '../actions/allActivitiesActions';
+import { openModal } from '../actions/showModalActions';
 
 // constants
 import { SUCCESS_OPS, SOCIETY_SECRETARY } from '../constants/roles';
@@ -50,12 +51,14 @@ class VerifyActivities extends Component {
     verifyActivitiesOps: PropTypes.func,
     allActivities: PropTypes.arrayOf(PropTypes.shape({})),
     userRoles: PropTypes.arrayOf(PropTypes.string),
+    openModal: PropTypes.func,
   }
 
   static defaultProps = {
     verifyActivitiesOps: () => { },
     fetchAllActivities: () => { },
     verifyActivity: () => { },
+    openModal: () => {},
     userRoles: [],
     allActivities: [],
   }
@@ -108,7 +111,6 @@ class VerifyActivities extends Component {
       selectedSociety: 'istelle',
       showTabs: false,
       showMoreInfoButton: false,
-      showModal: false,
     };
   }
 
@@ -156,7 +158,8 @@ class VerifyActivities extends Component {
     {
       const selectedActivity = this.state.filteredActivities.find(activity => (activity.id === activityId));
       selectedActivity.itemType = 'activity';
-      this.setState({ showModal: true, selectedActivity });
+      this.props.openModal();
+      this.setState({ selectedActivity });
       break;
     }
     case REJECT:
@@ -175,7 +178,7 @@ class VerifyActivities extends Component {
    * @summary closes the comment form modal
    */
   deselectActivity = () => {
-    this.setState({ selectedActivity: {}, showModal: false });
+    this.setState({ selectedActivity: {} });
   }
 
   /**
@@ -331,7 +334,6 @@ class VerifyActivities extends Component {
       selectedStatus,
       selectedSociety,
       selectedActivity,
-      showModal,
     } = this.state;
     let snackBarMessage = '';
     if (message) {
@@ -345,7 +347,6 @@ class VerifyActivities extends Component {
     }
     return (
       <Page
-        showModal={showModal}
         selectedItem={selectedActivity}
         deselectItem={this.deselectActivity}
       >
@@ -400,4 +401,5 @@ export default connect(mapStateToProps, {
   fetchSocietyInfo,
   verifyActivity,
   verifyActivitiesOps,
+  openModal,
 })(VerifyActivities);

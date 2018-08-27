@@ -60,6 +60,7 @@ class CreateCategoryForm extends Component {
         value,
         name,
         description,
+        supportsMultipleParticipants,
       } = selectedItem;
       const formTitle = 'Edit Category Request Form';
       const btnText = 'Update';
@@ -67,6 +68,7 @@ class CreateCategoryForm extends Component {
         value: value.toString(),
         name,
         description,
+        supportsMultiple: supportsMultipleParticipants,
         formTitle,
         btnText,
       };

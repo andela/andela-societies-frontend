@@ -1,8 +1,11 @@
+/* eslint react/forbid-prop-types: 0 */
 import React, { Component } from 'react';
 import PropType from 'prop-types';
 
 import TruncateDescription from '../TruncateDescription';
 import Delete from '../svgIcons/categoryIcons/Delete';
+import EditIcon from '../svgIcons/categoryIcons/Edit';
+import Button from '../../common/Button';
 
 // constants
 import clickActions from '../../constants/clickAction';
@@ -47,28 +50,28 @@ class CategoryCard extends Component {
   }
 
   /**
-  * @name handleCategoryClick
-  * @summary responds to clicking on a category card
+  * @name renderCategoryButtons
+  * @summary Displays edit, delete action and respond to their clicks
   */
-  handleCategoryClick = () => {
-    const { id, handleClick } = this.props;
-    const { EDIT } = clickActions;
-    handleClick(EDIT, id);
-  }
-
-  renderDeleteButton() {
-    const { DELETE } = clickActions;
+  renderCategoryButtons = () => {
+    const { DELETE, EDIT } = clickActions;
     const { handleClick, id } = this.props;
     return (
-      <div className='deleteCategoryButtons'>
-        <button
-          name='delete'
-          className='deleteCategory__button'
+      <div className='categoryButtons'>
+        <Button
+          name='edit'
+          className='categoryButtons__edit'
           type='button'
+          value={<EditIcon />}
+          onClick={() => handleClick(EDIT, id)}
+        />
+        <Button
+          name='delete'
+          className='categoryButtons__delete'
+          type='button'
+          value={<Delete />}
           onClick={() => handleClick(DELETE, id)}
-        >
-          <Delete />
-        </button>
+        />
       </div>
     );
   }
@@ -93,7 +96,7 @@ class CategoryCard extends Component {
     } = this.props;
 
     return (
-      <div className='category' onClick={this.handleCategoryClick}>
+      <div className='category'>
         <div className='category__right'>
           <div className='category__header'>
             <div>
@@ -108,7 +111,7 @@ class CategoryCard extends Component {
               this.renderPoints()
             }
             {
-              this.renderDeleteButton()
+              this.renderCategoryButtons()
             }
           </div>
         </div>

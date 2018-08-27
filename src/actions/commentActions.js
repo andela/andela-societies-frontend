@@ -19,7 +19,7 @@ export const moreInfoRequest = () => ({ type: MORE_INFO_REQUEST });
 
 /**
  * @function moreInfoFailure
- * @param {} error
+ * @param {Object} error
  * @summary action creator for a more info failure
  */
 export const moreInfoFailure = error => (
