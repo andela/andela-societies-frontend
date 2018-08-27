@@ -103,7 +103,7 @@ const categories = (state = initialState.categories, action) => {
       updating: false,
       message: {
         type: 'success',
-        text: 'Category edited successfully ',
+        text: 'Category edited successfully.',
       },
       categories: updatedCategories,
     };
@@ -112,7 +112,8 @@ const categories = (state = initialState.categories, action) => {
     return {
       ...state,
       updating: false,
-      error: action.error,
+      error: action.error.response ?
+        action.error.response.data.message : 'An error has occured while completing your request.',
     };
   default:
     return state;

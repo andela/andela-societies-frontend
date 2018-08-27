@@ -18,6 +18,8 @@ const defaultState = {
   supportsMultiple: false,
   description: '',
   errors: {},
+  formTitle: 'Create a Category',
+  btnText: 'Create',
 };
 
 const baseProps = {
@@ -57,8 +59,7 @@ describe('<CreateCategoryForm />', () => {
 
   it('should reset state on receipt of success message', () => {
     mounted.setProps({ message: successMessage });
-    const currentState = Object.assign({}, defaultState);
-    expect(mounted.state()).toEqual(currentState);
+    expect(mounted.state()).toEqual(defaultState);
   });
 
   it('should handle change event and update state', () => {

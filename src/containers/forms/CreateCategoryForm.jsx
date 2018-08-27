@@ -165,6 +165,8 @@ class CreateCategoryForm extends Component {
       supportsMultiple: false,
       description: '',
       errors: {},
+      formTitle: 'Create a Category',
+      btnText: 'Create',
     });
   }
 
