@@ -67,6 +67,13 @@ describe('<Page />', () => {
     expect(document.body.classList.contains('noScroll')).toBe(true);
   });
 
+  it('should not open modal when the enter key is pressed', () => {
+    const wrapper = setUpWrapper();
+    wrapper.setState({ showModal: false });
+    wrapper.find('.fab').simulate('keydown', { key: 'Enter' });
+    expect(wrapper.state().showModal).toBe(false);
+  });
+
   it('should be able to scroll body when modal is closed', () => {
     const wrapper = setUpWrapper();
     // open modal
@@ -95,6 +102,13 @@ describe('<Page />', () => {
     expect(floatingButton).toHaveLength(1);
   });
 
+  it('should not contain the FloatingActionButton when pathname is verify-activities', () => {
+    const floatingButton = setUpWrapper({
+      location: { pathname: '/u/verify-activities' },
+    }).find('FloatingButton');
+    expect(floatingButton).toHaveLength(0);
+  });
+
   it('should contain the LogActivityForm when pathname is /u/my-activities', () => {
     const logActivityForm = setUpWrapper().find('LogActivityForm');
     expect(logActivityForm).toHaveLength(1);
@@ -121,6 +135,11 @@ describe('<Page />', () => {
   it('should contain the RedeemPointsForm when pathname is /u/redemptions', () => {
     const redeemPointsForm = setUpWrapper({ location: { pathname: '/u/redemptions' } }).find('RedeemPointsForm');
     expect(redeemPointsForm).toHaveLength(1);
+  });
+
+  it('Verify activities page should work without floating action button in /u/verify-activities', () => {
+    const verifyActivities = setUpWrapper({ location: { pathname: '/u/verify-activities' } });
+    expect(verifyActivities).toHaveLength(1);
   });
 
   it('should show comments form for the cio on the redemptions page', () => {
