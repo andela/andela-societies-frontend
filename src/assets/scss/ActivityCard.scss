@@ -7,7 +7,14 @@
   padding: 1.5rem;
   border-radius: 0.4rem;
   display: flex;
+  transition: all 0.3s ease-in-out;
   flex-wrap: wrap;
+  @include boxShadow(0, 0, 2.5rem, 0.5rem, $boxShadowGrey);
+}
+
+.activity:hover{
+  @include boxShadow(0, 1.25rem, 1.25rem, -0.9375rem, $boxShadowBlack);
+  transform: translateY(-5px);
 }
 
 .activity__left {
