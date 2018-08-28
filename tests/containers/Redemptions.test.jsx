@@ -159,18 +159,17 @@ describe('<Redemptions />', () => {
   });
 
 
-  it('should open modal and set selectedRedemption when redemption is clicked', () => {
+  it('should set selectedRedemption when redemption is clicked', () => {
     const { shallowWrapper } = setUpWrapper();
     const instance = shallowWrapper.instance();
     instance.setState({
       filteredActivities: testRedemptions,
     });
     instance.handleClick(EDIT, redemption.id);
-    expect(instance.state.showModal).toBe(true);
     expect(instance.state.selectedRedemption.id).toBe(redemption.id);
   });
 
-  it('should close modal and clear selected redemption', () => {
+  it('should clear selected redemption', () => {
     const { shallowWrapper } = setUpWrapper();
     const instance = shallowWrapper.instance();
     instance.setState({
@@ -178,17 +177,15 @@ describe('<Redemptions />', () => {
     });
     instance.deselectRedemption();
     expect(instance.state.selectedRedemption.id).toBe(undefined);
-    expect(instance.state.showModal).toBe(false);
   });
 
-  it('should selected redemption in state and show modal when reject button is clicked', () => {
+  it('should selected redemption in state when reject button is clicked', () => {
     const { shallowWrapper } = setUpWrapper();
     const instance = shallowWrapper.instance();
     instance.setState({
       filteredActivities: testRedemptions,
     });
     instance.handleClick('rejected', redemption.id);
-    expect(instance.state.showModal).toBe(true);
     expect(instance.state.selectedRedemption.id).toBe(redemption.id);
   });
 

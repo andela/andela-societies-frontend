@@ -10,6 +10,7 @@ import Stats from '../components/sidebar/Stats';
 import Loader from '../components/loaders/Loader';
 import { APPROVED } from '../constants/statuses';
 
+import { openModal } from '../actions/showModalActions';
 import { fetchMyActivities } from '../actions/myActivitiesActions';
 import { fetchCategories } from '../actions/categoriesActions';
 import dateFormatter from '../helpers/dateFormatter';
@@ -37,6 +38,7 @@ class MyActivities extends Component {
     fetchCategories: PropTypes.func.isRequired,
     categories: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     requesting: PropTypes.bool,
+    openModal: PropTypes.func,
   };
 
   /**
@@ -45,6 +47,7 @@ class MyActivities extends Component {
    * @property {Boolean} requesting - state of get request
   */
   static defaultProps = {
+    openModal: () => {},
     requesting: false,
   };
 
@@ -68,7 +71,6 @@ class MyActivities extends Component {
       selectedStatus: 'All',
       initialStatus: 'All',
       userCanEdit: false,
-      showModal: false,
       selectedActivity: {},
       statsTitle: 'Approved activities',
       statsSubTitle: 'Points earned',
@@ -100,8 +102,8 @@ class MyActivities extends Component {
     const { EDIT } = clickActions;
     if (clickAction === EDIT) {
       const selectedActivity = this.state.filteredActivities.find(activity => activity.id === myActivityId);
+      this.props.openModal();
       this.setState({
-        showModal: true,
         selectedActivity,
       });
     }
@@ -132,7 +134,6 @@ class MyActivities extends Component {
   deselectActivity = () => {
     this.setState(() => ({
       selectedActivity: {},
-      showModal: false,
     }));
   }
 
@@ -146,7 +147,6 @@ class MyActivities extends Component {
       selectedStatus,
       allActivities,
       userCanEdit,
-      showModal,
       selectedActivity,
       statsTitle,
       statsSubTitle,
@@ -159,7 +159,6 @@ class MyActivities extends Component {
         selectedItem={selectedActivity}
         categories={categories}
         deselectItem={this.deselectActivity}
-        showModal={showModal}
         updateSelectedItem={this.updateSelectedActivity}
       >
         <div className='mainContent'>
@@ -221,4 +220,5 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   fetchMyActivities,
   fetchCategories,
+  openModal,
 })(MyActivities);

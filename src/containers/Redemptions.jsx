@@ -15,6 +15,7 @@ import Loader from '../components/loaders/Loader';
 
 // thunk
 import { fetchRedemption, verifyRedemption } from '../actions/redeemPointsAction';
+import { openModal } from '../actions/showModalActions';
 
 // helpers
 import dateFormatter from '../helpers/dateFormatter';
@@ -41,6 +42,7 @@ class Redemptions extends React.Component {
     userRoles: [],
     requesting: false,
     redemptions: [],
+    openModal: () => {},
   }
 
   /**
@@ -54,6 +56,7 @@ class Redemptions extends React.Component {
     verifyRedemption: PropTypes.func.isRequired,
     userRoles: PropTypes.arrayOf(PropTypes.string),
     redemptions: PropTypes.arrayOf(PropTypes.shape({})),
+    openModal: PropTypes.func,
   }
 
   /**
@@ -117,7 +120,6 @@ class Redemptions extends React.Component {
       selectedSociety: 'istelle',
       selectedRedemption: {},
       showTabs: false,
-      showModal: false,
       statuses: [ALL, PENDING, REJECTED, APPROVED],
       statsRedemptionStatus: 'All Redemptions',
     };
@@ -215,8 +217,8 @@ class Redemptions extends React.Component {
   selectRedemption = (redemptionId, clickAction) => {
     const selectedRedemption = this.state.filteredActivities.find(r => r.id === redemptionId);
     selectedRedemption.clickAction = clickAction;
+    this.props.openModal();
     this.setState({
-      showModal: true,
       selectedRedemption,
     });
   }
@@ -260,7 +262,6 @@ class Redemptions extends React.Component {
   deselectRedemption = () => {
     this.setState({
       selectedRedemption: {},
-      showModal: false,
     });
   }
 
@@ -366,14 +367,12 @@ class Redemptions extends React.Component {
       selectedSociety,
       selectedRedemption,
       statuses,
-      showModal,
       statsRedemptionStatus,
     } = this.state;
     return (
       <Page
         selectedItem={selectedRedemption}
         deselectItem={this.deselectRedemption}
-        showModal={showModal}
         updateSelectedItem={this.updateSelectedRedemption}
       >
         <div className='mainContent'>
@@ -418,4 +417,5 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   fetchRedemption,
   verifyRedemption,
+  openModal,
 })(Redemptions);

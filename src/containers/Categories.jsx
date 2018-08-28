@@ -34,7 +34,6 @@ class Categories extends Component {
     super(props);
     this.state = {
       selectedCategories: [],
-      showModal: false,
     };
   }
 
@@ -119,7 +118,7 @@ class Categories extends Component {
       this.renderLayout();
 
     return (
-      <Page showModal={this.state.showModal}>
+      <Page>
         <div className='mainContent'>
           <div className='Categories'>
             <PageHeader

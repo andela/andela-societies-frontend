@@ -1,3 +1,2 @@
-export const SNACKBARTIMEOUT = 3000;
-
-export const SNACKBARTIMEOUT_SUCCESS = 500;
+const SNACKBARTIMEOUT = 2000;
+export default SNACKBARTIMEOUT;

@@ -66,6 +66,9 @@ const store = {
     message: {},
     requesting: false,
   },
+  modalInfo:{
+    showModal: false,
+  },
 };
 
 export default store;

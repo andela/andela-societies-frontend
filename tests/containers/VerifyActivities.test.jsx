@@ -16,6 +16,7 @@ const history = { push: () => { }, location: { pathname: '' } };
 const roles = ['success ops'];
 const verifyActivitiesOpsSpy = spy();
 const verifyActivitySpy = spy();
+const fetchAllActivitiesSpy = spy();
 const event = { preventDefault: () => { } };
 
 describe('<VerifyActivities />', () => {
@@ -30,6 +31,7 @@ describe('<VerifyActivities />', () => {
     requesting: false,
     verifyActivitiesOps: verifyActivitiesOpsSpy,
     verifyActivity: verifyActivitySpy,
+    fetchAllActivities: fetchAllActivitiesSpy,
   };
 
   const component = shallow(<VerifyActivities.WrappedComponent
@@ -141,5 +143,11 @@ describe('<VerifyActivities />', () => {
     instance.deselectActivity();
     expect(component.state().showModal).toBeFalsy();
     expect(component.state().selectedActivity).toEqual({});
+  });
+  it('should call componentDidUpdate and fetchAllActivities', () => {
+    const componentDidUpdateSpy = spy(VerifyActivities.WrappedComponent.prototype, 'componentDidUpdate');
+    component.setProps({ userRoles: [] });
+    expect(componentDidUpdateSpy.called).toBeTruthy();
+    expect(fetchAllActivitiesSpy.called).toBeTruthy();
   });
 });

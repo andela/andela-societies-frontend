@@ -29,7 +29,6 @@ class RedeemPointsForm extends Component {
   static defaultProps = {
     message: {},
     selectedItem: {},
-    deselectItem: () => { },
     updateSelectedItem: () => { },
   };
   /**
@@ -44,7 +43,6 @@ class RedeemPointsForm extends Component {
       text: PropTypes.string,
     }),
     selectedItem: PropTypes.shape({ id: PropTypes.string }),
-    deselectItem: PropTypes.func,
     updateSelectedItem: PropTypes.func,
   }
 
@@ -89,8 +87,10 @@ class RedeemPointsForm extends Component {
    */
   componentDidUpdate(prevProps) {
     const { type } = this.props.message;
-    if (type !== prevProps.message.type && type === 'success') {
-      setTimeout(() => { this.handleCloseModal(); }, SNACKBARTIMEOUT);
+    if (prevProps.message) {
+      if (type !== prevProps.message.type && type === 'success') {
+        setTimeout(() => { this.handleCloseModal(); }, SNACKBARTIMEOUT);
+      }
     }
   }
 
@@ -170,9 +170,6 @@ class RedeemPointsForm extends Component {
    */
   handleCloseModal = () => {
     this.props.closeModal();
-    if (this.props.selectedItem.id) {
-      this.props.deselectItem();
-    }
     this.resetState();
   }
 

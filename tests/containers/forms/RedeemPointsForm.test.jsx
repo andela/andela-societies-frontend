@@ -9,18 +9,19 @@ describe('<RedeemPointsForm />', () => {
   let mountedWrapper;
   const updateRedemption = jest.fn();
   const deselectItem = jest.fn();
+  const closeModal = jest.fn();
 
   beforeEach(() => {
     shallowWrapper = shallow(<RedeemPointsForm.WrappedComponent
       redeemPoints={stub().resolves({})}
       updateRedemption={jest.fn()}
-      closeModal={stub()}
+      closeModal={closeModal}
     />);
 
     mountedWrapper = mount(<RedeemPointsForm.WrappedComponent
       redeemPoints={stub().resolves({})}
       updateRedemption={updateRedemption}
-      closeModal={stub()}
+      closeModal={closeModal}
       selectedItem={redemption}
       deselectItem={deselectItem}
     />);
@@ -80,9 +81,9 @@ describe('<RedeemPointsForm />', () => {
     expect(updateRedemption).toHaveBeenCalled();
   });
 
-  it('should clear selected item when closing the form', () => {
+  it('should call closeModal when closing the form', () => {
     const instance = mountedWrapper.instance();
     instance.handleCloseModal();
-    expect(deselectItem).toHaveBeenCalled();
+    expect(closeModal).toHaveBeenCalled();
   });
 });

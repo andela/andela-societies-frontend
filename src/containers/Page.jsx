@@ -9,6 +9,8 @@ import { fetchUserInfo } from '../actions';
 import { fetchSocietyInfo } from '../actions/societyInfoActions';
 import { changeTitle } from '../actions/pageActions';
 import { fetchUserProfile } from '../actions/userProfileActions';
+import { openModal, closeModal } from '../actions/showModalActions';
+
 import Header from '../components/header/Header';
 import SocietyBanner from '../components/header/SocietyBanner';
 import Sidebar from '../components/sidebar/Sidebar';
@@ -72,6 +74,8 @@ class Page extends Component {
     }),
     updating: PropTypes.bool,
     deselectItem: PropTypes.func,
+    openModal: PropTypes.func,
+    closeModal: PropTypes.func,
     selectedItem: PropTypes.shape({}),
   }
 
@@ -83,16 +87,13 @@ class Page extends Component {
     selectedItem: {},
     deselectItem: () => { },
     updateSelectedItem: () => { },
+    openModal: () => {},
+    closeModal: () => {},
   }
 
-  static getDerivedStateFromProps = (props, state) => {
-    const { location, showModal, selectedItem } = props;
-    if (location.pathname !== 'u/my-activities' && selectedItem.hasOwnProperty('id')) {
-      return ({
-        showModal,
-      });
-    }
-    return state;
+  static getDerivedStateFromProps = (props) => {
+    const { showModal } = props;
+    return ({ showModal });
   }
 
   constructor(props) {
@@ -126,7 +127,7 @@ class Page extends Component {
     if (document && document.body) {
       document.body.classList.add('noScroll');
     }
-    this.setState({ showModal: true });
+    this.props.openModal();
   }
 
   isASocietyPage = () => (
@@ -137,10 +138,10 @@ class Page extends Component {
     if (document && document.body) {
       document.body.classList.remove('noScroll');
     }
+    this.props.closeModal();
     if (this.props.selectedItem) {
       this.props.deselectItem();
     }
-    this.setState({ showModal: false });
   }
 
   renderFloatingButton = () => {
@@ -160,7 +161,6 @@ class Page extends Component {
   renderModal = () => {
     const {
       categories,
-      deselectItem,
       location,
       profile,
       selectedItem,
@@ -183,7 +183,6 @@ class Page extends Component {
         <RedeemPointsForm
           closeModal={this.closeModal}
           selectedItem={selectedItem}
-          deselectItem={deselectItem}
           updateSelectedItem={updateSelectedItem}
         />
       );
@@ -246,6 +245,7 @@ class Page extends Component {
 const mapStateToProps = (state) => {
   const updating = state.societyActivities.updating || state.redeemPointsInfo.updating || state.categories.updating;
   return ({
+    showModal: state.modalInfo.showModal,
     userInfo: state.userInfo,
     societyInfo: state.societyInfo,
     profile: state.userProfile.info,
@@ -258,4 +258,6 @@ export default connect(mapStateToProps, {
   fetchUserInfo,
   fetchSocietyInfo,
   fetchUserProfile,
+  openModal,
+  closeModal,
 })(withRouter(Page));
