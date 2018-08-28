@@ -1,5 +1,5 @@
 @import '../../assets/scss/_mixins';
-@import '../../assets/scss/_vars'; 
+@import '../../assets/scss/_vars';
 
 .activity {
   background: white;
@@ -15,6 +15,7 @@
 .activity:hover{
   @include boxShadow(0, 1.25rem, 1.25rem, -0.9375rem, $boxShadowBlack);
   transform: translateY(-5px);
+
 }
 
 .activity__left {
