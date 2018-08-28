@@ -9,11 +9,11 @@
   display: flex;
   transition: all 0.3s ease-in-out;
   flex-wrap: wrap;
-  box-shadow: 0 0 2.5rem 0.5rem rgba(204,204,204,0.5);
+  @include boxShadow(0, 0, 2.5rem, 0.5rem, $boxShadowGrey);
 }
 
 .activity:hover{
-  box-shadow: 0 1.25rem 1.25rem -0.9375rem rgba(0, 0, 0, 0.3);
+  @include boxShadow(0, 1.25rem, 1.25rem, -0.9375rem, $boxShadowBlack);
   transform: translateY(-5px);
 }
 
