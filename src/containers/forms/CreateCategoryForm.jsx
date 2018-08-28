@@ -62,15 +62,13 @@ class CreateCategoryForm extends Component {
         description,
         supportsMultipleParticipants,
       } = selectedItem;
-      const formTitle = 'Edit Category Request Form';
-      const btnText = 'Update';
       return {
         value: value.toString(),
         name,
         description,
         supportsMultiple: supportsMultipleParticipants,
-        formTitle,
-        btnText,
+        formTitle: 'Edit Category Request Form',
+        btnText: 'Update',
       };
     }
     return state;

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import promptModal from 'sweetalert';
 
-// components
+// Components
 import CategoryCard from '../components/categories/CategoryCard';
 import Page from './Page';
 import PageHeader from '../components/header/PageHeader';
@@ -12,12 +12,12 @@ import LinearLayout from '../containers/LinearLayout';
 import Loader from '../components/loaders/Loader';
 import SnackBar from '../components/notifications/SnackBar';
 
-// actions
+// Actions
 import { fetchCategories } from '../actions/categoriesActions';
 import { deleteCategory } from '../actions/deleteCategoryActions';
 import { openModal } from '../actions/showModalActions';
 
-// constants
+// Constants
 import clickActions from '../constants/clickAction';
 
 
@@ -116,7 +116,6 @@ class Categories extends Component {
 
   deselectCategory = () => {
     this.setState(() => ({
-      categories: [],
       selectedCategory: {},
     }));
   }
@@ -146,7 +145,6 @@ class Categories extends Component {
               value={value}
               page={page}
               handleClick={this.handleClick}
-              handleDeselectCategory={this.handleDeselectCategory}
               wordCount={70}
             />);
           })
@@ -180,6 +178,7 @@ class Categories extends Component {
     return (
       <Page
         selectedItem={selectedCategory}
+        deselectItem={this.deselectCategory}
       >
         <div className='mainContent'>
           <div className='Categories'>
