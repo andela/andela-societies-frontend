@@ -1,0 +1,157 @@
+.signInHeader {
+  height: 9rem;
+  background: $lightAccent;
+  box-shadow: 0 0.4rem 16rem rgba(0, 0, 0, 0.05);
+}
+
+.signInPageContent {
+  align-items: center;
+}
+
+.signInPageContent {
+  @include container;
+  display: flex;
+  justify-content: space-between;
+  height: inherit;
+}
+
+.signInPageContent--topAlignment {
+  align-items: flex-start;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo__img {
+  display: block;
+  width: 6.4rem;
+}
+
+.logo__text {
+  color: $primary;
+  margin-left: 1.6rem;
+  font-size: 2.4rem;
+}
+
+.signInButton {
+  box-sizing: border-box;
+  width: 23rem;
+  height: 5rem;
+  line-height: 5rem;
+  padding-right: 2rem;
+  color: $lightAccent;
+  background: $googleButtonBlue;
+  display: flex;
+  justify-content: space-between;
+  border: 0.1rem solid #eee;
+  user-select: none;
+  border-radius: 0.2rem;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.signInButton__logo {
+  box-sizing: border-box;
+  height: 100%;
+  width: 5rem;
+  background: $lightAccent url(../../assets/images/googleFavicon.png) center/3rem no-repeat;
+}
+
+.signInButton__label{
+  text-align: right;
+}
+
+.signInPageLeftContent, 
+.signInPageRightContent {
+  box-sizing: border-box;
+  padding-top: 10.5rem;
+  color: #444;
+}
+
+.signInPageLeftContent {
+  width: 38%;
+}
+
+.signInPageRightContent {
+  width: 54%;
+}
+
+.promo {
+  font-size: 3.2rem;
+  margin-top: 0;
+}
+
+.featuresTitle {
+  font-weight: 400;
+  margin-top: 0;
+  border-bottom: 0.1rem solid $orange;
+  font-size: 2.5rem;
+  position: absolute;
+  padding-bottom: 0.6rem;
+}
+
+.features {
+  margin-top: 8rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.feature {
+  display: flex;
+  width: calc(50% - 4rem);
+  margin-bottom: 4rem;
+}
+
+.feature__icon {
+  width: 5rem;
+}
+
+.feature__icon > svg {
+  fill: #444;
+}
+
+.feature__info {
+  box-sizing: border-box;
+  padding-left: 2rem;
+  width: calc(100% - 5rem);
+}
+
+.feature__name {
+  margin: 0;
+  font-weight: normal;
+  font-size: 2.5rem;
+}
+
+.feature__description {
+  margin: 1rem 0 0;
+  font-size: 1.4rem;
+}
+
+.signInError {
+  background: $red;
+  padding: 1rem 1.6rem;
+  color: $lightAccent;
+  border-radius: 0.3rem;
+  display: inline-flex;
+}
+
+.signInError > svg {
+  margin-right: 0.4rem;
+  width: 2rem;
+  height: 2rem;
+  fill: $lightAccent;
+  margin: auto;
+  text-align: center;
+}
+
+.signInError__message {
+  margin-left: 1rem;
+}
+
+a.signInButton, a.signInButton:visited, a.signInButton:hover, a.signInButton:active {
+  text-decoration: none;
+  color: #f5f5f5;
+}

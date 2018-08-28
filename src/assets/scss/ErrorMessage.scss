@@ -1,0 +1,24 @@
+.error-message {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 3rem auto 0;
+  min-height: 18.875rem;
+  font-weight: normal;
+  font-size: 1.8rem;
+
+  h2 {
+    font: inherit;
+  }
+
+  .error-message__retry {
+    background: none;
+    padding: 0 auto;
+    border: none;
+    font: inherit;
+    color: $primary;
+    cursor: pointer;
+    outline: none;
+  }
+}

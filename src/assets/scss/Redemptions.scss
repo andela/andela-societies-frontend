@@ -1,0 +1,20 @@
+.redemption__location {
+  color: #000000;
+  float: left;
+  line-height: 1.4rem;
+}
+.redemption__location > svg {
+  width: 2.4rem;
+  height: 2.4rem;
+  vertical-align: middle;
+  padding-right: 0.4rem;
+  display: inline-block;
+}
+
+.redemption__amount {
+  margin-left: auto;
+}
+
+.redemptions-notFound {
+  margin-left: auto;
+}

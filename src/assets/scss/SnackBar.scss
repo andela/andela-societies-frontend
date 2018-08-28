@@ -1,0 +1,76 @@
+.snackbar {
+  visibility: hidden;
+  min-width: 20rem;
+  margin-left: -10rem;
+  color: #fff;
+  border-radius: 0.2rem;
+  padding: 1rem;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  height: 2.6rem;
+  bottom: 1.8rem;
+  text-align: center;
+  line-height: 2.6rem;
+  font-size: 0.85em;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.snackbar--show {
+  visibility: visible;
+
+  -webkit-animation: fadein 0.5s;
+  animation: fadein 0.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;} 
+  to {bottom: 1.8rem; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 1.8rem; opacity: 1;}
+}
+
+.snackbar.info {
+  background-color: $primary;
+}
+
+.snackbar.success {
+  background-color: $green;
+}
+
+.snackbar.error {
+  background-color: $red;
+}
+
+.snackbar.show.error {
+  background-color: $red;
+}
+
+.close-svg {
+  width: 1.6rem;
+  height: 1.6rem;
+  fill: $lightAccent;
+  margin: auto;
+  text-align: center;
+}
+
+.snackbar__button, {
+  background-color: $red;
+  border: 0;
+}
+
+.snackbar__button:hover {
+  cursor: pointer;
+}
+
+.snackbar__error > svg {
+  width: 2rem;
+  height: 2rem;
+  fill: $lightAccent;
+  margin-top: 0.3rem;
+}

@@ -1,0 +1,68 @@
+@import '../../assets/scss/_vars';
+
+.headerIcon {
+  position: relative;
+  height: 100%;
+  width: 6rem;
+  box-sizing: border-box;
+  padding: 0.8rem;
+  float: left;
+  user-select: none;
+}
+
+.headerIcon__image {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.headerIcon__image--photo {
+  background-color: #eee;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+}
+
+.headerIcon__image svg {
+  width: 1.6rem;
+  line-height: 6rem;
+}
+
+.headerIcon__badge {
+  position: absolute;
+  top: 0.4rem;
+  right: 1.2rem;
+  display: block;
+  color: $lightAccent;
+  background: $red;
+  width: 2.4rem;
+  height: 2.4rem;
+  text-align: center;
+  line-height: 2.4rem;
+  font-size: 1.2rem;
+  border-radius: 50%;
+}
+
+
+.headerDropdown {
+  box-sizing: border-box;
+  position: absolute;
+  top: 6rem;
+  right: 0;
+  background: white;
+  min-width: 27.5rem;
+  box-shadow: 0 0.5rem 1.1rem rgba(0, 0, 0, 0.15);
+  padding: 2.4rem 0;
+  border-radius: 0.4rem;
+  display: none;
+}
+
+.headerDropdown--active {
+  display: block;
+}
+
+.headerDropdown--profile {
+  min-width: 20.5rem;
+}

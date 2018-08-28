@@ -1,0 +1,103 @@
+{
+  "name": "andela-societies-frontend",
+  "version": "1.0.0",
+  "description": "Andela societies is an application that allows fellows to log and track points for their societies",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "webpack-dev-server --config=webpack.config.dev.js --open --history-api-fallback",
+    "build": "webpack -p --config=webpack.config.prod.js && npm run copy:favicon",
+    "serve": "node server.js",
+    "test": "export NODE_ENV=testing && jest --verbose",
+    "test:dev": "export NODE_ENV=testing && jest --verbose --watch",
+    "copy:favicon": "cp src/assets/images/favicon.ico public/favicon.ico",
+    "deploy": "npm run build && npm run serve",
+    "coverage": "export NODE_ENV=testing && jest --coverage",
+    "coveralls": "cat ./coverage/lcov.info | coveralls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndelaOSP/andela-societies-frontend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AndelaOSP/andela-societies-frontend/issues"
+  },
+  "homepage": "https://github.com/AndelaOSP/andela-societies-frontend#readme",
+  "devDependencies": {
+    "babel-eslint": "^8.2.1",
+    "eslint": "^4.18.2",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.7.0",
+    "mock-local-storage": "^1.0.5",
+    "webpack-dev-server": "^2.11.2"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "compression": "^1.7.1",
+    "coveralls": "^3.0.0",
+    "css-loader": "^0.28.9",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "eslint-loader": "^1.9.0",
+    "express": "^4.16.2",
+    "file-loader": "^1.1.11",
+    "history": "^4.7.2",
+    "html-webpack-plugin": "^2.30.1",
+    "jest": "^22.4.2",
+    "js-cookie": "^2.2.0",
+    "jwt-decode": "^2.2.0",
+    "moment": "^2.22.1",
+    "morgan": "^1.9.0",
+    "moxios": "^0.4.0",
+    "node-sass": "^4.7.2",
+    "prop-types": "^15.6.1",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "react-redux": "^5.0.7",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-router-prop-types": "^1.0.0",
+    "redux": "^3.7.2",
+    "redux-mock-store": "^1.5.1",
+    "redux-test-utils": "^0.2.2",
+    "redux-thunk": "^2.2.0",
+    "sass-loader": "^6.0.6",
+    "sinon": "^4.4.6",
+    "style-loader": "^0.19.1",
+    "sweetalert": "^2.1.0",
+    "url-loader": "^0.6.2",
+    "webpack": "^3.10.0",
+    "webpack-hot-middleware": "^2.21.2"
+  },
+  "babel": {
+    "presets": [
+      "env",
+      "react",
+      "stage-2"
+    ]
+  },
+  "jest": {
+    "setupTestFrameworkScriptFile": "<rootDir>/tests/setupTests.js",
+    "unmockedModulePathPatterns": [
+      "node_modules/react/",
+      "node_modules/enzyme/"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/__mocks__/fileMock.js",
+      "\\.s?css$": "<rootDir>/tests/__mocks__/styleMock.js"
+    },
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "!**/node_modules/**"
+    ]
+  }
+}

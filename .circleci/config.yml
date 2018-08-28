@@ -1,0 +1,69 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:9.8.0
+        environment:
+        - NODE_ENV: testing
+    environment:
+      TERM: xterm-256color
+    working_directory: ~/soc-frontend
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+
+      - run: yarn install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: Run application unit tests
+          command: yarn coverage
+      - run:
+          name: Collect test coverage
+          command: yarn coveralls
+  deploy:
+    docker:
+      - image: circleci/node:9.8.0
+    environment:
+      TERM: xterm-256color
+    working_directory: ~/soc-frontend
+
+    steps:
+      - checkout
+      - setup_remote_docker
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+
+      - run: yarn install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: Build and release application
+          command: chmod +x scripts/deploy.sh && scripts/deploy.sh
+
+workflows:
+  version: 2
+  build-test-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master
+                - staging

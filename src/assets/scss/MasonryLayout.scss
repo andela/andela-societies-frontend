@@ -1,0 +1,14 @@
+.masonry-layout {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 1rem 1rem;
+}
+
+.masonry-layout__panel {
+  break-inside: avoid;
+}
+
+.masonry-layout__panel-content {
+  padding: 1rem;
+  border-radius: 1rem;
+}

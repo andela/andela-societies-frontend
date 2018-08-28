@@ -1,0 +1,11 @@
+node_modules/
+.env
+.DS_Store
+.idea/
+public/
+npm-debug.log.*
+yarn-error.log
+.nyc_output/
+coverage/
+package-*.json
+.vscode/
