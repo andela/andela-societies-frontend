@@ -61,6 +61,7 @@ const initialState = {
     message: {},
     requesting: false,
   },
+  showModal: false,
 };
 
 export default initialState;

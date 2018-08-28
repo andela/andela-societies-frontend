@@ -4,7 +4,7 @@ import CloseIcon from '../svgIcons/notificationIcons/Close';
 import ErrorIcon from '../svgIcons/notificationIcons/Error';
 
 // Constants
-import { SNACKBARTIMEOUT_SUCCESS } from '../../constants/snackbarTimeout';
+import SNACKBARTIMEOUT from '../../constants/snackbarTimeout';
 
 class SnackBar extends Component {
   /**
@@ -63,7 +63,7 @@ class SnackBar extends Component {
   showClass = () => {
     const { message } = this.state;
     if (message.type === 'success') {
-      setTimeout(() => { this.setState({ show: false }); }, SNACKBARTIMEOUT_SUCCESS);
+      setTimeout(() => { this.setState({ show: false }); }, SNACKBARTIMEOUT);
     }
 
     return message ? `snackbar snackbar--show ${message.type}` : '';
