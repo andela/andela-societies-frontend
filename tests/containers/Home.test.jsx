@@ -1,17 +1,31 @@
+// Third party libraries
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { Provider } from 'react-redux';
 import { createMockStore } from 'redux-test-utils';
 import { MemoryRouter } from 'react-router-dom';
 import storeFixture from '../../src/fixtures/store';
+import sessionStorage from 'mock-local-storage';
 
+// Components
 import Home from '../../src/containers/Home';
+
+// Fixtures
 import testProfile from '../../src/fixtures/userProfile';
 
 const store = createMockStore(storeFixture);
 
 let mountedWrapper;
 let shallowWrapper;
+
+const props = {
+  sessionStorage,
+  fetchUserProfile: jest.fn(),
+  history: { 
+    push: jest.fn(),
+    location: { pathname: '' }
+  },
+};
 
 describe('<Home />', () => {
   beforeEach(() => {
@@ -24,7 +38,7 @@ describe('<Home />', () => {
     ));
 
     shallowWrapper = shallow((
-      <Home.WrappedComponent fetchUserProfile={jest.fn()} history={{ push: jest.fn() }} />
+      <Home.WrappedComponent {...props} />
     ));
   });
 

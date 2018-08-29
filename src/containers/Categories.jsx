@@ -1,18 +1,20 @@
+// Third party libraries
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import promptModal from 'sweetalert';
 
+// Components
 import CategoryCard from '../components/categories/CategoryCard';
 import Page from './Page';
 import PageHeader from '../components/header/PageHeader';
 import LinearLayout from '../containers/LinearLayout';
 import Loader from '../components/loaders/Loader';
-
-import { fetchCategories } from '../actions/categoriesActions';
-import { deleteCategory } from '../actions/deleteCategoryActions';
 import SnackBar from '../components/notifications/SnackBar';
 
+// Actions
+import { fetchCategories } from '../actions/categoriesActions';
+import { deleteCategory } from '../actions/deleteCategoryActions';
 
 class Categories extends Component {
   /**
@@ -22,12 +24,26 @@ class Categories extends Component {
     */
   static propTypes = {
     categories: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-    fetchCategories: PropTypes.func.isRequired,
+    fetchCategories: PropTypes.func,
     requesting: PropTypes.bool.isRequired,
-    deleteCategory: PropTypes.func.isRequired,
+    deleteCategory: PropTypes.func,
     history: PropTypes.shape({
-      location: PropTypes.shape({ pathname: PropTypes.string.isRequired }).isRequired,
-    }).isRequired,
+      location: PropTypes.shape({ pathname: PropTypes.string }),
+      pathname: PropTypes.string,
+    }),
+  }
+
+  /**
+   * @name defaultProps
+   */
+  static defaultProps = {
+    history: {
+      location: {
+        pathname: '',
+      },
+    },
+    fetchCategories: () => {},
+    deleteCategory: () => {},
   }
 
   constructor(props) {
@@ -38,7 +54,9 @@ class Categories extends Component {
   }
 
   componentDidMount() {
+    const { history } = this.props;
     this.props.fetchCategories();
+    sessionStorage.setItem('Location', history.location.pathname);
   }
 
   handleClick = (categoryId) => {
@@ -133,7 +151,7 @@ class Categories extends Component {
             </div>
           </div>
         </div>
-        { snackBarMessage }
+        {snackBarMessage}
       </Page>
     );
   }

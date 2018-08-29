@@ -1,10 +1,15 @@
+// Third Party Libraries
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { createMockStore } from 'redux-test-utils';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
+import sessionStorage from 'mock-local-storage';
 
+// Components
 import MyActivities from '../../src/containers/MyActivities';
+
+// Fixtures
 import storeFixture from '../../src/fixtures/store';
 import activities from '../../src/fixtures/activities';
 import activity from '../../src/fixtures/activity';
@@ -14,7 +19,7 @@ import clickActions from '../../src/constants/clickAction';
 const { EDIT } = clickActions;
 
 const store = createMockStore(storeFixture);
-const history = { push: () => { } };
+const history = { push: () => { }, location: { pathname: '' } };
 const fetchUserInfo = jest.fn();
 const changePageTitle = jest.fn();
 const fetchMyActivities = jest.fn();
@@ -26,6 +31,7 @@ const mounted = mount.bind(
     <MemoryRouter>
       <MyActivities
         history={history}
+        sessionStorage={sessionStorage}
         fetchUserInfo={fetchUserInfo}
         changePageTitle={changePageTitle}
         fetchMyActivities={fetchMyActivities}
@@ -41,6 +47,7 @@ const setUpWrapper = ({
   const props = {
     activities,
     categories,
+    sessionStorage,
     requesting,
     history,
     fetchUserInfo,

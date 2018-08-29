@@ -1,14 +1,22 @@
+// Third party libraries
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { stub } from 'sinon';
 import { createMockStore } from 'redux-test-utils';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
+import sessionStorage from 'mock-local-storage';
+
+// Components
 import Redemptions from '../../src/containers/Redemptions';
+
+// fixtures
 import storeFixture from '../../src/fixtures/store';
 import { redemptions, redemption } from '../../src/fixtures/redemptions';
-import filterActivitiesByStatus from '../../src/helpers/filterActivitiesByStatus';
 import testProfile from '../../src/fixtures/userProfile';
+
+// helpers and constants
+import filterActivitiesByStatus from '../../src/helpers/filterActivitiesByStatus';
 import clickActions from '../../src/constants/clickAction';
 
 const { EDIT } = clickActions;
@@ -21,6 +29,7 @@ const testRedemptions = [...redemptions, { ...redemption, status: 'rejected' }];
 const userProfile = { ...testProfile, roles: { 'society president': 'Kabc' } };
 
 const testProps = {
+  sessionStorage,
   requesting: false,
   hasError: false,
   userRoles: Object.keys(userProfile.roles),

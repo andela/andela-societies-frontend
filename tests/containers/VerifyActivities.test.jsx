@@ -1,11 +1,16 @@
+// Third party libraries
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { spy } from 'sinon';
 import { createMockStore } from 'redux-test-utils';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
+import sessionStorage from 'mock-local-storage';
 
+// Components
 import VerifyActivities from '../../src/containers/VerifyActivities';
+
+// Fixtures
 import storeFixture from '../../src/fixtures/store';
 import society from '../../src/fixtures/society';
 import activity from '../../src/fixtures/activity';
@@ -22,6 +27,7 @@ const event = { preventDefault: () => { } };
 describe('<VerifyActivities />', () => {
   const props = {
     history,
+    sessionStorage,
     fetchUserInfo: () => { },
     changePageTitle: () => { },
     fetchSocietyInfo: () => { },

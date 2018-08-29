@@ -30,6 +30,8 @@ class LogActivityForm extends Component {
   static defaultProps = {
     selectedItem: {},
     updateSelectedItem: () => { },
+    updateActivity: () => {},
+    createActivity: () => {},
     message: {
       type: '',
       text: '',
@@ -43,8 +45,8 @@ class LogActivityForm extends Component {
   static propTypes = {
     categories: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     closeModal: PropTypes.func.isRequired,
-    createActivity: PropTypes.func.isRequired,
-    updateActivity: PropTypes.func.isRequired,
+    createActivity: PropTypes.func,
+    updateActivity: PropTypes.func,
     selectedItem: PropTypes.shape({ id: PropTypes.string }),
     updateSelectedItem: PropTypes.func,
     message: PropTypes.shape({

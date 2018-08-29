@@ -1,7 +1,6 @@
+// third party libraries
 import React from 'react';
 import { connect } from 'react-redux';
-
-// third party libraries
 import PropTypes from 'prop-types';
 
 // components
@@ -43,12 +42,22 @@ class Redemptions extends React.Component {
     requesting: false,
     redemptions: [],
     openModal: () => {},
+    history: {
+      location: {
+        pathname: '',
+      },
+    },
   }
 
   /**
    * @name propTypes
    */
   static propTypes = {
+    history: PropTypes.shape({
+      location: PropTypes.shape({
+        pathname: PropTypes.string,
+      }),
+    }),
     hasError: PropTypes.bool,
     requesting: PropTypes.bool,
     societyName: PropTypes.string,
@@ -133,6 +142,7 @@ class Redemptions extends React.Component {
     const { societyName } = this.props;
     const reference = this.setPathReference(societyName);
     this.props.fetchRedemption(reference);
+    sessionStorage.setItem('Location', this.props.history.location.pathname);
   }
 
   /**
