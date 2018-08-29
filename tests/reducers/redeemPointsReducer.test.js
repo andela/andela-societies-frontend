@@ -8,14 +8,12 @@ import {
   createRedeemPointsFailure,
   fetchRedemptionsRequest,
   fetchRedemptionsSuccess,
-} from '../../src/actions/redeemPointsAction';
-
-import {
+  updateRedemptionRequest,
+  updateRedemptionSuccess,
   verifyRedemptionRequest,
   verifyRedemptionSuccess,
   verifyRedemptionFailure,
-} from '../../src/actions/verifyRedemptionActions';
-
+} from '../../src/actions/redeemPointsAction';
 
 // types
 import { FETCH_REDEMPTIONS_FAILURE } from '../../src/types';
@@ -63,15 +61,16 @@ describe('Redeem points reducer', () => {
     expect(redeemPointsReducer(defaultState, createRedeemPointsSuccessAction)).toEqual(expectedOutput);
   });
 
-  it('should return reqesting state false when CREATE_REDEEM_POINTS_FAILURE action is provided', () => {
-    const error = 'There was an error while processing your request.';
+  it('should return hasError state true when CREATE_REDEEM_POINTS_FAILURE action is provided', () => {
+    const error = new Error('An error has occurred while processing your request.');
     const expectedOutput = {
       ...defaultState,
       message: {
         type: 'error',
-        text: 'There was an error while processing your request.',
+        text: 'An error has occurred while processing your request.',
       },
-      requesting: false,
+      error,
+      hasError: true,
     };
     expect(redeemPointsReducer(defaultState, createRedeemPointsFailure(error))).toEqual(expectedOutput);
   });
@@ -109,7 +108,7 @@ describe('Redeem points reducer', () => {
     expect(redeemPointsReducer(defaultState, { type: FETCH_REDEMPTIONS_FAILURE })).toEqual(expectedOutput);
   });
 
-  it('should set updating to true for FETCH_REDEMPTIONS_REQUEST', () => {
+  it('should set updating to true for VERIFY_REDEMPTION_REQUEST', () => {
     expect(redeemPointsReducer(defaultState, verifyRedemptionRequest())).toEqual({
       ...defaultState,
       updating: true,
@@ -135,5 +134,43 @@ describe('Redeem points reducer', () => {
       error: { error: 404 },
     };
     expect(redeemPointsReducer(defaultState, verifyRedemptionFailure({ error: 404 }))).toEqual(expectedOutput);
+  });
+
+  // Update Redemptions
+  it('should return requesting state true when UPDATE_REDEMPTION_REQUEST action is provided', () => {
+    const expectedOutput = {
+      ...defaultState,
+      message: {
+        type: 'info',
+        text: 'Sending ...',
+      },
+      requesting: true,
+    };
+    expect(redeemPointsReducer(defaultState, updateRedemptionRequest())).toEqual(expectedOutput);
+  });
+
+  it('should update redemption successfully ', () => {
+    const updatedRedemption = {
+      ...redemption,
+      reason: 'For t-shirts edited',
+    };
+    const updateRedemptionSuccessAction = updateRedemptionSuccess(updatedRedemption);
+    const newRedemptions = defaultState.redemptions.map((r) => {
+      if (r.id === redemption.id) {
+        return updatedRedemption;
+      }
+      return r;
+    });
+
+    const expectedOutput = {
+      ...defaultState,
+      message: {
+        type: 'success',
+        text: 'Successfully edited redemption',
+      },
+      redemptions: newRedemptions,
+      requesting: false,
+    };
+    expect(redeemPointsReducer(defaultState, updateRedemptionSuccessAction)).toEqual(expectedOutput);
   });
 });

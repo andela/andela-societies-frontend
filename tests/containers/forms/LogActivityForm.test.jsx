@@ -1,73 +1,86 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
+import moment from 'moment';
+import { stub, spy } from 'sinon';
+
 import LogActivityForm from '../../../src/containers/forms/LogActivityForm';
 import categories from '../../../src/fixtures/categories';
+import activity from '../../../src/fixtures/activity';
 
 const successMessage = {
   type: 'success',
   text: 'Activity Logged Successfully',
 };
 
-const infoMessage = {
-  type: 'info',
-  text: 'Sending ...',
-};
-
 const defaultState = {
   activityTypeId: '',
-  date: '',
+  activityDate: '',
   description: '',
-  errors: [],
-  message: null,
+  errors: {},
+  numberOf: '',
+  btnText: 'Log',
+  formTitle: 'Log An Activity',
 };
 
-const event = { preventDefault: () => {} };
-
 describe('<LogActivityForm />', () => {
-  let wrapper;
+  let shallowWrapper;
   let mounted;
+  const createActivity = jest.fn();
+  const updateActivity = jest.fn();
+  const updateSelectedItem = jest.fn();
+
+
   beforeEach((() => {
-    wrapper = shallow(<LogActivityForm.WrappedComponent
+    shallowWrapper = shallow(<LogActivityForm.WrappedComponent
       categories={categories}
-      closeModal={() => { }}
-      createActivity={() => { }}
+      closeModal={stub()}
+      createActivity={createActivity}
     />);
-    jest.spyOn(event, 'preventDefault');
+
+    mounted = mount(<LogActivityForm.WrappedComponent
+      updateActivity={updateActivity}
+      closeModal={stub()}
+      categories={categories}
+      createActivity={createActivity}
+      selectedItem={activity}
+      updateSelectedItem={updateSelectedItem}
+    />);
+    updateActivity.mockClear();
   }));
 
-  it('should render withour crashing', () => {
-    expect(wrapper).toHaveLength(1);
+  it('should render without crashing', () => {
+    expect(shallowWrapper).toHaveLength(1);
   });
 
   it('should show the <DateField/> component when it has loaded', () => {
-    expect(wrapper.find('DateField').length).toEqual(1);
+    expect(shallowWrapper.find('DateField').length).toEqual(1);
   });
 
   it('should show the <Select/> component when it has loaded', () => {
-    expect(wrapper.find('Select').length).toEqual(1);
+    expect(shallowWrapper.find('Select').length).toEqual(1);
   });
 
   it('should render <Select/> with the correct number of options', () => {
-    wrapper.setProps({ categories });
-    expect(wrapper.find('Select').dive().find('option').length).toBe(4);
+    shallowWrapper.setProps({ categories });
+    expect(shallowWrapper.find('Select').dive().find('option').length).toBe(4);
   });
 
   it('should show the <SingleInput/> component when it has loaded', () => {
-    wrapper.setState({ selectValue: 'eef0e594-43cd-11e8-87a7-9801a7ae0329' });
-    expect(wrapper.find('SingleInput').length).toEqual(1);
+    shallowWrapper.setState({ activityTypeId: 'id1' });
+    expect(shallowWrapper.find('SingleInput').length).toEqual(1);
   });
 
   it('should render the SingleInput with the correct label', () => {
-    wrapper.setState({ selectValue: 'eef0e594-43cd-11e8-87a7-9801a7ae0329' });
-    expect(wrapper.find('SingleInput').dive().find('.formField__label').text()).toEqual('# of interviewees');
+    shallowWrapper.setState({ activityTypeId: 'id1' });
+    expect(shallowWrapper.find('SingleInput').dive().find('.formField__label').text()).toEqual('# of interviewees');
   });
 
   it('should show the <TextArea/> component when it has loaded', () => {
-    expect(wrapper.find('TextArea').length).toEqual(1);
+    expect(shallowWrapper.find('TextArea').length).toEqual(1);
   });
   it('should show the <Button/> component when it has loaded', () => {
-    wrapper.setState({ loading: false });
-    const inputComponent = wrapper.find('Button');
+    shallowWrapper.setState({ loading: false });
+    const inputComponent = shallowWrapper.find('Button');
     expect(inputComponent.length).toEqual(2);
   });
 
@@ -79,28 +92,7 @@ describe('<LogActivityForm />', () => {
       message={successMessage}
     />);
     const currentState = Object.assign({}, defaultState);
-    currentState.message = successMessage;
     expect(mounted.state()).toEqual(currentState);
-  });
-
-  it('should set message in state if not a success message', () => {
-    mounted = mount(<LogActivityForm.WrappedComponent
-      categories={categories}
-      closeModal={() => { }}
-      createActivity={() => { }}
-      message={infoMessage}
-    />);
-    expect(mounted.state().message.type).toEqual('info');
-  });
-
-  it('should set message in state', () => {
-    mounted = mount(<LogActivityForm.WrappedComponent
-      categories={categories}
-      closeModal={() => { }}
-      createActivity={() => { }}
-      message={infoMessage}
-    />);
-    expect(mounted.state().message.type).toEqual('info');
   });
 
   it('should handle change event and update state', () => {
@@ -121,37 +113,88 @@ describe('<LogActivityForm />', () => {
       createActivity={() => { }}
     />);
     const instance = mounted.instance();
+    jest.spyOn(instance, 'selectedCategory');
+    instance.selectedCategory();
     instance.setState({
-      activityTypeId: 'asd78sad8ads8ad7',
-      date: '2018-12-12',
+      activityTypeId: 'id1',
+      activityDate: '2018-12-12',
     }, () => {
       instance.resetState();
     });
     expect(instance.state).toEqual(defaultState);
   });
 
-  it('should call preventDefault and resetState when canceModal is invoked', () => {
-    const instance = wrapper.instance();
+  it('should resetState when canceModal is invoked', () => {
+    const instance = shallowWrapper.instance();
     jest.spyOn(instance, 'cancelModal');
     jest.spyOn(instance, 'resetState');
-    instance.cancelModal(event);
-    expect(event.preventDefault).toHaveBeenCalled();
+    instance.cancelModal();
     expect(instance.resetState).toHaveBeenCalled();
+    expect(instance.cancelModal).toHaveBeenCalled();
   });
 
   it('should run renderValidationError when handleAddEvent is called', () => {
-    const instance = wrapper.instance();
+    const instance = shallowWrapper.instance();
     jest.spyOn(instance, 'handleAddEvent');
     jest.spyOn(instance, 'renderValidationError');
-    instance.handleAddEvent(event, 'date');
+    instance.handleAddEvent('date');
     expect(instance.renderValidationError).toHaveBeenCalled();
   });
 
   it('should run renderValidationError when handleAddEvent is called', () => {
-    const instance = wrapper.instance();
+    const instance = shallowWrapper.instance();
     jest.spyOn(instance, 'handleAddEvent');
     jest.spyOn(instance, 'renderValidationError');
-    instance.handleAddEvent(event, 'date');
+    instance.handleAddEvent('date');
     expect(instance.renderValidationError).toHaveBeenCalled();
+  });
+
+  it('should add numberOf to errors fields if is not set when bootcamp interviews is selected', () => {
+    const instance = shallowWrapper.instance();
+    jest.spyOn(instance, 'handleAddEvent');
+    shallowWrapper.setState({ activityTypeId: 'id1' });
+    instance.handleAddEvent();
+    expect(Object.keys(instance.state.errors)).toContain('numberOf');
+  });
+
+  it('should call createActivity if data is valid', () => {
+    const instance = shallowWrapper.instance();
+    const today = moment().format('YYYY-MM-DD');
+    jest.spyOn(instance, 'handleAddEvent');
+    shallowWrapper.setState({
+      activityTypeId: 'id2',
+      activityDate: today,
+      description: 'Qwerty',
+      category: 'Participating in a tech event',
+    });
+    instance.handleAddEvent();
+    expect(createActivity).toHaveBeenCalled();
+  });
+
+  it('should populate state with values from selectedItem', () => {
+    expect(mounted.state().activityDate).toEqual('November 3, 2017');
+  });
+
+  it('should call update activity thunk when submitting a selected activity', () => {
+    const instance = mounted.instance();
+    jest.spyOn(instance, 'handleAddEvent');
+    const today = moment().format('YYYY-MM-DD');
+
+    const selectedItem = {
+      activityTypeId: 'id2',
+      activityDate: today,
+      description: 'Qwerty',
+      category: 'Participating in a tech event',
+    };
+    instance.setState({ ...selectedItem, errors: {} });
+    instance.handleAddEvent();
+    expect(updateSelectedItem).toHaveBeenCalled();
+    expect(updateActivity).toHaveBeenCalled();
+  });
+
+  it('should call componentDidUpdate', () => {
+    const componentDidUpdateSpy = spy(LogActivityForm.WrappedComponent.prototype, 'componentDidUpdate');
+    shallowWrapper.setProps({ message: { ...successMessage, text: 'this text' } });
+    expect(componentDidUpdateSpy.called).toBeTruthy();
   });
 });

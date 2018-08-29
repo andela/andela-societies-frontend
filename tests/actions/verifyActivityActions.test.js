@@ -2,6 +2,7 @@ import moxios from 'moxios';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 
+// actions
 import {
   verifyActivityRequest,
   verifyActivitySuccess,
@@ -11,6 +12,8 @@ import {
   verifyActivitiesOpsFailure,
   verifyActivitiesOps,
 } from '../../src/actions/verifyActivityActions';
+
+// types
 import {
   VERIFY_ACTIVITY_SUCCESS,
   VERIFY_ACTIVITY_FAILURE,
@@ -19,16 +22,25 @@ import {
   VERIFY_ACTIVITY_OPS_FAILURE,
   VERIFY_ACTIVITY_OPS_SUCCESS,
 } from '../../src/types';
-import storeFixture from '../../src/fixtures/store';
+
+// fixtures
 import activity from '../../src/fixtures/activity';
 import { approvedActivities } from '../../src/fixtures/society';
+
+// constants
+import clickActions from './../../src/constants/clickAction';
+
+// config
 import config from '../../config';
 
 const mockStore = configureMockStore([thunk]);
 let store;
 
 describe('Verify Activity Actions', () => {
-  beforeEach(() => moxios.install());
+  beforeEach(() => {
+    moxios.install();
+    store = mockStore({});
+  });
   afterEach(() => moxios.uninstall());
 
   it('should create an action to verify an activity', () => {
@@ -54,32 +66,7 @@ describe('Verify Activity Actions', () => {
     expect(verifyActivitySuccess(activity)).toEqual(expectedAction);
   });
 
-  it('dispatches VERIFY_ACTIVITY_SUCCESS after successfuly updating the activity status', () => {
-    store = mockStore({ societyActivities: storeFixture.societyActivities });
-
-    const expectedActions = [
-      {
-        type: VERIFY_ACTIVITY_REQUEST,
-      },
-      {
-        type: VERIFY_ACTIVITY_SUCCESS,
-        activity,
-      },
-    ];
-
-    moxios.stubRequest(`${config.API_BASE_URL}/logged-activities/${activity.id}`, {
-      status: 200,
-      response: { data: activity },
-    });
-
-    return store.dispatch(verifyActivity(true, activity.id)).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
-  });
-
   it('dispatches VERIFY_ACTIVITY_SUCCESS after successfuly updating the activity status to rejected', () => {
-    store = mockStore({ societyActivities: storeFixture.societyActivities });
-
     const expectedActions = [
       {
         type: VERIFY_ACTIVITY_REQUEST,
@@ -90,19 +77,17 @@ describe('Verify Activity Actions', () => {
       },
     ];
 
-    moxios.stubRequest(`${config.API_BASE_URL}/logged-activities/${activity.id}`, {
+    moxios.stubRequest(`${config.API_BASE_URL}/logged-activities/review/${activity.id}`, {
       status: 200,
       response: { data: activity },
     });
 
-    return store.dispatch(verifyActivity(false, activity.id)).then(() => {
+    return store.dispatch(verifyActivity(clickActions.REJECT, activity.id)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
 
   it('dispatches VERIFY_ACTIVITY_FAILURE when updating the activity fails', () => {
-    store = mockStore({ societyActivities: storeFixture.societyActivities });
-
     const expectedActions = [
       {
         type: VERIFY_ACTIVITY_REQUEST,
@@ -113,12 +98,9 @@ describe('Verify Activity Actions', () => {
       },
     ];
 
-    moxios.stubRequest(`${config.API_BASE_URL}/logged-activities/${activity.id}`, {
-      status: 401,
-      response: {},
-    });
+    moxios.stubRequest(`${config.API_BASE_URL}/logged-activities/review/${activity.id}`, { status: 401 });
 
-    return store.dispatch(verifyActivity(true, activity.id)).then(() => {
+    return store.dispatch(verifyActivity(clickActions.APPROVE, activity.id)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
@@ -133,7 +115,6 @@ describe('Verify Activity Actions', () => {
   });
 
   it('dispatches VERIFY_ACTIVITY_OPS_SUCCES action when verifying activities is successful', () => {
-    store = mockStore({ societyActivities: storeFixture.societyActivities });
     const activityIds = ['bnfad176-43cd-11e8-b3b9-9801a7ae0329'];
     const expectedActions = [
       {
@@ -146,7 +127,7 @@ describe('Verify Activity Actions', () => {
       },
     ];
 
-    moxios.stubRequest(`${config.API_BASE_URL}/logged-activities`, {
+    moxios.stubRequest(`${config.API_BASE_URL}/approve/logged-activities/`, {
       status: 200,
       response: { data: approvedActivities },
     });
@@ -157,7 +138,6 @@ describe('Verify Activity Actions', () => {
   });
 
   it('dispatches VERIFY_ACTIVITY_OPS_FAILURE action when verifying activities is unsuccessful', () => {
-    store = mockStore({ societyActivities: storeFixture.societyActivities });
     const activityIds = ['bnfad176-43cd-11e8-b3b9-9801a7ae0329'];
     const expectedActions = [
       {
@@ -169,7 +149,7 @@ describe('Verify Activity Actions', () => {
       },
     ];
 
-    moxios.stubRequest(`${config.API_BASE_URL}/logged-activities`, {
+    moxios.stubRequest(`${config.API_BASE_URL}/approve/logged-activities/`, {
       status: 400,
     });
 

@@ -13,18 +13,23 @@ import FormError from '../../components/formErrors/FormError';
 import SnackBar from '../../components/notifications/SnackBar';
 
 // thunk
-import { redeemPoints } from '../../actions/redeemPointsAction';
+import { redeemPoints, updateRedemption } from '../../actions/redeemPointsAction';
 
 // helpers
-import validateFormFields from '../../helpers/validateForm';
+import validateFormFields from '../../helpers/validate';
 import pointsToDollarConverter from '../../helpers/pointsToDollarsConverter';
 
 // fixtures
 import centers from '../../fixtures/centers';
 
+// constants
+import SNACKBARTIMEOUT from '../../constants/snackbarTimeout';
+
 class RedeemPointsForm extends Component {
   static defaultProps = {
     message: {},
+    selectedItem: {},
+    updateSelectedItem: () => { },
   };
   /**
    * @name propTypes
@@ -32,10 +37,34 @@ class RedeemPointsForm extends Component {
   static propTypes = {
     closeModal: PropTypes.func.isRequired,
     redeemPoints: PropTypes.func.isRequired,
+    updateRedemption: PropTypes.func.isRequired,
     message: PropTypes.shape({
       type: PropTypes.string,
       text: PropTypes.string,
     }),
+    selectedItem: PropTypes.shape({ id: PropTypes.string }),
+    updateSelectedItem: PropTypes.func,
+  }
+
+  static getDerivedStateFromProps = (props, state) => {
+    const { selectedItem } = props;
+    if (selectedItem.id) {
+      const center = selectedItem.center.name;
+      const points = selectedItem.value.toString();
+      const reason = selectedItem.name;
+      const dollars = pointsToDollarConverter(selectedItem.value).toString();
+      const formTitle = 'Edit Redemption Request Form';
+      const btnText = 'Edit';
+      return {
+        center,
+        points,
+        reason,
+        dollars,
+        formTitle,
+        btnText,
+      };
+    }
+    return state;
   }
 
   constructor(props) {
@@ -45,7 +74,9 @@ class RedeemPointsForm extends Component {
       points: '',
       reason: '',
       dollars: '0.00',
-      errors: [],
+      errors: {},
+      formTitle: 'Redeem Points',
+      btnText: 'Redeem',
     };
   }
 
@@ -56,9 +87,9 @@ class RedeemPointsForm extends Component {
    */
   componentDidUpdate(prevProps) {
     const { type } = this.props.message;
-    if (type !== prevProps.message.type) {
-      if (type === 'success') {
-        setTimeout(() => { this.handleCloseModal(); }, 2000);
+    if (prevProps.message) {
+      if (type !== prevProps.message.type && type === 'success') {
+        setTimeout(() => { this.handleCloseModal(); }, SNACKBARTIMEOUT);
       }
     }
   }
@@ -75,10 +106,9 @@ class RedeemPointsForm extends Component {
     if (name === 'points') {
       this.setState(() => ({ dollars: pointsToDollarConverter(value) }));
     }
-    if (!this.state[value]) {
-      const errors = this.state.errors.filter(error => (error !== name));
-      this.setState({ errors });
-    }
+    const errors = { ...this.state.errors };
+    if (event.target.value) delete errors[event.target.name];
+    this.setState({ errors });
   }
 
   /**
@@ -92,17 +122,28 @@ class RedeemPointsForm extends Component {
       points,
       reason,
     } = this.state;
+    const { selectedItem } = this.props;
 
     // check if the fields have errors. Dispatch an action if there are no errors
     this.setState({
       errors: validateFormFields({ center, points, reason }),
     }, () => {
-      if (this.state.errors.length === 0) {
-        this.props.redeemPoints({
-          center,
-          points,
-          reason,
-        });
+      if (Object.keys(this.state.errors).length === 0) {
+        if (selectedItem.id) {
+          this.props.updateSelectedItem(this.state);
+          this.props.updateRedemption({
+            id: selectedItem.id,
+            center,
+            points,
+            reason,
+          });
+        } else {
+          this.props.redeemPoints({
+            center,
+            points,
+            reason,
+          });
+        }
       }
     });
   }
@@ -117,7 +158,9 @@ class RedeemPointsForm extends Component {
       points: '',
       reason: '',
       dollars: '0.00',
-      errors: [],
+      errors: {},
+      formTitle: 'Redeem Points',
+      btnText: 'Redeem',
     });
   }
 
@@ -131,42 +174,52 @@ class RedeemPointsForm extends Component {
   }
 
   render() {
-    const { message } = this.props;
+    const { message, selectedItem } = this.props;
+    const {
+      formTitle,
+      btnText,
+      center,
+      points,
+      dollars,
+      errors,
+      reason,
+    } = this.state;
     return (
       <form>
-        <h3>Redeem Points</h3>
+        <h3>{formTitle}</h3>
         <Select
+          id={selectedItem.id}
           name='center'
           placeholder='Select center'
           options={centers}
           title='Center'
-          value={this.state.center}
+          value={center}
           handleChange={this.handleChange}
         />
-        <FormError errors={this.state.errors} fieldName='center' />
+        <FormError errors={errors} fieldName='center' />
         <SingleInput
           name='points'
           type='number'
           title='Points'
-          value={this.state.points}
+          value={points}
           additionalClass='formField__currency'
-          dollars={this.state.dollars}
+          dollars={dollars}
           handleChange={this.handleChange}
         />
-        <FormError errors={this.state.errors} fieldName='points' />
+        <FormError errors={errors} fieldName='points' />
         <TextArea
           title='Reason'
           rows={5}
           resize={false}
           name='reason'
-          value={this.state.reason}
+          value={reason}
           placeholder='reason for redemption'
           handleChange={this.handleChange}
         />
-        <FormError errors={this.state.errors} fieldName='reason' />
+        <FormError errors={errors} fieldName='reason' />
         <Button
           name='redeemButtonSubmit'
-          value='Redeem'
+          value={btnText}
           className='submitButton'
           onClick={this.handleSubmit}
         />
@@ -189,9 +242,7 @@ const mapStateToProps = state => ({
   societyId: state.userProfile.info.society.id,
 });
 
-
-const mapDispatchToProps = dispatch => ({
-  redeemPoints: redemption => dispatch(redeemPoints(redemption)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(RedeemPointsForm);
+export default connect(mapStateToProps, {
+  redeemPoints,
+  updateRedemption,
+})(RedeemPointsForm);

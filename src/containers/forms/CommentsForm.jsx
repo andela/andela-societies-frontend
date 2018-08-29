@@ -12,36 +12,72 @@ import FormError from '../../components/formErrors/FormError';
 import SnackBar from '../../components/notifications/SnackBar';
 
 // thunk
-import { verifyRedemption } from '../../actions/verifyRedemptionActions';
+import { verifyRedemption } from '../../actions/redeemPointsAction';
+import { requestMoreInfo } from '../../actions/commentActions';
 
 // helpers
-import validateFormFields from '../../helpers/validateForm';
+import validateFormFields from '../../helpers/validate';
 import pointsToDollarConverter from '../../../src/helpers/pointsToDollarsConverter';
+
+// fixtures
+import { moreInfoText, rejectionText } from '../../fixtures/commentsFormText';
+
+// constants
+import SNACKBARTIMEOUT from '../../constants/snackbarTimeout';
 
 class CommentsForm extends Component {
   static defaultProps = {
-    message: {},
+    message: {
+      type: '',
+      text: '',
+    },
     selectedItem: {},
+    closeModal: null,
+    requestMoreInfo: null,
+    verifyRedemption: null,
   };
   /**
    * @name propTypes
    */
   static propTypes = {
-    verifyRedemption: PropTypes.func.isRequired,
-    toggleOpenModal: PropTypes.func.isRequired,
+    selectedItem: PropTypes.shape({ id: PropTypes.string }),
+    verifyRedemption: PropTypes.func,
+    requestMoreInfo: PropTypes.func,
+    closeModal: PropTypes.func,
     message: PropTypes.shape({
       type: PropTypes.string,
       text: PropTypes.string,
     }),
-    selectedItem: PropTypes.shape({}),
+  }
+
+  static getDerivedStateFromProps = (props, state) => {
+    if (props.selectedItem.rejectClicked) {
+      return {
+        ...rejectionText,
+      };
+    }
+    return state;
   }
 
   constructor(props) {
     super(props);
     this.state = {
+      ...moreInfoText,
       comment: '',
-      errors: [],
+      errors: {},
     };
+  }
+
+  /**
+   * @function componentDidUpdate
+   * @summary Closes model after showing success message
+   * @param {Object} prevProps
+   */
+  componentDidUpdate(prevProps) {
+    const { message } = this.props;
+    if (prevProps.message.type !== message.type && message.type === 'success') {
+      setTimeout(() => this.handleCloseModal(), SNACKBARTIMEOUT);
+    }
   }
 
   /**
@@ -53,10 +89,9 @@ class CommentsForm extends Component {
     const { name, value } = event.target;
     this.setState(() => ({ [name]: value }));
 
-    if (!this.state[value]) {
-      const errors = this.state.errors.filter(error => (error !== name));
-      this.setState({ errors });
-    }
+    const errors = { ...this.state.errors };
+    if (event.target.value) delete errors[event.target.name];
+    this.setState({ errors });
   }
 
   /**
@@ -65,18 +100,16 @@ class CommentsForm extends Component {
    * @returns {void}
    */
   handleSubmit = () => {
-    const {
-      comment,
-    } = this.state;
+    const { comment } = this.state;
     const { selectedItem } = this.props;
     const errors = validateFormFields({ comment });
 
-    if (errors.length) {
+    if (Object.keys(errors).length) {
       this.setState({ errors });
-    } else {
-      this.props.verifyRedemption(selectedItem.id, false, comment);
-      this.resetState();
-      this.props.toggleOpenModal();
+    }
+    this.props.requestMoreInfo(selectedItem.id, comment);
+    if (selectedItem.clickAction === 'rejected') {
+      this.props.verifyRedemption(selectedItem.id, selectedItem.clickAction);
     }
   }
 
@@ -86,8 +119,9 @@ class CommentsForm extends Component {
    */
   resetState = () => {
     this.setState({
+      ...moreInfoText,
       comment: '',
-      errors: [],
+      errors: {},
     });
   }
 
@@ -96,7 +130,7 @@ class CommentsForm extends Component {
    * @summary handles the closing of the modal
    */
   handleCloseModal = () => {
-    this.props.toggleOpenModal();
+    this.props.closeModal();
     this.resetState();
   }
 
@@ -107,18 +141,39 @@ class CommentsForm extends Component {
    */
   renderItemDetails = (selectedItem) => {
     const {
-      society,
       center,
+      name,
       value,
-      reason,
+      society,
+      category,
+      points,
+      owner,
+      description,
     } = selectedItem;
-    const fields = {
-      society: society.name,
-      center: center.name,
-      points: value.toString(),
-      amount: `$${pointsToDollarConverter(value)}`,
-      reason,
-    };
+
+    let fields;
+    switch (selectedItem.itemType) {
+    case 'activity':
+      fields = {
+        category,
+        points: points.toString(),
+        description,
+        owner,
+        society: society.name,
+      };
+      break;
+    case 'redemption':
+      fields = {
+        society: society.name,
+        center: center.name,
+        points: value.toString(),
+        amount: `$${pointsToDollarConverter(value)}`,
+        reason: name,
+      };
+      break;
+    default:
+      return null;
+    }
     const displayNodes = Object.keys(fields).map(field =>
       <TextContent name={field} content={fields[field]} key={field} />);
     return displayNodes;
@@ -126,10 +181,16 @@ class CommentsForm extends Component {
 
   render() {
     const { message, selectedItem } = this.props;
-
+    const {
+      buttonText,
+      comment,
+      errors,
+      placeholderText,
+      title,
+    } = this.state;
     return (
       <form>
-        <div className='titleForm titleForm--comment'>Comment on Rejection</div>
+        <div className='titleForm titleForm--comment'>{title}</div>
         {
           Object.keys(selectedItem).length && this.renderItemDetails(selectedItem)
         }
@@ -138,14 +199,14 @@ class CommentsForm extends Component {
           rows={5}
           resize={false}
           name='comment'
-          value={this.state.comment}
-          placeholder='Reason why this request has been rejected'
+          value={comment}
+          placeholder={placeholderText}
           handleChange={this.handleChange}
         />
-        <FormError errors={this.state.errors} fieldName='comment' />
+        <FormError errors={errors} fieldName='comment' />
         <Button
           name='rejectionButtonSubmit'
-          value='Reject'
+          value={buttonText}
           className='submitButton'
           onClick={this.handleSubmit}
         />
@@ -163,8 +224,11 @@ class CommentsForm extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  verifyRedemption: (redemption, isApproved, comment) => (dispatch(verifyRedemption(redemption, isApproved, comment))),
+const mapStateToProps = state => ({
+  message: state.commentsInfo.message,
 });
 
-export default connect(null, mapDispatchToProps)(CommentsForm);
+export default connect(mapStateToProps, {
+  verifyRedemption,
+  requestMoreInfo,
+})(CommentsForm);

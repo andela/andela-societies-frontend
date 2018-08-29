@@ -1,0 +1,100 @@
+@import '../../assets/scss/_mixins';
+@import '../../assets/scss/_vars'; 
+
+.category {
+  background: white;
+  border: 0.1rem solid #eee;
+  padding: 1.5rem;
+  border-radius: 0.4rem;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  @include boxShadow(0, 0, 2.5rem, 0.5rem, $boxShadowGrey);
+}
+
+.category:hover {
+  @include boxShadow(0, 1.25rem, 1.25rem, -0.9375rem, $boxShadowBlack);
+  transform: translateY(-5px);
+}
+
+.category__left {
+  width: 7rem;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.category__right {
+  flex: 1;
+}
+
+.category__header {
+  display: flex;
+}
+
+
+.category__checkbox {
+  margin-left: auto;
+}
+
+.category__checkbox:hover {
+  cursor: pointer;
+}
+
+.category__content {
+  padding: 1.5rem 0;
+}
+
+.category__description {
+  font-weight: normal;
+  font-size: 1.7rem;
+  margin: 0;
+}
+
+.category__description__btn--more--less {
+  background: none;
+  padding: 0 auto;
+  border: none;
+  font: inherit;
+  color: $primary;
+  cursor: pointer;
+  outline: none;
+}
+
+.category__footer {
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}
+
+.category__footer::after {
+  @include clearfix;
+}
+
+.category__points {
+  display: block;
+  float: left;
+  line-height: 3rem;
+}
+
+.category__pointsCount {
+  font-size: 1.6rem;
+  margin-right: 1rem;
+}
+
+.deleteCategory__button {
+  display: block;
+  width: 6rem;
+  height: 3rem;
+  float: right;
+  position: relative;
+  opacity: 0.9;
+  padding: 0.3rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 0.4rem;
+
+  &:before {
+    content: '';
+    vertical-align: middle;
+    height: 1.2rem;
+  }
+}

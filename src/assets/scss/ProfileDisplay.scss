@@ -1,6 +1,9 @@
+@import '../../assets/scss/_vars'; 
+
 .profileDisplay {
   position: relative;
   padding: 0 2.4rem;
+  color: $black;
 }
 
 .profileDisplay__name {

@@ -9,6 +9,11 @@ import {
   redeemPoints,
   fetchRedemptionsRequest,
   fetchRedemption,
+  updateRedemptionRequest,
+  updateRedemptionFailure,
+  updateRedemptionSuccess,
+  updateRedemption,
+  verifyRedemption,
 } from '../../src/actions/redeemPointsAction';
 
 // types
@@ -19,6 +24,12 @@ import {
   FETCH_REDEMPTIONS_REQUEST,
   FETCH_REDEMPTIONS_SUCCESS,
   FETCH_REDEMPTIONS_FAILURE,
+  UPDATE_REDEMPTION_REQUEST,
+  UPDATE_REDEMPTION_FAILURE,
+  UPDATE_REDEMPTION_SUCCESS,
+  VERIFY_REDEMPTION_SUCCESS,
+  VERIFY_REDEMPTION_FAILURE,
+  VERIFY_REDEMPTION_REQUEST,
 } from '../../src/types';
 
 // helpers
@@ -29,6 +40,7 @@ import testProfile from '../../src/fixtures/userProfile';
 const mockStore = configureMockStore([thunk]);
 let store;
 const societyName = testProfile.society.id;
+const error = new Error('Request failed with status code 401');
 
 describe('Redeem Points Actions', () => {
   beforeEach(() => {
@@ -37,11 +49,11 @@ describe('Redeem Points Actions', () => {
   });
   afterEach(() => moxios.uninstall());
 
-  it('should dispatch redeem points request', () => {
+  it('should dispatch create redeem points request', () => {
     expect(createRedeemPointsRequest()).toEqual({ type: CREATE_REDEEM_POINTS_REQUEST });
   });
 
-  it('should dispatch redeem points failure', () => {
+  it('should dispatch create redeem points failure', () => {
     expect(createRedeemPointsFailure()).toEqual({ type: CREATE_REDEEM_POINTS_FAILURE });
   });
 
@@ -116,5 +128,109 @@ describe('Redeem Points Actions', () => {
     };
     return store.dispatch(fetchRedemption('Istelle'))
       .then(() => (expect(store.getActions()[1]).toEqual(expectedErrorAction)));
+  });
+
+  it('should dispatch update redemption request', () => {
+    expect(updateRedemptionRequest()).toEqual({ type: UPDATE_REDEMPTION_REQUEST });
+  });
+
+  it('should dispatch update redemption request failure', () => {
+    expect(updateRedemptionFailure()).toEqual({ type: UPDATE_REDEMPTION_FAILURE });
+  });
+
+  it('should dispatch update redemption request success', () => {
+    expect(updateRedemptionSuccess(redemption)).toEqual({ type: UPDATE_REDEMPTION_SUCCESS, redemption });
+  });
+
+  it('should update a redemption successfuly', () => {
+    moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem/${redemption.id}`, {
+      status: 200,
+      response: {
+        data: { ...redemption },
+      },
+    });
+
+    const expectedSuccessAction = {
+      type: UPDATE_REDEMPTION_SUCCESS,
+      redemption,
+    };
+    const updateData = {
+      id: redemption.id,
+      center: redemption.center.name,
+      points: redemption.value,
+      reason: redemption.reason,
+    };
+    return store.dispatch(updateRedemption(updateData))
+      .then(() => (expect(store.getActions()[1]).toEqual(expectedSuccessAction)));
+  });
+
+  it('should dispatch UPDATE_REDEMPTION_FAILURE if update redemption failed', () => {
+    moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem/${redemption.id}`, {
+      status: 401,
+    });
+
+    const expectedFailureAction = {
+      type: UPDATE_REDEMPTION_FAILURE,
+      error,
+    };
+    const updateData = {
+      id: redemption.id,
+      center: redemption.center.name,
+      points: redemption.value,
+      reason: redemption.reason,
+    };
+    return store.dispatch(updateRedemption(updateData))
+      .then(() => (expect(store.getActions()[1]).toEqual(expectedFailureAction)));
+  });
+
+  describe('Verify redemption actions', () => {
+    it('dispatches VERIFY_REDEMPTION_SUCCESS after successfuly updating the redemption status to rejected', () => {
+      const updatedRedemption = {
+        ...redemption,
+        status: 'rejected',
+      };
+      const expectedActions = [
+        {
+          type: VERIFY_REDEMPTION_REQUEST,
+        },
+        {
+          type: VERIFY_REDEMPTION_SUCCESS,
+          redemption: updatedRedemption,
+        },
+      ];
+
+      moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem/verify/${updatedRedemption.id}`, {
+        status: 200,
+        response: { data: updatedRedemption },
+      });
+
+      return store.dispatch(verifyRedemption(redemption.id, 'rejected')).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+    });
+
+    it('dispatches VERIFY_REDEMPTION_FAILURE when rejecting a redemption fails', () => {
+      const updatedRedemption = {
+        ...redemption,
+        status: 'rejected',
+      };
+      const expectedActions = [
+        {
+          type: VERIFY_REDEMPTION_REQUEST,
+        },
+        {
+          type: VERIFY_REDEMPTION_FAILURE,
+          error: new Error('Request failed with status code 401'),
+        },
+      ];
+
+      moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem/verify/${updatedRedemption.id}`, {
+        status: 401,
+      });
+
+      return store.dispatch(verifyRedemption(redemption.id, 'rejected')).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+    });
   });
 });

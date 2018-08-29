@@ -6,8 +6,8 @@ import React from 'react';
  * @returns {React.Element} to display a loader
  */
 const Loader = () => (
-  <div className='loader-wrapper'>
-    <div className='loader' />
+  <div className='spinner-wrapper'>
+    <div className='spinner' />
   </div>);
 
 export default Loader;

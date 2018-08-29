@@ -1,10 +1,12 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import FormErrors from '../../../src/components/formErrors/FormError';
+import capitalizeString from '../../../src/helpers/stringFormatter';
 
 describe('<FormErrors />', () => {
+  const field = 'center';
   const props = {
-    errors: ['center'],
+    errors: { [field]: `${capitalizeString(field)} is required` },
     fieldName: 'center',
   };
   const shallowWrapper = shallow(<FormErrors {...props} />);

@@ -38,7 +38,6 @@ describe('<TruncateDescription />', () => {
 
   it('should not show More button when description is short', () => {
     const shallowWrapper = setUpWrapper({ description: 'Lorem ipsum dolor sit amet.' });
-    expect(shallowWrapper.state().description).toEqual('Lorem ipsum dolor sit amet.');
     expect(shallowWrapper.find('.activity__description__btn--more--less').length).toBe(0);
   });
 });

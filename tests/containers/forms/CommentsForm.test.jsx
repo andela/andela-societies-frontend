@@ -2,15 +2,20 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import CommentsForm from '../../../src/containers/forms/CommentsForm';
 import { redemption } from '../../../src/fixtures/redemptions';
+import { moreInfoText } from '../../../src/fixtures/commentsFormText';
+import activity from '../../../src/fixtures/activity';
 
 const defaultState = {
   comment: '',
-  errors: [],
+  errors: {},
+  ...moreInfoText,
 };
 
 const event = { preventDefault: () => { } };
 const verifyRedemption = jest.fn();
-const toggleOpenModal = jest.fn();
+const closeModal = jest.fn();
+const deselectItem = jest.fn();
+const requestMoreInfo = jest.fn();
 
 describe('<CommentsForm />', () => {
   let shallowWrapper;
@@ -18,15 +23,16 @@ describe('<CommentsForm />', () => {
   beforeEach((() => {
     shallowWrapper = shallow(<CommentsForm.WrappedComponent
       verifyRedemption={verifyRedemption}
-      toggleOpenModal={toggleOpenModal}
     />);
     mountedWrapper = mount(<CommentsForm.WrappedComponent
       verifyRedemption={verifyRedemption}
-      toggleOpenModal={toggleOpenModal}
+      selectedItem={redemption}
+      requestMoreInfo={requestMoreInfo}
+      closeModal={closeModal}
+      deselectItem={deselectItem}
     />);
     jest.spyOn(event, 'preventDefault');
     verifyRedemption.mockClear();
-    toggleOpenModal.mockClear();
   }));
 
   it('should render withour crashing', () => {
@@ -59,34 +65,36 @@ describe('<CommentsForm />', () => {
     expect(instance.state).toEqual(defaultState);
   });
 
-  it('should call verifyRedemption thunk when submitted', () => {
-    const wrapper = mount(<CommentsForm.WrappedComponent
-      verifyRedemption={verifyRedemption}
-      toggleOpenModal={toggleOpenModal}
-      selectedItem={redemption}
-    />);
-    const instance = wrapper.instance();
+  it('should call verifyRedemption thunk when redemption is submitted ', () => {
+    mountedWrapper.setProps({ selectedItem: { ...redemption, clickAction: 'rejected' } });
+    const instance = mountedWrapper.instance();
     instance.setState({ comment: 'Be more specific' });
     instance.handleSubmit();
     expect(verifyRedemption).toHaveBeenCalled();
   });
 
-  it('should display error message if submit is done without comment', () => {
-    const wrapper = mount(<CommentsForm.WrappedComponent
-      verifyRedemption={verifyRedemption}
-      toggleOpenModal={toggleOpenModal}
-      selectedItem={redemption}
-    />);
-    const instance = wrapper.instance();
-    instance.setState({ comment: '' });
+  it('should call requestMoreInfo thunk when an activity is submitted ', () => {
+    mountedWrapper.setProps({ selectedItem: activity });
+    const instance = mountedWrapper.instance();
+    instance.setState({ comment: 'Be more specific' });
     instance.handleSubmit();
-    expect(instance.state.errors.length).toBe(1);
-    expect(instance.state.errors).toContain('comment');
+    expect(requestMoreInfo).toHaveBeenCalled();
   });
 
-  it('should call toggleOpenModal when handleCloseModal is invoked to close the modal', () => {
-    const instance = mountedWrapper.instance();
-    instance.handleCloseModal();
-    expect(toggleOpenModal).toHaveBeenCalled();
+  describe('Button Actions', () => {
+    it('should call closeModal prop and resetState function when handleCloseModal is called', () => {
+      const instance = mountedWrapper.instance();
+      jest.spyOn(instance, 'resetState');
+      instance.handleCloseModal();
+      expect(closeModal).toHaveBeenCalled();
+      expect(instance.resetState).toHaveBeenCalled();
+    });
+
+    it('should should not submit in without comment', () => {
+      const instance = mountedWrapper.instance();
+      jest.spyOn(instance, 'handleCloseModal');
+      instance.handleSubmit();
+      expect(Object.keys(instance.state.errors)).toHaveLength(1);
+    });
   });
 });

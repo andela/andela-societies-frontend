@@ -4,6 +4,7 @@ const categories = [
     id: 'id1',
     name: 'Bootcamp Interviews',
     value: 20,
+    supportsMultipleParticipants: 1,
   },
   {
     description: 'Participating in a press interview for Andela marketing',

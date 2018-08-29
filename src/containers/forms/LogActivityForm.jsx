@@ -1,16 +1,25 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+// components
 import SnackBar from '../../components/notifications/SnackBar';
 import SingleInput from '../../common/SingleInput';
 import DateField from '../../common/DateField';
 import Select from '../../common/Select';
 import Button from '../../common/Button';
 import TextArea from '../../common/TextArea';
+
+// actions
 import { createActivity } from '../../actions/activityActions';
+import { updateActivity } from '../../actions/myActivitiesActions';
+
+// helpers
 import validateFormFields from '../../helpers/validate';
-import capitalizeString from '../../helpers/stringFormatter';
+import labels from '../../fixtures/labels';
+
+// constants
+import SNACKBARTIMEOUT from '../../constants/snackbarTimeout';
 
 /**
    * @name LogActivityForm
@@ -18,6 +27,14 @@ import capitalizeString from '../../helpers/stringFormatter';
    * @returns Returns a form
    */
 class LogActivityForm extends Component {
+  static defaultProps = {
+    selectedItem: {},
+    updateSelectedItem: () => { },
+    message: {
+      type: '',
+      text: '',
+    },
+  }
   /**
    * @name propTypes
    * @type {PropType}
@@ -27,22 +44,40 @@ class LogActivityForm extends Component {
     categories: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     closeModal: PropTypes.func.isRequired,
     createActivity: PropTypes.func.isRequired,
+    updateActivity: PropTypes.func.isRequired,
+    selectedItem: PropTypes.shape({ id: PropTypes.string }),
+    updateSelectedItem: PropTypes.func,
+    message: PropTypes.shape({
+      type: PropTypes.string,
+      text: PropTypes.string,
+    }),
   };
 
-  static getDerivedStateFromProps = (nextProps) => {
-    // clear form fields if activity was logged successfully
-    if (nextProps.message && nextProps.message.type === 'success') {
+  static getDerivedStateFromProps = (nextProps, state) => {
+    const { selectedItem } = nextProps;
+    if (selectedItem.id) {
+      const {
+        description,
+        category,
+        activityDate,
+        numberOf,
+        activityTypeId,
+      } = selectedItem;
+
+      const formTitle = 'Edit Activity Request Form';
+      const btnText = 'Update';
       return {
-        activityTypeId: '',
-        date: '',
-        description: '',
-        errors: [],
-        message: nextProps.message,
+        activityDate,
+        description,
+        category,
+        numberOf,
+        formTitle,
+        btnText,
+        activityTypeId,
+        errors: {},
       };
     }
-    return {
-      message: nextProps.message,
-    };
+    return state;
   };
 
   /**
@@ -53,11 +88,39 @@ class LogActivityForm extends Component {
     super(props);
     this.state = {
       activityTypeId: '',
-      date: '',
+      numberOf: '',
+      activityDate: '',
       description: '',
-      errors: [],
-      message: null,
+      errors: {},
+      formTitle: 'Log An Activity',
+      btnText: 'Log',
     };
+  }
+
+  /**
+   * @name componentDidUpdate
+   * @summary Lifecycle method that is called when props changes
+   * @param {Object} prevProps
+   */
+  componentDidUpdate(prevProps) {
+    const { message } = prevProps;
+    if (message) {
+      if (prevProps.message.type !== this.props.message.type && this.props.message.type === 'success') {
+        setTimeout(() => {
+          this.cancelModal();
+        }, SNACKBARTIMEOUT);
+      }
+    }
+  }
+
+  /**
+   * @name setLabel
+   * @summary gets the appropriate label from the labels object
+   * @return {String} label
+   */
+  setLabel = () => {
+    const categoryName = this.selectedCategory().name.toLowerCase();
+    return Object.keys(labels).find(label => labels[label].includes(categoryName));
   }
 
   /**
@@ -67,26 +130,43 @@ class LogActivityForm extends Component {
    */
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
-    // if input value is not empty remove it from error list
-    if (!this.state[event.target.name]) {
-      const errors = this.state.errors.filter(error => !error.includes(event.target.name));
-      this.setState({ errors });
-    }
+    const errors = { ...this.state.errors };
+    if (event.target.value) delete errors[event.target.name];
+    this.setState({ errors });
   }
 
-  handleAddEvent = (event) => {
-    event.preventDefault();
-    const { activityTypeId, date, description } = this.state;
+  handleAddEvent = () => {
+    const {
+      activityTypeId,
+      activityDate,
+      description,
+      numberOf,
+    } = this.state;
     const activity = {
       activityTypeId,
-      date,
+      date: activityDate,
       description,
     };
+    const { selectedItem } = this.props;
+    if (this.requiresNumberOf()) {
+      activity.numberOf = numberOf;
+    }
     this.setState({
       errors: validateFormFields(activity),
     }, () => {
-      if (this.state.errors.length === 0) {
-        this.props.createActivity(activity);
+      if (Object.keys(this.state.errors).length === 0) {
+        if (selectedItem.id) {
+          this.props.updateSelectedItem(this.state);
+          this.props.updateActivity({
+            id: selectedItem.id,
+            date: activityDate,
+            description,
+            activityTypeId,
+            numberOf,
+          });
+        } else {
+          this.props.createActivity(activity);
+        }
       }
     });
   }
@@ -98,10 +178,12 @@ class LogActivityForm extends Component {
   resetState = () => {
     this.setState({
       activityTypeId: '',
-      date: '',
+      numberOf: '',
+      activityDate: '',
       description: '',
-      errors: [],
-      message: null,
+      errors: {},
+      formTitle: 'Log An Activity',
+      btnText: 'Log',
     });
   }
 
@@ -109,29 +191,45 @@ class LogActivityForm extends Component {
    * @name cancelModal
    * @summary reset state and close modal
    */
-  cancelModal = (event) => {
-    event.preventDefault();
-    this.resetState();
+  cancelModal = () => {
     this.props.closeModal();
+    this.resetState();
   }
 
-  renderValidationError = (field, replaceWord) => {
-    if (this.state.errors.indexOf(field) >= 0) {
-      return `${capitalizeString(replaceWord || field)} is required`;
+  /**
+   * @name selectedCategory
+   * @summary uses activityTypeId to find the selected category
+   * @return {Object} category
+   */
+  selectedCategory = () => this.props.categories.filter(category => category.id === this.state.activityTypeId)[0];
+
+  /**
+   * @name requiresNumberOf
+   * @summary determine whether a category should have a number of input
+   * @return {Boolean} whether a category should have a number of input
+   */
+  requiresNumberOf = () => {
+    const { activityTypeId } = this.state;
+    return activityTypeId && this.selectedCategory().supportsMultipleParticipants;
+  }
+
+  renderValidationError = (field) => {
+    if (typeof this.state.errors[field] !== 'undefined') {
+      return this.state.errors[field];
     }
     return '';
   }
 
   render() {
-    const { selectValue, message } = this.state;
-    const { categories } = this.props;
-
+    const { activityTypeId, numberOf } = this.state;
+    const { categories, message } = this.props;
+    const { formTitle, btnText, activityDate } = this.state;
     return (
       <form>
-        <div className='titleForm'>Log an Activity</div>
+        <div className='titleForm'>{formTitle}</div>
         <DateField
           handleChange={this.handleChange}
-          value={this.state.date}
+          value={activityDate}
         />
         <span className='validate__errors'>
           {this.renderValidationError('date')}
@@ -141,15 +239,27 @@ class LogActivityForm extends Component {
           placeholder='Select Category'
           options={categories}
           title='Activity Category'
-          value={this.state.activityTypeId}
+          value={activityTypeId}
           handleChange={this.handleChange}
         />
         <span className='validate__errors'>
           {this.renderValidationError('activityTypeId', 'Category')}
         </span>
         {
-          selectValue === 'eef0e594-43cd-11e8-87a7-9801a7ae0329' ?
-            <SingleInput type='number' name='text' title='# of interviewees' /> : ''
+          this.requiresNumberOf() ?
+            <Fragment>
+              <SingleInput
+                type='number'
+                name='numberOf'
+                title={`# of ${this.setLabel()}`}
+                value={numberOf}
+                handleChange={this.handleChange}
+              />
+              <span className='validate__errors'>
+                {this.renderValidationError('numberOf', `Number of ${this.setLabel()}`)}
+              </span>
+            </Fragment>
+            : null
         }
 
         <TextArea
@@ -167,7 +277,7 @@ class LogActivityForm extends Component {
         <div>
           <Button
             name='fellowButtonSubmit'
-            value='Log'
+            value={btnText}
             className={`submitButton ${message && message.type === 'info' ? 'submitButton--disabled' : ''}`}
             onClick={this.handleAddEvent}
           />
@@ -190,8 +300,7 @@ const mapStateToProps = state => ({
   message: state.myActivities.message,
 });
 
-const mapDispatchToProps = dispatch => ({
-  createActivity: activity => dispatch(createActivity(activity)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(LogActivityForm);
+export default connect(mapStateToProps, {
+  createActivity,
+  updateActivity,
+})(LogActivityForm);

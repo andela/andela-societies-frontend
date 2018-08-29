@@ -8,13 +8,16 @@ import MasonryLayout from '../containers/MasonryLayout';
 import ActivityCard from '../components/activities/ActivityCard';
 import Stats from '../components/sidebar/Stats';
 import Loader from '../components/loaders/Loader';
+import { APPROVED } from '../constants/statuses';
 
+import { openModal } from '../actions/showModalActions';
 import { fetchMyActivities } from '../actions/myActivitiesActions';
 import { fetchCategories } from '../actions/categoriesActions';
 import dateFormatter from '../helpers/dateFormatter';
 import statsGenerator from '../helpers/statsGenerator';
 import filterActivities from '../helpers/filterActivities';
 import { getUserInfo } from '../helpers/authentication';
+import clickActions from '../constants/clickAction';
 
 /**
  * @name MyActivities
@@ -26,15 +29,16 @@ class MyActivities extends Component {
   /**
    * @name propTypes
    * @type {PropType}
-   * @property {Function} fetchActivities - function(thunk) as a prop
+   * @property {Function} fetchMyActivities - function(thunk) as a prop
    * @property {Array} myActivities - Array of activities
    * @property {Boolean} requesting - React router history object
   */
   static propTypes = {
-    fetchActivities: PropTypes.func.isRequired,
+    fetchMyActivities: PropTypes.func.isRequired,
     fetchCategories: PropTypes.func.isRequired,
     categories: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     requesting: PropTypes.bool,
+    openModal: PropTypes.func,
   };
 
   /**
@@ -43,6 +47,7 @@ class MyActivities extends Component {
    * @property {Boolean} requesting - state of get request
   */
   static defaultProps = {
+    openModal: () => {},
     requesting: false,
   };
 
@@ -54,6 +59,7 @@ class MyActivities extends Component {
     return {
       allActivities: nextProps.myActivities,
       filteredActivities: nextProps.myActivities,
+      userCanEdit: true,
     };
   }
 
@@ -64,6 +70,10 @@ class MyActivities extends Component {
       filteredActivities: [],
       selectedStatus: 'All',
       initialStatus: 'All',
+      userCanEdit: false,
+      selectedActivity: {},
+      statsTitle: 'Approved activities',
+      statsSubTitle: 'Points earned',
     };
   }
 
@@ -73,7 +83,7 @@ class MyActivities extends Component {
    */
   componentDidMount() {
     const userId = getUserInfo() && getUserInfo().id;
-    this.props.fetchActivities(userId);
+    this.props.fetchMyActivities(userId);
     this.props.fetchCategories();
   }
 
@@ -87,6 +97,46 @@ class MyActivities extends Component {
       selectedStatus: status,
     });
   };
+
+  handleClick = (clickAction, myActivityId) => {
+    const { EDIT } = clickActions;
+    if (clickAction === EDIT) {
+      const selectedActivity = this.state.filteredActivities.find(activity => activity.id === myActivityId);
+      this.props.openModal();
+      this.setState({
+        selectedActivity,
+      });
+    }
+    return null;
+  }
+
+  updateSelectedActivity = (newValues) => {
+    const {
+      date,
+      category,
+      description,
+      numberOf,
+      activityTypeId,
+    } = newValues;
+
+    this.setState({
+      selectedActivity: {
+        ...this.state.selectedActivity,
+        category,
+        date,
+        description,
+        activityTypeId,
+        numberOf,
+      },
+    });
+  }
+
+  deselectActivity = () => {
+    this.setState(() => ({
+      selectedActivity: {},
+    }));
+  }
+
   /**
    * Render MyActivities Page
    * @return {Object} JSX for MyActivities component
@@ -96,11 +146,21 @@ class MyActivities extends Component {
       filteredActivities,
       selectedStatus,
       allActivities,
+      userCanEdit,
+      selectedActivity,
+      statsTitle,
+      statsSubTitle,
     } = this.state;
     const { requesting, categories } = this.props;
+    const approvedActivities = allActivities.filter(activities => activities.status === APPROVED);
 
     return (
-      <Page categories={categories}>
+      <Page
+        selectedItem={selectedActivity}
+        categories={categories}
+        deselectItem={this.deselectActivity}
+        updateSelectedItem={this.updateSelectedActivity}
+      >
         <div className='mainContent'>
           <div className='myActivities'>
             <PageHeader
@@ -109,22 +169,31 @@ class MyActivities extends Component {
               selectedStatus={selectedStatus}
             />
             <div className='activities'>
+              { requesting && <Loader /> }
               {
-                requesting ?
-                  <Loader />
-                  :
+                !requesting &&
                   <MasonryLayout
                     items={
-                      filteredActivities.map(activity => (
-                        <ActivityCard
-                          id={activity.id}
-                          category={activity.category}
-                          date={dateFormatter(activity.date)}
-                          description={activity.description || activity.activity}
-                          points={activity.points}
-                          status={activity.status}
-                        />
-                      ))
+                      filteredActivities.map((activity) => {
+                        const {
+                          id,
+                          category,
+                          activityDate,
+                          description,
+                          points,
+                          status,
+                        } = activity;
+                        return (<ActivityCard
+                          id={id}
+                          category={category}
+                          date={dateFormatter(activityDate)}
+                          description={description}
+                          points={points}
+                          status={status}
+                          userCanEdit={userCanEdit}
+                          handleClick={this.handleClick}
+                        />);
+                      })
                     }
                   />
               }
@@ -134,7 +203,7 @@ class MyActivities extends Component {
         <aside className='sideContent'>
           <Stats
             title='My Stats'
-            stats={statsGenerator(allActivities, 'Activities logged', 'Points earned')}
+            stats={statsGenerator(approvedActivities, statsTitle, statsSubTitle)}
           />
         </aside>
       </Page>
@@ -148,9 +217,8 @@ const mapStateToProps = state => ({
   categories: state.categories.categories,
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchActivities: userId => dispatch(fetchMyActivities(userId)),
-  fetchCategories: () => dispatch(fetchCategories()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(MyActivities);
+export default connect(mapStateToProps, {
+  fetchMyActivities,
+  fetchCategories,
+  openModal,
+})(MyActivities);

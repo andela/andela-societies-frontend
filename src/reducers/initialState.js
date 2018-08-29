@@ -18,10 +18,18 @@ const initialState = {
     },
     error: {},
   },
+  allActivities: {
+    requesting: false,
+    activities: [],
+    error: null,
+    updating: false,
+  },
   categories: {
     requesting: false,
     categories: [],
     error: {},
+    message: {},
+    updating: false,
   },
   societyActivities: {
     activities: [],
@@ -45,7 +53,15 @@ const initialState = {
     redemptions: [],
     hasError: false,
     updating: false,
+    error: {},
   },
+  commentsInfo: {
+    comment: [],
+    hasError: false,
+    message: {},
+    requesting: false,
+  },
+  showModal: false,
 };
 
 export default initialState;

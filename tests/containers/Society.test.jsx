@@ -21,5 +21,6 @@ const mounted = mount.bind(
 describe('<Society />', () => {
   it('should render without crashing', () => {
     expect(mounted).not.toThrow();
+    expect(mounted.length).toBe(1);
   });
 });

@@ -7,6 +7,14 @@
   padding: 1.5rem;
   border-radius: 0.4rem;
   display: flex;
+  transition: all 0.3s ease-in-out;
+  flex-wrap: wrap;
+  @include boxShadow(0, 0, 2.5rem, 0.5rem, $boxShadowGrey);
+}
+
+.activity:hover{
+  @include boxShadow(0, 1.25rem, 1.25rem, -0.9375rem, $boxShadowBlack);
+  transform: translateY(-5px);
 }
 
 .activity__left {
@@ -18,6 +26,10 @@
 
 .activity__right {
   flex: 1;
+
+  &--editable {
+    cursor: pointer;
+  }
 }
 
 .activity__owner {
@@ -80,6 +92,7 @@
 .activity__footer {
   font-size: 1.2rem;
   margin-top: 1rem;
+  width: 100%;
 }
 
 .activity__footer::after {
@@ -100,7 +113,7 @@
 .activity__status {
   display: block;
   float: right;
-  line-height: 1.4rem;
+  line-height: 3rem;
   position: relative;
 }
 
@@ -129,6 +142,9 @@
 .activity__status--rejected::before {
   background-color: $red;
 }
+.activity__status--completed::before{
+  background-color: $primary;
+}
 
 .verifyButtons__button {
   display: block;
@@ -150,7 +166,13 @@
   &--reject {
     background-color: $rejectButton;
     color: $black;
-    margin-right: 2rem;
+    margin-right: 1rem;
+  }
+
+  &--moreInfo, &--complete {
+    background-color: $googleButtonBlue;
+    color: $lightAccent;
+    margin-right: 1rem;
   }
 
   &:before {

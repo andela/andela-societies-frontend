@@ -29,6 +29,8 @@ const store = {
     requesting: false,
     categories: [],
     error: {},
+    message: {},
+    updating: false,
   },
   societyActivities: {
     activities: [],
@@ -46,11 +48,26 @@ const store = {
     },
     error: {},
   },
+  allActivities: {
+    requesting: false,
+    activities: [],
+    error: null,
+    updating: false,
+  },
   redeemPointsInfo: {
     message: {},
     requesting: false,
     redemptions: [],
     updating: false,
+  },
+  commentsInfo: {
+    comment: [],
+    hasError: false,
+    message: {},
+    requesting: false,
+  },
+  modalInfo:{
+    showModal: false,
   },
 };
 

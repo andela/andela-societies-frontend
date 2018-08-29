@@ -6,18 +6,23 @@ import PropTypes from 'prop-types';
    * @summary Returns a button
    * @returns Returns a button
    */
-const Button = props => (
-  <button
-    name={props.name}
-    className={props.className}
-    value={props.value}
-    type={props.type}
-    onClick={props.onClick}
-  >
-    {props.value}
-  </button>
-);
-
+const Button = (props) => {
+  const {
+    name, className, value, type, disabled, onClick,
+  } = props;
+  return (
+    <button
+      name={name}
+      className={className}
+      value={value}
+      type={type}
+      disabled={disabled}
+      onClick={onClick}
+    >
+      {value}
+    </button>
+  );
+};
 /**
  * @name defaultProps
  * @type {PropType}
@@ -25,6 +30,7 @@ const Button = props => (
  */
 Button.defaultProps = {
   type: 'button',
+  disabled: false,
 };
 /**
  * @name propTypes
@@ -40,6 +46,7 @@ Button.propTypes = {
   value: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   type: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 export default Button;

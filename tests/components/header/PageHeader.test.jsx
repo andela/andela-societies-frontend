@@ -1,10 +1,16 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
+// components
 import PageHeader from '../../../src/components/header/PageHeader';
 
+// constants
+import { STATUSES } from '../../../src/constants/statuses';
+
+// helpers
+import capitalizeString from '../../../src/helpers/stringFormatter';
+
 const props = {
-  changeFilterHandler: jest.fn(),
   filterActivities: jest.fn(),
   filterRedemptions: jest.fn(),
   handleChangeTab: jest.fn(),
@@ -12,25 +18,19 @@ const props = {
   selectedSociety: 'istelle',
   selectedStatus: 'All',
   showTabs: false,
-  statuses: ['All', 'In review', 'Pending', 'Rejected', 'Approved'],
   tabs: [],
   title: 'Invictus',
   handleApproveAllClick: () => {},
   handleSelectAllClick: () => {},
   showSelectAllApproveBtn: false,
-};
-
-const status = {
-  activeClass: 'filterOptions__option--active',
-  statuses: ['All', 'In review', 'Pending', 'Rejected', 'Approved'],
+  showSelectAllDeleteBtn: false,
+  disabled: false,
 };
 
 const wrapper = shallow(<PageHeader {...props} />);
+let capitalizedStatus;
 
 describe('<PageHeader />', () => {
-  wrapper.setState({
-    statuses: status.statuses,
-  });
   it('should have props passed to it', () => {
     expect(wrapper.instance().props).toEqual(props);
   });
@@ -40,19 +40,22 @@ describe('<PageHeader />', () => {
   });
 
   it('should display activity option filters', () => {
-    expect(wrapper.find('.filterOptions__option').length).toBe(status.statuses.length);
+    const statuses = Object.keys(STATUSES);
+    expect(wrapper.find('.filterOptions__option').length).toBe(statuses.length);
   });
 
   it('should display selected status as `selectedStatus`', () => {
     wrapper.setState({
-      selectedStatus: status.statuses[2],
+      selectedStatus: STATUSES[2],
     });
-    expect(wrapper.find('.filterOptions__button').text()).toBe(status.statuses[2]);
+    capitalizedStatus = capitalizeString(STATUSES[2]);
+    expect(wrapper.find('.filterOptions__button').text()).toBe(capitalizedStatus);
   });
   it('should `tick` against the selected option', () => {
     wrapper.setState({
-      selectedStatus: status.statuses[1],
+      selectedStatus: STATUSES[1],
     });
-    expect(wrapper.find(`.${status.activeClass}`).text()).toBe(status.statuses[1]);
+    capitalizedStatus = capitalizeString(STATUSES[1]);
+    expect(wrapper.find('.filterOptions__option--active').text()).toBe(capitalizedStatus);
   });
 });

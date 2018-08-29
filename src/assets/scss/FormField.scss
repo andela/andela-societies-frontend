@@ -1,3 +1,5 @@
+@import '../../assets/scss/_vars';
+
 .formField {
   display: flex;
   align-items: center;
@@ -21,13 +23,78 @@
     margin-top: 0;
     padding-bottom: .7rem;
   }
+
+  &--checkbox {
+    margin-top: 0;
+    width:25%;
+    padding-right: 3rem;
+    text-align: right;
+  }
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 6.0rem;
+  height: 3.4rem;
+
+  & input {
+    display: none;
+  
+    &:checked {
+    
+      + .slider {
+        background-color: $andelaBlue;
+      }
+    
+      + .slider:before {
+        -webkit-transform: translateX(2.6rem);
+        transform: translateX(2.6rem);
+      }
+    }
+  }
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 .1rem $andelaBlue;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #eee;
+  -webkit-transition: .3s;
+  transition: .3s;
+
+  &:before {
+    position: absolute;
+    content: "";
+    height: 2.6rem;
+    width: 2.6rem;
+    left: .4rem;
+    bottom: .4rem;
+    background-color: $lightAccent;
+    -webkit-transition: .3s;
+    transition: .3s;
+  }
+
+  &.round {
+    border-radius: 34px;
+  }
+
+  &.round:before {
+    border-radius: 50%;
+  }
 }
 
 .formField__control {
  flex: 1;
  height: 5rem;
  outline: none;
- margin-top: 2rem;
  font-size: large;
  border:0.1rem solid #eeeeee;
  border-radius: 0.5rem;
@@ -114,7 +181,6 @@
   font: normal normal normal 1.8rem/1 FontAwesome;
   color: black;
   right: 8rem;
-  top: 3rem;
   padding: 1rem 0rem 0rem 1rem;
   border-left: 0.1rem solid #eeeeeeee;
   position: absolute;
@@ -124,7 +190,8 @@
 
 .activityCategory select {
   -webkit-appearance: none;
-  -moz-appearance: none; 
+  -moz-appearance: none;
+  appearance: none;
   display: block;
   flex: 1;
   max-width: 100%;

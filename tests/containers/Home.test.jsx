@@ -33,7 +33,7 @@ describe('<Home />', () => {
   });
 
   it('should render a loader', () => {
-    expect(mountedWrapper.find('.loader').length).toBe(1);
+    expect(mountedWrapper.find('Loader').length).toBe(1);
   });
 
   it('should navigate cio user to the redemptions page', () => {

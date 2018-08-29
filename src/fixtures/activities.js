@@ -1,4 +1,4 @@
-const numberOfItems = 9;
+const numberOfItems = 4;
 
 const activity = {
   id: '',
@@ -7,9 +7,32 @@ const activity = {
   activity: '',
   points: 250,
   status: 'default',
+  owner: 'Lawrence Wachira',
+  activityDate: '2017-11-03',
+  name: 'insert name here',
+  society: '',
 };
 
+const activityIDs = ['8437fa68-8e6b-11e8-a05c-9801a7ae0330', '8437fa68-8e6b-11e8-a05c-9801a7ae0331',
+  '8437fa68-8e6b-11e8-a05c-9801a7ae0332', '8437fa68-8e6b-11e8-a05c-9801a7ae0333'];
 const statuses = ['pending', 'expired', 'approved', 'default'];
+const societies = [
+  {
+    id: '1',
+    name: 'iStelle',
+  },
+  {
+    id: '2',
+    name: 'invictus',
+  },
+  {
+    id: '3',
+    name: 'sparks',
+  },
+  {
+    id: '4',
+    name: 'phoenix',
+  }];
 
 const descriptions = [
   'Mentored teens how to code. (DBC 2016 at Redemption camp)',
@@ -22,9 +45,10 @@ const arr = [];
 for (let i = 0; i < numberOfItems; i += 1) {
   arr.push({
     ...activity,
-    id: Math.random().toString(),
+    id: activityIDs[Math.floor(Math.random() * activityIDs.length)],
     status: statuses[Math.floor(Math.random() * statuses.length)],
     activity: descriptions[Math.floor(Math.random() * descriptions.length)],
+    society: societies[Math.floor(Math.random() * societies.length)],
   });
 }
 

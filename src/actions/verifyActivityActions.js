@@ -45,15 +45,15 @@ export const verifyActivityFailure = error => (
 
 /**
  * @function verifyActivity thunk
+ * @summary Used to approve/reject an activity
+ * @param {String} clickAction - indicates the action clicked/status
+ * @param {String} activityId - id of activity
  * @returns {(dispatch) => Promise<AxiosResponse>}
  */
-export const verifyActivity = (isApproved, activityId) => (
+export const verifyActivity = (clickAction, activityId) => (
   (dispatch) => {
     dispatch(verifyActivityRequest());
-    return http.put(
-      `${config.API_BASE_URL}/logged-activities/${activityId}`,
-      { status: isApproved ? 'pending' : 'rejected' },
-    )
+    return http.put(`${config.API_BASE_URL}/logged-activities/review/${activityId}`, { status: clickAction })
       .then((response) => {
         dispatch(verifyActivitySuccess(response.data.data));
       })
@@ -73,7 +73,8 @@ export const verifyActivitiesOpsRequest = () => (
 
 /**
  * @name verifyActivitiesOpsSuccess
- * @param {Array} activities
+ * @param {Array} activities - activities approved
+ * @param {Array} activityIds - ids of the activities approved
  */
 export const verifyActivitiesOpsSuccess = (activities, activityIds) => (
   {
@@ -96,15 +97,16 @@ export const verifyActivitiesOpsFailure = error => (
 
 /**
  * @name verifyActivitiesOps
- * @param {Array} activityIds
+ * @summary Used to approve multiple activities
+ * @param {Array} activityIds - ids of activities to be approved
  * @returns {(dispatch) => Promise<AxiosResponse>}
  */
 export const verifyActivitiesOps = activityIds => (
   (dispatch) => {
     dispatch(verifyActivitiesOpsRequest());
     return http.put(
-      `${config.API_BASE_URL}/logged-activities`,
-      { loggedActivitiesIds: activityIds, status: 'approved' },
+      `${config.API_BASE_URL}/approve/logged-activities/`,
+      { loggedActivitiesIds: activityIds },
     )
       .then((response) => {
         dispatch(verifyActivitiesOpsSuccess(response.data.data, activityIds));

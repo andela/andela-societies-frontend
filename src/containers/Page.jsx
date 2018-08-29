@@ -1,3 +1,4 @@
+/* eslint-disable  no-prototype-builtins */
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -8,6 +9,8 @@ import { fetchUserInfo } from '../actions';
 import { fetchSocietyInfo } from '../actions/societyInfoActions';
 import { changeTitle } from '../actions/pageActions';
 import { fetchUserProfile } from '../actions/userProfileActions';
+import { openModal, closeModal } from '../actions/showModalActions';
+
 import Header from '../components/header/Header';
 import SocietyBanner from '../components/header/SocietyBanner';
 import Sidebar from '../components/sidebar/Sidebar';
@@ -17,8 +20,9 @@ import UpdateLoader from '../components/loaders/UpdateLoader';
 import Modal from '../common/Modal';
 import RedeemPointsForm from './forms/RedeemPointsForm';
 import CommentsForm from './forms/CommentsForm';
+import CreateCategoryForm from './forms/CreateCategoryForm';
 
-import { STAFF_USERS, SOCIETY_PRESIDENT } from '../../src/constants/roles';
+import { STAFF_USERS, SOCIETY_PRESIDENT, SUCCESS_OPS } from '../../src/constants/roles';
 
 import {
   getToken, tokenIsValid, isFellow,
@@ -44,6 +48,7 @@ class Page extends Component {
     fetchUserInfo: PropTypes.func.isRequired,
     fetchSocietyInfo: PropTypes.func.isRequired,
     fetchUserProfile: PropTypes.func.isRequired,
+    updateSelectedItem: PropTypes.func,
     userInfo: PropTypes.shape({
       name: PropTypes.string,
       picture: PropTypes.string,
@@ -58,18 +63,19 @@ class Page extends Component {
       }).isRequired,
     }).isRequired,
     history: ReactRouterPropTypes.history,
-    changePageTitle: PropTypes.func.isRequired,
+    changeTitle: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
     location: PropTypes.shape({ pathname: PropTypes.string.isRequired }).isRequired,
     categories: PropTypes.arrayOf(PropTypes.shape({})),
     profile: PropTypes.shape({
       society: PropTypes.shape({
         name: PropTypes.string.isRequired,
-      }).isRequired,
+      }),
     }),
     updating: PropTypes.bool,
-    openModal: PropTypes.bool,
-    toggleOpenModal: PropTypes.func,
+    deselectItem: PropTypes.func,
+    openModal: PropTypes.func,
+    closeModal: PropTypes.func,
     selectedItem: PropTypes.shape({}),
   }
 
@@ -78,20 +84,27 @@ class Page extends Component {
     profile: null,
     history: {},
     updating: false,
-    openModal: false,
     selectedItem: {},
-    toggleOpenModal: () => { },
+    deselectItem: () => { },
+    updateSelectedItem: () => { },
+    openModal: () => {},
+    closeModal: () => {},
   }
+
+  static getDerivedStateFromProps = (props) => {
+    const { showModal } = props;
+    return ({ showModal });
+  }
+
   constructor(props) {
     super(props);
     this.state = {
       showModal: false,
     };
-    props.changePageTitle(props.history.location.pathname);
+    props.changeTitle(props.history.location.pathname);
   }
 
-  componentWillMount() {
-    // retrieve token from cookie
+  componentDidMount() {
     const token = getToken();
     const tokenInfo = decodeToken(token);
     if (token === null || tokenIsValid(tokenInfo) === false || isFellow(tokenInfo) === false) {
@@ -99,9 +112,6 @@ class Page extends Component {
       this.props.history.push({ pathname: '/', search: '?error=unauthorized' });
     }
     this.props.fetchUserInfo(tokenInfo);
-  }
-
-  componentDidMount() {
     const userId = getUserInfo() && getUserInfo().id;
     this.props.fetchUserProfile(userId);
     if (this.isASocietyPage()) {
@@ -117,7 +127,7 @@ class Page extends Component {
     if (document && document.body) {
       document.body.classList.add('noScroll');
     }
-    this.setState({ showModal: true });
+    this.props.openModal();
   }
 
   isASocietyPage = () => (
@@ -128,30 +138,66 @@ class Page extends Component {
     if (document && document.body) {
       document.body.classList.remove('noScroll');
     }
-    this.setState({ showModal: false });
+    this.props.closeModal();
+    if (this.props.selectedItem) {
+      this.props.deselectItem();
+    }
+  }
+
+  renderFloatingButton = () => {
+    const { profile, location } = this.props;
+    const { showModal } = this.state;
+    const userRoles = Object.keys(profile.roles);
+    let FAB;
+    if (location.pathname === '/u/categories' && hasAllowedRole(userRoles, SUCCESS_OPS)) {
+      FAB = <FloatingButton onClick={this.onFabClick} />;
+    } else if (showModal ||
+      hasAllowedRole(userRoles, STAFF_USERS
+      || !userRoles.length) || location.pathname === '/u/verify-activities') {
+      FAB = '';
+    } else {
+      FAB = <FloatingButton onClick={this.onFabClick} />;
+    }
+    return (FAB);
   }
 
   renderModal = () => {
     const {
       categories,
       location,
-      openModal,
       profile,
-      toggleOpenModal,
       selectedItem,
+      updateSelectedItem,
     } = this.props;
-    const className = this.state.showModal || openModal ? 'modal--open' : '';
+
+    const className = this.state.showModal ? 'modal--open' : '';
     let modalContent;
     if (location.pathname === '/u/my-activities') {
-      modalContent = categories.length && <LogActivityForm categories={categories} closeModal={this.closeModal} />;
+      modalContent = (categories.length &&
+      <LogActivityForm
+        categories={categories}
+        closeModal={this.closeModal}
+        selectedItem={selectedItem}
+        updateSelectedItem={updateSelectedItem}
+      />);
     } else if (location.pathname === '/u/redemptions' &&
       hasAllowedRole(Object.keys(profile.roles), [SOCIETY_PRESIDENT])) {
-      modalContent = <RedeemPointsForm closeModal={this.closeModal} />;
+      modalContent = (
+        <RedeemPointsForm
+          closeModal={this.closeModal}
+          selectedItem={selectedItem}
+          updateSelectedItem={updateSelectedItem}
+        />
+      );
+    } else if (location.pathname === '/u/categories' &&
+      hasAllowedRole(Object.keys(profile.roles), SUCCESS_OPS)
+    ) {
+      modalContent = (<CreateCategoryForm closeModal={this.closeModal} />);
     } else if (hasAllowedRole(Object.keys(profile.roles), STAFF_USERS)) {
       modalContent = (
         <CommentsForm
+          closeModal={this.closeModal}
           selectedItem={selectedItem}
-          toggleOpenModal={toggleOpenModal}
         />);
     }
     return (
@@ -171,7 +217,6 @@ class Page extends Component {
       updating,
     } = this.props;
     const userRoles = Object.keys(profile.roles);
-
     return (
       <Fragment>
         <div className='headerBackground' />
@@ -194,19 +239,16 @@ class Page extends Component {
           </div>
         </main>
         {this.renderModal()}
-        {
-          this.state.showModal || hasAllowedRole(userRoles, STAFF_USERS) || userRoles.length === 0 ?
-            ''
-            : <FloatingButton onClick={this.onFabClick} />
-        }
+        {this.renderFloatingButton()}
       </Fragment>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  const updating = state.societyActivities.updating || state.redeemPointsInfo.updating;
+  const updating = state.societyActivities.updating || state.redeemPointsInfo.updating || state.categories.updating;
   return ({
+    showModal: state.modalInfo.showModal,
     userInfo: state.userInfo,
     societyInfo: state.societyInfo,
     profile: state.userProfile.info,
@@ -214,13 +256,11 @@ const mapStateToProps = (state) => {
   });
 };
 
-const mapDispatchToProps = dispatch => ({
-  changePageTitle: history => dispatch(changeTitle(history)),
-  fetchUserInfo: tokenInfo => (
-    dispatch(fetchUserInfo(tokenInfo))
-  ),
-  fetchSocietyInfo: name => dispatch(fetchSocietyInfo(name)),
-  fetchUserProfile: userId => dispatch(fetchUserProfile(userId)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Page));
+export default connect(mapStateToProps, {
+  changeTitle,
+  fetchUserInfo,
+  fetchSocietyInfo,
+  fetchUserProfile,
+  openModal,
+  closeModal,
+})(withRouter(Page));

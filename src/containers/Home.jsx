@@ -81,7 +81,7 @@ class Home extends Component {
     const { push } = this.props.history;
     if (hasAllowedRole(Object.keys(profile.roles), [ROLES[4]])) {
       push({ pathname: '/u/verify-activities' });
-    } else if (hasAllowedRole(Object.keys(profile.roles), [ROLES[5]])) {
+    } else if (hasAllowedRole(Object.keys(profile.roles), [ROLES[5], ROLES[6]])) {
       push({ pathname: '/u/redemptions' });
     } else if (hasAllowedRole(Object.keys(profile.roles), [ROLES[1]])) {
       push({ pathname: '/u/my-activities' });
@@ -113,8 +113,4 @@ const mapStateToProps = state => ({
   profile: state.userProfile.info,
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchUserProfile: userId => dispatch(fetchUserProfile(userId)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, { fetchUserProfile })(Home);
