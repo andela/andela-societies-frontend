@@ -139,10 +139,10 @@ class Redemptions extends React.Component {
    * @summary Lifecycle method called when component is mounted
    */
   componentDidMount() {
-    const { societyName } = this.props;
+    const { societyName, history } = this.props;
     const reference = this.setPathReference(societyName);
     this.props.fetchRedemption(reference);
-    sessionStorage.setItem('Location', this.props.history.location.pathname);
+    sessionStorage.setItem('Location', history.location.pathname);
   }
 
   /**
