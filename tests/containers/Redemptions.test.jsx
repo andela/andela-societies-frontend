@@ -5,7 +5,7 @@ import { stub } from 'sinon';
 import { createMockStore } from 'redux-test-utils';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-import sessionStorage from 'mock-local-storage';
+import 'jest-localstorage-mock';
 
 // Components
 import Redemptions from '../../src/containers/Redemptions';
@@ -29,7 +29,6 @@ const testRedemptions = [...redemptions, { ...redemption, status: 'rejected' }];
 const userProfile = { ...testProfile, roles: { 'society president': 'Kabc' } };
 
 const testProps = {
-  sessionStorage,
   requesting: false,
   hasError: false,
   userRoles: Object.keys(userProfile.roles),

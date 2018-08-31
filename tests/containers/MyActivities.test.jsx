@@ -4,7 +4,7 @@ import { mount, shallow } from 'enzyme';
 import { createMockStore } from 'redux-test-utils';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-import sessionStorage from 'mock-local-storage';
+import 'jest-localstorage-mock';
 
 // Components
 import MyActivities from '../../src/containers/MyActivities';
@@ -31,7 +31,6 @@ const mounted = mount.bind(
     <MemoryRouter>
       <MyActivities
         history={history}
-        sessionStorage={sessionStorage}
         fetchUserInfo={fetchUserInfo}
         changePageTitle={changePageTitle}
         fetchMyActivities={fetchMyActivities}
@@ -47,7 +46,6 @@ const setUpWrapper = ({
   const props = {
     activities,
     categories,
-    sessionStorage,
     requesting,
     history,
     fetchUserInfo,

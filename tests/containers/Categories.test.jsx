@@ -4,7 +4,7 @@ import { mount, shallow } from 'enzyme';
 import { createMockStore } from 'redux-test-utils';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-import sessionStorage from 'mock-local-storage';
+import 'jest-localstorage-mock';
 
 // Components
 import Categories from '../../src/containers/Categories';
@@ -24,7 +24,6 @@ const mounted = mount.bind(
   <Provider store={store}>
     <MemoryRouter>
       <Categories.WrappedComponent
-        sessionStorage={sessionStorage}
         categories={categories}
         history={history}
         fetchCategories={() => {}}
@@ -40,7 +39,6 @@ let shallowWrapper;
 describe('<Categories />', () => {
   beforeEach(() => {
     shallowWrapper = shallow(<Categories.WrappedComponent
-      sessionStorage={sessionStorage}
       history={history}
       fetchCategories={fetchCategories}
       deleteCategory={deleteCategory}

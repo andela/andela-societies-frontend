@@ -5,7 +5,7 @@ import { spy } from 'sinon';
 import { createMockStore } from 'redux-test-utils';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-import sessionStorage from 'mock-local-storage';
+import 'jest-localstorage-mock';
 
 // Components
 import VerifyActivities from '../../src/containers/VerifyActivities';
@@ -27,7 +27,6 @@ const event = { preventDefault: () => { } };
 describe('<VerifyActivities />', () => {
   const props = {
     history,
-    sessionStorage,
     fetchUserInfo: () => { },
     changePageTitle: () => { },
     fetchSocietyInfo: () => { },

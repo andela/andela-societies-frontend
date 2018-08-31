@@ -4,8 +4,9 @@ import { mount, shallow } from 'enzyme';
 import { Provider } from 'react-redux';
 import { createMockStore } from 'redux-test-utils';
 import { MemoryRouter } from 'react-router-dom';
+import { spy } from 'sinon';
 import storeFixture from '../../src/fixtures/store';
-import sessionStorage from 'mock-local-storage';
+import 'jest-localstorage-mock';
 
 // Components
 import Home from '../../src/containers/Home';
@@ -19,12 +20,12 @@ let mountedWrapper;
 let shallowWrapper;
 
 const props = {
-  sessionStorage,
   fetchUserProfile: jest.fn(),
   history: { 
     push: jest.fn(),
     location: { pathname: '' }
   },
+  profile: '',
 };
 
 describe('<Home />', () => {
@@ -72,6 +73,32 @@ describe('<Home />', () => {
     jest.spyOn(instance, 'navigate');
     instance.navigate(successOpsProfile);
     expect(instance.props.history.push).toBeCalledWith({ pathname: '/u/my-activities' });
+  });
+
+  it('should navigate success ops user to the page he/she was last on', () => {
+    const currentLocation = '/u/categories';
+    sessionStorage.setItem('Location', currentLocation);
+    const successOpsProfile = { ...testProfile, roles: { 'success ops': 'Kabc' } };
+    const instance = shallowWrapper.instance();
+    instance.navigate(successOpsProfile);
+    expect(instance.props.history.push).toBeCalledWith({ pathname: currentLocation });
+  });
+
+  it('should navigate fellow user to the page he/she was last on', () => {
+    const currentLocation = '/u/verify-activities';
+    sessionStorage.setItem('Location', currentLocation);
+    const successOpsProfile = { ...testProfile, roles: { fellow: 'Kabc' } };
+    const instance = shallowWrapper.instance();
+    instance.navigate(successOpsProfile);
+    expect(instance.props.history.push).toBeCalledWith({ pathname: currentLocation });
+  });
+
+  it('should call componentDidUpdate and navigate', () => {
+    const componentDidUpdateSpy = spy(Home.WrappedComponent.prototype, 'componentDidUpdate');
+    const instance = shallowWrapper.instance();
+    instance.setState({ profile: { ...testProfile }});
+    shallowWrapper.setProps({ profile: {...testProfile } });
+    expect(componentDidUpdateSpy.called).toBeTruthy();
   });
 });
 
