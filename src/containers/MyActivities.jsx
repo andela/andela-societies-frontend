@@ -200,6 +200,7 @@ class MyActivities extends Component {
                           description,
                           points,
                           status,
+                          ownerPhoto,
                         } = activity;
                         return (<ActivityCard
                           id={id}
@@ -210,6 +211,7 @@ class MyActivities extends Component {
                           status={status}
                           userCanEdit={userCanEdit}
                           handleClick={this.handleClick}
+                          ownerPhoto={ownerPhoto}
                         />);
                       })
                     }
