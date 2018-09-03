@@ -2,7 +2,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
 
 import { fetchUserInfo } from '../actions';
@@ -62,7 +61,13 @@ class Page extends Component {
         image: PropTypes.string.isRequired,
       }).isRequired,
     }).isRequired,
-    history: ReactRouterPropTypes.history,
+    history: PropTypes.shape({
+      push: PropTypes.func,
+      location: PropTypes.shape({
+        pathname: PropTypes.string,
+        search: PropTypes.string,
+      }),
+    }),
     changeTitle: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
     location: PropTypes.shape({ pathname: PropTypes.string.isRequired }).isRequired,
@@ -82,7 +87,13 @@ class Page extends Component {
   static defaultProps = {
     categories: [],
     profile: null,
-    history: {},
+    history: {
+      push: () => {},
+      location: {
+        pathname: '',
+        search: '',
+      },
+    },
     updating: false,
     selectedItem: {},
     deselectItem: () => { },

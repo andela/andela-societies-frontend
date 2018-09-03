@@ -105,7 +105,7 @@ export const verifyActivitiesOps = activityIds => (
   (dispatch) => {
     dispatch(verifyActivitiesOpsRequest());
     return http.put(
-      `${config.API_BASE_URL}/approve/logged-activities/`,
+      `${config.API_BASE_URL}/logged-activities/approve/`,
       { loggedActivitiesIds: activityIds },
     )
       .then((response) => {

@@ -1,10 +1,13 @@
+// third-party libraries
 import React, { Component, Fragment } from 'react';
 import PropType from 'prop-types';
 
+// components
 import TruncateDescription from '../TruncateDescription';
 import Globe from '../svgIcons/activityIcons/Globe';
 import Button from '../../common/Button';
 
+// helpers
 import pointsToDollarConverter from '../../helpers/pointsToDollarsConverter';
 import capitalizeString from '../../helpers/stringFormatter';
 

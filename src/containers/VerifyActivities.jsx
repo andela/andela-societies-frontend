@@ -117,7 +117,9 @@ class VerifyActivities extends Component {
    * @summary Lifecycle method called when component is mounted
    */
   componentDidMount() {
+    const { history } = this.props;
     this.props.fetchAllActivities();
+    sessionStorage.setItem('Location', history.location.pathname);
   }
 
   /**

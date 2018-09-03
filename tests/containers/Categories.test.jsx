@@ -1,10 +1,15 @@
+// Third party libraries
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { createMockStore } from 'redux-test-utils';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
+import 'jest-localstorage-mock';
 
+// Components
 import Categories from '../../src/containers/Categories';
+
+// Fixtures
 import storeFixture from '../../src/fixtures/store';
 import categories from '../../src/fixtures/categories';
 

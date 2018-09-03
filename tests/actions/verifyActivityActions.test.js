@@ -127,7 +127,7 @@ describe('Verify Activity Actions', () => {
       },
     ];
 
-    moxios.stubRequest(`${config.API_BASE_URL}/approve/logged-activities/`, {
+    moxios.stubRequest(`${config.API_BASE_URL}/logged-activities/approve/`, {
       status: 200,
       response: { data: approvedActivities },
     });
@@ -149,7 +149,7 @@ describe('Verify Activity Actions', () => {
       },
     ];
 
-    moxios.stubRequest(`${config.API_BASE_URL}/approve/logged-activities/`, {
+    moxios.stubRequest(`${config.API_BASE_URL}/logged-activities/approve/`, {
       status: 400,
     });
 

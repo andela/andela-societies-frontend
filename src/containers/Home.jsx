@@ -79,12 +79,26 @@ class Home extends Component {
    */
   navigate = (profile) => {
     const { push } = this.props.history;
-    if (hasAllowedRole(Object.keys(profile.roles), [ROLES[4]])) {
-      push({ pathname: '/u/verify-activities' });
-    } else if (hasAllowedRole(Object.keys(profile.roles), [ROLES[5], ROLES[6]])) {
-      push({ pathname: '/u/redemptions' });
-    } else if (hasAllowedRole(Object.keys(profile.roles), [ROLES[1]])) {
-      push({ pathname: '/u/my-activities' });
+    const location = sessionStorage.getItem('Location');
+    const userRoles = Object.keys(profile.roles);
+    if (hasAllowedRole(userRoles, [ROLES[4]])) {
+      if (location) {
+        push({ pathname: location });
+      } else {
+        push({ pathname: '/u/verify-activities' });
+      }
+    } else if (hasAllowedRole(userRoles, [ROLES[5], ROLES[6]])) {
+      if (location) {
+        push({ pathname: location });
+      } else {
+        push({ pathname: '/u/redemptions' });
+      }
+    } else if (hasAllowedRole(userRoles, [ROLES[1]])) {
+      if (location) {
+        push({ pathname: location });
+      } else {
+        push({ pathname: '/u/my-activities' });
+      }
     }
   };
 
