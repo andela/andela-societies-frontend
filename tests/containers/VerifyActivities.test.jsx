@@ -16,6 +16,9 @@ import society from '../../src/fixtures/society';
 import activity from '../../src/fixtures/activity';
 import activities from '../../src/fixtures/activities';
 
+// Helpers
+import filterActivitiesByStatus from '../../src/helpers/filterActivitiesByStatus';
+
 const store = createMockStore(storeFixture);
 const history = { push: () => { }, location: { pathname: '' } };
 const roles = ['success ops'];
@@ -154,5 +157,11 @@ describe('<VerifyActivities />', () => {
     component.setProps({ userRoles: [] });
     expect(componentDidUpdateSpy.called).toBeTruthy();
     expect(fetchAllActivitiesSpy.called).toBeTruthy();
+  });
+  it('should filter activities by status when handleChangeTab is clicked', () => {
+    const selectedSocietyActivities = filterActivitiesByStatus(activities, 'pending')
+      .filter(activityItem => activityItem.society.name === 'sparks');
+    component.instance().handleChangeTab(event, 'sparks');
+    expect(component.state().filteredActivities).toEqual(selectedSocietyActivities);
   });
 });
