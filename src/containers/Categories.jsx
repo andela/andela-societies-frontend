@@ -15,6 +15,11 @@ import SnackBar from '../components/notifications/SnackBar';
 // Actions
 import { fetchCategories } from '../actions/categoriesActions';
 import { deleteCategory } from '../actions/deleteCategoryActions';
+import { openModal } from '../actions/showModalActions';
+
+// Constants
+import clickActions from '../constants/clickAction';
+
 
 class Categories extends Component {
   /**
@@ -31,6 +36,7 @@ class Categories extends Component {
       location: PropTypes.shape({ pathname: PropTypes.string }),
       pathname: PropTypes.string,
     }),
+    openModal: PropTypes.func,
   }
 
   /**
@@ -42,14 +48,26 @@ class Categories extends Component {
         pathname: '',
       },
     },
+    openModal: () => {},
     fetchCategories: () => {},
     deleteCategory: () => {},
   }
 
+  /**
+   * React component lifecycle method getDerivedStateFromProps
+   * @param {Object} nextProps - props
+  */
+  static getDerivedStateFromProps(nextProps) {
+    return {
+      categories: nextProps.categories,
+    };
+  }
+
+
   constructor(props) {
     super(props);
     this.state = {
-      selectedCategories: [],
+      selectedCategory: {},
     };
   }
 
@@ -59,20 +77,47 @@ class Categories extends Component {
     sessionStorage.setItem('Location', history.location.pathname);
   }
 
-  handleClick = (categoryId) => {
-    promptModal({
-      title: 'Are you sure?',
-      text: 'Once deleted, category cannot be recovered!',
-      icon: 'warning',
-      buttons: ['Cancel', 'Delete it'],
-      closeModal: true,
-      dangerMode: true,
-    })
-      .then((willDelete) => {
-        if (willDelete) {
-          this.props.deleteCategory(categoryId);
-        }
-      });
+  handleClick = (clickAction, categoryId) => {
+    const { DELETE, EDIT } = clickActions;
+    switch (clickAction) {
+    case EDIT:
+      this.selectCategory(categoryId);
+      break;
+    case DELETE:
+    {
+      promptModal({
+        title: 'Are you sure?',
+        text: 'Once deleted, category cannot be recovered!',
+        icon: 'warning',
+        buttons: ['Cancel', 'Delete it'],
+        closeModal: true,
+        dangerMode: true,
+      })
+        .then((willDelete) => {
+          if (willDelete) {
+            this.props.deleteCategory(categoryId);
+          }
+        });
+      break;
+    }
+    default:
+      return null;
+    }
+    return null;
+  }
+
+  selectCategory = (id) => {
+    const selectedCategory = this.props.categories.find(category => category.id === id);
+    this.props.openModal();
+    this.setState({
+      selectedCategory,
+    });
+  }
+
+  deselectCategory = () => {
+    this.setState(() => ({
+      selectedCategory: {},
+    }));
   }
 
   /**
@@ -81,10 +126,7 @@ class Categories extends Component {
    * @returns {void}
    */
   renderLayout() {
-    const {
-      selectedCategories,
-    } = this.state;
-    const { categories } = this.props;
+    const { categories } = this.state;
     const page = this.props.history.location.pathname;
     return (
       <LinearLayout
@@ -103,8 +145,6 @@ class Categories extends Component {
               value={value}
               page={page}
               handleClick={this.handleClick}
-              selectedCategories={selectedCategories}
-              handleDeselectCategory={this.handleDeselectCategory}
               wordCount={70}
             />);
           })
@@ -120,7 +160,7 @@ class Categories extends Component {
    */
   render() {
     const { requesting } = this.props;
-    const { message } = this.state;
+    const { message, selectedCategory } = this.state;
     let snackBarMessage = '';
     if (message) {
       snackBarMessage = <SnackBar message={message} />;
@@ -136,7 +176,10 @@ class Categories extends Component {
       this.renderLayout();
 
     return (
-      <Page>
+      <Page
+        selectedItem={selectedCategory}
+        deselectItem={this.deselectCategory}
+      >
         <div className='mainContent'>
           <div className='Categories'>
             <PageHeader
@@ -165,4 +208,5 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   fetchCategories,
   deleteCategory,
+  openModal,
 })(Categories);

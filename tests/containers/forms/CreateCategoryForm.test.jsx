@@ -1,15 +1,16 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
+import { spy } from 'sinon';
+
+// components
 import CreateCategoryForm from '../../../src/containers/forms/CreateCategoryForm';
+
+// fixtures
+import categories from '../../../src/fixtures/categories';
 
 const successMessage = {
   type: 'success',
   text: 'Category created Successfully',
-};
-
-const infoMessage = {
-  type: 'info',
-  text: 'Sending ...',
 };
 
 const defaultState = {
@@ -18,11 +19,15 @@ const defaultState = {
   supportsMultiple: false,
   description: '',
   errors: {},
+  formTitle: 'Create a Category',
+  btnText: 'Create',
 };
-
+const editCategorySpy = spy();
 const baseProps = {
   closeModal: () => {},
   createCategory: jest.fn(),
+  editCategory: editCategorySpy,
+  selectedItem: {},
 };
 
 describe('<CreateCategoryForm />', () => {
@@ -57,8 +62,7 @@ describe('<CreateCategoryForm />', () => {
 
   it('should reset state on receipt of success message', () => {
     mounted.setProps({ message: successMessage });
-    const currentState = Object.assign({}, defaultState);
-    expect(mounted.state()).toEqual(currentState);
+    expect(mounted.state()).toEqual(defaultState);
   });
 
   it('should handle change event and update state', () => {
@@ -94,15 +98,6 @@ describe('<CreateCategoryForm />', () => {
     expect(instance.renderValidationError).toHaveBeenCalled();
   });
 
-  it('should run renderValidationError when handleAddEvent is called', () => {
-    const instance = wrapper.instance();
-    jest.spyOn(instance, 'handleAddEvent');
-    jest.spyOn(instance, 'renderValidationError');
-    instance.handleAddEvent();
-    expect(instance.renderValidationError).toHaveBeenCalled();
-  });
-
-
   it('should change state when the checkbox is clicked', () => {
     wrapper.setState({ supportsMultiple: true });
     const checkbox = wrapper.find('.create-category-checkbox');
@@ -122,5 +117,14 @@ describe('<CreateCategoryForm />', () => {
       instance.handleAddEvent();
     });
     expect(baseProps.createCategory).toHaveBeenCalled();
+  });
+
+  it('should call editCategory when handleAddEvent is called and there is a seletcedItem prop', () => {
+    const instance = wrapper.instance();
+    const { name, description, value, supportsMultipleParticipants } = categories[0];
+    wrapper.setProps({ selectedItem: categories[0] });
+    wrapper.setState({ name, description, value, supportsMultiple: supportsMultipleParticipants, errors: {} });
+    instance.handleAddEvent();
+    expect(baseProps.editCategory).toBeTruthy();
   });
 });

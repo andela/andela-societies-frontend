@@ -1,4 +1,5 @@
 import categoriesReducer from '../../src/reducers/categoriesReducer';
+import { editCategorySuccess } from '../../src/actions/editCategoryActions';
 import {
   FETCH_CATEGORIES_REQUEST,
   FETCH_CATEGORIES_SUCCESS,
@@ -9,6 +10,8 @@ import {
   DELETE_CATEGORY_REQUEST,
   DELETE_CATEGORY_SUCCESS,
   DELETE_CATEGORY_FAILURE,
+  EDIT_CATEGORY_REQUEST,
+  EDIT_CATEGORY_FAILURE,
 } from '../../src/types';
 import categories from '../../src/fixtures/categories';
 import store from '../../src/fixtures/store';
@@ -128,6 +131,44 @@ describe('categoriesReducer', () => {
         type: 'success',
         text: 'Category Created Successfully',
       },
+    });
+  });
+
+  it('should handle EDIT_CATEGORY_FAILURE', () => {
+    const error = new Error('Request failed with status code 401');
+    expect(categoriesReducer(initialState, {
+      type: EDIT_CATEGORY_FAILURE,
+      error,
+    })).toEqual({
+      ...initialState,
+      updating: false,
+      error: 'An error has occured while completing your request.',
+    });
+  });
+
+  it('should handle EDIT_CATEGORY_SUCCESS', () => {
+    const initial = { ...initialState, categories };
+    const updatedCategory = {
+      ...categories[0],
+      description: 'Participate in bootcamp interviews',
+    };
+    const successAction = editCategorySuccess(updatedCategory);
+    const newCategories = categories.map(category => category.id === updatedCategory.id ? updatedCategory : category);
+    expect(categoriesReducer(initial, successAction)).toEqual({
+      ...initial,
+      categories: newCategories,
+      message: {
+        text: 'Category edited successfully.',
+        type: 'success'
+      },
+      updating: false,
+    });
+  });
+
+  it('should handle EDIT_CATEGORY_SUCCESS', () => {
+    expect(categoriesReducer(initialState, { type: EDIT_CATEGORY_REQUEST})).toEqual({
+      ...initialState,
+      updating: true,
     });
   });
 });

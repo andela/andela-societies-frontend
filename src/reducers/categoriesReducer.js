@@ -8,6 +8,9 @@ import {
   DELETE_CATEGORY_REQUEST,
   DELETE_CATEGORY_SUCCESS,
   DELETE_CATEGORY_FAILURE,
+  EDIT_CATEGORY_FAILURE,
+  EDIT_CATEGORY_REQUEST,
+  EDIT_CATEGORY_SUCCESS,
 } from '../types';
 import initialState from './initialState';
 
@@ -86,6 +89,32 @@ const categories = (state = initialState.categories, action) => {
       categories: updatedCategories,
     };
   }
+  case EDIT_CATEGORY_REQUEST:
+    return {
+      ...state,
+      updating: true,
+    };
+  case EDIT_CATEGORY_SUCCESS: {
+    const updatedCategories = state.categories.map(category => (
+      category.id !== action.category.id ? category : action.category
+    ));
+    return {
+      ...state,
+      updating: false,
+      message: {
+        type: 'success',
+        text: 'Category edited successfully.',
+      },
+      categories: updatedCategories,
+    };
+  }
+  case EDIT_CATEGORY_FAILURE:
+    return {
+      ...state,
+      updating: false,
+      error: action.error.response ?
+        action.error.response.data.message : 'An error has occured while completing your request.',
+    };
   default:
     return state;
   }

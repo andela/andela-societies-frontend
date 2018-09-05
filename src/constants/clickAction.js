@@ -6,6 +6,7 @@ const clickActions = {
   MORE_INFO: 'moreInfo',
   EDIT: 'edit',
   COMPLETE: 'completed',
+  DELETE: 'deleted',
 };
 
 export default clickActions;

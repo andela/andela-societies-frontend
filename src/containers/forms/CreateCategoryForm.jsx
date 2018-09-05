@@ -11,6 +11,7 @@ import FormError from '../../components/formErrors/FormError';
 
 // actions
 import { createCategory } from '../../actions/createCategoryActions';
+import { editCategory } from '../../actions/editCategoryActions';
 
 // helpers
 import validateFormFields from '../../helpers/validate';
@@ -29,10 +30,12 @@ class CreateCategoryForm extends Component {
    * @type {PropType}
   */
   static defaultProps = {
+    selectedItem: {},
     message: {
       type: '',
       text: '',
     },
+    editCategory: () => {},
   }
 
   /**
@@ -42,11 +45,34 @@ class CreateCategoryForm extends Component {
   static propTypes = {
     closeModal: PropTypes.func.isRequired,
     createCategory: PropTypes.func.isRequired,
+    editCategory: PropTypes.func,
     message: PropTypes.shape({
       type: PropTypes.string,
       text: PropTypes.string,
     }),
+    selectedItem: PropTypes.shape({ id: PropTypes.string }),
   };
+
+  static getDerivedStateFromProps = (nextProps, state) => {
+    const { selectedItem } = nextProps;
+    if (selectedItem.id) {
+      const {
+        value,
+        name,
+        description,
+        supportsMultipleParticipants,
+      } = selectedItem;
+      return {
+        value: value.toString(),
+        name,
+        description,
+        supportsMultiple: supportsMultipleParticipants,
+        formTitle: 'Edit Category Request Form',
+        btnText: 'Update',
+      };
+    }
+    return state;
+  }
 
   /**
    * CreateCategoryForm component class constructor
@@ -59,6 +85,8 @@ class CreateCategoryForm extends Component {
       supportsMultiple: false,
       description: '',
       errors: {},
+      formTitle: 'Create a Category',
+      btnText: 'Create',
     };
   }
 
@@ -104,6 +132,7 @@ class CreateCategoryForm extends Component {
       description,
       value,
     } = this.state;
+    const { selectedItem } = this.props;
     const category = {
       name,
       description,
@@ -114,6 +143,12 @@ class CreateCategoryForm extends Component {
     }, () => {
       if (Object.keys(this.state.errors).length === 0) {
         category.supports_multiple = supportsMultiple;
+        if (selectedItem.id) {
+          this.props.editCategory({
+            id: selectedItem.id,
+            ...category,
+          });
+        }
         this.props.createCategory(category);
       }
     });
@@ -130,6 +165,8 @@ class CreateCategoryForm extends Component {
       supportsMultiple: false,
       description: '',
       errors: {},
+      formTitle: 'Create a Category',
+      btnText: 'Create',
     });
   }
 
@@ -151,9 +188,10 @@ class CreateCategoryForm extends Component {
 
   render() {
     const { message } = this.props;
+    const { formTitle, btnText } = this.state;
     return (
       <form>
-        <div className='titleForm'>Create a Category</div>
+        <div className='titleForm'>{formTitle}</div>
         <SingleInput
           type='text'
           name='name'
@@ -205,7 +243,7 @@ class CreateCategoryForm extends Component {
         <div>
           <Button
             name='fellowButtonSubmit'
-            value='Create'
+            value={btnText}
             className={`submitButton ${message && message.type === 'info' ? 'submitButton--disabled' : ''}`}
             onClick={this.handleAddEvent}
           />
@@ -230,4 +268,5 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
   createCategory,
+  editCategory,
 })(CreateCategoryForm);

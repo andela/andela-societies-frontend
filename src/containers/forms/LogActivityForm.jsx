@@ -30,8 +30,8 @@ class LogActivityForm extends Component {
   static defaultProps = {
     selectedItem: {},
     updateSelectedItem: () => { },
-    updateActivity: () => {},
     createActivity: () => {},
+    updateActivity: () => {},
     message: {
       type: '',
       text: '',

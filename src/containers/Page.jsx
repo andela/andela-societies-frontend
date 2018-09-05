@@ -203,7 +203,11 @@ class Page extends Component {
     } else if (location.pathname === '/u/categories' &&
       hasAllowedRole(Object.keys(profile.roles), SUCCESS_OPS)
     ) {
-      modalContent = (<CreateCategoryForm closeModal={this.closeModal} />);
+      modalContent = (
+        <CreateCategoryForm
+          closeModal={this.closeModal}
+          selectedItem={selectedItem}
+        />);
     } else if (hasAllowedRole(Object.keys(profile.roles), STAFF_USERS)) {
       modalContent = (
         <CommentsForm
