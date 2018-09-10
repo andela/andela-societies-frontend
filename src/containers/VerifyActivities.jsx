@@ -151,7 +151,7 @@ class VerifyActivities extends Component {
         this.props.verifyActivitiesOps([activityId]);
         break;
       }
-      this.props.verifyActivity(clickAction, activityId);
+      this.props.verifyActivity(PENDING, activityId);
       break;
     }
     case MORE_INFO:
