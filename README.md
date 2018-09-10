@@ -31,3 +31,8 @@ To test the app in watch mode, Run `yarn test:dev`. This listens to changes in y
 #### Dev notice:
 **Package installation:**
 Use `yarn` to install packages. Do not install packages using `npm`. For more info, checkout this [issue](https://github.com/AndelaOSP/andela-societies-frontend/issues/61).
+
+#### Running the sandbox
+Follow the instructions on this [link](docker/dev/sandbox.md) to run it.
+
+In case of any errors ask the DevOps Engineer in the team

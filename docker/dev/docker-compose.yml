@@ -1,0 +1,16 @@
+version: '3.0'
+
+services:
+  frontend:
+    build:
+      context: ../../
+      dockerfile: ./Dockerfile
+    image: soc-frontend:sandbox
+    command: [ "./prodserver",  "4021" ]
+    ports:
+      - "4021:4021"
+    networks:
+      - soc-network
+
+networks:
+  soc-network:
