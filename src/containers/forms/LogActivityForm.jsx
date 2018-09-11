@@ -11,7 +11,7 @@ import Button from '../../common/Button';
 import TextArea from '../../common/TextArea';
 
 // actions
-import { createActivity } from '../../actions/activityActions';
+import { createActivity } from '../../actions/allActivitiesActions';
 import { updateActivity } from '../../actions/myActivitiesActions';
 
 // helpers
@@ -22,10 +22,10 @@ import labels from '../../fixtures/labels';
 import SNACKBARTIMEOUT from '../../constants/snackbarTimeout';
 
 /**
-   * @name LogActivityForm
-   * @summary Returns Form
-   * @returns Returns a form
-   */
+ * @name LogActivityForm
+ * @summary Returns Form
+ * @returns Returns a form
+ */
 class LogActivityForm extends Component {
   static defaultProps = {
     selectedItem: {},
@@ -120,27 +120,27 @@ class LogActivityForm extends Component {
     }
   }
 
-  /**
-   * @name setLabel
-   * @summary gets the appropriate label from the labels object
-   * @return {String} label
-   */
-  setLabel = () => {
-    const categoryName = this.selectedCategory().name.toLowerCase();
-    return Object.keys(labels).find(label => labels[label].includes(categoryName));
-  }
+	/**
+	 * @name setLabel
+	 * @summary gets the appropriate label from the labels object
+	 * @return {String} label
+	 */
+	setLabel = () => {
+	  const categoryName = this.selectedCategory().name.toLowerCase();
+	  return Object.keys(labels).find(label => labels[label].includes(categoryName));
+	};
 
-  /**
-   * @memberOf LogActivityForm
-   * change event handler
-   * @param {Event} event - change event on select input
-   */
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
-    const errors = { ...this.state.errors };
-    if (event.target.value) delete errors[event.target.name];
-    this.setState({ errors });
-  }
+	/**
+	 * @memberOf LogActivityForm
+	 * change event handler
+	 * @param {Event} event - change event on select input
+	 */
+	handleChange = (event) => {
+	  this.setState({ [event.target.name]: event.target.value });
+	  const errors = { ...this.state.errors };
+	  if (event.target.value) delete errors[event.target.name];
+	  this.setState({ errors });
+	};
 
   handleAddEvent = () => {
     const {
@@ -194,38 +194,38 @@ class LogActivityForm extends Component {
     });
   }
 
-  /**
-   * @name cancelModal
-   * @summary reset state and close modal
-   */
-  cancelModal = () => {
-    this.props.closeModal();
-    this.resetState();
-  }
+	/**
+	 * @name cancelModal
+	 * @summary reset state and close modal
+	 */
+	cancelModal = () => {
+	  this.props.closeModal();
+	  this.resetState();
+	};
 
-  /**
-   * @name selectedCategory
-   * @summary uses activityTypeId to find the selected category
-   * @return {Object} category
-   */
-  selectedCategory = () => this.props.categories.filter(category => category.id === this.state.activityTypeId)[0];
+	/**
+	 * @name selectedCategory
+	 * @summary uses activityTypeId to find the selected category
+	 * @return {Object} category
+	 */
+	selectedCategory = () => this.props.categories.filter(category => category.id === this.state.activityTypeId)[0];
 
-  /**
-   * @name requiresNumberOf
-   * @summary determine whether a category should have a number of input
-   * @return {Boolean} whether a category should have a number of input
-   */
-  requiresNumberOf = () => {
-    const { activityTypeId } = this.state;
-    return activityTypeId && this.selectedCategory().supportsMultipleParticipants;
-  }
+	/**
+	 * @name requiresNumberOf
+	 * @summary determine whether a category should have a number of input
+	 * @return {Boolean} whether a category should have a number of input
+	 */
+	requiresNumberOf = () => {
+	  const { activityTypeId } = this.state;
+	  return activityTypeId && this.selectedCategory().supportsMultipleParticipants;
+	};
 
-  renderValidationError = (field) => {
-    if (typeof this.state.errors[field] !== 'undefined') {
-      return this.state.errors[field];
-    }
-    return '';
-  }
+	renderValidationError = (field) => {
+	  if (typeof this.state.errors[field] !== 'undefined') {
+	    return this.state.errors[field];
+	  }
+	  return '';
+	};
 
   render() {
     const { activityTypeId, numberOfParticipants } = this.state;
@@ -269,45 +269,39 @@ class LogActivityForm extends Component {
             : null
         }
 
-        <TextArea
-          title='Description'
-          rows={5}
-          resize={false}
-          name='description'
-          placeholder='keep it brief'
-          handleChange={this.handleChange}
-          value={this.state.description}
-        />
-        <span className='validate__errors'>
-          {this.renderValidationError('description')}
-        </span>
-        <div>
-          <Button
-            name='fellowButtonSubmit'
-            value={btnText}
-            className={`submitButton ${message && message.type === 'info' ? 'submitButton--disabled' : ''}`}
-            onClick={this.handleAddEvent}
-          />
-          <Button
-            name='fellowButtonCancel'
-            value='Cancel'
-            className='cancelButton'
-            onClick={this.cancelModal}
-          />
-        </div>
-        {
-          message && <SnackBar message={message} />
-        }
-      </form>
-    );
-  }
+  <TextArea
+	        title='Description'
+	        rows={5}
+  resize={false}
+  name='description'
+  placeholder='keep it brief'
+  handleChange={this.handleChange}
+	        value={this.state.description}
+	      />
+  <span className='validate__errors'>{this.renderValidationError('description')}</span>
+	      <div>
+	        <Button
+	          name='fellowButtonSubmit'
+	          value={btnText}
+	          className={`submitButton ${message && message.type === 'info' ? 'submitButton--disabled' : ''}`}
+	          onClick={this.handleAddEvent}
+  />
+	        <Button name='fellowButtonCancel' value='Cancel' className='cancelButton' onClick={this.cancelModal} />
+    </div>
+	      {message && <SnackBar message={message} />}
+	    </form>
+	  );
+	}
 }
 
 const mapStateToProps = state => ({
   message: state.myActivities.message,
 });
 
-export default connect(mapStateToProps, {
-  createActivity,
-  updateActivity,
-})(LogActivityForm);
+export default connect(
+  mapStateToProps,
+  {
+    createActivity,
+    updateActivity,
+  },
+)(LogActivityForm);
