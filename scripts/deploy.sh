@@ -8,13 +8,13 @@ set_variables() {
     COMMIT_HASH=$(git rev-parse --short HEAD)
 
     if [ "$CIRCLE_BRANCH" == "master" ]; then
-        IMAGE_TAG=$COMMIT_HASH
+        IMAGE_TAG="production-${COMMIT_HASH}"
         ENVIRONMENT=production
         GOOGLE_COMPUTE_ZONE=${PRODUCTION_ZONE}
         GOOGLE_CLUSTER_NAME=${PRODUCTION_CLUSTER_NAME}
         export NODE_ENV=production
     else
-        IMAGE_TAG="${CIRCLE_BRANCH}-${COMMIT_HASH}"
+        IMAGE_TAG="staging-${COMMIT_HASH}"
         ENVIRONMENT=staging
         GOOGLE_COMPUTE_ZONE=${STAGING_ZONE}
         GOOGLE_CLUSTER_NAME=${STAGING_CLUSTER_NAME}
