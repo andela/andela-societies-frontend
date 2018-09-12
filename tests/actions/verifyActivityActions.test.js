@@ -11,7 +11,7 @@ import {
   verifyActivitiesOpsRequest,
   verifyActivitiesOpsFailure,
   verifyActivitiesOps,
-} from '../../src/actions/verifyActivityActions';
+} from '../../src/actions/allActivitiesActions';
 
 // types
 import {

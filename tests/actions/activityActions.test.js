@@ -7,7 +7,7 @@ import {
   createActivityFailure,
   createActivitySuccess,
   createActivity,
-} from '../../src/actions/activityActions';
+} from '../../src/actions/allActivitiesActions';
 import activity from '../../src/fixtures/activity';
 import {
   CREATE_ACTIVITY_REQUEST,

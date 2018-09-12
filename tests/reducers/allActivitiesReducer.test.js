@@ -3,11 +3,9 @@ import {
   fetchAllActivitiesFailure,
   fetchAllActivitiesRequests,
   fetchAllActivitiesSuccess,
-} from '../../src/actions/allActivitiesActions';
-import {
   verifyActivitiesOpsSuccess,
   verifyActivitiesOpsFailure,
-} from '../../src/actions/verifyActivityActions';
+} from '../../src/actions/allActivitiesActions';
 
 // types
 import {
