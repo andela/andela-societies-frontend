@@ -30,6 +30,7 @@ class RedeemPointsForm extends Component {
     message: {},
     selectedItem: {},
     updateSelectedItem: () => { },
+    showModal: false,
   };
   /**
    * @name propTypes
@@ -44,6 +45,7 @@ class RedeemPointsForm extends Component {
     }),
     selectedItem: PropTypes.shape({ id: PropTypes.string }),
     updateSelectedItem: PropTypes.func,
+    showModal: PropTypes.bool,
   }
 
   static getDerivedStateFromProps = (props, state) => {
@@ -87,10 +89,14 @@ class RedeemPointsForm extends Component {
    */
   componentDidUpdate(prevProps) {
     const { type } = this.props.message;
-    if (prevProps.message) {
-      if (type !== prevProps.message.type && type === 'success') {
+    const { message, showModal } = prevProps;
+    if (message) {
+      if (type !== message.type && type === 'success') {
         setTimeout(() => { this.handleCloseModal(); }, SNACKBARTIMEOUT);
       }
+    }
+    if (showModal !== this.props.showModal && !this.props.showModal) {
+      this.resetState();
     }
   }
 

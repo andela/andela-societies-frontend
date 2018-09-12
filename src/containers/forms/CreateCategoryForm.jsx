@@ -36,6 +36,7 @@ class CreateCategoryForm extends Component {
       text: '',
     },
     editCategory: () => {},
+    showModal: false,
   }
 
   /**
@@ -51,6 +52,7 @@ class CreateCategoryForm extends Component {
       text: PropTypes.string,
     }),
     selectedItem: PropTypes.shape({ id: PropTypes.string }),
+    showModal: PropTypes.bool,
   };
 
   static getDerivedStateFromProps = (nextProps, state) => {
@@ -96,9 +98,12 @@ class CreateCategoryForm extends Component {
    * @param {Object} prevProps
    */
   componentDidUpdate(prevProps) {
-    const { message } = this.props;
-    if (prevProps.message.type !== message.type && message.type === 'success') {
+    const { message, showModal } = prevProps;
+    if (message.type !== this.props.message.type && this.props.message.type === 'success') {
       setTimeout(() => this.cancelModal(), SNACKBARTIMEOUT);
+    }
+    if (showModal !== this.props.showModal && !this.props.showModal) {
+      this.resetState();
     }
   }
 

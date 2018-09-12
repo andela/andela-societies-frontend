@@ -29,6 +29,7 @@ import SNACKBARTIMEOUT from '../../constants/snackbarTimeout';
 class LogActivityForm extends Component {
   static defaultProps = {
     selectedItem: {},
+    showModal: false,
     updateSelectedItem: () => { },
     createActivity: () => {},
     updateActivity: () => {},
@@ -49,6 +50,7 @@ class LogActivityForm extends Component {
     updateActivity: PropTypes.func,
     selectedItem: PropTypes.shape({ id: PropTypes.string }),
     updateSelectedItem: PropTypes.func,
+    showModal: PropTypes.bool,
     message: PropTypes.shape({
       type: PropTypes.string,
       text: PropTypes.string,
@@ -105,13 +107,16 @@ class LogActivityForm extends Component {
    * @param {Object} prevProps
    */
   componentDidUpdate(prevProps) {
-    const { message } = prevProps;
+    const { message, showModal } = prevProps;
     if (message) {
       if (prevProps.message.type !== this.props.message.type && this.props.message.type === 'success') {
         setTimeout(() => {
           this.cancelModal();
         }, SNACKBARTIMEOUT);
       }
+    }
+    if (showModal !== this.props.showModal && !this.props.showModal) {
+      this.resetState();
     }
   }
 
