@@ -266,6 +266,7 @@ class VerifyActivities extends Component {
                 description,
                 points,
                 status,
+                ownerPhoto,
               } = activity;
               return (<ActivityCard
                 id={id}
@@ -284,6 +285,7 @@ class VerifyActivities extends Component {
                 handleDeselectActivity={this.handleDeselectActivity}
                 showCheckBox={showCheckBox}
                 wordCount={70}
+                ownerPhoto={ownerPhoto}
               />);
             })
           }
@@ -301,6 +303,7 @@ class VerifyActivities extends Component {
               description,
               points,
               status,
+              ownerPhoto,
             } = activity;
             return (<ActivityCard
               id={id}
@@ -313,6 +316,7 @@ class VerifyActivities extends Component {
               showButtons={showButtons}
               page={pathname}
               handleClick={this.handleClick}
+              ownerPhoto={ownerPhoto}
             />);
           })
         }

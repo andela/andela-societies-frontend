@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import OptionsIcon from '../svgIcons/headerIcons/Options';
@@ -52,13 +51,13 @@ const SocietyBanner = (props) => {
         </div>
         <ul className='societyBanner__nav'>
           <li className='societyBanner__nav--item'>
-            <Link to='/' className='societyBanner__link societyBanner__link--active'>Activities</Link>
+            <span className='societyBanner__link societyBanner__link--active'>Activities</span>
           </li>
           <li className='societyBanner__nav--item'>
-            <Link to='/' className='societyBanner__link'>Leadership</Link>
+            <span className='societyBanner__link'>Leadership</span>
           </li>
           <li className='societyBanner__nav--item'>
-            <a href='/' className='societyBanner__options societyBanner__link'><OptionsIcon /></a>
+            <span className='societyBanner__options societyBanner__link'><OptionsIcon /></span>
           </li>
         </ul>
       </div>

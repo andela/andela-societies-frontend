@@ -113,6 +113,7 @@ class Society extends Component {
                           status={activity.status}
                           showUserDetails={showUserDetails}
                           owner={activity.owner}
+                          ownerPhoto={activity.ownerPhoto}
                         />
                       ))
                     }

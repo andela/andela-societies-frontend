@@ -340,6 +340,7 @@ class Redemptions extends React.Component {
               name,
               value,
               status,
+              ownerPhoto,
             } = activity;
             return (<ActivityCard
               id={id}
@@ -357,6 +358,7 @@ class Redemptions extends React.Component {
               showUserDetails={showUserDetails}
               handleClick={this.handleClick}
               userCanEdit={userCanEdit}
+              ownerPhoto={ownerPhoto}
             />);
           })
         }
