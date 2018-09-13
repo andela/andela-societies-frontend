@@ -18,6 +18,10 @@ describe('pageInfoReducer', () => {
     };
   });
 
+  it('should return the initial state', () => {
+    expect(pageInfoReducer(undefined, {})).toEqual({ title: '', url: '' });
+  });
+
   it('should return the proper data when TITLE_CHANGE action is dispatched', () => {
     const result = pageInfoReducer(state, action);
     expect(result.title).toBe(action.data.title);

@@ -34,6 +34,7 @@ class CommentsForm extends Component {
     selectedItem: {},
     closeModal: null,
     requestMoreInfo: null,
+    showModal: false,
     verifyRedemption: null,
   };
   /**
@@ -44,6 +45,7 @@ class CommentsForm extends Component {
     verifyRedemption: PropTypes.func,
     requestMoreInfo: PropTypes.func,
     closeModal: PropTypes.func,
+    showModal: PropTypes.bool,
     message: PropTypes.shape({
       type: PropTypes.string,
       text: PropTypes.string,
@@ -74,9 +76,12 @@ class CommentsForm extends Component {
    * @param {Object} prevProps
    */
   componentDidUpdate(prevProps) {
-    const { message } = this.props;
-    if (prevProps.message.type !== message.type && message.type === 'success') {
+    const { message, showModal } = prevProps;
+    if (message.type !== this.props.message.type && this.props.message.type === 'success') {
       setTimeout(() => this.handleCloseModal(), SNACKBARTIMEOUT);
+    }
+    if (showModal !== this.props.showModal && !this.props.showModal) {
+      this.resetState();
     }
   }
 

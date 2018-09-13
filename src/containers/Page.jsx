@@ -187,6 +187,7 @@ class Page extends Component {
       modalContent = (categories.length &&
       <LogActivityForm
         categories={categories}
+        showModal={this.state.showModal}
         closeModal={this.closeModal}
         selectedItem={selectedItem}
         updateSelectedItem={updateSelectedItem}
@@ -196,6 +197,7 @@ class Page extends Component {
       modalContent = (
         <RedeemPointsForm
           closeModal={this.closeModal}
+          showModal={this.state.showModal}
           selectedItem={selectedItem}
           updateSelectedItem={updateSelectedItem}
         />
@@ -205,12 +207,14 @@ class Page extends Component {
     ) {
       modalContent = (
         <CreateCategoryForm
+          showModal={this.state.showModal}
           closeModal={this.closeModal}
           selectedItem={selectedItem}
         />);
     } else if (hasAllowedRole(Object.keys(profile.roles), STAFF_USERS)) {
       modalContent = (
         <CommentsForm
+          showModal={this.state.showModal}
           closeModal={this.closeModal}
           selectedItem={selectedItem}
         />);
