@@ -133,7 +133,7 @@ class MyActivities extends Component {
       date,
       category,
       description,
-      numberOf,
+      noOfParticipants,
       activityTypeId,
     } = newValues;
 
@@ -144,7 +144,7 @@ class MyActivities extends Component {
         date,
         description,
         activityTypeId,
-        numberOf,
+        noOfParticipants,
       },
     });
   }
