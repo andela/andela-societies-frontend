@@ -20,8 +20,8 @@ describe('input validation helper', () => {
   });
 
   it('should set the number is less than 0 error', () => {
-    const formDataWithZeroNumberOf = { ...formData, numberOf: '0' };
+    const formDataWithZeroNumberOf = { ...formData, noOfParticipants: '0' };
     const errors = validate(formDataWithZeroNumberOf);
-    expect(errors.numberOf).toBe('NumberOf must be greater than zero');
+    expect(errors.noOfParticipants).toBe('NoOfParticipants must be greater than zero');
   });
 });

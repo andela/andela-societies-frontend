@@ -17,7 +17,7 @@ const defaultState = {
   activityDate: '',
   description: '',
   errors: {},
-  numberOf: '',
+  numberOfParticipants: '',
   btnText: 'Log',
   formTitle: 'Log An Activity',
 };
@@ -154,7 +154,7 @@ describe('<LogActivityForm />', () => {
     jest.spyOn(instance, 'handleAddEvent');
     shallowWrapper.setState({ activityTypeId: 'eef0e594-43cd-11e8-87a7-9801a7ae0329' });
     instance.handleAddEvent();
-    expect(Object.keys(instance.state.errors)).toContain('numberOf');
+    expect(Object.keys(instance.state.errors)).toContain('noOfParticipants');
   });
 
   it('should call createActivity if data is valid', () => {
@@ -185,6 +185,7 @@ describe('<LogActivityForm />', () => {
       activityDate: today,
       description: 'Mentoring on react testing',
       category: 'Mentor a prospect for Andela 21t',
+      noOfParticipants: '2',
     };
     instance.setState({ ...selectedItem, errors: {} });
     instance.handleAddEvent();

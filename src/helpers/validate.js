@@ -4,7 +4,7 @@ import capitalizeString from '../helpers/stringFormatter';
 const validateFormFields = (formData) => {
   const today = moment().format('YYYY-MM-DD');
   const errors = {};
-  const numberInputs = ['numberOf', 'points'];
+  const numberInputs = ['noOfParticipants', 'points'];
 
   // if any field is empty
   Object.keys(formData).forEach((fieldName) => {
