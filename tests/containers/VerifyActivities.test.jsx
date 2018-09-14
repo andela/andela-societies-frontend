@@ -42,6 +42,7 @@ describe('<VerifyActivities />', () => {
     verifyActivity: verifyActivitySpy,
     fetchAllActivities: fetchAllActivitiesSpy,
     openModal: openModalSpy,
+    message: {},
   };
 
   const component = shallow(<VerifyActivities.WrappedComponent

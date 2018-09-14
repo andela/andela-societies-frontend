@@ -114,6 +114,10 @@ describe('All activities reducer', () => {
     expectedOutput = {
       ...initialState,
       error,
+      message: {
+        type: 'error',
+        text: 'An error has occurred while processing your request'
+      }
     };
     expect(allActivities(initialState, verifyActivitiesOpsFailure(error))).toEqual(expectedOutput);
   });

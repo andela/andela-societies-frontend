@@ -69,15 +69,14 @@ class VerifyActivities extends Component {
    */
   static getDerivedStateFromProps(props, state) {
     if (props.userRoles.length) {
-      const { allActivities, societyName } = props;
+      const { allActivities, societyName, message } = props;
       const { selectedSociety } = state;
       const userRoles = props.userRoles ? props.userRoles : [];
       const showButtons = userRoles.length > 0 && hasAllowedRole(userRoles, [SOCIETY_SECRETARY, SUCCESS_OPS]);
       const showMoreInfoButton = userRoles.length > 0 && hasAllowedRole(userRoles, [SUCCESS_OPS]);
-      let {
-        showTabs,
-      } = state;
+      let { showTabs } = state;
       let filteredActivities;
+      const snackBarMessage = Object.keys(message).length !== 0 ? message : '';
       if (hasAllowedRole(userRoles, [SUCCESS_OPS])) {
         showTabs = true;
         filteredActivities = filterActivitiesByStatus(allActivities, PENDING)
@@ -93,6 +92,7 @@ class VerifyActivities extends Component {
         showTabs,
         showButtons,
         showMoreInfoButton,
+        message: snackBarMessage,
       };
     }
     return { ...state, userRoles: null };
@@ -355,32 +355,30 @@ class VerifyActivities extends Component {
         deselectItem={this.deselectActivity}
       >
         <div className='mainContent'>
-          <div className='VerifyActivities'>
-            {
-              requesting ?
-                <Loader />
-                :
-                <div>
-                  <PageHeader
-                    title='Verify Activities'
-                    hideFilter={hideFilter}
-                    selectedStatus={selectedStatus}
-                    selectedSociety={selectedSociety}
-                    showSelectAllApproveBtn={showSelectAllApproveBtn}
-                    handleSelectAllClick={this.handleSelectAllClick}
-                    handleApproveAllClick={this.handleApproveAllClick}
-                    userRoles={this.props.userRoles}
-                    showTabs={showTabs}
-                    tabs={tabs}
-                    handleChangeTab={this.handleChangeTab}
-                    disabled={disableButton}
-                  />
-                  <div className='activities'>
-                    {this.renderLayout()}
-                  </div>
+          {
+            requesting ?
+              <Loader />
+              :
+              <div>
+                <PageHeader
+                  title='Verify Activities'
+                  hideFilter={hideFilter}
+                  selectedStatus={selectedStatus}
+                  selectedSociety={selectedSociety}
+                  showSelectAllApproveBtn={showSelectAllApproveBtn}
+                  handleSelectAllClick={this.handleSelectAllClick}
+                  handleApproveAllClick={this.handleApproveAllClick}
+                  userRoles={this.props.userRoles}
+                  showTabs={showTabs}
+                  tabs={tabs}
+                  handleChangeTab={this.handleChangeTab}
+                  disabled={disableButton}
+                />
+                <div className='activities'>
+                  {this.renderLayout()}
                 </div>
-            }
-          </div>
+              </div>
+          }
         </div>
         <aside className='sideContent'>
           <Stats
@@ -395,6 +393,7 @@ class VerifyActivities extends Component {
 
 const mapStateToProps = state => ({
   allActivities: state.allActivities.activities,
+  message: state.allActivities.message,
   societyName: state.userProfile.info.society.name,
   requesting: state.allActivities.requesting,
   userRoles: Object.keys(state.userProfile.info.roles),
