@@ -23,6 +23,7 @@ const initialState = {
     activities: [],
     error: null,
     updating: false,
+    message: {},
   },
   categories: {
     requesting: false,

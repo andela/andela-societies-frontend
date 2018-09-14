@@ -1,7 +1,7 @@
 // Third party libraries
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import { stub } from 'sinon';
+import { stub, spy } from 'sinon';
 import { createMockStore } from 'redux-test-utils';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
@@ -27,6 +27,7 @@ const event = { preventDefault: () => { } };
 const verifyRedemption = jest.fn();
 const testRedemptions = [...redemptions, { ...redemption, status: 'rejected' }];
 const userProfile = { ...testProfile, roles: { 'society president': 'Kabc' } };
+const fetchRedemptionSpy = spy();
 
 const testProps = {
   requesting: false,
@@ -37,7 +38,7 @@ const testProps = {
   history,
   fetchUserInfo: stub(),
   changePageTitle: stub(),
-  fetchRedemption: stub().resolves({}),
+  fetchRedemption: fetchRedemptionSpy,
   verifyRedemption,
 };
 
@@ -228,5 +229,13 @@ describe('<Redemptions />', () => {
     const filterRes = redemptions.filter(redemption => redemption.society.name === 'istelle');
     const societyRedemptions = instance.getSocietyRedemptions();
     expect(societyRedemptions).toEqual(filterRes);
+  });
+
+  it('should call componentDidUpdate and fetchRedemption', () => {
+    const componentDidUpdateSpy = spy(Redemptions.WrappedComponent.prototype, 'componentDidUpdate');
+    const { shallowWrapper } = setUpWrapper();
+    shallowWrapper.setState({ userRoles: null });
+    expect(componentDidUpdateSpy.called).toBeTruthy();
+    expect(fetchRedemptionSpy.called).toBeTruthy();
   });
 });

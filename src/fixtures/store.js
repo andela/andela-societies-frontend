@@ -53,6 +53,7 @@ const store = {
     activities: [],
     error: null,
     updating: false,
+    message: {},
   },
   redeemPointsInfo: {
     message: {},

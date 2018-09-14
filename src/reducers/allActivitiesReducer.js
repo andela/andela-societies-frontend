@@ -51,7 +51,19 @@ const allActivities = (state = initialState.allActivities, action) => {
     return { ...state, updating: false, activities };
   }
   case VERIFY_ACTIVITY_OPS_FAILURE:
-    return { ...state, updating: false, error: action.error };
+    return {
+      ...state,
+      updating: false,
+      error: action.error,
+      message: {
+        type: 'error',
+        text: action.error.response
+          ?
+          action.error.response.data.message
+          :
+          'An error has occurred while processing your request',
+      },
+    };
   default:
     return state;
   }
