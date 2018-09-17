@@ -24,7 +24,6 @@ import SnackBar from '../components/notifications/SnackBar';
 import { fetchSocietyInfo } from '../actions/societyInfoActions';
 import { verifyActivity, verifyActivitiesOps } from '../actions/verifyActivityActions';
 import { fetchAllActivities } from '../actions/allActivitiesActions';
-import { openModal } from '../actions/showModalActions';
 
 // constants
 import { SUCCESS_OPS, SOCIETY_SECRETARY } from '../constants/roles';
@@ -51,14 +50,12 @@ class VerifyActivities extends Component {
     verifyActivitiesOps: PropTypes.func,
     allActivities: PropTypes.arrayOf(PropTypes.shape({})),
     userRoles: PropTypes.arrayOf(PropTypes.string),
-    openModal: PropTypes.func,
   }
 
   static defaultProps = {
     verifyActivitiesOps: () => { },
     fetchAllActivities: () => { },
     verifyActivity: () => { },
-    openModal: () => {},
     userRoles: [],
     allActivities: [],
   }
@@ -73,7 +70,6 @@ class VerifyActivities extends Component {
       const { selectedSociety } = state;
       const userRoles = props.userRoles ? props.userRoles : [];
       const showButtons = userRoles.length > 0 && hasAllowedRole(userRoles, [SOCIETY_SECRETARY, SUCCESS_OPS]);
-      const showMoreInfoButton = userRoles.length > 0 && hasAllowedRole(userRoles, [SUCCESS_OPS]);
       let { showTabs } = state;
       let filteredActivities;
       const snackBarMessage = Object.keys(message).length !== 0 ? message : '';
@@ -91,7 +87,6 @@ class VerifyActivities extends Component {
         societyName,
         showTabs,
         showButtons,
-        showMoreInfoButton,
         message: snackBarMessage,
       };
     }
@@ -110,7 +105,6 @@ class VerifyActivities extends Component {
       message: null,
       selectedSociety: 'istelle',
       showTabs: false,
-      showMoreInfoButton: false,
     };
   }
 
@@ -143,7 +137,7 @@ class VerifyActivities extends Component {
    */
   handleClick = (clickAction, activityId) => {
     const { userRoles } = this.props;
-    const { APPROVE, MORE_INFO, REJECT } = clickActions;
+    const { APPROVE, REJECT } = clickActions;
     switch (clickAction) {
     case APPROVE:
     {
@@ -152,14 +146,6 @@ class VerifyActivities extends Component {
         break;
       }
       this.props.verifyActivity(PENDING, activityId);
-      break;
-    }
-    case MORE_INFO:
-    {
-      const selectedActivity = this.state.filteredActivities.find(activity => (activity.id === activityId));
-      selectedActivity.itemType = 'activity';
-      this.props.openModal();
-      this.setState({ selectedActivity });
       break;
     }
     case REJECT:
@@ -250,7 +236,6 @@ class VerifyActivities extends Component {
       isSelectAllChecked,
       selectedActivities,
       showButtons,
-      showMoreInfoButton,
     } = this.state;
     const { history: { location: { pathname } }, userRoles } = this.props;
     const showCheckBox = hasAllowedRole(userRoles, [SUCCESS_OPS]);
@@ -278,7 +263,6 @@ class VerifyActivities extends Component {
                 showUserDetails={showUserDetails}
                 page={pathname}
                 showButtons={showButtons}
-                showMoreInfoButton={showMoreInfoButton}
                 handleClick={this.handleClick}
                 isSelectAllChecked={isSelectAllChecked}
                 selectedActivities={selectedActivities}
@@ -404,5 +388,4 @@ export default connect(mapStateToProps, {
   fetchSocietyInfo,
   verifyActivity,
   verifyActivitiesOps,
-  openModal,
 })(VerifyActivities);

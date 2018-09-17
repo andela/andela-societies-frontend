@@ -25,7 +25,6 @@ const roles = ['success ops'];
 const verifyActivitiesOpsSpy = spy();
 const verifyActivitySpy = spy();
 const fetchAllActivitiesSpy = spy();
-const openModalSpy = spy();
 const event = { preventDefault: () => { } };
 
 describe('<VerifyActivities />', () => {
@@ -41,7 +40,6 @@ describe('<VerifyActivities />', () => {
     verifyActivitiesOps: verifyActivitiesOpsSpy,
     verifyActivity: verifyActivitySpy,
     fetchAllActivities: fetchAllActivitiesSpy,
-    openModal: openModalSpy,
     message: {},
   };
 
@@ -131,14 +129,6 @@ describe('<VerifyActivities />', () => {
     const instance = component.instance();
     instance.handleClick('rejected', '1234t645');
     expect(verifyActivitySpy.called).toBeTruthy();
-  });
-
-  it('should call openModal action when handleClick is invoked with the MORE_INFO click action', () => {
-    component.setProps({ userRoles: roles });
-    component.setState({ filteredActivities: [activity]});
-    const instance = component.instance();
-    instance.handleClick('moreInfo', '8437fa68-8e6b-11e8-a05c-9801a7ae0330');
-    expect(openModalSpy.called).toBeTruthy();
   });
 
   it('should return null the default case when handleClick is invoked with no click action', () => {
