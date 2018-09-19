@@ -153,8 +153,9 @@ class CreateCategoryForm extends Component {
             id: selectedItem.id,
             ...category,
           });
+        } else {
+          this.props.createCategory(category);
         }
-        this.props.createCategory(category);
       }
     });
   }

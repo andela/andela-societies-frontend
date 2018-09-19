@@ -53,7 +53,7 @@ export const verifyActivityFailure = error => (
 export const verifyActivity = (clickAction, activityId) => (
   (dispatch) => {
     dispatch(verifyActivityRequest());
-    return http.put(`${config.API_BASE_URL}/logged-activities/review/${activityId}`, { status: clickAction })
+    return http.put(`${config.API_BASE_URL}/logged-activities/reject/${activityId}`, { status: clickAction })
       .then((response) => {
         dispatch(verifyActivitySuccess(response.data.data));
       })
