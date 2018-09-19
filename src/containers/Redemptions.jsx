@@ -80,7 +80,6 @@ class Redemptions extends React.Component {
     if (userRoles.length) {
       const showButtons = hasAllowedRole(userRoles, VERIFICATION_USERS);
       const showCompleteButton = hasAllowedRole(userRoles, [FINANCE]);
-      const showMoreInfoButton = hasAllowedRole(userRoles, [CIO]);
       const userCanEdit = hasAllowedRole(userRoles, [SOCIETY_PRESIDENT]);
       let preSelectedRemptions;
       let {
@@ -111,7 +110,6 @@ class Redemptions extends React.Component {
         showTabs,
         showButtons,
         showCompleteButton,
-        showMoreInfoButton,
         selectedStatus,
       };
     }
@@ -127,7 +125,6 @@ class Redemptions extends React.Component {
       showUserDetails: true,
       showLocation: true,
       showButtons: false,
-      showMoreInfoButton: false,
       showCompleteButton: false,
       showPoints: true,
       showAmount: true,
@@ -258,7 +255,6 @@ class Redemptions extends React.Component {
       APPROVE,
       EDIT,
       REJECT,
-      MORE_INFO,
       COMPLETE,
     } = clickActions;
     switch (clickAction) {
@@ -267,7 +263,6 @@ class Redemptions extends React.Component {
       this.props.verifyRedemption(redemptionId, clickAction);
       break;
     case EDIT:
-    case MORE_INFO:
     case REJECT:
     {
       this.selectRedemption(redemptionId, clickAction);
@@ -319,7 +314,6 @@ class Redemptions extends React.Component {
       showUserDetails,
       showLocation,
       showButtons,
-      showMoreInfoButton,
       showAmount,
       selectedStatus,
       userCanEdit,
@@ -365,7 +359,6 @@ class Redemptions extends React.Component {
               status={status}
               showAmount={showAmount}
               showButtons={showButtons}
-              showMoreInfoButton={showMoreInfoButton}
               showCompleteButton={showCompleteButton}
               showLocation={showLocation}
               showPoints={showPoints}
