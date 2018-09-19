@@ -174,7 +174,13 @@ describe('<Redemptions />', () => {
     instance.handleClick('completed', redemption.id);
     expect(verifyRedemption).toBeCalledWith(redemption.id, 'completed');
   });
-
+  
+  it('should return null the default case when handleClick is invoked with no click action', () => {
+    const { shallowWrapper } = setUpWrapper();
+    const instance = shallowWrapper.instance();
+    const result = instance.handleClick();
+    expect(result).toBeNull();
+  });
 
   it('should set selectedRedemption when redemption is clicked', () => {
     const { shallowWrapper } = setUpWrapper();

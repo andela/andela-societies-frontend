@@ -269,7 +269,7 @@ class Redemptions extends React.Component {
       break;
     }
     default:
-      break;
+      return null;
     }
     return null;
   }
