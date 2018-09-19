@@ -100,6 +100,11 @@ describe('<VerifyActivities />', () => {
     expect(component.find('LinearLayout').length).toBe(1);
   });
 
+  it('should not have the <LinearLayout /> layout when role is not successOps', () => {
+    component.setProps({ userRoles: ['finance ops'] });
+    expect(component.find('LinearLayout').length).toBe(0);
+  });
+
   it('should show loader when fetching', () => {
     component.setProps({ requesting: true });
     expect(component.find('Loader').length).toBe(1);

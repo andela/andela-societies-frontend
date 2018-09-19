@@ -77,7 +77,7 @@ describe('Verify Activity Actions', () => {
       },
     ];
 
-    moxios.stubRequest(`${config.API_BASE_URL}/logged-activities/review/${activity.id}`, {
+    moxios.stubRequest(`${config.API_BASE_URL}/logged-activities/reject/${activity.id}`, {
       status: 200,
       response: { data: activity },
     });
@@ -98,7 +98,7 @@ describe('Verify Activity Actions', () => {
       },
     ];
 
-    moxios.stubRequest(`${config.API_BASE_URL}/logged-activities/review/${activity.id}`, { status: 401 });
+    moxios.stubRequest(`${config.API_BASE_URL}/logged-activities/reject/${activity.id}`, { status: 401 });
 
     return store.dispatch(verifyActivity(clickActions.APPROVE, activity.id)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
