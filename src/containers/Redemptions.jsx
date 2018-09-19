@@ -24,7 +24,7 @@ import filterActivitiesByStatus from '../helpers/filterActivitiesByStatus';
 
 // constants
 import { VERIFICATION_USERS, SUCCESS_OPS, CIO, SOCIETY_PRESIDENT, STAFF_USERS, FINANCE } from '../constants/roles';
-import { ALL, APPROVED, PENDING, REJECTED } from '../constants/statuses';
+import { ALL, APPROVED, PENDING, REJECTED, COMPLETED } from '../constants/statuses';
 import clickActions from '../constants/clickAction';
 
 // fixtures
@@ -89,10 +89,15 @@ class Redemptions extends React.Component {
       } = state;
 
       // state values for cio/success ops role
-      if (hasAllowedRole(userRoles, [CIO, SUCCESS_OPS, FINANCE])) {
+      if (hasAllowedRole(userRoles, [CIO, SUCCESS_OPS])) {
         showTabs = true;
         selectedStatus = PENDING;
         preSelectedRemptions = filterActivitiesByStatus(redemptions, PENDING)
+          .filter(redemption => redemption.society.name.toLowerCase() === selectedSociety.toLowerCase());
+      } else if (hasAllowedRole(userRoles, [FINANCE])) {
+        showTabs = true;
+        selectedStatus = COMPLETED;
+        preSelectedRemptions = filterActivitiesByStatus(redemptions, COMPLETED)
           .filter(redemption => redemption.society.name.toLowerCase() === selectedSociety.toLowerCase());
       } else {
         preSelectedRemptions = redemptions
@@ -209,12 +214,21 @@ class Redemptions extends React.Component {
    */
   handleChangeTab = (event, title) => {
     event.preventDefault();
-    const pendingRedemptions = filterActivitiesByStatus(this.props.redemptions, PENDING)
-      .filter(red => red.society.name.toLowerCase() === title.toLowerCase());
+    const { userRoles, redemptions } = this.props;
+    let selectedStatus;
+    let societyRedemptions;
+    societyRedemptions = redemptions.filter(red => red.society.name.toLowerCase() === title.toLowerCase());
+    if (hasAllowedRole(userRoles, [FINANCE])) {
+      selectedStatus = COMPLETED;
+      societyRedemptions = filterActivitiesByStatus(societyRedemptions, COMPLETED);
+    } else {
+      selectedStatus = PENDING;
+      societyRedemptions = filterActivitiesByStatus(societyRedemptions, PENDING);
+    }
     this.setState({
-      filteredActivities: pendingRedemptions,
+      filteredActivities: societyRedemptions,
       selectedSociety: title.toLowerCase(),
-      selectedStatus: 'pending',
+      selectedStatus,
     });
   }
 

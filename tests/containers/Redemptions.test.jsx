@@ -147,6 +147,14 @@ describe('<Redemptions />', () => {
     expect(instance.state.filteredActivities.length).toBe(1);
   });
 
+  it('should update state of filteredActivities when role is Finance', () => {
+    const { shallowWrapper } = setUpWrapper({ roles: { 'finance': 'Kabc' } });
+    const instance = shallowWrapper.instance();
+    instance.handleChangeTab(event, 'phoenix');
+    expect(instance.state.selectedSociety).toBe('phoenix');
+    expect(instance.state.filteredActivities.length).toBe(0);
+  });
+
   it('should call verifyRedemption thunk when redemption is approved', () => {
     const { shallowWrapper } = setUpWrapper();
     const instance = shallowWrapper.instance();
