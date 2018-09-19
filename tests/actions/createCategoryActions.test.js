@@ -84,4 +84,35 @@ describe('Create Category Actions', () => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
+
+  it('dispatches CREATE_CATEGORY_FAILURE when creating the category fails', () => {
+    store = mockStore({ categories });
+
+    const expectedActions = [
+      {
+        type: CREATE_CATEGORY_REQUEST,
+      },
+      {
+        type: CREATE_CATEGORY_FAILURE,
+        error: new Error('Request failed with status code 400'),
+      },
+    ];
+
+    moxios.wait(() => {
+      const request = moxios.requests.mostRecent();
+      request.respondWith({
+        status: 400,
+      }).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+    });
+
+    moxios.stubRequest(`${config.API_BASE_URL}/activity-types/`, {
+      status: 400,
+    });
+
+    return store.dispatch(createCategory(categories[0])).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
 });

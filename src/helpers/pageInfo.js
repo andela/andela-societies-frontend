@@ -49,7 +49,7 @@ const pageInfo = {
       url: '/u/redemptions',
       component: Redemptions,
       menuIcon: RedemptionsIcon,
-      allowedRoles: [SUCCESS_OPS, SOCIETY_PRESIDENT, CIO, FINANCE],
+      allowedRoles: [SOCIETY_PRESIDENT, CIO, FINANCE],
     },
     {
       title: 'Categories',
