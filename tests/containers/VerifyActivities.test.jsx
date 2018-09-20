@@ -22,7 +22,8 @@ import filterActivitiesByStatus from '../../src/helpers/filterActivitiesByStatus
 const store = createMockStore(storeFixture);
 const history = { push: () => { }, location: { pathname: '' } };
 const roles = ['success ops'];
-const verifyActivitiesOpsSpy = spy();
+const rejectActivityByOpsSpy = spy();
+const approveActivityByOpsSpy = spy();
 const verifyActivitySpy = spy();
 const fetchAllActivitiesSpy = spy();
 const event = { preventDefault: () => { } };
@@ -37,7 +38,8 @@ describe('<VerifyActivities />', () => {
     allActivities: activities,
     societyActivities: society.loggedActivities,
     requesting: false,
-    verifyActivitiesOps: verifyActivitiesOpsSpy,
+    approveActivityByOps: approveActivityByOpsSpy,
+    rejectActivityByOps: rejectActivityByOpsSpy,
     verifyActivity: verifyActivitySpy,
     fetchAllActivities: fetchAllActivitiesSpy,
     message: {},
@@ -76,10 +78,10 @@ describe('<VerifyActivities />', () => {
     expect(selectedActivities).toEqual(selected);
   });
 
-  it('should call verifyActivitiesOps props when handleApproveAllClick is invoked', () => {
+  it('should call approveActivityByOps props when handleApproveAllClick is invoked', () => {
     const instance = component.instance();
     instance.handleApproveAllClick();
-    expect(verifyActivitiesOpsSpy.called).toBeTruthy();
+    expect(approveActivityByOpsSpy.called).toBeTruthy();
   });
 
   it('should have the <MasonryLayout /> layout when role is not successOps', () => {
@@ -122,11 +124,18 @@ describe('<VerifyActivities />', () => {
     expect(verifyActivitySpy.called).toBeTruthy();
   });
 
-  it('should call verifyActivitiesOps when handleClick is invoked with role as SUCCESS_OPS', () => {
+  it('should call approveActivityByOps when handleClick is invoked with role as SUCCESS_OPS', () => {
     component.setProps({ userRoles: roles });
     const instance = component.instance();
     instance.handleClick('approved', '1234t645');
-    expect(verifyActivitiesOpsSpy.called).toBeTruthy();
+    expect(approveActivityByOpsSpy.called).toBeTruthy();
+  });
+
+  it('should call rejectActivityByOps when handleClick is invoked with reject action and role as SUCCESS_OPS', () => {
+    component.setProps({ userRoles: roles });
+    const instance = component.instance();
+    instance.handleClick('rejected', '1234t645');
+    expect(rejectActivityByOpsSpy.called).toBeTruthy();
   });
 
   it('should call verifyActivity when handleClick is invoked with reject action and role as society secretary', () => {
