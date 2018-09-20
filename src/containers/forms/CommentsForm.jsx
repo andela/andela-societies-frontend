@@ -112,9 +112,9 @@ class CommentsForm extends Component {
     if (Object.keys(errors).length) {
       this.setState({ errors });
     }
-    this.props.requestMoreInfo(selectedItem.id, comment);
+    // this.props.requestMoreInfo(selectedItem.id, comment);
     if (selectedItem.clickAction === 'rejected') {
-      this.props.verifyRedemption(selectedItem.id, selectedItem.clickAction);
+      this.props.verifyRedemption(selectedItem.id, selectedItem.clickAction, comment);
     }
   }
 

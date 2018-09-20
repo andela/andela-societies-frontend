@@ -189,10 +189,10 @@ export const verifyRedemptionFailure = error => (
  * @param {String} id - identifier for redemption request
  * @returns {(dispatch) => Promise<AxiosResponse>}
  */
-export const verifyRedemption = (id, clickAction) => (
+export const verifyRedemption = (id, clickAction, comment) => (
   (dispatch) => {
     dispatch(verifyRedemptionRequest());
-    return axios.put(`${config.API_BASE_URL}/societies/redeem/verify/${id}`, { status: clickAction })
+    return axios.put(`${config.API_BASE_URL}/societies/redeem/verify/${id}`, { status: clickAction, comment })
       .then((response) => {
         dispatch(verifyRedemptionSuccess(response.data.data));
       })
