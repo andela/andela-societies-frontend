@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import promptModal from 'sweetalert';
 
 // helpers
 import {
@@ -150,7 +151,18 @@ class VerifyActivities extends Component {
     }
     case REJECT:
     {
-      this.props.verifyActivity(clickAction, activityId);
+      promptModal({
+        title: 'Are you sure?',
+        text: 'Clicking the Reject button will reject the activity.',
+        icon: 'warning',
+        buttons: ['Cancel', 'Reject'],
+        closeModal: true,
+        dangerMode: true,
+      }).then((willReject) => {
+        if (willReject) {
+          this.props.verifyActivity(clickAction, activityId);
+        }
+      });
       break;
     }
     default:
