@@ -230,7 +230,7 @@ class CommentsForm extends Component {
 }
 
 const mapStateToProps = state => ({
-  message: state.commentsInfo.message,
+  message: state.redeemPointsInfo.message,
 });
 
 export default connect(mapStateToProps, {

@@ -195,8 +195,8 @@ export const verifyRedemption = (id, clickAction, comment) => (
     return axios
       .put(`${config.API_BASE_URL}/societies/redeem/verify/${id}`, { status: clickAction, rejection: comment })
       .then((response) => {
-        dispatch(verifyRedemptionSuccess(response.data.data));
-      })
-      .catch(error => dispatch(verifyRedemptionFailure(error)));
+        dispatch(verifyRedemptionSuccess(response.data));
+      });
+    // .catch(error => dispatch(verifyRedemptionFailure(error)));
   }
 );

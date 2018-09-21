@@ -89,9 +89,14 @@ const redeemPointsReducer = (state = initialState.redemptionsInfo, action) => {
     };
   case VERIFY_REDEMPTION_SUCCESS: {
     const redemptions = state.redemptions.map(redemption => (
-      redemption.id !== action.redemption.id ? redemption : action.redemption
+      redemption.id !== action.redemption.data.id ? redemption : action.redemption.data
     ));
-    return { ...state, updating: false, redemptions };
+    return {
+      ...state,
+      updating: false,
+      message: { type: 'success', text: action.redemption.message },
+      redemptions,
+    };
   }
   case VERIFY_REDEMPTION_FAILURE:
     return {
