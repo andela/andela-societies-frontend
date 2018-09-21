@@ -23,7 +23,7 @@ import SnackBar from '../components/notifications/SnackBar';
 
 // actions
 import { fetchSocietyInfo } from '../actions/societyInfoActions';
-import { verifyActivity, verifyActivitiesOps } from '../actions/verifyActivityActions';
+import { verifyActivity, approveActivityByOps, rejectActivityByOps } from '../actions/verifyActivityActions';
 import { fetchAllActivities } from '../actions/allActivitiesActions';
 
 // constants
@@ -48,13 +48,15 @@ class VerifyActivities extends Component {
       location: PropTypes.shape({ pathname: PropTypes.string.isRequired }).isRequired,
     }).isRequired,
     verifyActivity: PropTypes.func,
-    verifyActivitiesOps: PropTypes.func,
+    approveActivityByOps: PropTypes.func,
+    rejectActivityByOps: PropTypes.func,
     allActivities: PropTypes.arrayOf(PropTypes.shape({})),
     userRoles: PropTypes.arrayOf(PropTypes.string),
   }
 
   static defaultProps = {
-    verifyActivitiesOps: () => { },
+    approveActivityByOps: () => {},
+    rejectActivityByOps: () => {},
     fetchAllActivities: () => { },
     verifyActivity: () => { },
     userRoles: [],
@@ -143,7 +145,7 @@ class VerifyActivities extends Component {
     case APPROVE:
     {
       if (hasAllowedRole(userRoles, [SUCCESS_OPS])) {
-        this.props.verifyActivitiesOps([activityId]);
+        this.props.approveActivityByOps([activityId]);
         break;
       }
       this.props.verifyActivity(PENDING, activityId);
@@ -151,6 +153,7 @@ class VerifyActivities extends Component {
     }
     case REJECT:
     {
+
       promptModal({
         title: 'Are you sure?',
         text: 'Clicking the Reject button will reject the activity.',
@@ -163,6 +166,13 @@ class VerifyActivities extends Component {
           this.props.verifyActivity(clickAction, activityId);
         }
       });
+
+      if (hasAllowedRole(userRoles, [SUCCESS_OPS])) {
+        this.props.rejectActivityByOps(clickAction, activityId);
+        break;
+      }
+      this.props.verifyActivity(clickAction, activityId);
+
       break;
     }
     default:
@@ -233,7 +243,7 @@ class VerifyActivities extends Component {
         }),
       });
     }
-    this.props.verifyActivitiesOps(selectedActivities);
+    this.props.approveActivityByOps(selectedActivities);
   };
 
   /**
@@ -399,5 +409,6 @@ export default connect(mapStateToProps, {
   fetchAllActivities,
   fetchSocietyInfo,
   verifyActivity,
-  verifyActivitiesOps,
+  approveActivityByOps,
+  rejectActivityByOps,
 })(VerifyActivities);

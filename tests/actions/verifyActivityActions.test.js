@@ -8,9 +8,10 @@ import {
   verifyActivitySuccess,
   verifyActivityFailure,
   verifyActivity,
-  verifyActivitiesOpsRequest,
-  verifyActivitiesOpsFailure,
-  verifyActivitiesOps,
+  approveActivityByOpsFailure,
+  approveActivityByOpsRequest,
+  approveActivityByOps,
+  rejectActivityByOps,
 } from '../../src/actions/verifyActivityActions';
 
 // types
@@ -18,9 +19,12 @@ import {
   VERIFY_ACTIVITY_SUCCESS,
   VERIFY_ACTIVITY_FAILURE,
   VERIFY_ACTIVITY_REQUEST,
-  VERIFY_ACTIVITY_OPS_REQUEST,
-  VERIFY_ACTIVITY_OPS_FAILURE,
-  VERIFY_ACTIVITY_OPS_SUCCESS,
+  REJECT_ACTIVITY_BY_OPS_FAILURE,
+  REJECT_ACTIVITY_BY_OPS_REQUEST,
+  REJECT_ACTIVITY_BY_OPS_SUCCESS,
+  APPROVE_ACTIVITY_BY_OPS_FAILURE,
+  APPROVE_ACTIVITY_BY_OPS_REQUEST,
+  APPROVE_ACTIVITY_BY_OPS_SUCCESS
 } from '../../src/types';
 
 // fixtures
@@ -77,7 +81,7 @@ describe('Verify Activity Actions', () => {
       },
     ];
 
-    moxios.stubRequest(`${config.API_BASE_URL}/logged-activities/reject/${activity.id}`, {
+    moxios.stubRequest(`${config.API_BASE_URL}/logged-activities/review/${activity.id}`, {
       status: 200,
       response: { data: activity },
     });
@@ -98,30 +102,70 @@ describe('Verify Activity Actions', () => {
       },
     ];
 
-    moxios.stubRequest(`${config.API_BASE_URL}/logged-activities/reject/${activity.id}`, { status: 401 });
+    moxios.stubRequest(`${config.API_BASE_URL}/logged-activities/review/${activity.id}`, { status: 401 });
 
     return store.dispatch(verifyActivity(clickActions.APPROVE, activity.id)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
 
-  it('creates VERIFY_ACTIVITY_OPS_REQUEST action', () => {
-    expect(verifyActivitiesOpsRequest()).toEqual({ type: VERIFY_ACTIVITY_OPS_REQUEST });
+  it('dispatches REJECT_ACTIVITY_BY_OPS_SUCCESS after successfuly rejecting an activity ', () => {
+    const expectedActions = [
+      {
+        type: REJECT_ACTIVITY_BY_OPS_REQUEST,
+      },
+      {
+        type: REJECT_ACTIVITY_BY_OPS_SUCCESS,
+        activity,
+      },
+    ];
+  
+    moxios.stubRequest(`${config.API_BASE_URL}/logged-activities/reject/${activity.id}`, {
+      status: 200,
+      response: { data: activity },
+    });
+  
+    return store.dispatch(rejectActivityByOps(clickActions.REJECT, activity.id)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+  
+  it('dispatches REJECT_ACTIVITY_BY_OPS_FAILURE when rejecting an activity fails', () => {
+    const error = new Error('Request failed with status code 401');
+    const expectedActions = [
+      {
+        type: REJECT_ACTIVITY_BY_OPS_REQUEST,
+      },
+      {
+        type: REJECT_ACTIVITY_BY_OPS_FAILURE,
+        error,
+      },
+    ];
+  
+    moxios.stubRequest(`${config.API_BASE_URL}/logged-activities/reject/${activity.id}`, { status: 401 });
+  
+    return store.dispatch(rejectActivityByOps(clickActions.REJECT, activity.id)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
   });
 
-  it('creates VERIFY_ACTIVITY_OPS_FAILURE action', () => {
+  it('creates APPROVE_ACTIVITY_BY_OPS_REQUEST action', () => {
+    expect(approveActivityByOpsRequest()).toEqual({ type: APPROVE_ACTIVITY_BY_OPS_REQUEST });
+  });
+
+  it('creates APPROVE_ACTIVITY_BY_OPS_FAILURE action', () => {
     const error = 'There was an error while processing your request.';
-    expect(verifyActivitiesOpsFailure(error)).toEqual({ type: VERIFY_ACTIVITY_OPS_FAILURE, error });
+    expect(approveActivityByOpsFailure(error)).toEqual({ type: APPROVE_ACTIVITY_BY_OPS_FAILURE, error });
   });
 
-  it('dispatches VERIFY_ACTIVITY_OPS_SUCCES action when verifying activities is successful', () => {
+  it('dispatches APPROVE_ACTIVITY_BY_OPS_SUCCESS action when verifying activities is successful', () => {
     const activityIds = ['bnfad176-43cd-11e8-b3b9-9801a7ae0329'];
     const expectedActions = [
       {
-        type: VERIFY_ACTIVITY_OPS_REQUEST,
+        type: APPROVE_ACTIVITY_BY_OPS_REQUEST,
       },
       {
-        type: VERIFY_ACTIVITY_OPS_SUCCESS,
+        type: APPROVE_ACTIVITY_BY_OPS_SUCCESS,
         activities: approvedActivities,
         activityIds,
       },
@@ -132,19 +176,19 @@ describe('Verify Activity Actions', () => {
       response: { data: approvedActivities },
     });
 
-    return store.dispatch(verifyActivitiesOps(activityIds)).then(() => {
+    return store.dispatch(approveActivityByOps(activityIds)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
 
-  it('dispatches VERIFY_ACTIVITY_OPS_FAILURE action when verifying activities is unsuccessful', () => {
+  it('dispatches APPROVE_ACTIVITY_BY_OPS_FAILURE action when verifying activities is unsuccessful', () => {
     const activityIds = ['bnfad176-43cd-11e8-b3b9-9801a7ae0329'];
     const expectedActions = [
       {
-        type: VERIFY_ACTIVITY_OPS_REQUEST,
+        type: APPROVE_ACTIVITY_BY_OPS_REQUEST,
       },
       {
-        type: VERIFY_ACTIVITY_OPS_FAILURE,
+        type: APPROVE_ACTIVITY_BY_OPS_FAILURE,
         error: new Error('Request failed with status code 400'),
       },
     ];
@@ -153,7 +197,7 @@ describe('Verify Activity Actions', () => {
       status: 400,
     });
 
-    return store.dispatch(verifyActivitiesOps(activityIds)).then(() => {
+    return store.dispatch(approveActivityByOps(activityIds)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
