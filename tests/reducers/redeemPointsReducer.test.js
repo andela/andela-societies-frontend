@@ -13,6 +13,9 @@ import {
   verifyRedemptionRequest,
   verifyRedemptionSuccess,
   verifyRedemptionFailure,
+  completeRedemptionFinanceFailure,
+  completeRedemptionFinanceRequest,
+  completeRedemptionFinanceSuccess
 } from '../../src/actions/redeemPointsAction';
 
 // types
@@ -172,5 +175,33 @@ describe('Redeem points reducer', () => {
       requesting: false,
     };
     expect(redeemPointsReducer(defaultState, updateRedemptionSuccessAction)).toEqual(expectedOutput);
+  });
+
+  it('should set updating to true for COMPLETE_REDEMPTION_FINANCE_REQUEST', () => {
+    expect(redeemPointsReducer(defaultState, completeRedemptionFinanceRequest())).toEqual({
+      ...defaultState,
+      updating: true,
+    });
+  });
+
+  it('should return redemption with updated status for COMPLETE_REDEMPTION_FINANCE_SUCCESS', () => {
+    defaultState.redemptions = [...redemptions, redemption];
+    redemption.status = 'completed';
+    const expectedOutput = {
+      ...defaultState,
+      requesting: false,
+      hasError: false,
+      redemptions: [...redemptions, redemption],
+    };
+    expect(redeemPointsReducer(defaultState, completeRedemptionFinanceSuccess(redemption))).toEqual(expectedOutput);
+  });
+
+  it('should set error for COMPLETE_REDEMPTION_FINANCE_FAILURE', () => {
+    const expectedOutput = {
+      ...defaultState,
+      hasError: true,
+      error: { error: 404 },
+    };
+    expect(redeemPointsReducer(defaultState, completeRedemptionFinanceFailure({ error: 404 }))).toEqual(expectedOutput);
   });
 });
