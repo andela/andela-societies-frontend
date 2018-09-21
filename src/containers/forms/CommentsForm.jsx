@@ -13,7 +13,7 @@ import SnackBar from '../../components/notifications/SnackBar';
 
 // thunk
 import { verifyRedemption } from '../../actions/redeemPointsAction';
-import { requestMoreInfo } from '../../actions/commentActions';
+// import { requestMoreInfo } from '../../actions/commentActions';
 
 // helpers
 import validateFormFields from '../../helpers/validate';
@@ -33,7 +33,7 @@ class CommentsForm extends Component {
     },
     selectedItem: {},
     closeModal: null,
-    requestMoreInfo: null,
+    // requestMoreInfo: null,
     showModal: false,
     verifyRedemption: null,
   };
@@ -43,7 +43,7 @@ class CommentsForm extends Component {
   static propTypes = {
     selectedItem: PropTypes.shape({ id: PropTypes.string }),
     verifyRedemption: PropTypes.func,
-    requestMoreInfo: PropTypes.func,
+    // requestMoreInfo: PropTypes.func,
     closeModal: PropTypes.func,
     showModal: PropTypes.bool,
     message: PropTypes.shape({
@@ -235,5 +235,5 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
   verifyRedemption,
-  requestMoreInfo,
+  // requestMoreInfo,
 })(CommentsForm);
