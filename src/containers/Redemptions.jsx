@@ -13,7 +13,11 @@ import ErrorMessage from '../common/ErrorMessage';
 import Loader from '../components/loaders/Loader';
 
 // thunk
-import { fetchRedemption, verifyRedemption } from '../actions/redeemPointsAction';
+import {
+  fetchRedemption,
+  verifyRedemption,
+  completeRedemptionFinance,
+} from '../actions/redeemPointsAction';
 import { openModal } from '../actions/showModalActions';
 
 // helpers
@@ -23,8 +27,20 @@ import statsGenerator from '../helpers/statsGenerator';
 import filterActivitiesByStatus from '../helpers/filterActivitiesByStatus';
 
 // constants
-import { VERIFICATION_USERS, SUCCESS_OPS, CIO, SOCIETY_PRESIDENT, STAFF_USERS, FINANCE } from '../constants/roles';
-import { ALL, APPROVED, PENDING, REJECTED, COMPLETED } from '../constants/statuses';
+import {
+  VERIFICATION_USERS,
+  SUCCESS_OPS,
+  CIO,
+  SOCIETY_PRESIDENT,
+  STAFF_USERS,
+  FINANCE,
+} from '../constants/roles';
+import {
+  ALL,
+  APPROVED,
+  PENDING,
+  REJECTED,
+} from '../constants/statuses';
 import clickActions from '../constants/clickAction';
 
 // fixtures
@@ -42,6 +58,7 @@ class Redemptions extends React.Component {
     requesting: false,
     redemptions: [],
     openModal: () => {},
+    completeRedemptionFinance: () => {},
     history: {
       location: {
         pathname: '',
@@ -63,6 +80,7 @@ class Redemptions extends React.Component {
     societyName: PropTypes.string,
     fetchRedemption: PropTypes.func.isRequired,
     verifyRedemption: PropTypes.func.isRequired,
+    completeRedemptionFinance: PropTypes.func,
     userRoles: PropTypes.arrayOf(PropTypes.string),
     redemptions: PropTypes.arrayOf(PropTypes.shape({})),
     openModal: PropTypes.func,
@@ -95,8 +113,8 @@ class Redemptions extends React.Component {
           .filter(redemption => redemption.society.name.toLowerCase() === selectedSociety.toLowerCase());
       } else if (hasAllowedRole(userRoles, [FINANCE])) {
         showTabs = true;
-        selectedStatus = COMPLETED;
-        preSelectedRemptions = filterActivitiesByStatus(redemptions, COMPLETED)
+        selectedStatus = ALL;
+        preSelectedRemptions = redemptions
           .filter(redemption => redemption.society.name.toLowerCase() === selectedSociety.toLowerCase());
       } else {
         preSelectedRemptions = redemptions
@@ -216,8 +234,7 @@ class Redemptions extends React.Component {
     let societyRedemptions;
     societyRedemptions = redemptions.filter(red => red.society.name.toLowerCase() === title.toLowerCase());
     if (hasAllowedRole(userRoles, [FINANCE])) {
-      selectedStatus = COMPLETED;
-      societyRedemptions = filterActivitiesByStatus(societyRedemptions, COMPLETED);
+      selectedStatus = ALL;
     } else {
       selectedStatus = PENDING;
       societyRedemptions = filterActivitiesByStatus(societyRedemptions, PENDING);
@@ -259,6 +276,8 @@ class Redemptions extends React.Component {
     } = clickActions;
     switch (clickAction) {
     case COMPLETE:
+      this.props.completeRedemptionFinance(redemptionId, clickAction);
+      break;
     case APPROVE:
       this.props.verifyRedemption(redemptionId, clickAction);
       break;
@@ -436,5 +455,6 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   fetchRedemption,
   verifyRedemption,
+  completeRedemptionFinance,
   openModal,
 })(Redemptions);

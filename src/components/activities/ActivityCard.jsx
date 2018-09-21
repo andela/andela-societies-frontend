@@ -111,7 +111,7 @@ class ActivityCard extends Component {
     this.state = {
       isActivityChecked: false,
       statuses,
-      statusNeedingButtons: [STATUSES[1], STATUSES[2], STATUSES[6]],
+      statusNeedingButtons: [STATUSES[1], STATUSES[2]],
     };
   }
 
