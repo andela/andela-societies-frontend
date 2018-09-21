@@ -11,6 +11,9 @@ import {
   VERIFY_REDEMPTION_SUCCESS,
   VERIFY_REDEMPTION_FAILURE,
   VERIFY_REDEMPTION_REQUEST,
+  COMPLETE_REDEMPTION_FINANCE_FAILURE,
+  COMPLETE_REDEMPTION_FINANCE_REQUEST,
+  COMPLETE_REDEMPTION_FINANCE_SUCCESS,
 } from '../types';
 import initialState from './initialState';
 
@@ -91,9 +94,32 @@ const redeemPointsReducer = (state = initialState.redemptionsInfo, action) => {
     const redemptions = state.redemptions.map(redemption => (
       redemption.id !== action.redemption.id ? redemption : action.redemption
     ));
-    return { ...state, updating: false, redemptions };
+    return {
+      ...state,
+      updating: false,
+      message: { type: 'success', text: action.redemption.message },
+      redemptions,
+    };
   }
   case VERIFY_REDEMPTION_FAILURE:
+    return {
+      ...state,
+      updating: false,
+      hasError: true,
+      error: action.error,
+    };
+  case COMPLETE_REDEMPTION_FINANCE_REQUEST:
+    return {
+      ...state,
+      updating: true,
+    };
+  case COMPLETE_REDEMPTION_FINANCE_SUCCESS: {
+    const redemptions = state.redemptions.map(redemption => (
+      redemption.id !== action.redemption.id ? redemption : action.redemption
+    ));
+    return { ...state, updating: false, redemptions };
+  }
+  case COMPLETE_REDEMPTION_FINANCE_FAILURE:
     return {
       ...state,
       updating: false,
