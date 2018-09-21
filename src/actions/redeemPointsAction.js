@@ -14,6 +14,9 @@ import {
   VERIFY_REDEMPTION_SUCCESS,
   VERIFY_REDEMPTION_FAILURE,
   VERIFY_REDEMPTION_REQUEST,
+  COMPLETE_REDEMPTION_FINANCE_FAILURE,
+  COMPLETE_REDEMPTION_FINANCE_REQUEST,
+  COMPLETE_REDEMPTION_FINANCE_SUCCESS,
 } from '../types';
 
 import config from '../../config';
@@ -197,5 +200,56 @@ export const verifyRedemption = (id, clickAction) => (
         dispatch(verifyRedemptionSuccess(response.data.data));
       })
       .catch(error => dispatch(verifyRedemptionFailure(error)));
+  }
+);
+
+/**
+ * @function completeRedemptionFinanceRequest
+ * @return {Object} {{type: COMPLETE_REDEMPTION_FINANCE_REQUEST}}
+ */
+export const completeRedemptionFinanceRequest = () => (
+  {
+    type: COMPLETE_REDEMPTION_FINANCE_REQUEST,
+  }
+);
+
+/**
+ * @function completeRedemptionFinanceSuccess
+ * @param {object} redemption - approved/rejected redemption
+ * @return {Object} {{type: COMPLETE_REDEMPTION_FINANCE_SUCCESS, redemption}}
+ */
+export const completeRedemptionFinanceSuccess = redemption => (
+  {
+    type: COMPLETE_REDEMPTION_FINANCE_SUCCESS,
+    redemption,
+  }
+);
+
+/**
+ * @function completeRedemptionFinanceFailure
+ * @param error - object with error information
+ * @return {Object} {{type: COMPLETE_REDEMPTION_FINANCE_FAILURE, error}}
+ */
+export const completeRedemptionFinanceFailure = error => (
+  {
+    type: COMPLETE_REDEMPTION_FINANCE_FAILURE,
+    error,
+  }
+);
+
+/**
+ * @function completeRedemptionFinance thunk
+ * @param {Boolean} clickAction - click action/status of redemption i.e. approved/rejected
+ * @param {String} id - identifier for redemption request
+ * @returns {(dispatch) => Promise<AxiosResponse>}
+ */
+export const completeRedemptionFinance = (id, clickAction) => (
+  (dispatch) => {
+    dispatch(completeRedemptionFinanceRequest());
+    return axios.put(`${config.API_BASE_URL}/societies/redeem/funds/${id}`, { status: clickAction })
+      .then((response) => {
+        dispatch(completeRedemptionFinanceSuccess(response.data.data));
+      })
+      .catch(error => dispatch(completeRedemptionFinanceFailure(error)));
   }
 );
