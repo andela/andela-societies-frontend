@@ -94,7 +94,12 @@ const redeemPointsReducer = (state = initialState.redemptionsInfo, action) => {
     const redemptions = state.redemptions.map(redemption => (
       redemption.id !== action.redemption.id ? redemption : action.redemption
     ));
-    return { ...state, updating: false, redemptions };
+    return {
+      ...state,
+      updating: false,
+      message: { type: 'success', text: action.redemption.message },
+      redemptions,
+    };
   }
   case VERIFY_REDEMPTION_FAILURE:
     return {
