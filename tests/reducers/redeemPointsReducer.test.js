@@ -123,6 +123,7 @@ describe('Redeem points reducer', () => {
       requesting: false,
       hasError: false,
       redemptions: [...redemptions, redemption],
+      message: { text: undefined, type: 'success' },
     };
     expect(redeemPointsReducer(defaultState, verifyRedemptionSuccess(redemption))).toEqual(expectedOutput);
   });

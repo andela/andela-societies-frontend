@@ -167,7 +167,10 @@ export const verifyRedemptionRequest = () => (
 export const verifyRedemptionSuccess = redemption => (
   {
     type: VERIFY_REDEMPTION_SUCCESS,
-    redemption,
+    message: redemption.message,
+    redemption: {
+      ...redemption.data,
+    },
   }
 );
 
@@ -196,7 +199,7 @@ export const verifyRedemption = (id, clickAction, comment) => (
       .put(`${config.API_BASE_URL}/societies/redeem/verify/${id}`, { status: clickAction, rejection: comment })
       .then((response) => {
         dispatch(verifyRedemptionSuccess(response.data));
-      });
-    // .catch(error => dispatch(verifyRedemptionFailure(error)));
+      })
+      .catch(error => dispatch(verifyRedemptionFailure(error)));
   }
 );
