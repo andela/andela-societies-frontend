@@ -153,7 +153,6 @@ class VerifyActivities extends Component {
     }
     case REJECT:
     {
-
       promptModal({
         title: 'Are you sure?',
         text: 'Clicking the Reject button will reject the activity.',
