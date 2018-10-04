@@ -97,7 +97,7 @@ export const fetchRedemption = (ref) => {
   const path = ref === 'full' ? '' : `?society=${ref}`;
   return (dispatch) => {
     dispatch(fetchRedemptionsRequest());
-    return axios.get(`${config.API_BASE_URL}/societies/redeem${path}`)
+    return axios.get(`${config.API_BASE_URL}/societies/redeem${path || '?paginate=false'}`)
       .then((response) => {
         dispatch(fetchRedemptionsSuccess(response.data.data));
       }).catch(() => dispatch({ type: FETCH_REDEMPTIONS_FAILURE }));
