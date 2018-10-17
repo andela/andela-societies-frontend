@@ -73,13 +73,12 @@ describe('<CommentsForm />', () => {
     expect(verifyRedemption).toHaveBeenCalled();
   });
 
-  // it('should call requestMoreInfo thunk when an activity is submitted ', () => {
-  //   mountedWrapper.setProps({ selectedItem: activity });
-  //   const instance = mountedWrapper.instance();
-  //   instance.setState({ comment: 'Be more specific' });
-  //   instance.handleSubmit();
-  //   expect(requestMoreInfo).toHaveBeenCalled();
-  // });
+  it('should return null the default case when renderItemDetails is invoked with no selected Item', () => {
+    const instance = shallowWrapper.instance();
+    const selectedItem = {};
+    const result = instance.renderItemDetails(selectedItem);
+    expect(result).toBeNull();
+  });
 
   describe('Button Actions', () => {
     it('should call closeModal prop and resetState function when handleCloseModal is called', () => {
