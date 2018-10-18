@@ -26,7 +26,7 @@ describe('<CommentsForm />', () => {
     />);
     mountedWrapper = mount(<CommentsForm.WrappedComponent
       verifyRedemption={verifyRedemption}
-      selectedItem={{...redemption, rejectClicked: true }}
+      selectedItem={{ ...redemption, rejectClicked: true }}
       requestMoreInfo={requestMoreInfo}
       closeModal={closeModal}
       deselectItem={deselectItem}
