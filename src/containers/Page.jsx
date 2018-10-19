@@ -163,8 +163,10 @@ class Page extends Component {
     if (location.pathname === '/u/categories' && hasAllowedRole(userRoles, SUCCESS_OPS)) {
       FAB = <FloatingButton onClick={this.onFabClick} />;
     } else if (showModal ||
-      hasAllowedRole(userRoles, STAFF_USERS
-      || !userRoles.length) || location.pathname === '/u/verify-activities') {
+        hasAllowedRole(userRoles, STAFF_USERS)
+        || !userRoles.length
+        || location.pathname === '/u/verify-activities'
+        || location.pathname.match(/\/society\/[a-z]+/)) {
       FAB = '';
     } else {
       FAB = <FloatingButton onClick={this.onFabClick} />;
