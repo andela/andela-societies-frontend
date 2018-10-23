@@ -67,7 +67,7 @@ const store = {
     message: {},
     requesting: false,
   },
-  modalInfo:{
+  modalInfo: {
     showModal: false,
   },
 };

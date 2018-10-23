@@ -16,7 +16,7 @@ import societyImage from '../../assets/images/andelaSociety.jpg';
  */
 
 const SocietyBanner = (props) => {
-  const { society } = props;
+  const { society, handleChangeHeader, currentTitle } = props;
   const bannerLogos = {
     invictus: InvictusLogo,
     istelle: IstelleLogo,
@@ -25,17 +25,15 @@ const SocietyBanner = (props) => {
   };
   // select society banner from bannerLogos object by key
   const BannerLogo = society.name && bannerLogos[society.name.toLowerCase()];
-  const hasBanner = () => (
-    Object.keys(bannerLogos).find(name => name === society.name.toLowerCase())
-  );
+  const hasBanner = () =>
+    Object.keys(bannerLogos).find(name => name === society.name.toLowerCase());
 
   return (
     <div className='societyBanner__wrapper'>
       <div
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.85)), url(${
-            society.image || societyImage
-          })`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.85)), url(${society.image ||
+            societyImage})`,
           backgroundSize: '100%',
           display: 'cover',
           height: '32rem',
@@ -50,14 +48,39 @@ const SocietyBanner = (props) => {
           {hasBanner() ? <BannerLogo /> : null}
         </div>
         <ul className='societyBanner__nav'>
-          <li className='societyBanner__nav--item'>
-            <span className='societyBanner__link societyBanner__link--active'>Activities</span>
+          {/* eslint-disable-next-line */}
+          <li
+            className='societyBanner__nav--item'
+            onClick={() => handleChangeHeader('Activities')}
+          >
+            <span className={
+              currentTitle === 'Activities' ?
+                'societyBanner__link--active'
+                :
+                'societyBanner__link'
+            }
+            >
+              Activities
+            </span>
+          </li>
+          {/* eslint-disable-next-line */}
+          <li
+            className='societyBanner__nav--item'
+            onClick={() => handleChangeHeader('Leadership')}
+          >
+            <span className={currentTitle === 'Leadership' ?
+              'societyBanner__link--active'
+              :
+              'societyBanner__link'
+            }
+            >
+              Leadership
+            </span>
           </li>
           <li className='societyBanner__nav--item'>
-            <span className='societyBanner__link'>Leadership</span>
-          </li>
-          <li className='societyBanner__nav--item'>
-            <span className='societyBanner__options societyBanner__link'><OptionsIcon /></span>
+            <span className='societyBanner__options societyBanner__link'>
+              <OptionsIcon />
+            </span>
           </li>
         </ul>
       </div>
@@ -71,6 +94,8 @@ SocietyBanner.propTypes = {
     remainingPoints: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired,
   }).isRequired,
+  handleChangeHeader: PropTypes.func.isRequired,
+  currentTitle: PropTypes.string.isRequired,
 };
 
 export default SocietyBanner;

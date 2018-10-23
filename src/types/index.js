@@ -1,5 +1,6 @@
 // page action types
 export const TITLE_CHANGE = 'TITLE_CHANGE';
+export const PAGE_HEADER_TITLE_CHANGE = 'PAGE_HEADER_TITLE_CHANGE';
 
 // user info action types
 export const FETCH_USER_INFO = 'FETCH_USER_INFO';

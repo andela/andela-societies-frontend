@@ -26,6 +26,7 @@ describe('<Page />', () => {
     fetchSocietyInfo: () => { },
     fetchUserInfo: () => { },
     changeTitle: () => { },
+    changeSocietyPageHeaderTitle: () => {},
     updating: false,
     societyInfo: {
       requesting: false,

@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 import { fetchUserInfo } from '../actions';
 import { fetchSocietyInfo } from '../actions/societyInfoActions';
 import { changeTitle } from '../actions/pageActions';
+import { changeSocietyPageHeaderTitle } from '../actions/societyPageHeaderTitleActions';
 import { fetchUserProfile } from '../actions/userProfileActions';
 import { openModal, closeModal } from '../actions/showModalActions';
 
@@ -21,11 +22,19 @@ import RedeemPointsForm from './forms/RedeemPointsForm';
 import CommentsForm from './forms/CommentsForm';
 import CreateCategoryForm from './forms/CreateCategoryForm';
 
-import { STAFF_USERS, SOCIETY_PRESIDENT, SUCCESS_OPS } from '../../src/constants/roles';
+import {
+  STAFF_USERS,
+  SOCIETY_PRESIDENT,
+  SUCCESS_OPS,
+} from '../../src/constants/roles';
 
 import {
-  getToken, tokenIsValid, isFellow,
-  setSignInError, decodeToken, getUserInfo,
+  getToken,
+  tokenIsValid,
+  isFellow,
+  setSignInError,
+  decodeToken,
+  getUserInfo,
   hasAllowedRole,
 } from '../helpers/authentication';
 import pageInfo from '../helpers/pageInfo';
@@ -42,7 +51,7 @@ class Page extends Component {
    * @type {PropType}
    * @param {Object} propTypes - React PropTypes
    * @property {Object} history - React router history object
-  */
+   */
   static propTypes = {
     fetchUserInfo: PropTypes.func.isRequired,
     fetchSocietyInfo: PropTypes.func.isRequired,
@@ -69,8 +78,11 @@ class Page extends Component {
       }),
     }),
     changeTitle: PropTypes.func.isRequired,
+    changeSocietyPageHeaderTitle: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
-    location: PropTypes.shape({ pathname: PropTypes.string.isRequired }).isRequired,
+    location: PropTypes.shape({ pathname: PropTypes.string.isRequired })
+      .isRequired,
     categories: PropTypes.arrayOf(PropTypes.shape({})),
     profile: PropTypes.shape({
       society: PropTypes.shape({
@@ -82,7 +94,7 @@ class Page extends Component {
     openModal: PropTypes.func,
     closeModal: PropTypes.func,
     selectedItem: PropTypes.shape({}),
-  }
+  };
 
   static defaultProps = {
     categories: [],
@@ -96,21 +108,22 @@ class Page extends Component {
     },
     updating: false,
     selectedItem: {},
-    deselectItem: () => { },
-    updateSelectedItem: () => { },
+    deselectItem: () => {},
+    updateSelectedItem: () => {},
     openModal: () => {},
     closeModal: () => {},
-  }
+  };
 
   static getDerivedStateFromProps = (props) => {
     const { showModal } = props;
-    return ({ showModal });
-  }
+    return { showModal };
+  };
 
   constructor(props) {
     super(props);
     this.state = {
       showModal: false,
+      currentTitle: '',
     };
     props.changeTitle(props.history.location.pathname);
   }
@@ -118,7 +131,11 @@ class Page extends Component {
   componentDidMount() {
     const token = getToken();
     const tokenInfo = decodeToken(token);
-    if (token === null || tokenIsValid(tokenInfo) === false || isFellow(tokenInfo) === false) {
+    if (
+      token === null ||
+      tokenIsValid(tokenInfo) === false ||
+      isFellow(tokenInfo) === false
+    ) {
       setSignInError();
       this.props.history.push({ pathname: '/', search: '?error=unauthorized' });
     }
@@ -129,6 +146,7 @@ class Page extends Component {
       const societyName = this.props.location.pathname.split('/').pop();
       this.props.fetchSocietyInfo(societyName);
     }
+    this.updateTitle(this.props.title);
   }
 
   onFabClick = (event) => {
@@ -139,11 +157,33 @@ class Page extends Component {
       document.body.classList.add('noScroll');
     }
     this.props.openModal();
-  }
+  };
 
-  isASocietyPage = () => (
-    this.props.location.pathname.indexOf('society') !== -1
-  );
+  updateTitle = (title) => {
+    if (title === '') {
+      this.setState({
+        currentTitle: 'Activities',
+      });
+    } else {
+      this.setState({
+        currentTitle: title,
+      });
+    }
+  };
+
+  isASocietyPage = () => this.props.location.pathname.indexOf('society') !== -1;
+
+  /**
+   *
+   * @param {*} event
+   * @param {*} header
+   */
+  handleChangeHeader = (event) => {
+    this.props.changeSocietyPageHeaderTitle(event);
+    this.setState({
+      currentTitle: event,
+    });
+  };
 
   closeModal = () => {
     if (document && document.body) {
@@ -153,14 +193,17 @@ class Page extends Component {
     if (this.props.selectedItem) {
       this.props.deselectItem();
     }
-  }
+  };
 
   renderFloatingButton = () => {
     const { profile, location } = this.props;
     const { showModal } = this.state;
     const userRoles = Object.keys(profile.roles);
     let FAB;
-    if (location.pathname === '/u/categories' && hasAllowedRole(userRoles, SUCCESS_OPS)) {
+    if (
+      location.pathname === '/u/categories' &&
+      hasAllowedRole(userRoles, SUCCESS_OPS)
+    ) {
       FAB = <FloatingButton onClick={this.onFabClick} />;
     } else if (showModal ||
         hasAllowedRole(userRoles, STAFF_USERS)
@@ -171,8 +214,8 @@ class Page extends Component {
     } else {
       FAB = <FloatingButton onClick={this.onFabClick} />;
     }
-    return (FAB);
-  }
+    return FAB;
+  };
 
   renderModal = () => {
     const {
@@ -186,16 +229,19 @@ class Page extends Component {
     const className = this.state.showModal ? 'modal--open' : '';
     let modalContent;
     if (location.pathname === '/u/my-activities') {
-      modalContent = (categories.length &&
-      <LogActivityForm
-        categories={categories}
-        showModal={this.state.showModal}
-        closeModal={this.closeModal}
-        selectedItem={selectedItem}
-        updateSelectedItem={updateSelectedItem}
-      />);
-    } else if (location.pathname === '/u/redemptions' &&
-      hasAllowedRole(Object.keys(profile.roles), [SOCIETY_PRESIDENT])) {
+      modalContent = categories.length && (
+        <LogActivityForm
+          categories={categories}
+          showModal={this.state.showModal}
+          closeModal={this.closeModal}
+          selectedItem={selectedItem}
+          updateSelectedItem={updateSelectedItem}
+        />
+      );
+    } else if (
+      location.pathname === '/u/redemptions' &&
+      hasAllowedRole(Object.keys(profile.roles), [SOCIETY_PRESIDENT])
+    ) {
       modalContent = (
         <RedeemPointsForm
           closeModal={this.closeModal}
@@ -204,7 +250,8 @@ class Page extends Component {
           updateSelectedItem={updateSelectedItem}
         />
       );
-    } else if (location.pathname === '/u/categories' &&
+    } else if (
+      location.pathname === '/u/categories' &&
       hasAllowedRole(Object.keys(profile.roles), SUCCESS_OPS)
     ) {
       modalContent = (
@@ -212,30 +259,27 @@ class Page extends Component {
           showModal={this.state.showModal}
           closeModal={this.closeModal}
           selectedItem={selectedItem}
-        />);
+        />
+      );
     } else if (hasAllowedRole(Object.keys(profile.roles), STAFF_USERS)) {
       modalContent = (
         <CommentsForm
           showModal={this.state.showModal}
           closeModal={this.closeModal}
           selectedItem={selectedItem}
-        />);
+        />
+      );
     }
     return (
       <Modal close={this.closeModal} className={className}>
-        {
-          modalContent
-        }
+        {modalContent}
       </Modal>
     );
-  }
+  };
 
   render() {
     const {
-      userInfo,
-      societyInfo,
-      profile,
-      updating,
+      userInfo, societyInfo, profile, updating,
     } = this.props;
     const userRoles = Object.keys(profile.roles);
     return (
@@ -245,8 +289,18 @@ class Page extends Component {
           <Sidebar userRoles={userRoles} pageInfo={pageInfo} />
         </div>
         <main className='mainPage mainPage--sidebarOpen'>
-          {this.isASocietyPage() ? <SocietyBanner society={societyInfo.info} /> : null}
-          {updating && <div className='overlay'><UpdateLoader /></div>}
+          {this.isASocietyPage() ? (
+            <SocietyBanner
+              currentTitle={this.state.currentTitle}
+              society={societyInfo.info}
+              handleChangeHeader={this.handleChangeHeader}
+            />
+          ) : null}
+          {updating && (
+            <div className='overlay'>
+              <UpdateLoader />
+            </div>
+          )}
           <div className='pageContent'>
             <Header
               history={this.props.history}
@@ -254,7 +308,11 @@ class Page extends Component {
               profile={profile}
               societyBanner={this.isASocietyPage()}
             />
-            <div className={`contentWrapper ${(this.isASocietyPage() ? 'contentWrapper--society' : '')}`}>
+            <div
+              className={`contentWrapper ${
+                this.isASocietyPage() ? 'contentWrapper--society' : ''
+              }`}
+            >
               {this.props.children}
             </div>
           </div>
@@ -267,21 +325,30 @@ class Page extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const updating = state.societyActivities.updating || state.redeemPointsInfo.updating || state.categories.updating;
-  return ({
+  const updating =
+    state.societyActivities.updating ||
+    state.redeemPointsInfo.updating ||
+    state.categories.updating;
+  return {
+    pageTitle: state.societyPageHeadertitle,
+    title: state.societyTitle,
     showModal: state.modalInfo.showModal,
     userInfo: state.userInfo,
     societyInfo: state.societyInfo,
     profile: state.userProfile.info,
     updating,
-  });
+  };
 };
 
-export default connect(mapStateToProps, {
-  changeTitle,
-  fetchUserInfo,
-  fetchSocietyInfo,
-  fetchUserProfile,
-  openModal,
-  closeModal,
-})(withRouter(Page));
+export default connect(
+  mapStateToProps,
+  {
+    changeSocietyPageHeaderTitle,
+    changeTitle,
+    fetchUserInfo,
+    fetchSocietyInfo,
+    fetchUserProfile,
+    openModal,
+    closeModal,
+  },
+)(withRouter(Page));

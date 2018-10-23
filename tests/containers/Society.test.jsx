@@ -11,13 +11,15 @@ import storeFixture from '../../src/fixtures/store';
 
 const store = createMockStore(storeFixture);
 const props = {
+  title: 'Activities',
   societyInfo: {
     requesting: false,
     info: { ...societyInfo },
-    error: {}
-  }
+    error: {},
+  },
 };
-const component = shallow(<Society.WrappedComponent {...props}/>);
+
+const component = shallow(<Society.WrappedComponent {...props} />);
 const mounted = mount.bind(
   null,
   <Provider store={store}>
@@ -34,6 +36,19 @@ describe('<Society />', () => {
   });
   it('should render Activity cards', () => {
     component.setState({ filteredActivities: activities });
-    expect(component.find('MasonryLayout').dive().find('ActivityCard').length).toBe(4);
+    expect(component
+      .find('MasonryLayout')
+      .dive()
+      .find('ActivityCard').length).toBe(4);
+  });
+
+  it('should render Leadership cards when the title selected is LeaderShip', () => {
+    component.setProps({
+      title: 'Leadership',
+    });
+    expect(component
+      .find('MasonryLayout')
+      .dive()
+      .find('LeaderShipCard').length).toBe(4);
   });
 });

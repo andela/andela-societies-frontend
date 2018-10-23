@@ -10,6 +10,7 @@ import userProfile from './userProfileReducer';
 import redeemPointsInfo from './redeemPointsReducer';
 import commentsInfo from './commentsReducer';
 import modalInfo from './showModalReducer';
+import societyPageHeaderReducer from './societyPageHeaderReducer';
 
 const rootReducer = combineReducers({
   userInfo,
@@ -23,6 +24,8 @@ const rootReducer = combineReducers({
   allActivities,
   commentsInfo,
   modalInfo,
+  societyTitle: societyPageHeaderReducer,
+
 });
 
 export default rootReducer;

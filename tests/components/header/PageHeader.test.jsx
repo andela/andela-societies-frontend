@@ -17,9 +17,9 @@ const props = {
   hideFilter: false,
   selectedSociety: 'istelle',
   selectedStatus: 'All',
+  title: 'Activities',
   showTabs: false,
   tabs: [],
-  title: 'Invictus',
   handleApproveAllClick: () => {},
   handleSelectAllClick: () => {},
   showSelectAllApproveBtn: false,
@@ -37,6 +37,15 @@ describe('<PageHeader />', () => {
 
   it('should display `All` as the selected status ', () => {
     expect(wrapper.find('.filterOptions__button').text()).toBe(props.selectedStatus);
+  });
+
+  it('should not display the filter options button when displaying the leadership cards', () => {
+    const newProps = {
+      ...props,
+      title: 'LeaderShip',
+    };
+    const newWrapper = shallow(<PageHeader {...newProps} />);
+    expect(newWrapper.find('.filterOptions__button').length).toBe(0);
   });
 
   it('should display activity option filters', () => {

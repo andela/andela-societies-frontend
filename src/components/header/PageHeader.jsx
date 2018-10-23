@@ -30,7 +30,7 @@ class PageHeader extends Component {
    * @property {Function} selectAllClick - prop to toggle state of selectAllChecked
    */
   static propTypes = {
-    title: PropType.string.isRequired,
+    title: PropType.string,
     selectedSociety: PropType.string,
     hideFilter: PropType.bool,
     showSelectAllApproveBtn: PropType.bool,
@@ -48,17 +48,18 @@ class PageHeader extends Component {
    * @type {PropType}
    * @property {Function} filterActivities - function to filter activities on status
    * @property {Boolean} hideFilter - hide the filter activities dropdown
-  */
+   */
   static defaultProps = {
+    title: 'Activities',
     selectedSociety: 'istelle',
     filterActivities: null,
     hideFilter: false,
     showSelectAllApproveBtn: false,
     showTabs: false,
     tabs: [],
-    handleSelectAllClick: () => { },
-    handleApproveAllClick: () => { },
-    handleChangeTab: () => { },
+    handleSelectAllClick: () => {},
+    handleApproveAllClick: () => {},
+    handleChangeTab: () => {},
     disabled: false,
   };
 
@@ -88,9 +89,10 @@ class PageHeader extends Component {
    * @param {array[string]} classList Other values for the className
    * @returns {String}
    */
-  getDropdownClassName = (isActive, classList) => (
-    `${classList.join(' ')} ${isActive ? 'filterOptions__dropdown--active' : ''}`
-  );
+  getDropdownClassName = (isActive, classList) =>
+    `${classList.join(' ')} ${
+      isActive ? 'filterOptions__dropdown--active' : ''
+    }`;
 
   /**
    * @name createFilterOptionsButtonClickHandler
@@ -104,7 +106,11 @@ class PageHeader extends Component {
   };
 
   renderSelectAllApprovebtn = () => {
-    const { disabled, handleApproveAllClick, handleSelectAllClick } = this.props;
+    const {
+      disabled,
+      handleApproveAllClick,
+      handleSelectAllClick,
+    } = this.props;
     return (
       <div className='pageHeader__selectAction'>
         <input
@@ -112,20 +118,22 @@ class PageHeader extends Component {
           name='checkbox'
           className='pageHeader__selectApprove__checkbox'
           onChange={handleSelectAllClick}
-        /> Select all
+        />
+        Select all
         <Button
           name='approveAll'
           value='Approve Selected'
           className={
-            disabled ?
-              'pageHeader__disable__button' : 'pageHeader__selectAction__button pageHeader__selectApprove__button '
+            disabled
+              ? 'pageHeader__disable__button'
+              : 'pageHeader__selectAction__button pageHeader__selectApprove__button '
           }
           onClick={handleApproveAllClick}
           disabled={disabled}
         />
       </div>
     );
-  }
+  };
 
   renderFilterStatus = () => {
     const {
@@ -135,40 +143,43 @@ class PageHeader extends Component {
     } = this.state;
     return (
       <div className='filterOptions'>
-        <button
-          className='filterOptions__button'
-          onClick={this.createFilterOptionsButtonClickHandler()}
-          onBlur={this.createFilterOptionsButtonClickHandler()}
-        >
-          {capitalizeString(selectedStatus)}
-        </button>
+        {
+          this.props.title === 'Activities' ?
+            <button
+              className='filterOptions__button'
+              onClick={this.createFilterOptionsButtonClickHandler()}
+              onBlur={this.createFilterOptionsButtonClickHandler()}
+            >
+              {capitalizeString(selectedStatus)}
+            </button>
+            : ''
+        }
         <div
-          className={this.getDropdownClassName(
-            showFilterOptionsDropdown,
-            ['filterOptions__dropdown'],
-          )}
+          className={this.getDropdownClassName(showFilterOptionsDropdown, [
+            'filterOptions__dropdown',
+          ])}
         >
-          {
-            Object.keys(STATUSES).map(status => (
-              <div
-                key={status}
-                onMouseDown={(e) => {
-                  this.props.filterActivities(e.currentTarget.textContent);
-                }}
-                className={`filterOptions__option ${selectedStatus === STATUSES[status] ? activeClass : ''}`}
-                role='button'
-                tabIndex='0'
-                onClick={this.createFilterOptionsButtonClickHandler()}
-                onKeyDown={() => {}}
-              >
-                {STATUSES[status] && capitalizeString(STATUSES[status])}
-              </div>
-            ))
-          }
+          {Object.keys(STATUSES).map(status => (
+            <div
+              key={status}
+              onMouseDown={(e) => {
+                this.props.filterActivities(e.currentTarget.textContent);
+              }}
+              className={`filterOptions__option ${
+                selectedStatus === STATUSES[status] ? activeClass : ''
+              }`}
+              role='button'
+              tabIndex='0'
+              onClick={this.createFilterOptionsButtonClickHandler()}
+              onKeyDown={() => {}}
+            >
+              {STATUSES[status] && capitalizeString(STATUSES[status])}
+            </div>
+          ))}
         </div>
       </div>
     );
-  }
+  };
 
   render() {
     const {
@@ -197,10 +208,9 @@ class PageHeader extends Component {
               selectedTab={selectedSociety}
             />
             : <h1 className='pageTitle'>{title}</h1>
-
         }
-        { showSelectAllApproveBtnHtml }
-        { filterStatusHtml }
+        {showSelectAllApproveBtnHtml}
+        {filterStatusHtml}
       </header>
     );
   }
