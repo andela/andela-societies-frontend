@@ -1,19 +1,22 @@
 .card-user {
-  position: relative;
-  width: 21.875em;
+  width: 25em;
   height: 25em;
+  background-color: $white;
+  border-radius: 0.5em;
+  @include boxShadow(0, 0, 2.5rem, 0.5rem, $boxShadowGrey);
 }
 
 .background-image {
-  width: 100%;
-  height:  100%;
-  border-radius: 0.9375em;
+  width: 95%;
+  margin-top: 0.625em;
+  margin-left: 0.625em;
+  border-top-left-radius: 0.5em;
+  border-top-right-radius: 0.5em;
 }
 
-.card-user .content {
-  position: absolute;
+.content {
   bottom: 0;
-  color: $white;
+  color: $black;
   width: 100%;
   padding: 1.25em;
 }

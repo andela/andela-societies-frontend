@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import OptionsIcon from '../svgIcons/headerIcons/Options';
 import InvictusLogo from '../bannerLogos/Invictus';
 import IstelleLogo from '../bannerLogos/Istelle';
 import PhoenixLogo from '../bannerLogos/Phoenix';
@@ -75,11 +74,6 @@ const SocietyBanner = (props) => {
             }
             >
               Leadership
-            </span>
-          </li>
-          <li className='societyBanner__nav--item'>
-            <span className='societyBanner__options societyBanner__link'>
-              <OptionsIcon />
             </span>
           </li>
         </ul>
