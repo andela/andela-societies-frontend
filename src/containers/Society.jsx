@@ -67,7 +67,6 @@ class Society extends Component {
    * @memberof MyActivities
    */
     filterActivities = (status) => {
-      console.log(this.state);
       this.setState({
         filteredActivities: filterActivities(status, this.state).filteredActivities,
         selectedStatus: status,
