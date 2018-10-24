@@ -15,7 +15,7 @@ import storeFixture from '../../src/fixtures/store';
 import categories from '../../src/fixtures/categories';
 
 // constants
-import clickActions from '../../src/constants/clickAction'
+import clickActions from '../../src/constants/clickAction';
 
 const store = createMockStore(storeFixture);
 const history = { push: () => { }, location: { pathname: '' } };
@@ -35,8 +35,8 @@ const mounted = mount.bind(
   <Provider store={store}>
     <MemoryRouter>
       <Categories.WrappedComponent
-       { ...props }
-       requesting={false}
+        {...props}
+        requesting={false}
       />
     </MemoryRouter>
   </Provider>,
@@ -47,8 +47,8 @@ let shallowWrapper;
 describe('<Categories />', () => {
   beforeEach(() => {
     shallowWrapper = shallow(<Categories.WrappedComponent
-      { ...props }
-      requesting={true}
+      {...props}
+      requesting
     />);
   });
 

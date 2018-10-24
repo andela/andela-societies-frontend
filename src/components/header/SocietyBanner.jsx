@@ -88,8 +88,12 @@ SocietyBanner.propTypes = {
     remainingPoints: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired,
   }).isRequired,
-  handleChangeHeader: PropTypes.func.isRequired,
+  handleChangeHeader: PropTypes.func,
   currentTitle: PropTypes.string.isRequired,
+};
+
+SocietyBanner.defaultProps = {
+  handleChangeHeader: () => {},
 };
 
 export default SocietyBanner;

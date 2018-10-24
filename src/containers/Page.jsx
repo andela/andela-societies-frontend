@@ -79,7 +79,7 @@ class Page extends Component {
     }),
     changeTitle: PropTypes.func.isRequired,
     changeSocietyPageHeaderTitle: PropTypes.func.isRequired,
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     children: PropTypes.node.isRequired,
     location: PropTypes.shape({ pathname: PropTypes.string.isRequired })
       .isRequired,
@@ -97,6 +97,7 @@ class Page extends Component {
   };
 
   static defaultProps = {
+    title: '',
     categories: [],
     profile: null,
     history: {

@@ -3,12 +3,25 @@ import { shallow, mount } from 'enzyme';
 import CommentsForm from '../../../src/containers/forms/CommentsForm';
 import { redemption } from '../../../src/fixtures/redemptions';
 import { moreInfoText } from '../../../src/fixtures/commentsFormText';
-// import activity from '../../../src/fixtures/activity';
 
 const defaultState = {
   comment: '',
   errors: {},
   ...moreInfoText,
+};
+
+const selectedItem = {
+  id: '1',
+  center: 'Nairobi',
+  name: 'felix',
+  value: '30',
+  society: 'istelle',
+  category: 'sports',
+  points: '20',
+  owner: 'Andela',
+  description: 'best sports',
+  itemType: 'activity',
+  reason: '',
 };
 
 const event = { preventDefault: () => { } };
@@ -23,6 +36,7 @@ describe('<CommentsForm />', () => {
   beforeEach((() => {
     shallowWrapper = shallow(<CommentsForm.WrappedComponent
       verifyRedemption={verifyRedemption}
+      selectedItem={selectedItem}
     />);
     mountedWrapper = mount(<CommentsForm.WrappedComponent
       verifyRedemption={verifyRedemption}
@@ -75,9 +89,30 @@ describe('<CommentsForm />', () => {
 
   it('should return null the default case when renderItemDetails is invoked with no selected Item', () => {
     const instance = shallowWrapper.instance();
-    const selectedItem = {};
-    const result = instance.renderItemDetails(selectedItem);
+    const emptySelectedItem = {};
+    const result = instance.renderItemDetails(emptySelectedItem);
     expect(result).toBeNull();
+  });
+
+  it('should return owner with a value as a property when renderItemDetails is invoked with activity case', () => {
+    const instance = shallowWrapper.instance();
+    const result = instance.renderItemDetails(selectedItem);
+    expect(result[3].props.name).toBe('owner');
+    expect(result[3].props.content).toBe('Andela');
+  });
+
+  it('should return reason with a value as a property when renderItemDetails is invoked with redemption case', () => {
+    const newSelectedItem = {
+      ...selectedItem,
+      itemType: 'redemption',
+    };
+    shallowWrapper.setProps({
+      ...newSelectedItem,
+    });
+    const instance = shallowWrapper.instance();
+    const result = instance.renderItemDetails(newSelectedItem);
+    expect(result[4].props.name).toBe('reason');
+    expect(result[4].props.content).toBe('felix');
   });
 
   describe('Button Actions', () => {
