@@ -1,7 +1,9 @@
+// Third Party libraries
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+// Components
 import Page from './Page';
 import PageHeader from '../components/header/PageHeader';
 import MasonryLayout from '../containers/MasonryLayout';
@@ -10,13 +12,18 @@ import Stats from '../components/sidebar/Stats';
 import Loader from '../components/loaders/Loader';
 import { APPROVED } from '../constants/statuses';
 
+// Actions
 import { openModal } from '../actions/showModalActions';
 import { fetchMyActivities } from '../actions/myActivitiesActions';
 import { fetchCategories } from '../actions/categoriesActions';
+
+// Helpers
 import dateFormatter from '../helpers/dateFormatter';
 import statsGenerator from '../helpers/statsGenerator';
 import filterActivities from '../helpers/filterActivities';
 import { getUserInfo } from '../helpers/authentication';
+
+// Constants
 import clickActions from '../constants/clickAction';
 
 /**
@@ -39,6 +46,10 @@ class MyActivities extends Component {
     categories: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     requesting: PropTypes.bool,
     openModal: PropTypes.func,
+    history: PropTypes.shape({
+      location: PropTypes.shape({ pathname: PropTypes.string }),
+      pathname: PropTypes.string,
+    }),
   };
 
   /**
@@ -49,6 +60,11 @@ class MyActivities extends Component {
   static defaultProps = {
     openModal: () => {},
     requesting: false,
+    history: {
+      location: {
+        pathname: '',
+      },
+    },
   };
 
   /**
@@ -82,9 +98,11 @@ class MyActivities extends Component {
    * @memberof MyActivities
    */
   componentDidMount() {
+    const { history } = this.props;
     const userId = getUserInfo() && getUserInfo().id;
     this.props.fetchMyActivities(userId);
     this.props.fetchCategories();
+    sessionStorage.setItem('Location', history.location.pathname);
   }
 
   /**
@@ -115,7 +133,7 @@ class MyActivities extends Component {
       date,
       category,
       description,
-      numberOf,
+      noOfParticipants,
       activityTypeId,
     } = newValues;
 
@@ -126,7 +144,7 @@ class MyActivities extends Component {
         date,
         description,
         activityTypeId,
-        numberOf,
+        noOfParticipants,
       },
     });
   }
@@ -182,6 +200,7 @@ class MyActivities extends Component {
                           description,
                           points,
                           status,
+                          ownerPhoto,
                         } = activity;
                         return (<ActivityCard
                           id={id}
@@ -192,6 +211,7 @@ class MyActivities extends Component {
                           status={status}
                           userCanEdit={userCanEdit}
                           handleClick={this.handleClick}
+                          ownerPhoto={ownerPhoto}
                         />);
                       })
                     }

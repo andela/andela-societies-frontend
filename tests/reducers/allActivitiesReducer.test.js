@@ -5,8 +5,8 @@ import {
   fetchAllActivitiesSuccess,
 } from '../../src/actions/allActivitiesActions';
 import {
-  verifyActivitiesOpsSuccess,
-  verifyActivitiesOpsFailure,
+  approveActivityByOpsSuccess,
+  approveActivityByOpsFailure
 } from '../../src/actions/verifyActivityActions';
 
 // types
@@ -14,7 +14,10 @@ import {
   VERIFY_ACTIVITY_SUCCESS,
   VERIFY_ACTIVITY_FAILURE,
   VERIFY_ACTIVITY_REQUEST,
-  VERIFY_ACTIVITY_OPS_REQUEST,
+  REJECT_ACTIVITY_BY_OPS_REQUEST,
+  REJECT_ACTIVITY_BY_OPS_FAILURE,
+  REJECT_ACTIVITY_BY_OPS_SUCCESS,
+  APPROVE_ACTIVITY_BY_OPS_REQUEST
 } from '../../src/types';
 
 // reducer
@@ -75,6 +78,15 @@ describe('All activities reducer', () => {
     });
   });
 
+  it('should handle REJECT_ACTIVITY_BY_OPS_REQUEST', () => {
+    expect(allActivities(initialState, {
+      type: REJECT_ACTIVITY_BY_OPS_REQUEST,
+    })).toEqual({
+      ...initialState,
+      updating: true,
+    });
+  });
+
   it('should handle VERIFY_ACTIVITY_FAILURE', () => {
     expect(allActivities(initialState, {
       type: VERIFY_ACTIVITY_FAILURE,
@@ -102,26 +114,56 @@ describe('All activities reducer', () => {
     });
   });
 
-  it('should handle VERIFY_ACTIVITY_OPS_REQUEST', () => {
+  it('should handle REJECT_ACTIVITY_BY_OPS_FAILURE', () => {
+    expect(allActivities(initialState, {
+      type: REJECT_ACTIVITY_BY_OPS_FAILURE,
+      error: { error: 404 },
+    })).toEqual({
+      ...initialState,
+      updating: false,
+      error: { error: 404 }
+    });
+  });
+
+  it('should handle REJECT_ACTIVITY_BY_OPS_SUCCESS', () => {
+    initialState.activities = info.loggedActivities;
+    activity.status = 'rejected';
+    initialState.activities.push(activity);
+    const newActivities = info.loggedActivities;
+    expect(allActivities(initialState, {
+      type: REJECT_ACTIVITY_BY_OPS_SUCCESS,
+      activity,
+    })).toEqual({
+      ...initialState,
+      updating: false,
+      activities: newActivities,
+    });
+  });
+
+  it('should handle APPROVE_ACTIVITY_BY_OPS_REQUEST', () => {
     expectedOutput = {
       ...initialState,
       updating: true,
     };
-    expect(allActivities(initialState, { type: VERIFY_ACTIVITY_OPS_REQUEST })).toEqual(expectedOutput);
+    expect(allActivities(initialState, { type: APPROVE_ACTIVITY_BY_OPS_REQUEST })).toEqual(expectedOutput);
   });
 
-  it('should handle VERIFY_ACTIVITY_OPS_FAILURE', () => {
+  it('should handle APPROVE_ACTIVITY_BY_OPS_FAILURE', () => {
     expectedOutput = {
       ...initialState,
       error,
+      message: {
+        type: 'error',
+        text: 'An error has occurred while processing your request'
+      }
     };
-    expect(allActivities(initialState, verifyActivitiesOpsFailure(error))).toEqual(expectedOutput);
+    expect(allActivities(initialState, approveActivityByOpsFailure(error))).toEqual(expectedOutput);
   });
 
-  it('should handle VERIFY_ACTIVITY_OPS_SUCCESS', () => {
+  it('should handle APPROVE_ACTIVITY_BY_OPS_SUCCESS', () => {
     const activityIds = ['bnfad176-43cd-11e8-b3b9-9801a7ae0329'];
     initialState.activities = info.loggedActivities;
-    const result = allActivities(initialState, verifyActivitiesOpsSuccess(approvedActivities, activityIds));
+    const result = allActivities(initialState, approveActivityByOpsSuccess(approvedActivities, activityIds));
     expect(result.activities[0]).toEqual(approvedActivities[0]);
   });
 });

@@ -3,7 +3,7 @@ import { shallow, mount } from 'enzyme';
 import CommentsForm from '../../../src/containers/forms/CommentsForm';
 import { redemption } from '../../../src/fixtures/redemptions';
 import { moreInfoText } from '../../../src/fixtures/commentsFormText';
-import activity from '../../../src/fixtures/activity';
+// import activity from '../../../src/fixtures/activity';
 
 const defaultState = {
   comment: '',
@@ -26,7 +26,7 @@ describe('<CommentsForm />', () => {
     />);
     mountedWrapper = mount(<CommentsForm.WrappedComponent
       verifyRedemption={verifyRedemption}
-      selectedItem={redemption}
+      selectedItem={{ ...redemption, rejectClicked: true }}
       requestMoreInfo={requestMoreInfo}
       closeModal={closeModal}
       deselectItem={deselectItem}
@@ -73,12 +73,11 @@ describe('<CommentsForm />', () => {
     expect(verifyRedemption).toHaveBeenCalled();
   });
 
-  it('should call requestMoreInfo thunk when an activity is submitted ', () => {
-    mountedWrapper.setProps({ selectedItem: activity });
-    const instance = mountedWrapper.instance();
-    instance.setState({ comment: 'Be more specific' });
-    instance.handleSubmit();
-    expect(requestMoreInfo).toHaveBeenCalled();
+  it('should return null the default case when renderItemDetails is invoked with no selected Item', () => {
+    const instance = shallowWrapper.instance();
+    const selectedItem = {};
+    const result = instance.renderItemDetails(selectedItem);
+    expect(result).toBeNull();
   });
 
   describe('Button Actions', () => {

@@ -17,7 +17,7 @@ const defaultState = {
   activityDate: '',
   description: '',
   errors: {},
-  numberOf: '',
+  numberOfParticipants: '',
   btnText: 'Log',
   formTitle: 'Log An Activity',
 };
@@ -66,12 +66,12 @@ describe('<LogActivityForm />', () => {
   });
 
   it('should show the <SingleInput/> component when it has loaded', () => {
-    shallowWrapper.setState({ activityTypeId: 'id1' });
+    shallowWrapper.setState({ activityTypeId: 'eef0e594-43cd-11e8-87a7-9801a7ae0329' });
     expect(shallowWrapper.find('SingleInput').length).toEqual(1);
   });
 
   it('should render the SingleInput with the correct label', () => {
-    shallowWrapper.setState({ activityTypeId: 'id1' });
+    shallowWrapper.setState({ activityTypeId: 'eef0e594-43cd-11e8-87a7-9801a7ae0329' });
     expect(shallowWrapper.find('SingleInput').dive().find('.formField__label').text()).toEqual('# of interviewees');
   });
 
@@ -116,7 +116,7 @@ describe('<LogActivityForm />', () => {
     jest.spyOn(instance, 'selectedCategory');
     instance.selectedCategory();
     instance.setState({
-      activityTypeId: 'id1',
+      activityTypeId: 'eef48c80-43cd-11e8-9362-9801a7ae0330',
       activityDate: '2018-12-12',
     }, () => {
       instance.resetState();
@@ -149,12 +149,12 @@ describe('<LogActivityForm />', () => {
     expect(instance.renderValidationError).toHaveBeenCalled();
   });
 
-  it('should add numberOf to errors fields if is not set when bootcamp interviews is selected', () => {
+  it('should add numberOf to errors fields if it is not set when bootcamp interviews is selected', () => {
     const instance = shallowWrapper.instance();
     jest.spyOn(instance, 'handleAddEvent');
-    shallowWrapper.setState({ activityTypeId: 'id1' });
+    shallowWrapper.setState({ activityTypeId: 'eef0e594-43cd-11e8-87a7-9801a7ae0329' });
     instance.handleAddEvent();
-    expect(Object.keys(instance.state.errors)).toContain('numberOf');
+    expect(Object.keys(instance.state.errors)).toContain('noOfParticipants');
   });
 
   it('should call createActivity if data is valid', () => {
@@ -162,10 +162,10 @@ describe('<LogActivityForm />', () => {
     const today = moment().format('YYYY-MM-DD');
     jest.spyOn(instance, 'handleAddEvent');
     shallowWrapper.setState({
-      activityTypeId: 'id2',
+      activityTypeId: 'eef4b528-43cd-11e8-9cc2-9801a7ae0331',
       activityDate: today,
       description: 'Qwerty',
-      category: 'Participating in a tech event',
+      category: 'Hackathon',
     });
     instance.handleAddEvent();
     expect(createActivity).toHaveBeenCalled();
@@ -181,10 +181,11 @@ describe('<LogActivityForm />', () => {
     const today = moment().format('YYYY-MM-DD');
 
     const selectedItem = {
-      activityTypeId: 'id2',
+      activityTypeId: 'eef4b528-43cd-11e8-9cc2-9801a7ae0331',
       activityDate: today,
-      description: 'Qwerty',
-      category: 'Participating in a tech event',
+      description: 'Mentoring on react testing',
+      category: 'Mentor a prospect for Andela 21t',
+      noOfParticipants: '2',
     };
     instance.setState({ ...selectedItem, errors: {} });
     instance.handleAddEvent();

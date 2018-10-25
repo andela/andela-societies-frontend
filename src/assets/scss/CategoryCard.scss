@@ -81,14 +81,16 @@
   margin-right: 1rem;
 }
 
-.deleteCategory__button {
-  display: block;
-  width: 6rem;
-  height: 3rem;
+.categoryButtons {
   float: right;
+}
+
+.categoryButtons__delete, .categoryButtons__edit {
+  width: 4rem;
+  height: 3rem;
   position: relative;
   opacity: 0.9;
-  padding: 0.3rem;
+  padding: 0.3rem 0;
   border: none;
   cursor: pointer;
   border-radius: 0.4rem;

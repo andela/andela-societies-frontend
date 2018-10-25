@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import promptModal from 'sweetalert';
 
 // helpers
 import {
@@ -22,7 +23,7 @@ import SnackBar from '../components/notifications/SnackBar';
 
 // actions
 import { fetchSocietyInfo } from '../actions/societyInfoActions';
-import { verifyActivity, verifyActivitiesOps } from '../actions/verifyActivityActions';
+import { verifyActivity, approveActivityByOps, rejectActivityByOps } from '../actions/verifyActivityActions';
 import { fetchAllActivities } from '../actions/allActivitiesActions';
 
 // constants
@@ -47,13 +48,15 @@ class VerifyActivities extends Component {
       location: PropTypes.shape({ pathname: PropTypes.string.isRequired }).isRequired,
     }).isRequired,
     verifyActivity: PropTypes.func,
-    verifyActivitiesOps: PropTypes.func,
+    approveActivityByOps: PropTypes.func,
+    rejectActivityByOps: PropTypes.func,
     allActivities: PropTypes.arrayOf(PropTypes.shape({})),
     userRoles: PropTypes.arrayOf(PropTypes.string),
   }
 
   static defaultProps = {
-    verifyActivitiesOps: () => { },
+    approveActivityByOps: () => {},
+    rejectActivityByOps: () => {},
     fetchAllActivities: () => { },
     verifyActivity: () => { },
     userRoles: [],
@@ -66,15 +69,13 @@ class VerifyActivities extends Component {
    */
   static getDerivedStateFromProps(props, state) {
     if (props.userRoles.length) {
-      const { allActivities, societyName } = props;
+      const { allActivities, societyName, message } = props;
       const { selectedSociety } = state;
       const userRoles = props.userRoles ? props.userRoles : [];
       const showButtons = userRoles.length > 0 && hasAllowedRole(userRoles, [SOCIETY_SECRETARY, SUCCESS_OPS]);
-      const showMoreInfoButton = userRoles.length > 0 && hasAllowedRole(userRoles, [SUCCESS_OPS]);
-      let {
-        showTabs,
-      } = state;
+      let { showTabs } = state;
       let filteredActivities;
+      const snackBarMessage = Object.keys(message).length !== 0 ? message : '';
       if (hasAllowedRole(userRoles, [SUCCESS_OPS])) {
         showTabs = true;
         filteredActivities = filterActivitiesByStatus(allActivities, PENDING)
@@ -89,7 +90,7 @@ class VerifyActivities extends Component {
         societyName,
         showTabs,
         showButtons,
-        showMoreInfoButton,
+        message: snackBarMessage,
       };
     }
     return { ...state, userRoles: null };
@@ -107,8 +108,6 @@ class VerifyActivities extends Component {
       message: null,
       selectedSociety: 'istelle',
       showTabs: false,
-      showMoreInfoButton: false,
-      showModal: false,
     };
   }
 
@@ -117,7 +116,9 @@ class VerifyActivities extends Component {
    * @summary Lifecycle method called when component is mounted
    */
   componentDidMount() {
+    const { history } = this.props;
     this.props.fetchAllActivities();
+    sessionStorage.setItem('Location', history.location.pathname);
   }
 
   /**
@@ -139,27 +140,38 @@ class VerifyActivities extends Component {
    */
   handleClick = (clickAction, activityId) => {
     const { userRoles } = this.props;
-    const { APPROVE, MORE_INFO, REJECT } = clickActions;
+    const { APPROVE, REJECT } = clickActions;
     switch (clickAction) {
     case APPROVE:
     {
       if (hasAllowedRole(userRoles, [SUCCESS_OPS])) {
-        this.props.verifyActivitiesOps([activityId]);
+        this.props.approveActivityByOps([activityId]);
         break;
       }
-      this.props.verifyActivity(clickAction, activityId);
-      break;
-    }
-    case MORE_INFO:
-    {
-      const selectedActivity = this.state.filteredActivities.find(activity => (activity.id === activityId));
-      selectedActivity.itemType = 'activity';
-      this.setState({ showModal: true, selectedActivity });
+      this.props.verifyActivity(PENDING, activityId);
       break;
     }
     case REJECT:
     {
+      promptModal({
+        title: 'Are you sure?',
+        text: 'Clicking the Reject button will reject the activity.',
+        icon: 'warning',
+        buttons: ['Cancel', 'Reject'],
+        closeModal: true,
+        dangerMode: true,
+      }).then((willReject) => {
+        if (willReject) {
+          this.props.verifyActivity(clickAction, activityId);
+        }
+      });
+
+      if (hasAllowedRole(userRoles, [SUCCESS_OPS])) {
+        this.props.rejectActivityByOps(clickAction, activityId);
+        break;
+      }
       this.props.verifyActivity(clickAction, activityId);
+
       break;
     }
     default:
@@ -173,7 +185,7 @@ class VerifyActivities extends Component {
    * @summary closes the comment form modal
    */
   deselectActivity = () => {
-    this.setState({ selectedActivity: {}, showModal: false });
+    this.setState({ selectedActivity: {} });
   }
 
   /**
@@ -230,7 +242,7 @@ class VerifyActivities extends Component {
         }),
       });
     }
-    this.props.verifyActivitiesOps(selectedActivities);
+    this.props.approveActivityByOps(selectedActivities);
   };
 
   /**
@@ -245,7 +257,6 @@ class VerifyActivities extends Component {
       isSelectAllChecked,
       selectedActivities,
       showButtons,
-      showMoreInfoButton,
     } = this.state;
     const { history: { location: { pathname } }, userRoles } = this.props;
     const showCheckBox = hasAllowedRole(userRoles, [SUCCESS_OPS]);
@@ -261,6 +272,7 @@ class VerifyActivities extends Component {
                 description,
                 points,
                 status,
+                ownerPhoto,
               } = activity;
               return (<ActivityCard
                 id={id}
@@ -272,13 +284,13 @@ class VerifyActivities extends Component {
                 showUserDetails={showUserDetails}
                 page={pathname}
                 showButtons={showButtons}
-                showMoreInfoButton={showMoreInfoButton}
                 handleClick={this.handleClick}
                 isSelectAllChecked={isSelectAllChecked}
                 selectedActivities={selectedActivities}
                 handleDeselectActivity={this.handleDeselectActivity}
                 showCheckBox={showCheckBox}
                 wordCount={70}
+                ownerPhoto={ownerPhoto}
               />);
             })
           }
@@ -296,6 +308,7 @@ class VerifyActivities extends Component {
               description,
               points,
               status,
+              ownerPhoto,
             } = activity;
             return (<ActivityCard
               id={id}
@@ -308,6 +321,7 @@ class VerifyActivities extends Component {
               showButtons={showButtons}
               page={pathname}
               handleClick={this.handleClick}
+              ownerPhoto={ownerPhoto}
             />);
           })
         }
@@ -329,7 +343,6 @@ class VerifyActivities extends Component {
       selectedStatus,
       selectedSociety,
       selectedActivity,
-      showModal,
     } = this.state;
     let snackBarMessage = '';
     if (message) {
@@ -343,37 +356,34 @@ class VerifyActivities extends Component {
     }
     return (
       <Page
-        showModal={showModal}
         selectedItem={selectedActivity}
         deselectItem={this.deselectActivity}
       >
         <div className='mainContent'>
-          <div className='VerifyActivities'>
-            {
-              requesting ?
-                <Loader />
-                :
-                <div>
-                  <PageHeader
-                    title='Verify Activities'
-                    hideFilter={hideFilter}
-                    selectedStatus={selectedStatus}
-                    selectedSociety={selectedSociety}
-                    showSelectAllApproveBtn={showSelectAllApproveBtn}
-                    handleSelectAllClick={this.handleSelectAllClick}
-                    handleApproveAllClick={this.handleApproveAllClick}
-                    userRoles={this.props.userRoles}
-                    showTabs={showTabs}
-                    tabs={tabs}
-                    handleChangeTab={this.handleChangeTab}
-                    disabled={disableButton}
-                  />
-                  <div className='activities'>
-                    {this.renderLayout()}
-                  </div>
+          {
+            requesting ?
+              <Loader />
+              :
+              <div>
+                <PageHeader
+                  title='Verify Activities'
+                  hideFilter={hideFilter}
+                  selectedStatus={selectedStatus}
+                  selectedSociety={selectedSociety}
+                  showSelectAllApproveBtn={showSelectAllApproveBtn}
+                  handleSelectAllClick={this.handleSelectAllClick}
+                  handleApproveAllClick={this.handleApproveAllClick}
+                  userRoles={this.props.userRoles}
+                  showTabs={showTabs}
+                  tabs={tabs}
+                  handleChangeTab={this.handleChangeTab}
+                  disabled={disableButton}
+                />
+                <div className='activities'>
+                  {this.renderLayout()}
                 </div>
-            }
-          </div>
+              </div>
+          }
         </div>
         <aside className='sideContent'>
           <Stats
@@ -388,6 +398,7 @@ class VerifyActivities extends Component {
 
 const mapStateToProps = state => ({
   allActivities: state.allActivities.activities,
+  message: state.allActivities.message,
   societyName: state.userProfile.info.society.name,
   requesting: state.allActivities.requesting,
   userRoles: Object.keys(state.userProfile.info.roles),
@@ -397,5 +408,6 @@ export default connect(mapStateToProps, {
   fetchAllActivities,
   fetchSocietyInfo,
   verifyActivity,
-  verifyActivitiesOps,
+  approveActivityByOps,
+  rejectActivityByOps,
 })(VerifyActivities);

@@ -29,7 +29,10 @@ import SNACKBARTIMEOUT from '../../constants/snackbarTimeout';
 class LogActivityForm extends Component {
   static defaultProps = {
     selectedItem: {},
+    showModal: false,
     updateSelectedItem: () => { },
+    createActivity: () => {},
+    updateActivity: () => {},
     message: {
       type: '',
       text: '',
@@ -43,10 +46,11 @@ class LogActivityForm extends Component {
   static propTypes = {
     categories: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     closeModal: PropTypes.func.isRequired,
-    createActivity: PropTypes.func.isRequired,
-    updateActivity: PropTypes.func.isRequired,
+    createActivity: PropTypes.func,
+    updateActivity: PropTypes.func,
     selectedItem: PropTypes.shape({ id: PropTypes.string }),
     updateSelectedItem: PropTypes.func,
+    showModal: PropTypes.bool,
     message: PropTypes.shape({
       type: PropTypes.string,
       text: PropTypes.string,
@@ -60,17 +64,17 @@ class LogActivityForm extends Component {
         description,
         category,
         activityDate,
-        numberOf,
+        noOfParticipants,
         activityTypeId,
       } = selectedItem;
-
+      const numberOfParticipants = noOfParticipants ? noOfParticipants.toString() : '';
       const formTitle = 'Edit Activity Request Form';
       const btnText = 'Update';
       return {
         activityDate,
         description,
         category,
-        numberOf,
+        numberOfParticipants,
         formTitle,
         btnText,
         activityTypeId,
@@ -88,7 +92,7 @@ class LogActivityForm extends Component {
     super(props);
     this.state = {
       activityTypeId: '',
-      numberOf: '',
+      numberOfParticipants: '',
       activityDate: '',
       description: '',
       errors: {},
@@ -103,13 +107,16 @@ class LogActivityForm extends Component {
    * @param {Object} prevProps
    */
   componentDidUpdate(prevProps) {
-    const { message } = prevProps;
+    const { message, showModal } = prevProps;
     if (message) {
       if (prevProps.message.type !== this.props.message.type && this.props.message.type === 'success') {
         setTimeout(() => {
           this.cancelModal();
         }, SNACKBARTIMEOUT);
       }
+    }
+    if (showModal !== this.props.showModal && !this.props.showModal) {
+      this.resetState();
     }
   }
 
@@ -140,7 +147,7 @@ class LogActivityForm extends Component {
       activityTypeId,
       activityDate,
       description,
-      numberOf,
+      numberOfParticipants,
     } = this.state;
     const activity = {
       activityTypeId,
@@ -149,7 +156,7 @@ class LogActivityForm extends Component {
     };
     const { selectedItem } = this.props;
     if (this.requiresNumberOf()) {
-      activity.numberOf = numberOf;
+      activity.noOfParticipants = numberOfParticipants;
     }
     this.setState({
       errors: validateFormFields(activity),
@@ -162,7 +169,7 @@ class LogActivityForm extends Component {
             date: activityDate,
             description,
             activityTypeId,
-            numberOf,
+            noOfParticipants: numberOfParticipants,
           });
         } else {
           this.props.createActivity(activity);
@@ -178,7 +185,7 @@ class LogActivityForm extends Component {
   resetState = () => {
     this.setState({
       activityTypeId: '',
-      numberOf: '',
+      numberOfParticipants: '',
       activityDate: '',
       description: '',
       errors: {},
@@ -221,7 +228,7 @@ class LogActivityForm extends Component {
   }
 
   render() {
-    const { activityTypeId, numberOf } = this.state;
+    const { activityTypeId, numberOfParticipants } = this.state;
     const { categories, message } = this.props;
     const { formTitle, btnText, activityDate } = this.state;
     return (
@@ -250,13 +257,13 @@ class LogActivityForm extends Component {
             <Fragment>
               <SingleInput
                 type='number'
-                name='numberOf'
+                name='numberOfParticipants'
                 title={`# of ${this.setLabel()}`}
-                value={numberOf}
+                value={numberOfParticipants}
                 handleChange={this.handleChange}
               />
               <span className='validate__errors'>
-                {this.renderValidationError('numberOf', `Number of ${this.setLabel()}`)}
+                {this.renderValidationError('numberOfParticipants', `Number of ${this.setLabel()}`)}
               </span>
             </Fragment>
             : null

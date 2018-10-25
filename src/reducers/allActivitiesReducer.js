@@ -5,9 +5,12 @@ import {
   VERIFY_ACTIVITY_SUCCESS,
   VERIFY_ACTIVITY_FAILURE,
   VERIFY_ACTIVITY_REQUEST,
-  VERIFY_ACTIVITY_OPS_SUCCESS,
-  VERIFY_ACTIVITY_OPS_FAILURE,
-  VERIFY_ACTIVITY_OPS_REQUEST,
+  APPROVE_ACTIVITY_BY_OPS_FAILURE,
+  APPROVE_ACTIVITY_BY_OPS_REQUEST,
+  APPROVE_ACTIVITY_BY_OPS_SUCCESS,
+  REJECT_ACTIVITY_BY_OPS_REQUEST,
+  REJECT_ACTIVITY_BY_OPS_FAILURE,
+  REJECT_ACTIVITY_BY_OPS_SUCCESS,
 } from '../types';
 import initialState from './initialState';
 
@@ -37,9 +40,19 @@ const allActivities = (state = initialState.allActivities, action) => {
     ));
     return { ...state, updating: false, activities };
   }
-  case VERIFY_ACTIVITY_OPS_REQUEST:
+  case REJECT_ACTIVITY_BY_OPS_REQUEST:
     return { ...state, updating: true };
-  case VERIFY_ACTIVITY_OPS_SUCCESS:
+  case REJECT_ACTIVITY_BY_OPS_FAILURE:
+    return { ...state, updating: false, error: action.error };
+  case REJECT_ACTIVITY_BY_OPS_SUCCESS: {
+    const activities = state.activities.map(activity => (
+      activity.id !== action.activity.id ? activity : action.activity
+    ));
+    return { ...state, updating: false, activities };
+  }
+  case APPROVE_ACTIVITY_BY_OPS_REQUEST:
+    return { ...state, updating: true };
+  case APPROVE_ACTIVITY_BY_OPS_SUCCESS:
   {
     const activities = state.activities.map((element) => {
       const el = element;
@@ -50,8 +63,20 @@ const allActivities = (state = initialState.allActivities, action) => {
     });
     return { ...state, updating: false, activities };
   }
-  case VERIFY_ACTIVITY_OPS_FAILURE:
-    return { ...state, updating: false, error: action.error };
+  case APPROVE_ACTIVITY_BY_OPS_FAILURE:
+    return {
+      ...state,
+      updating: false,
+      error: action.error,
+      message: {
+        type: 'error',
+        text: action.error.response
+          ?
+          action.error.response.data.message
+          :
+          'An error has occurred while processing your request',
+      },
+    };
   default:
     return state;
   }

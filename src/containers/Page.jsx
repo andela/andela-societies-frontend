@@ -2,7 +2,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
 
 import { fetchUserInfo } from '../actions';
@@ -62,7 +61,13 @@ class Page extends Component {
         image: PropTypes.string.isRequired,
       }).isRequired,
     }).isRequired,
-    history: ReactRouterPropTypes.history,
+    history: PropTypes.shape({
+      push: PropTypes.func,
+      location: PropTypes.shape({
+        pathname: PropTypes.string,
+        search: PropTypes.string,
+      }),
+    }),
     changeTitle: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
     location: PropTypes.shape({ pathname: PropTypes.string.isRequired }).isRequired,
@@ -82,7 +87,13 @@ class Page extends Component {
   static defaultProps = {
     categories: [],
     profile: null,
-    history: {},
+    history: {
+      push: () => {},
+      location: {
+        pathname: '',
+        search: '',
+      },
+    },
     updating: false,
     selectedItem: {},
     deselectItem: () => { },
@@ -152,8 +163,10 @@ class Page extends Component {
     if (location.pathname === '/u/categories' && hasAllowedRole(userRoles, SUCCESS_OPS)) {
       FAB = <FloatingButton onClick={this.onFabClick} />;
     } else if (showModal ||
-      hasAllowedRole(userRoles, STAFF_USERS
-      || !userRoles.length) || location.pathname === '/u/verify-activities') {
+        hasAllowedRole(userRoles, STAFF_USERS)
+        || !userRoles.length
+        || location.pathname === '/u/verify-activities'
+        || location.pathname.match(/\/society\/[a-z]+/)) {
       FAB = '';
     } else {
       FAB = <FloatingButton onClick={this.onFabClick} />;
@@ -176,6 +189,7 @@ class Page extends Component {
       modalContent = (categories.length &&
       <LogActivityForm
         categories={categories}
+        showModal={this.state.showModal}
         closeModal={this.closeModal}
         selectedItem={selectedItem}
         updateSelectedItem={updateSelectedItem}
@@ -185,6 +199,7 @@ class Page extends Component {
       modalContent = (
         <RedeemPointsForm
           closeModal={this.closeModal}
+          showModal={this.state.showModal}
           selectedItem={selectedItem}
           updateSelectedItem={updateSelectedItem}
         />
@@ -192,10 +207,16 @@ class Page extends Component {
     } else if (location.pathname === '/u/categories' &&
       hasAllowedRole(Object.keys(profile.roles), SUCCESS_OPS)
     ) {
-      modalContent = (<CreateCategoryForm closeModal={this.closeModal} />);
+      modalContent = (
+        <CreateCategoryForm
+          showModal={this.state.showModal}
+          closeModal={this.closeModal}
+          selectedItem={selectedItem}
+        />);
     } else if (hasAllowedRole(Object.keys(profile.roles), STAFF_USERS)) {
       modalContent = (
         <CommentsForm
+          showModal={this.state.showModal}
           closeModal={this.closeModal}
           selectedItem={selectedItem}
         />);

@@ -1,20 +1,29 @@
+// Third party libraries
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { spy } from 'sinon';
 import { createMockStore } from 'redux-test-utils';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
+import 'jest-localstorage-mock';
 
+// Components
 import VerifyActivities from '../../src/containers/VerifyActivities';
+
+// Fixtures
 import storeFixture from '../../src/fixtures/store';
 import society from '../../src/fixtures/society';
 import activity from '../../src/fixtures/activity';
 import activities from '../../src/fixtures/activities';
 
+// Helpers
+import filterActivitiesByStatus from '../../src/helpers/filterActivitiesByStatus';
+
 const store = createMockStore(storeFixture);
 const history = { push: () => { }, location: { pathname: '' } };
 const roles = ['success ops'];
-const verifyActivitiesOpsSpy = spy();
+const rejectActivityByOpsSpy = spy();
+const approveActivityByOpsSpy = spy();
 const verifyActivitySpy = spy();
 const fetchAllActivitiesSpy = spy();
 const event = { preventDefault: () => { } };
@@ -29,9 +38,11 @@ describe('<VerifyActivities />', () => {
     allActivities: activities,
     societyActivities: society.loggedActivities,
     requesting: false,
-    verifyActivitiesOps: verifyActivitiesOpsSpy,
+    approveActivityByOps: approveActivityByOpsSpy,
+    rejectActivityByOps: rejectActivityByOpsSpy,
     verifyActivity: verifyActivitySpy,
     fetchAllActivities: fetchAllActivitiesSpy,
+    message: {},
   };
 
   const component = shallow(<VerifyActivities.WrappedComponent
@@ -67,10 +78,10 @@ describe('<VerifyActivities />', () => {
     expect(selectedActivities).toEqual(selected);
   });
 
-  it('should call verifyActivitiesOps props when handleApproveAllClick is invoked', () => {
+  it('should call approveActivityByOps props when handleApproveAllClick is invoked', () => {
     const instance = component.instance();
     instance.handleApproveAllClick();
-    expect(verifyActivitiesOpsSpy.called).toBeTruthy();
+    expect(approveActivityByOpsSpy.called).toBeTruthy();
   });
 
   it('should have the <MasonryLayout /> layout when role is not successOps', () => {
@@ -91,6 +102,11 @@ describe('<VerifyActivities />', () => {
     expect(component.find('LinearLayout').length).toBe(1);
   });
 
+  it('should not have the <LinearLayout /> layout when role is not successOps', () => {
+    component.setProps({ userRoles: ['finance ops'] });
+    expect(component.find('LinearLayout').length).toBe(0);
+  });
+
   it('should show loader when fetching', () => {
     component.setProps({ requesting: true });
     expect(component.find('Loader').length).toBe(1);
@@ -108,11 +124,18 @@ describe('<VerifyActivities />', () => {
     expect(verifyActivitySpy.called).toBeTruthy();
   });
 
-  it('should call verifyActivitiesOps when handleClick is invoked with role as SUCCESS_OPS', () => {
+  it('should call approveActivityByOps when handleClick is invoked with role as SUCCESS_OPS', () => {
     component.setProps({ userRoles: roles });
     const instance = component.instance();
     instance.handleClick('approved', '1234t645');
-    expect(verifyActivitiesOpsSpy.called).toBeTruthy();
+    expect(approveActivityByOpsSpy.called).toBeTruthy();
+  });
+
+  it('should call rejectActivityByOps when handleClick is invoked with reject action and role as SUCCESS_OPS', () => {
+    component.setProps({ userRoles: roles });
+    const instance = component.instance();
+    instance.handleClick('rejected', '1234t645');
+    expect(rejectActivityByOpsSpy.called).toBeTruthy();
   });
 
   it('should call verifyActivity when handleClick is invoked with reject action and role as society secretary', () => {
@@ -120,14 +143,6 @@ describe('<VerifyActivities />', () => {
     const instance = component.instance();
     instance.handleClick('rejected', '1234t645');
     expect(verifyActivitySpy.called).toBeTruthy();
-  });
-
-  it('should change state of showModal to true when handleClick is invoked with the MORE_INFO click action', () => {
-    component.setProps({ userRoles: roles });
-    component.setState({ filteredActivities: [activity], showModal: false });
-    const instance = component.instance();
-    instance.handleClick('moreInfo', '8437fa68-8e6b-11e8-a05c-9801a7ae0330');
-    expect(component.state().showModal).toBeTruthy();
   });
 
   it('should return null the default case when handleClick is invoked with no click action', () => {
@@ -141,7 +156,6 @@ describe('<VerifyActivities />', () => {
     const instance = component.instance();
     component.setState({ selectedActivity: activity });
     instance.deselectActivity();
-    expect(component.state().showModal).toBeFalsy();
     expect(component.state().selectedActivity).toEqual({});
   });
   it('should call componentDidUpdate and fetchAllActivities', () => {
@@ -149,5 +163,11 @@ describe('<VerifyActivities />', () => {
     component.setProps({ userRoles: [] });
     expect(componentDidUpdateSpy.called).toBeTruthy();
     expect(fetchAllActivitiesSpy.called).toBeTruthy();
+  });
+  it('should filter activities by status when handleChangeTab is clicked', () => {
+    const selectedSocietyActivities = filterActivitiesByStatus(activities, 'pending')
+      .filter(activityItem => activityItem.society.name === 'sparks');
+    component.instance().handleChangeTab(event, 'sparks');
+    expect(component.state().filteredActivities).toEqual(selectedSocietyActivities);
   });
 });

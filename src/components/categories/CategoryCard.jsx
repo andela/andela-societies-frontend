@@ -1,8 +1,14 @@
+/* eslint react/forbid-prop-types: 0 */
 import React, { Component } from 'react';
 import PropType from 'prop-types';
 
 import TruncateDescription from '../TruncateDescription';
 import Delete from '../svgIcons/categoryIcons/Delete';
+import EditIcon from '../svgIcons/categoryIcons/Edit';
+import Button from '../../common/Button';
+
+// constants
+import clickActions from '../../constants/clickAction';
 
 /**
  * @summary Renders an category card
@@ -38,35 +44,34 @@ class CategoryCard extends Component {
     wordCount: 80,
   };
 
-  /**
-   * @name getDerivedStateFromProps
-   * @summary Lifecylce methods that updates state of iscategoryChecked if category is checked or not
-   * @param {Object} nextProps
-   * @returns {Object} state
-   */
-  static getDerivedStateFromProps(nextProps) {
-    const { selectedCategories } = nextProps;
-    return {
-      isCategoryChecked: selectedCategories ? selectedCategories.includes(nextProps.id) : false,
-    };
-  }
-
   constructor(props) {
     super(props);
     this.state = {};
   }
 
-  renderDeleteButton() {
+  /**
+  * @name renderCategoryButtons
+  * @summary Displays edit, delete action and respond to their clicks
+  */
+  renderCategoryButtons = () => {
+    const { DELETE, EDIT } = clickActions;
+    const { handleClick, id } = this.props;
     return (
-      <div className='deleteCategoryButtons'>
-        <button
-          name='delete'
-          className='deleteCategory__button'
+      <div className='categoryButtons'>
+        <Button
+          name='edit'
+          className='categoryButtons__edit'
           type='button'
-          onClick={() => this.props.handleClick(this.props.id)}
-        >
-          <Delete />
-        </button>
+          value={<EditIcon />}
+          onClick={() => handleClick(EDIT, id)}
+        />
+        <Button
+          name='delete'
+          className='categoryButtons__delete'
+          type='button'
+          value={<Delete />}
+          onClick={() => handleClick(DELETE, id)}
+        />
       </div>
     );
   }
@@ -106,7 +111,7 @@ class CategoryCard extends Component {
               this.renderPoints()
             }
             {
-              this.renderDeleteButton()
+              this.renderCategoryButtons()
             }
           </div>
         </div>

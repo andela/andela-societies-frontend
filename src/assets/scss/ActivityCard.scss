@@ -10,6 +10,8 @@
   display: flex;
   transition: all 0.3s ease-in-out;
   flex-wrap: wrap;
+  height: 10em;
+  width: 25em;
   @include boxShadow(0, 0, 2.5rem, 0.5rem, $boxShadowGrey);
 }
 

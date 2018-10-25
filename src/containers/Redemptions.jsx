@@ -1,7 +1,6 @@
+// third party libraries
 import React from 'react';
 import { connect } from 'react-redux';
-
-// third party libraries
 import PropTypes from 'prop-types';
 
 // components
@@ -14,7 +13,11 @@ import ErrorMessage from '../common/ErrorMessage';
 import Loader from '../components/loaders/Loader';
 
 // thunk
-import { fetchRedemption, verifyRedemption } from '../actions/redeemPointsAction';
+import {
+  fetchRedemption,
+  verifyRedemption,
+  completeRedemptionFinance,
+} from '../actions/redeemPointsAction';
 import { openModal } from '../actions/showModalActions';
 
 // helpers
@@ -24,8 +27,20 @@ import statsGenerator from '../helpers/statsGenerator';
 import filterActivitiesByStatus from '../helpers/filterActivitiesByStatus';
 
 // constants
-import { VERIFICATION_USERS, SUCCESS_OPS, CIO, SOCIETY_PRESIDENT, STAFF_USERS, FINANCE } from '../constants/roles';
-import { ALL, APPROVED, PENDING, REJECTED } from '../constants/statuses';
+import {
+  VERIFICATION_USERS,
+  SUCCESS_OPS,
+  CIO,
+  SOCIETY_PRESIDENT,
+  STAFF_USERS,
+  FINANCE,
+} from '../constants/roles';
+import {
+  ALL,
+  APPROVED,
+  PENDING,
+  REJECTED,
+} from '../constants/statuses';
 import clickActions from '../constants/clickAction';
 
 // fixtures
@@ -43,17 +58,29 @@ class Redemptions extends React.Component {
     requesting: false,
     redemptions: [],
     openModal: () => {},
+    completeRedemptionFinance: () => {},
+    history: {
+      location: {
+        pathname: '',
+      },
+    },
   }
 
   /**
    * @name propTypes
    */
   static propTypes = {
+    history: PropTypes.shape({
+      location: PropTypes.shape({
+        pathname: PropTypes.string,
+      }),
+    }),
     hasError: PropTypes.bool,
     requesting: PropTypes.bool,
     societyName: PropTypes.string,
     fetchRedemption: PropTypes.func.isRequired,
     verifyRedemption: PropTypes.func.isRequired,
+    completeRedemptionFinance: PropTypes.func,
     userRoles: PropTypes.arrayOf(PropTypes.string),
     redemptions: PropTypes.arrayOf(PropTypes.shape({})),
     openModal: PropTypes.func,
@@ -71,7 +98,6 @@ class Redemptions extends React.Component {
     if (userRoles.length) {
       const showButtons = hasAllowedRole(userRoles, VERIFICATION_USERS);
       const showCompleteButton = hasAllowedRole(userRoles, [FINANCE]);
-      const showMoreInfoButton = hasAllowedRole(userRoles, [CIO]);
       const userCanEdit = hasAllowedRole(userRoles, [SOCIETY_PRESIDENT]);
       let preSelectedRemptions;
       let {
@@ -80,10 +106,15 @@ class Redemptions extends React.Component {
       } = state;
 
       // state values for cio/success ops role
-      if (hasAllowedRole(userRoles, [CIO, SUCCESS_OPS, FINANCE])) {
+      if (hasAllowedRole(userRoles, [CIO, SUCCESS_OPS])) {
         showTabs = true;
         selectedStatus = PENDING;
         preSelectedRemptions = filterActivitiesByStatus(redemptions, PENDING)
+          .filter(redemption => redemption.society.name.toLowerCase() === selectedSociety.toLowerCase());
+      } else if (hasAllowedRole(userRoles, [FINANCE])) {
+        showTabs = true;
+        selectedStatus = ALL;
+        preSelectedRemptions = redemptions
           .filter(redemption => redemption.society.name.toLowerCase() === selectedSociety.toLowerCase());
       } else {
         preSelectedRemptions = redemptions
@@ -97,7 +128,6 @@ class Redemptions extends React.Component {
         showTabs,
         showButtons,
         showCompleteButton,
-        showMoreInfoButton,
         selectedStatus,
       };
     }
@@ -113,7 +143,6 @@ class Redemptions extends React.Component {
       showUserDetails: true,
       showLocation: true,
       showButtons: false,
-      showMoreInfoButton: false,
       showCompleteButton: false,
       showPoints: true,
       showAmount: true,
@@ -130,9 +159,10 @@ class Redemptions extends React.Component {
    * @summary Lifecycle method called when component is mounted
    */
   componentDidMount() {
-    const { societyName } = this.props;
+    const { societyName, history } = this.props;
     const reference = this.setPathReference(societyName);
     this.props.fetchRedemption(reference);
+    sessionStorage.setItem('Location', history.location.pathname);
   }
 
   /**
@@ -199,12 +229,20 @@ class Redemptions extends React.Component {
    */
   handleChangeTab = (event, title) => {
     event.preventDefault();
-    const pendingRedemptions = filterActivitiesByStatus(this.props.redemptions, PENDING)
-      .filter(red => red.society.name.toLowerCase() === title.toLowerCase());
+    const { userRoles, redemptions } = this.props;
+    let selectedStatus;
+    let societyRedemptions;
+    societyRedemptions = redemptions.filter(red => red.society.name.toLowerCase() === title.toLowerCase());
+    if (hasAllowedRole(userRoles, [FINANCE])) {
+      selectedStatus = ALL;
+    } else {
+      selectedStatus = PENDING;
+      societyRedemptions = filterActivitiesByStatus(societyRedemptions, PENDING);
+    }
     this.setState({
-      filteredActivities: pendingRedemptions,
+      filteredActivities: societyRedemptions,
       selectedSociety: title.toLowerCase(),
-      selectedStatus: 'pending',
+      selectedStatus,
     });
   }
 
@@ -234,23 +272,23 @@ class Redemptions extends React.Component {
       APPROVE,
       EDIT,
       REJECT,
-      MORE_INFO,
       COMPLETE,
     } = clickActions;
     switch (clickAction) {
     case COMPLETE:
+      this.props.completeRedemptionFinance(redemptionId, clickAction);
+      break;
     case APPROVE:
       this.props.verifyRedemption(redemptionId, clickAction);
       break;
     case EDIT:
-    case MORE_INFO:
     case REJECT:
     {
       this.selectRedemption(redemptionId, clickAction);
       break;
     }
     default:
-      break;
+      return null;
     }
     return null;
   }
@@ -295,7 +333,6 @@ class Redemptions extends React.Component {
       showUserDetails,
       showLocation,
       showButtons,
-      showMoreInfoButton,
       showAmount,
       selectedStatus,
       userCanEdit,
@@ -330,6 +367,7 @@ class Redemptions extends React.Component {
               name,
               value,
               status,
+              ownerPhoto,
             } = activity;
             return (<ActivityCard
               id={id}
@@ -340,13 +378,13 @@ class Redemptions extends React.Component {
               status={status}
               showAmount={showAmount}
               showButtons={showButtons}
-              showMoreInfoButton={showMoreInfoButton}
               showCompleteButton={showCompleteButton}
               showLocation={showLocation}
               showPoints={showPoints}
               showUserDetails={showUserDetails}
               handleClick={this.handleClick}
               userCanEdit={userCanEdit}
+              ownerPhoto={ownerPhoto}
             />);
           })
         }
@@ -417,5 +455,6 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   fetchRedemption,
   verifyRedemption,
+  completeRedemptionFinance,
   openModal,
 })(Redemptions);

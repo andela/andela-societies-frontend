@@ -14,6 +14,7 @@ import {
   updateRedemptionSuccess,
   updateRedemption,
   verifyRedemption,
+  completeRedemptionFinance,
 } from '../../src/actions/redeemPointsAction';
 
 // types
@@ -30,6 +31,9 @@ import {
   VERIFY_REDEMPTION_SUCCESS,
   VERIFY_REDEMPTION_FAILURE,
   VERIFY_REDEMPTION_REQUEST,
+  COMPLETE_REDEMPTION_FINANCE_FAILURE,
+  COMPLETE_REDEMPTION_FINANCE_REQUEST,
+  COMPLETE_REDEMPTION_FINANCE_SUCCESS,
 } from '../../src/types';
 
 // helpers
@@ -229,6 +233,56 @@ describe('Redeem Points Actions', () => {
       });
 
       return store.dispatch(verifyRedemption(redemption.id, 'rejected')).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+    });
+  });
+  describe('Complete redemptions actions', () => {
+    it('dispatches COMPLETE_REDEMPTION_FINANCE_SUCCESS after successfuly updating the redemption status to completed', () => {
+      const updatedRedemption = {
+        ...redemption,
+        status: 'completed',
+      };
+      const expectedActions = [
+        {
+          type: COMPLETE_REDEMPTION_FINANCE_REQUEST,
+        },
+        {
+          type: COMPLETE_REDEMPTION_FINANCE_SUCCESS,
+          redemption: updatedRedemption,
+        },
+      ];
+
+      moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem/funds/${updatedRedemption.id}`, {
+        status: 200,
+        response: { data: updatedRedemption },
+      });
+
+      return store.dispatch(completeRedemptionFinance(redemption.id, 'completed')).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+    });
+
+    it('dispatches COMPLETE_REDEMPTION_FINANCE_FAILURE when completing a redemption fails', () => {
+      const updatedRedemption = {
+        ...redemption,
+        status: 'completed',
+      };
+      const expectedActions = [
+        {
+          type: COMPLETE_REDEMPTION_FINANCE_REQUEST,
+        },
+        {
+          type: COMPLETE_REDEMPTION_FINANCE_FAILURE,
+          error: new Error('Request failed with status code 401'),
+        },
+      ];
+
+      moxios.stubRequest(`${config.API_BASE_URL}/societies/redeem/funds/${updatedRedemption.id}`, {
+        status: 401,
+      });
+
+      return store.dispatch(completeRedemptionFinance(redemption.id, 'completed')).then(() => {
         expect(store.getActions()).toEqual(expectedActions);
       });
     });

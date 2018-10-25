@@ -13,7 +13,7 @@ import SnackBar from '../../components/notifications/SnackBar';
 
 // thunk
 import { verifyRedemption } from '../../actions/redeemPointsAction';
-import { requestMoreInfo } from '../../actions/commentActions';
+// import { requestMoreInfo } from '../../actions/commentActions';
 
 // helpers
 import validateFormFields from '../../helpers/validate';
@@ -33,7 +33,8 @@ class CommentsForm extends Component {
     },
     selectedItem: {},
     closeModal: null,
-    requestMoreInfo: null,
+    // requestMoreInfo: null,
+    showModal: false,
     verifyRedemption: null,
   };
   /**
@@ -42,8 +43,9 @@ class CommentsForm extends Component {
   static propTypes = {
     selectedItem: PropTypes.shape({ id: PropTypes.string }),
     verifyRedemption: PropTypes.func,
-    requestMoreInfo: PropTypes.func,
+    // requestMoreInfo: PropTypes.func,
     closeModal: PropTypes.func,
+    showModal: PropTypes.bool,
     message: PropTypes.shape({
       type: PropTypes.string,
       text: PropTypes.string,
@@ -74,9 +76,12 @@ class CommentsForm extends Component {
    * @param {Object} prevProps
    */
   componentDidUpdate(prevProps) {
-    const { message } = this.props;
-    if (prevProps.message.type !== message.type && message.type === 'success') {
+    const { message, showModal } = prevProps;
+    if (message.type !== this.props.message.type && this.props.message.type === 'success') {
       setTimeout(() => this.handleCloseModal(), SNACKBARTIMEOUT);
+    }
+    if (showModal !== this.props.showModal && !this.props.showModal) {
+      this.resetState();
     }
   }
 
@@ -107,9 +112,9 @@ class CommentsForm extends Component {
     if (Object.keys(errors).length) {
       this.setState({ errors });
     }
-    this.props.requestMoreInfo(selectedItem.id, comment);
+    // this.props.requestMoreInfo(selectedItem.id, comment);
     if (selectedItem.clickAction === 'rejected') {
-      this.props.verifyRedemption(selectedItem.id, selectedItem.clickAction);
+      this.props.verifyRedemption(selectedItem.id, selectedItem.clickAction, comment);
     }
   }
 
@@ -225,10 +230,10 @@ class CommentsForm extends Component {
 }
 
 const mapStateToProps = state => ({
-  message: state.commentsInfo.message,
+  message: state.redeemPointsInfo.message,
 });
 
 export default connect(mapStateToProps, {
   verifyRedemption,
-  requestMoreInfo,
+  // requestMoreInfo,
 })(CommentsForm);

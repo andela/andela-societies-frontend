@@ -14,6 +14,9 @@ import {
   VERIFY_REDEMPTION_SUCCESS,
   VERIFY_REDEMPTION_FAILURE,
   VERIFY_REDEMPTION_REQUEST,
+  COMPLETE_REDEMPTION_FINANCE_FAILURE,
+  COMPLETE_REDEMPTION_FINANCE_REQUEST,
+  COMPLETE_REDEMPTION_FINANCE_SUCCESS,
 } from '../types';
 
 import config from '../../config';
@@ -94,7 +97,7 @@ export const fetchRedemption = (ref) => {
   const path = ref === 'full' ? '' : `?society=${ref}`;
   return (dispatch) => {
     dispatch(fetchRedemptionsRequest());
-    return axios.get(`${config.API_BASE_URL}/societies/redeem${path}`)
+    return axios.get(`${config.API_BASE_URL}/societies/redeem${path || '?paginate=false'}`)
       .then((response) => {
         dispatch(fetchRedemptionsSuccess(response.data.data));
       }).catch(() => dispatch({ type: FETCH_REDEMPTIONS_FAILURE }));
@@ -167,7 +170,10 @@ export const verifyRedemptionRequest = () => (
 export const verifyRedemptionSuccess = redemption => (
   {
     type: VERIFY_REDEMPTION_SUCCESS,
-    redemption,
+    message: redemption.message,
+    redemption: {
+      ...redemption.data,
+    },
   }
 );
 
@@ -189,13 +195,65 @@ export const verifyRedemptionFailure = error => (
  * @param {String} id - identifier for redemption request
  * @returns {(dispatch) => Promise<AxiosResponse>}
  */
-export const verifyRedemption = (id, clickAction) => (
+export const verifyRedemption = (id, clickAction, comment) => (
   (dispatch) => {
     dispatch(verifyRedemptionRequest());
-    return axios.put(`${config.API_BASE_URL}/societies/redeem/verify/${id}`, { status: clickAction })
+    return axios
+      .put(`${config.API_BASE_URL}/societies/redeem/verify/${id}`, { status: clickAction, rejection: comment })
       .then((response) => {
-        dispatch(verifyRedemptionSuccess(response.data.data));
+        dispatch(verifyRedemptionSuccess(response.data));
       })
       .catch(error => dispatch(verifyRedemptionFailure(error)));
+  }
+);
+
+/**
+ * @function completeRedemptionFinanceRequest
+ * @return {Object} {{type: COMPLETE_REDEMPTION_FINANCE_REQUEST}}
+ */
+export const completeRedemptionFinanceRequest = () => (
+  {
+    type: COMPLETE_REDEMPTION_FINANCE_REQUEST,
+  }
+);
+
+/**
+ * @function completeRedemptionFinanceSuccess
+ * @param {object} redemption - approved/rejected redemption
+ * @return {Object} {{type: COMPLETE_REDEMPTION_FINANCE_SUCCESS, redemption}}
+ */
+export const completeRedemptionFinanceSuccess = redemption => (
+  {
+    type: COMPLETE_REDEMPTION_FINANCE_SUCCESS,
+    redemption,
+  }
+);
+
+/**
+ * @function completeRedemptionFinanceFailure
+ * @param error - object with error information
+ * @return {Object} {{type: COMPLETE_REDEMPTION_FINANCE_FAILURE, error}}
+ */
+export const completeRedemptionFinanceFailure = error => (
+  {
+    type: COMPLETE_REDEMPTION_FINANCE_FAILURE,
+    error,
+  }
+);
+
+/**
+ * @function completeRedemptionFinance thunk
+ * @param {Boolean} clickAction - click action/status of redemption i.e. approved/rejected
+ * @param {String} id - identifier for redemption request
+ * @returns {(dispatch) => Promise<AxiosResponse>}
+ */
+export const completeRedemptionFinance = (id, clickAction) => (
+  (dispatch) => {
+    dispatch(completeRedemptionFinanceRequest());
+    return axios.put(`${config.API_BASE_URL}/societies/redeem/funds/${id}`, { status: clickAction })
+      .then((response) => {
+        dispatch(completeRedemptionFinanceSuccess(response.data.data));
+      })
+      .catch(error => dispatch(completeRedemptionFinanceFailure(error)));
   }
 );

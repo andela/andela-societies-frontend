@@ -16,13 +16,13 @@
   height: 100%;
   border-radius: 50%;
   cursor: pointer;
+  outline: none;
 }
 
 .headerIcon__image--photo {
   background-color: #eee;
   background-size: cover;
   background-repeat: no-repeat;
-
 }
 
 .headerIcon__image svg {

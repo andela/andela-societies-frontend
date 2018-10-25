@@ -1,14 +1,22 @@
+// Third party libraries
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import { stub } from 'sinon';
+import { stub, spy } from 'sinon';
 import { createMockStore } from 'redux-test-utils';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
+import 'jest-localstorage-mock';
+
+// Components
 import Redemptions from '../../src/containers/Redemptions';
+
+// fixtures
 import storeFixture from '../../src/fixtures/store';
 import { redemptions, redemption } from '../../src/fixtures/redemptions';
-import filterActivitiesByStatus from '../../src/helpers/filterActivitiesByStatus';
 import testProfile from '../../src/fixtures/userProfile';
+
+// helpers and constants
+import filterActivitiesByStatus from '../../src/helpers/filterActivitiesByStatus';
 import clickActions from '../../src/constants/clickAction';
 
 const { EDIT } = clickActions;
@@ -17,8 +25,10 @@ const store = createMockStore(storeFixture);
 const history = { push: () => { }, action: 'PUSH', location: { pathname: '' } };
 const event = { preventDefault: () => { } };
 const verifyRedemption = jest.fn();
+const completeRedemptionFinance = jest.fn();
 const testRedemptions = [...redemptions, { ...redemption, status: 'rejected' }];
 const userProfile = { ...testProfile, roles: { 'society president': 'Kabc' } };
+const fetchRedemptionSpy = spy();
 
 const testProps = {
   requesting: false,
@@ -29,8 +39,9 @@ const testProps = {
   history,
   fetchUserInfo: stub(),
   changePageTitle: stub(),
-  fetchRedemption: stub().resolves({}),
+  fetchRedemption: fetchRedemptionSpy,
   verifyRedemption,
+  completeRedemptionFinance,
 };
 
 const setUpWrapper = ({
@@ -138,6 +149,22 @@ describe('<Redemptions />', () => {
     expect(instance.state.filteredActivities.length).toBe(1);
   });
 
+  it('should update state of filteredActivities when role is Finance', () => {
+    const { shallowWrapper } = setUpWrapper({ userProfile: { roles: { finance: 'Kabc' } } });
+    const instance = shallowWrapper.instance();
+    instance.handleChangeTab(event, 'phoenix');
+    expect(instance.state.selectedSociety).toBe('phoenix');
+    expect(instance.state.selectedStatus).toBe('all');
+    expect(instance.state.filteredActivities.length).toBe(0);
+  });
+
+  it('should update state of selectedStatus to all when role is Finance', () => {
+    const { shallowWrapper } = setUpWrapper({ userProfile: { roles: { finance: 'Kabc' } } });
+    const instance = shallowWrapper.instance();
+    instance.handleChangeTab(event, 'phoenix');;
+    expect(instance.state.selectedStatus).toBe('all');
+  });
+
   it('should call verifyRedemption thunk when redemption is approved', () => {
     const { shallowWrapper } = setUpWrapper();
     const instance = shallowWrapper.instance();
@@ -148,16 +175,22 @@ describe('<Redemptions />', () => {
     expect(verifyRedemption).toHaveBeenCalled();
   });
 
-  it('should call verifyRedemption thunk when redemption is completed', () => {
+  it('should call completeRedemptionFinance thunk when redemption is completed', () => {
     const { shallowWrapper } = setUpWrapper();
     const instance = shallowWrapper.instance();
     instance.setState({
       filteredActivities: testRedemptions,
     });
     instance.handleClick('completed', redemption.id);
-    expect(verifyRedemption).toBeCalledWith(redemption.id, 'completed');
+    expect(completeRedemptionFinance).toBeCalledWith(redemption.id, 'completed');
   });
-
+  
+  it('should return null the default case when handleClick is invoked with no click action', () => {
+    const { shallowWrapper } = setUpWrapper();
+    const instance = shallowWrapper.instance();
+    const result = instance.handleClick();
+    expect(result).toBeNull();
+  });
 
   it('should set selectedRedemption when redemption is clicked', () => {
     const { shallowWrapper } = setUpWrapper();
@@ -220,5 +253,13 @@ describe('<Redemptions />', () => {
     const filterRes = redemptions.filter(redemption => redemption.society.name === 'istelle');
     const societyRedemptions = instance.getSocietyRedemptions();
     expect(societyRedemptions).toEqual(filterRes);
+  });
+
+  it('should call componentDidUpdate and fetchRedemption', () => {
+    const componentDidUpdateSpy = spy(Redemptions.WrappedComponent.prototype, 'componentDidUpdate');
+    const { shallowWrapper } = setUpWrapper();
+    shallowWrapper.setState({ userRoles: null });
+    expect(componentDidUpdateSpy.called).toBeTruthy();
+    expect(fetchRedemptionSpy.called).toBeTruthy();
   });
 });

@@ -1,10 +1,13 @@
+// third-party libraries
 import React, { Component, Fragment } from 'react';
 import PropType from 'prop-types';
 
+// components
 import TruncateDescription from '../TruncateDescription';
 import Globe from '../svgIcons/activityIcons/Globe';
 import Button from '../../common/Button';
 
+// helpers
 import pointsToDollarConverter from '../../helpers/pointsToDollarsConverter';
 import capitalizeString from '../../helpers/stringFormatter';
 
@@ -55,6 +58,7 @@ class ActivityCard extends Component {
     showAmount: PropType.bool,
     userCanEdit: PropType.bool,
     owner: PropType.string,
+    ownerPhoto: PropType.string,
     page: PropType.string,
     handleClick: PropType.func,
     id: PropType.string.isRequired,
@@ -79,6 +83,7 @@ class ActivityCard extends Component {
     showAmount: false,
     userCanEdit: false,
     owner: null,
+    ownerPhoto: 'https://placehold.it/55x5',
     page: '',
     handleClick: () => {},
     handleDeselectActivity: () => {},
@@ -106,7 +111,7 @@ class ActivityCard extends Component {
     this.state = {
       isActivityChecked: false,
       statuses,
-      statusNeedingButtons: [STATUSES[1], STATUSES[2], STATUSES[6]],
+      statusNeedingButtons: [STATUSES[1], STATUSES[2]],
     };
   }
 
@@ -170,7 +175,7 @@ class ActivityCard extends Component {
       <div className='activity__left'>
         <img
           className='activity__userPicture'
-          src='https://placehold.it/55x55'
+          src={this.props.ownerPhoto}
           alt='John Doe'
         />
         <span className='activity__owner'>{this.props.owner}</span>
