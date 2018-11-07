@@ -1,0 +1,34 @@
+.not-found {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    align-items: center;
+    margin-top: 17%;
+}
+
+.not-found__code{
+    display: flex;
+    flex-direction: row;
+}
+
+.not-found__text {
+    font-size: 15px;
+    color: $disableButton;
+}
+
+.not-found__text .home-404 {
+    text-decoration: none;
+    color: $andelaBlue;
+}
+
+.not-found__code {
+  font-size: 150px;
+}
+
+.not-found__code .not-found__zero {
+    color: $andelaBlue;
+}
+
+.not-found__code .not-found__four {
+    color: $black;
+}

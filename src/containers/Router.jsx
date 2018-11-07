@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import Signin from '../containers/SignIn';
 import pageInfo from '../helpers/pageInfo';
 import PrivateRoute from '../components/routes/PrivateRoute';
+import PageNotFound from './PageNotFound';
 
 /**
  * @name Router
@@ -38,6 +39,7 @@ const Router = ({ profile }) => (
             />
         ))
       }
+      <Route path='*' component={PageNotFound} />
     </Switch>
   </BrowserRouter>);
 
