@@ -94,4 +94,4 @@ On the root of the backend repository you will be able to find application logs 
 
 #### Frontend Logs 
 
-Coming soon!!
+On the root of the frontend repository you will be able to find application logs under the logs folder. This folder is created after starting the sandbox. This folder contains one file application.log. Application errors and access logs are logged to the application.log file.

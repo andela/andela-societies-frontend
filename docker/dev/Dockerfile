@@ -1,6 +1,6 @@
 FROM node:carbon
 
-LABEL AUTHOR="Thomas Nyambati <thomas.nyambati@andela.com>"
+LABEL AUTHOR="Crispus Kamau <crispus.kamau@andela.com>"
 LABEL application="soc-frontend"
 
 ENV NODE_PATH /usr/local/share/.config/yarn/global/node_modules/
@@ -11,8 +11,8 @@ WORKDIR /application
 
 COPY public /application
 
-COPY prodserver /application
+COPY sandserver /application
 
-RUN chmod +x ./prodserver
+RUN chmod +x ./sandserver
 
-CMD ./prodserver 4000
+CMD ./sandserver 4021

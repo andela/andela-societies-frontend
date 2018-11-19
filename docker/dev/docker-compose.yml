@@ -4,9 +4,11 @@ services:
   frontend:
     build:
       context: ../../
-      dockerfile: ./Dockerfile
+      dockerfile: docker/dev/Dockerfile
+    volumes:
+       - ../../logs:/application/logs
     image: soc-frontend:sandbox
-    command: [ "./prodserver",  "4021" ]
+    command: [ "./sandserver",  "4021"]
     ports:
       - "4021:4021"
     networks:
