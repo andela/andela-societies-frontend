@@ -24,7 +24,7 @@ import CreateCategoryForm from './forms/CreateCategoryForm';
 import { STAFF_USERS, SOCIETY_PRESIDENT, SUCCESS_OPS } from '../../src/constants/roles';
 
 import {
-  getToken, tokenIsValid, isFellow,
+  getToken, tokenIsValid,
   setSignInError, decodeToken, getUserInfo,
   hasAllowedRole,
 } from '../helpers/authentication';
@@ -118,12 +118,12 @@ class Page extends Component {
   componentDidMount() {
     const token = getToken();
     const tokenInfo = decodeToken(token);
-    if (token === null || tokenIsValid(tokenInfo) === false || isFellow(tokenInfo) === false) {
+    if (token === null || tokenIsValid(tokenInfo) === false) {
       setSignInError();
-      this.props.history.push({ pathname: '/', search: '?error=unauthorized' });
+      this.props.history.push({ pathname: '/' });
     }
     this.props.fetchUserInfo(tokenInfo);
-    const userId = getUserInfo() && getUserInfo().id;
+    const userId = getUserInfo().id;
     this.props.fetchUserProfile(userId);
     if (this.isASocietyPage()) {
       const societyName = this.props.location.pathname.split('/').pop();

@@ -35,7 +35,7 @@ export const decodeToken = (token) => {
  */
 export const getUserInfo = () => {
   const userDetails = decodeToken(getToken());
-  return userDetails.UserInfo;
+  return userDetails.UserInfo || {};
 };
 
 /**
