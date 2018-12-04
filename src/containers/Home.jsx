@@ -86,12 +86,15 @@ class Home extends Component {
       } else {
         push({ pathname: '/u/my-activities' });
       }
+<<<<<<< HEAD
     } else {
       if (location) {
         push({ pathname: location });
       } else {
         push({ pathname: '/society/istelle' });
       }
+=======
+>>>>>>> origin/master
     }
   };
 
