@@ -6,11 +6,8 @@ import { connect } from 'react-redux';
 import Page from './Page';
 import Loader from '../components/loaders/Loader';
 
-// actions
-import { fetchUserProfile } from '../actions/userProfileActions';
-
 // helpers
-import { getUserInfo, hasAllowedRole } from '../helpers/authentication';
+import { hasAllowedRole } from '../helpers/authentication';
 
 // constants
 import { ROLES } from '../constants/roles';
@@ -19,19 +16,19 @@ class Home extends Component {
   /**
    * @name Home
    * @type {propTypes}
-   * @property {Function} fetchUserProfile -fetches user profile info
    * @property {Object} history - route history
    * @return React node containing component for displaying the Home page
    */
   static propTypes = {
-    fetchUserProfile: PropTypes.func.isRequired,
     history: PropTypes.shape({
       push: PropTypes.func,
     }),
+    profile: PropTypes.shape({}),
   };
 
   static defaultProps = {
     history: {},
+    profile: {},
   };
 
   /**
@@ -47,17 +44,8 @@ class Home extends Component {
     super(props);
     this.state = {
       loading: true,
-      profile: null,
+      profile: props.profile,
     };
-  }
-
-  /**
-   * @name componentDidMount
-   * @summary run fetchUserProfile right after the component is mounted
-   */
-  componentDidMount() {
-    const userId = getUserInfo() && getUserInfo().id;
-    this.props.fetchUserProfile(userId);
   }
 
   /**
@@ -66,7 +54,6 @@ class Home extends Component {
    */
   componentDidUpdate() {
     const { profile } = this.state;
-
     if (Object.keys(profile).length) {
       this.navigate(profile);
     }
@@ -99,6 +86,15 @@ class Home extends Component {
       } else {
         push({ pathname: '/u/my-activities' });
       }
+<<<<<<< HEAD
+    } else {
+      if (location) {
+        push({ pathname: location });
+      } else {
+        push({ pathname: '/society/istelle' });
+      }
+=======
+>>>>>>> origin/master
     }
   };
 
@@ -127,4 +123,4 @@ const mapStateToProps = state => ({
   profile: state.userProfile.info,
 });
 
-export default connect(mapStateToProps, { fetchUserProfile })(Home);
+export default connect(mapStateToProps, null)(Home);
