@@ -24,6 +24,11 @@ const configs = {
     APP_URL: 'http://soc-sandbox.andela.com:4021',
     API_BASE_URL: 'http://api-soc-sandbox.andela.com:4022/api/v1',
   },
+  design: {
+    AUTH_API: 'https://api.andela.com/login?redirect_url=',
+    APP_URL: 'https://design-societies.andela.com',
+    API_BASE_URL: 'https://api-design-societies.andela.com/api/v1'
+  },
 };
 
 const config = configs[process.env.NODE_ENV];
