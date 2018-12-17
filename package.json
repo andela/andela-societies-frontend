@@ -32,6 +32,7 @@
     "babel-loader": "^8.0.4",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-latest-node": "^3.0.1",
+    "clean-webpack-plugin": "^1.0.0",
     "css-loader": "^2.0.1",
     "eslint": "^5.10.0",
     "eslint-config-airbnb": "^17.1.0",
