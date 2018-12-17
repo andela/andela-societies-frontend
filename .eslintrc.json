@@ -6,14 +6,14 @@
     "node": true,
     "jest": true
   },
-  "extends": "airbnb",
   "parserOptions": {
+    "ecmaVersion": 6,
     "ecmaFeatures": {
-      "experimentalObjectRestSpread": true,
       "jsx": true
     },
     "sourceType": "module"
   },
+  "extends": "airbnb",
   "plugins": [
     "react"
   ],
