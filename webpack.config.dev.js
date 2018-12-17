@@ -21,7 +21,7 @@ module.exports = merge(common, {
       chunks: ['main', 'vendors']
     })
   ],
-  devtool: 'cheap-eval-source-map',
+  devtool: 'source-map',
   devServer: {
     contentBase: path.resolve(__dirname, 'public'),
     inline: true,

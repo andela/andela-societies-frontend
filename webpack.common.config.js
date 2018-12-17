@@ -1,5 +1,12 @@
 const path = require('path');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+const cleanOptions = {
+  root: path.resolve(__dirname),
+  verbose: true,
+  exclude: ['ignore.js'],
+}
 
 module.exports = {
   entry: {
@@ -26,9 +33,31 @@ module.exports = {
         ]
       },
       {
-        test: /\.(png|woff|woff2|eot|ttf|svg)$/, // or test: /\.(png|woff|woff2|eot|ttf|svg)(\?.*$|$)$/
+        test: /\.(png|woff|woff2|eot|ttf|svg)$/,
         use: 'url-loader?limit=100000'
       }
     ]
-  }
+  },
+  plugins: [
+    new CleanWebpackPlugin([path.resolve(__dirname, 'public')], cleanOptions),
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
+      chunkFilename: "[id].css"  
+    })
+  ],
+  resolve: {
+    extensions: ['.js', '.scss', 'jsx']
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendors",
+          chunks: "all"
+        }
+      }
+    }
+  },
 }
