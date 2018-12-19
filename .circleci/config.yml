@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:9.8.0
+      - image: circleci/node:9.11.2
         environment:
         - NODE_ENV: testing
     environment:
@@ -31,7 +31,7 @@ jobs:
           command: yarn coveralls
   deploy:
     docker:
-      - image: circleci/node:9.8.0
+      - image: circleci/node:9.11.2
     environment:
       TERM: xterm-256color
     working_directory: ~/soc-frontend
