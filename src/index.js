@@ -1,8 +1,22 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 
-import HomeComponent from './app/Home/components';
+
+import { Provider } from 'react-redux';
+import configureStore from './store';
+// eslint-disable-next-line import/no-named-as-default
+import HomeComponent from './app/Home/components/HomeComponent';
 
 import './styles/main.scss';
 
-ReactDOM.render(<HomeComponent />, document.getElementById('root'));
+const store = configureStore();
+
+render(
+  <Provider store={store}>
+    <Router>
+      <HomeComponent />
+    </Router>
+  </Provider>,
+  document.getElementById('root'),
+);
