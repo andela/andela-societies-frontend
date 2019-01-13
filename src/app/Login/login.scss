@@ -1,0 +1,23 @@
+.button--login {
+  box-sizing: border-box;
+  width: 23rem;
+  height: 5rem;
+  line-height: 5rem;
+  padding-right: 2rem;
+  color: $lightAccent;
+  background: $googleButtonBlue;
+  display: flex;
+  justify-content: space-between;
+  border: 0.1rem solid #eee;
+  user-select: none;
+  border-radius: 0.2rem;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.logo--google {
+  box-sizing: border-box;
+  height: 100%;
+  width: 5rem;
+  background: $lightAccent url(../../images/googleFavicon.png) center/3rem no-repeat;
+}
