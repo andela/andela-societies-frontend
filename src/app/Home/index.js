@@ -1,3 +1,2 @@
-import reducer from './operations/reducers';
-
-export default reducer;
+// eslint-disable-next-line import/prefer-default-export
+export { default as home } from './operations';
