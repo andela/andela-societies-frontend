@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { ButtonComponent } from '../../common/components';
+import { ButtonComponent, ToastMessageComponent } from '../../common/components';
 import MyStatsComponent from './MyStatsComponent';
 import SocietyStatsComponent from './SocietyStatsComponent';
 import LogPointsComponent from './LogPointsModalContainer';
@@ -33,13 +33,14 @@ export class DashboardContainer extends Component {
     userActivities: myStats.userActivities,
     fetchUserActivites: () => {},
     loadCategories: () => {},
+    successMessage: '',
+    showToastMessage: false,
   };
 
   /**
    * @name propTypes
    * @type {PropType}
    * @property {func} fetchUserActivites
-   *
    */
   static propTypes = {
     loading: PropTypes.bool,
@@ -50,6 +51,8 @@ export class DashboardContainer extends Component {
     fetchUserActivites: PropTypes.func,
     loadCategories: PropTypes.func,
     userActivities: PropTypes.arrayOf(PropTypes.shape({})),
+    successMessage: PropTypes.string,
+    showToastMessage: PropTypes.bool,
   };
 
   componentDidMount() {
@@ -70,7 +73,7 @@ export class DashboardContainer extends Component {
 
   render() {
     const {
-      error, loading, pointsEarned, activitiesLogged, userActivities, society,
+      error, loading, pointsEarned, activitiesLogged, userActivities, society, successMessage, showToastMessage,
     } = this.props;
     const {
       user, logPoints,
@@ -103,6 +106,18 @@ export class DashboardContainer extends Component {
           </div>
           <div className='user-dashboard__actions col-sm-12'>
             <h3 className='user-dashboard__title'>My Activities</h3>
+            <ToastMessageComponent
+              className='success'
+              show={showToastMessage}
+            >
+              <div>
+                <span className='success-message'>{successMessage}</span>
+                <span className='checkmark'>
+                  <div className='checkmark_stem' />
+                  <div className='checkmark_kick' />
+                </span>
+              </div>
+            </ToastMessageComponent>
             <div>
               <ButtonComponent
                 type='button'
@@ -134,6 +149,8 @@ const mapStateToProps = ({ dashboard }) => ({
   pointsEarned: dashboard.pointsEarned,
   userActivities: dashboard.userActivities,
   activitiesLogged: dashboard.activitiesLogged,
+  successMessage: dashboard.activity.message,
+  showToastMessage: dashboard.showToastMessage,
 });
 
 export default connect(

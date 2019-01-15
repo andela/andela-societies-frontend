@@ -26,6 +26,7 @@ describe('Dashboard reducer', () => {
         pointsEarned: 0,
         userActivities: [],
         activitiesLogged: 0,
+        showToastMessage: false,
         activity: {},
         categories: [],
       });
@@ -47,6 +48,7 @@ describe('Dashboard reducer', () => {
         pointsEarned: 0,
         userActivities: [],
         activitiesLogged: 0,
+        showToastMessage: false,
         activity: {},
         categories: [],
       });
@@ -71,6 +73,7 @@ describe('Dashboard reducer', () => {
         pointsEarned,
         loading: false,
         activitiesLogged,
+        showToastMessage: false,
         userActivities: data,
         categories: [],
         activity,
@@ -97,6 +100,7 @@ describe('handles case CATEGORIES_SUCCESS', () => {
       loading: false,
       activitiesLogged: 0,
       userActivities: [],
+      showToastMessage: false,
       activity,
     });
   });
@@ -115,12 +119,12 @@ describe('handles case LOG_POINTS_REQUEST', () => {
       pointsEarned: 0,
       userActivities: [],
       activitiesLogged: 0,
+      showToastMessage: false,
       activity: {},
       categories: [],
     });
   });
 });
-
 
 describe('handles case LOG_POINTS_SUCCESS', () => {
   it('returns the created society activity', () => {
@@ -140,6 +144,7 @@ describe('handles case LOG_POINTS_SUCCESS', () => {
       pointsEarned: 0,
       activitiesLogged: 1,
       activity,
+      showToastMessage: false,
       categories: [],
       userActivities: [activity.data],
     });
@@ -161,8 +166,56 @@ describe('handles case LOG_POINTS_FAIL', () => {
       pointsEarned: 0,
       userActivities: [],
       activitiesLogged: 0,
+      showToastMessage: false,
       activity: {},
       categories: [],
     });
   });
 });
+
+describe('handles case LOG_ACTIVITY_TOAST_OPEN', () => {
+  it('returns toast message', () => {
+    expect(
+      dashboard(defaultState, {
+        type: types.LOG_ACTIVITY_TOAST_OPEN,
+        showToastMessage: true,
+      }),
+    ).toEqual({
+      error: null,
+      society: '',
+      loading: false,
+      pointsEarned: 0,
+      activitiesLogged: 0,
+      activity: {},
+      showToastMessage: true,
+      categories: [],
+      userActivities: [],
+    });
+  });
+});
+
+describe('handles case LOG_ACTIVITY_TOAST_CLOSE', () => {
+  it('hides toast message', () => {
+    const {
+      activity,
+    } = myloggedActivities;
+    expect(
+      dashboard(defaultState, {
+        type: types.LOG_ACTIVITY_TOAST_CLOSE,
+        showToastMessage: false,
+        userActivities: [],
+      }),
+    ).toEqual({
+      error: null,
+      society: '',
+      loading: false,
+      pointsEarned: 0,
+      activitiesLogged: 0,
+      activity,
+      showToastMessage: false,
+      categories: [],
+      userActivities: [],
+    });
+  });
+});
+
