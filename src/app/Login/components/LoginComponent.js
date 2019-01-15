@@ -67,9 +67,7 @@ class LoginComponent extends Component {
             </div>
             <p className='login__pane__footer'> 2018 &copy; Powered by Andela </p>
           </section>
-          <section className='login__pane--right'>
-            <p> Image here</p>
-          </section>
+          <section className='login__pane--right' />
         </div>
       </div>
     );
