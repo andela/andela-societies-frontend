@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import 'bootstrap';
 
 import Router from './routes';
 import configureStore from './store';
