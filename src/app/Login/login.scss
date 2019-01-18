@@ -9,10 +9,10 @@
   display: flex;
   padding: 0;
   font-family: "DIN Pro";
-  width: 1108px;
-  height: 650px;
+  width: rem(1108px);
+  height: rem(650px);
   background-color: #FFFFFF;
-  box-shadow: 0 25px 80px -10px rgba(0,0,0,0.08);
+  box-shadow: 0 rem(25px) rem(80px) rem(-10px) rgba(0,0,0,0.08);
 }
 
 .login__pane__title {
@@ -20,56 +20,54 @@
   align-items: center;
 }
 
-.login__pane__title--text {
-  padding-left: 11px;
-}
-
 .login__pane--left {
   display: flex;
-  padding: 36px 0 32px 65px;
+  padding: rem(36px) 0 rem(32px) rem(65px);
   flex-direction: column;
   justify-content: space-between;
 }
 
 .login__pane--right {
-  width: 553px;
+  background-position: center;
   background-image: url(../../images/default_img_placeholder.png);
 }
 
 
 .login__pane__title--image {
-  height: 31px;
-  width: 31px;
+  height: rem(31px);
+  width: rem(31px);
   background-size: cover;
   background-image: url(./../../images/logo_white_bck.png);
 }
 
 .login__pane__title--text {
-  font-size: 24px;
+  font-size: rem(24px);
   color: #323C5A;
   font-weight: 500;
-  line-height: 31px;
-  letter-spacing: 0.5px;
+  line-height: rem(31px);
+  padding-left: rem(11px);
+  margin-bottom: 0;
+  letter-spacing: rem(0.5px);
 }
 
 
 .login__pane__description--title {
   opacity: 0.84;
   color: #000000;
-  font-size: 16px;
-  line-height: 36px;
+  font-size: rem(16px);
+  line-height: rem(36px);
 }
 
 .login__pane_description--content {
-  color: #9B9B9B;
-  font-size: 22px;
+  color: $lightGray;
+  font-size: rem(22px);
   font-weight: normal;
-  line-height: 31px;
+  line-height: rem(31px);
 }
 
 .login__pane_description--button {
-  width: 300px;
-  height: 52px;
+  width: rem(300px);
+  height: rem(52px);
   display: flex;
   cursor: pointer;
   overflow: hidden;
@@ -77,14 +75,14 @@
   text-decoration: none;
   border-radius: 0.2rem;
   box-sizing: border-box;
-  border: 1px solid $googleButtonBlue;
+  border: rem(1px) solid $googleButtonBlue;
   background-color: $googleButtonBlue;
 }
 
 .login__button_text {
   margin: 0 auto;
-  font-size: 16px;
-  line-height: 52px;
+  font-size: rem(16px);
+  line-height: rem(52px);
   color: $lightAccent;
 }
 
@@ -97,6 +95,26 @@
 
 .login__pane__footer {
   text-align: left;
-  color: #9B9B9B;
-  font-size: 16px;
+  color: $lightGray;
+  font-size: rem(16px);
 }
+// Small devices
+@media (max-width: 767px) { 
+  .login__pane--left {
+    padding: 20px;
+    text-align: center;
+    align-items: center;
+  }
+
+  .login__pane--right {
+    display: none;
+  }
+
+  .login__pane_description--content {
+    font-size: rem(20px);
+  }
+
+  .login__pane_description--button { 
+    margin: auto;
+  }  
+ }

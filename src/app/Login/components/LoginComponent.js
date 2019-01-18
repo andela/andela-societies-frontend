@@ -40,9 +40,9 @@ class LoginComponent extends Component {
 
   render() {
     return (
-      <div className='login--wrapper'>
-        <div className='login'>
-          <section className='login__pane--left'>
+      <div className='login--wrapper container'>
+        <div className='login row'>
+          <section className='login__pane--left col-12 col-md-7 col-lg-6'>
             <div className='login__pane__title'>
               <div className='login__pane__title--image' />
               <p className='login__pane__title--text'>Societies</p>
@@ -67,7 +67,7 @@ class LoginComponent extends Component {
             </div>
             <p className='login__pane__footer'> 2018 &copy; Powered by Andela </p>
           </section>
-          <section className='login__pane--right' />
+          <section className='login__pane--right col-md-5 col-lg-6' />
         </div>
       </div>
     );
