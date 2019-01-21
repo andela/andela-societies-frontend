@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { LogoComponent } from '../../common/components';
 import config from '../../../../config';
 import tokenIsValid from '../../utils';
 
@@ -43,10 +44,7 @@ class LoginComponent extends Component {
       <div className='login--wrapper container'>
         <div className='login row'>
           <section className='login__pane--left col-12 col-md-7 col-lg-6'>
-            <div className='login__pane__title'>
-              <div className='login__pane__title--image' />
-              <p className='login__pane__title--text'>Societies</p>
-            </div>
+            <LogoComponent />
             <div className='login__pane__description'>
               <p className='login__pane__description--title'>Be part of something big.</p>
               <p className='login__pane_description--content'>

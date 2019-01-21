@@ -15,11 +15,6 @@
   box-shadow: 0 rem(25px) rem(80px) rem(-10px) rgba(0,0,0,0.08);
 }
 
-.login__pane__title {
-  display: flex;
-  align-items: center;
-}
-
 .login__pane--left {
   display: flex;
   padding: rem(36px) 0 rem(32px) rem(65px);
@@ -31,25 +26,6 @@
   background-position: center;
   background-image: url(../../images/default_img_placeholder.png);
 }
-
-
-.login__pane__title--image {
-  height: rem(31px);
-  width: rem(31px);
-  background-size: cover;
-  background-image: url(./../../images/logo_white_bck.png);
-}
-
-.login__pane__title--text {
-  font-size: rem(24px);
-  color: #323C5A;
-  font-weight: 500;
-  line-height: rem(31px);
-  padding-left: rem(11px);
-  margin-bottom: 0;
-  letter-spacing: rem(0.5px);
-}
-
 
 .login__pane__description--title {
   opacity: 0.84;
