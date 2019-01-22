@@ -1,5 +1,7 @@
 .hero {
   height: rem(458px);
-  width: 1440px;
+  width: 100vw;
   background-color: $primaryBlue;
+  z-index: -1;
+  position: fixed;
 }
