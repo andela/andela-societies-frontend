@@ -1,0 +1,29 @@
+.form-inline {
+  height: 30.73px!important;
+  width: 258.79px!important;
+}
+
+.input-group.input-group-merge {
+  
+  .form-control-search {
+    font-family: 'DINPro';
+    font-size: 14px;
+    color: #ffffff;
+    padding-right: .375rem;
+    border: 0;
+    background-color: rgba(255,255,255,0.2);
+    &::placeholder {
+      color:rgba(255,255,255,0.75);
+    }
+  }
+
+  .input-group-append {
+    margin-left: 0;
+    .input-group-icon {
+      border: 0;
+      color: #ffffff;
+      border-left: 0!important;
+      background-color: rgba(255,255,255,0.2);
+    }
+  }
+}
