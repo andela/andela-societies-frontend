@@ -2,6 +2,30 @@
   z-index: 1;
   position: fixed;
   width: 100vw;
+  font-family: 'DIN Pro';
+  padding-top: rem(23px);
   padding-left: rem(300px);
   padding-right: rem(112px);
+}
+
+.user-dashboard {
+  margin-top: rem(15px);
+}
+.user-dashboard__name {
+  @include text-styles( rem(27px), $lightAccent, 500, rem(0.56px), rem(34px));
+}
+
+.user-dashboard__level {
+  height: rem(23px);
+  width: rem(23px);
+  padding: rem(1px);
+  @include text-styles( rem(14px), $orange, 500, rem(0.48px), rem(18px));
+  border: rem(1px) solid $orange;
+}
+
+.user-dashboard__image {
+  height: 135px;
+  width: 120px;
+  background-position: center;
+  background-image: url(../../../images/default_img_placeholder.png);
 }
