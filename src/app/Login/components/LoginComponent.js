@@ -44,7 +44,7 @@ class LoginComponent extends Component {
       <div className='login--wrapper container'>
         <div className='login row'>
           <section className='login__pane--left col-12 col-md-7 col-lg-6'>
-            <LogoComponent />
+            <LogoComponent logoClassType='logo__image--blue' />
             <div className='login__pane__description'>
               <p className='login__pane__description--title'>Be part of something big.</p>
               <p className='login__pane_description--content'>

@@ -1,0 +1,67 @@
+.sidebar {
+  font-family: 'DINPro';
+  display: flex;
+  flex-direction: column;
+  width: rem(142px);
+  height: 100vh;
+  padding-top: rem(28px);
+  padding-bottom: rem(184px);
+  margin-left: rem(118px);
+  position: fixed;
+}
+
+.sidebar__header {
+
+  .logo__text {
+    font-size: 16px;
+    color: #FFFFFF;
+  }
+}
+
+.sidebar_nav {
+  margin-top: rem(67px);
+}
+
+.sidebar_nav-item {
+  display: flex;
+  padding: rem(10px) rem(26px) rem(10px) rem(20px);
+  height: rem(37px);
+  width: rem(136px);
+}
+
+.sidebar_nav-icon {
+  height: rem(18px);
+  width: rem(18px);
+  background-image: url(../../../images/dashboard.svg);
+}
+
+.sidebar_nav-label {
+  color: #FFFFFF;
+  line-height: rem(16px);
+  font-size: rem(14px);
+  text-align: center;
+  padding-left: 10px;
+  &.sidebar_nav-label--footer {
+    color: #ACACBF;
+  }
+}
+
+.sidebar__footer {
+  color: #ACACBF;
+  margin-top: auto;
+}
+
+.sidebar__separator--footer {
+  width: rem(127.78px);
+  height: rem(0.81px);
+  box-sizing: border-box;
+  margin-top: 14px;
+  margin-bottom: 14px;
+  border: rem(1.08px) solid #E9E9EE;
+}
+
+.sidebar__footer__text {
+  font-size: 11px;
+  margin-left: 24px;
+  margin-bottom: 12px;
+}
