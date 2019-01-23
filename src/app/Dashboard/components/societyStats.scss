@@ -1,0 +1,50 @@
+.society-stats{
+  width: 38%;
+  height: 134px;
+  display: flex;
+  padding: 0 10px;
+  font-family: 'DINPro';
+  flex-direction: column;
+  background-color: $lightAccent;
+}
+
+.society-stats__desc {
+  display: flex;
+  @include text-styles(rem(15px), $darkGray, 200, rem(0.33px), rem(21px));
+
+  .stats__description__figure {
+    padding-left: 20px;
+  }
+}
+
+.society-stats__desc-text {
+  margin-left: 5px;
+}
+
+.society-stats__desc--remaining-points {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.society-stats__desc-indicator:before {
+  content: ' \25CF';
+  font-size: rem(30px);
+}
+
+#blue-circle {
+  color: $checkmarkBlue;
+  margin-left: rem(10px);
+}
+
+#green-circle {
+  color: $checkmarkGreen;
+}
+
+#used-points {
+  margin-left: rem(10px);
+}
+
+#remaining-points {
+  margin-left: auto;
+  margin-right: auto;
+}

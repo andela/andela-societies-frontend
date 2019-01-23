@@ -4,26 +4,26 @@ import PropTypes from 'prop-types';
 const SocietyStatsComponent = (props) => {
   const { usedPoints, remainingPoints } = props;
   return (
-    <div>
-      <hr />
-      <div>
-        <div>
-          <span />
-          <h2> Used points</h2>
+    <div className='society-stats'>
+      <hr className='line-graph' />
+      <div className='society-stats__desc'>
+        <div className='society-stats__desc--used-points'>
+          <span className='society-stats__desc-indicator' id='blue-circle' />
+          <span className='society-stats__desc-text'> Used points</span>
         </div>
-        <div>
-          <span />
-          <h2> Total Remaining Points</h2>
+        <div className='society-stats__desc--remaining-points'>
+          <span className='society-stats__desc-indicator' id='green-circle' />
+          <span className='society-stats__desc-text'> Total Remaining Points</span>
         </div>
       </div>
-      <div>
-        <h3>
+      <div className='society-stats__desc'>
+        <h3 className='stats__description__figure' id='used-points'>
           {usedPoints}
-          <span>points</span>
+          <span className='stats__description__figure-subsc'>Points</span>
         </h3>
-        <h3>
+        <h3 className='stats__description__figure' id='remaining-points'>
           {remainingPoints}
-          <span>points</span>
+          <span className='stats__description__figure-subsc'>Points</span>
         </h3>
         <h3>
           Istelle

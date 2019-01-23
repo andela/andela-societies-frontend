@@ -23,9 +23,14 @@
   border: rem(1px) solid $orange;
 }
 
-.user-dashboard__image {
-  height: 135px;
-  width: 120px;
+.profile-overview {
+  display: flex;
+}
+
+
+.profile-overview__image {
+  height: 134px;
+  width: 122px;
   background-position: center;
-  background-image: url(../../../images/default_img_placeholder.png);
+  background-image: url(../../../images/person-placeholder.jpg);
 }

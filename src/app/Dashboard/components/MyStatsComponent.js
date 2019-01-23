@@ -4,16 +4,18 @@ import PropTypes from 'prop-types';
 const MyStatsComponent = (props) => {
   const { points, activities } = props;
   return (
-    <div className=''>
-      <div>
-        <h3>My Total Points Earned</h3>
-        <h3>{points}</h3>
-        <h6>points</h6>
+    <div className='stats'>
+      <div className='stats__points'>
+        <h3 className='stats__description'>My Total Points Earned</h3>
+        <h3 className='stats__description__figure'>{points}
+          <span className='stats__description--footer--subsc'>Points</span>
+        </h3>
       </div>
-      <div>
-        <h3>My Activities Logged</h3>
-        <h3>{activities}</h3>
-        <h6>Activities</h6>
+      <div className='stats__activities'>
+        <h3 className='stats__description'>My Activities Logged</h3>
+        <h3 className='stats__description__figure'>{activities}
+          <span className='stats__description__figure--subsc'>Activities</span>
+        </h3>
       </div>
     </div>
   );

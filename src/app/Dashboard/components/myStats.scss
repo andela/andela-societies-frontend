@@ -1,0 +1,28 @@
+.stats {
+  display: flex;
+  height: 134px;
+  width: 50%;
+  align-items: center;
+  justify-content: space-evenly;
+  box-sizing: border-box;
+  box-shadow: 0 7px 36px 0 rgba(48,48,48,0.13);
+  font-family: 'DINPro';
+  border: 1px solid $orange;
+}
+
+.stats__activities {
+  margin-left: 20px;
+}
+.stats__description{
+ @include text-styles(rem(18px), $lightAccent, normal, rem(0.33px), rem(21px));
+}
+
+.stats__description__figure {
+  margin-top: 20px;
+  @include text-styles(rem(18px), $orange, normal, rem(0.33px), rem(21px));
+
+  span {
+    margin-left: 5px;
+    font-size: rem(14px)!important;
+  }
+}

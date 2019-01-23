@@ -16,8 +16,8 @@ const DashboardComponent = () => (
       <div className='user-dashboard'>
         <h2 className='user-dashboard__name'>Kevin Samoei</h2>
         <h3 className='user-dashboard__level'>D2</h3>
-        <div>
-          <span className='user-dashboard__image' />
+        <div className='profile-overview'>
+          <div className='profile-overview__image' />
           <MyStatsComponent
             points='1000'
             activities='508'
