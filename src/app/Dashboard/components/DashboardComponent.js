@@ -5,6 +5,7 @@ import {
   HeroComponent,
   NavbarComponent,
   SidebarComponent,
+  ButtonComponent,
 } from '../../common/components';
 
 const DashboardComponent = () => (
@@ -26,6 +27,19 @@ const DashboardComponent = () => (
             usedPoints='1508'
             remainingPoints='326'
           />
+        </div>
+        <div className='user-dashboard__actions'>
+          <h3 className='user-dashboard__title'>My Activities</h3>
+          <div>
+            <ButtonComponent className='button__add'>
+              <span className='fa fa-plus' />
+              <span>Log Points</span>
+            </ButtonComponent>
+            <ButtonComponent className='button__filter'>
+              <span>Filter</span>
+              <span className='fa fa-filter' />
+            </ButtonComponent>
+          </div>
         </div>
       </div>
     </div>
