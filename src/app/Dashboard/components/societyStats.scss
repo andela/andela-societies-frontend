@@ -3,8 +3,9 @@
   height: 134px;
   display: flex;
   padding: 0 10px;
-  font-family: 'DINPro';
+  font-family: 'DIN Pro';
   flex-direction: column;
+  justify-content: space-evenly;
   background-color: $lightAccent;
 }
 
@@ -21,7 +22,11 @@
   margin-left: 5px;
 }
 
-.society-stats__desc--remaining-points {
+.society-stats__desc__points {
+  display: flex;
+}
+
+#society-stats__desc--remaining-points {
   margin-left: auto;
   margin-right: auto;
 }
@@ -47,4 +52,16 @@
 #remaining-points {
   margin-left: auto;
   margin-right: auto;
+}
+
+.society-points {
+  margin-top: 20px;
+}
+
+.society-stats__desc__logo {
+  width: 50px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url(../../../images/societyLogos/istelle.png);
 }
