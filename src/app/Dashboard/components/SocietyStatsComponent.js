@@ -7,27 +7,25 @@ const SocietyStatsComponent = (props) => {
     <div className='society-stats'>
       <hr className='line-graph' />
       <div className='society-stats__desc'>
-        <div className='society-stats__desc--used-points'>
+        <div className='society-stats__desc__points'>
           <span className='society-stats__desc-indicator' id='blue-circle' />
           <span className='society-stats__desc-text'> Used points</span>
         </div>
-        <div className='society-stats__desc--remaining-points'>
+        <div className='society-stats__desc__points' id='society-stats__desc--remaining-points'>
           <span className='society-stats__desc-indicator' id='green-circle' />
           <span className='society-stats__desc-text'> Total Remaining Points</span>
         </div>
       </div>
       <div className='society-stats__desc'>
-        <h3 className='stats__description__figure' id='used-points'>
+        <p className='stats__description__figure society-points' id='used-points'>
           {usedPoints}
-          <span className='stats__description__figure-subsc'>Points</span>
-        </h3>
-        <h3 className='stats__description__figure' id='remaining-points'>
+          <span className='stats__description__figure-subsc '>Points</span>
+        </p>
+        <p className='stats__description__figure society-points' id='remaining-points'>
           {remainingPoints}
-          <span className='stats__description__figure-subsc'>Points</span>
-        </h3>
-        <h3>
-          Istelle
-        </h3>
+          <span className='stats__description__figure-subsc '>Points</span>
+        </p>
+        <span className='society-stats__desc__logo' />
       </div>
     </div>
   );

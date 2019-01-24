@@ -6,18 +6,18 @@ const MyStatsComponent = (props) => {
   return (
     <div className='stats'>
       <div className='stats__points'>
-        <h3 className='stats__description'>My Total Points Earned</h3>
-        <h3 className='stats__description__figure'>
+        <p className='stats__description'>My Total Points Earned</p>
+        <p className='stats__description__figure my-stats'>
           {points}
           <span className='stats__description--footer--subsc'>Points</span>
-        </h3>
+        </p>
       </div>
       <div className='stats__activities'>
-        <h3 className='stats__description'>My Activities Logged</h3>
-        <h3 className='stats__description__figure'>
+        <p className='stats__description'>My Activities Logged</p>
+        <p className='stats__description__figure my-stats'>
           {activities}
           <span className='stats__description__figure--subsc'>Activities</span>
-        </h3>
+        </p>
       </div>
     </div>
   );
