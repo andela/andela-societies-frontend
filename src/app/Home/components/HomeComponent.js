@@ -1,6 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import Modal from './onBoardingModal';
+import LoginModal from './logInPointsModal';
 
 // eslint-disable-next-line react/prefer-stateless-function
 export class HomeComponent extends Component {
@@ -9,6 +10,7 @@ export class HomeComponent extends Component {
 
     this.state = {
       isShowing: false,
+      isShowingLoginPoints: false,
     };
   }
 
@@ -18,17 +20,24 @@ export class HomeComponent extends Component {
     });
   }
 
-openModalHandler = () => {
-  this.setState({
-    isShowing: true,
-  });
-}
-
 closeModalHandler = () => {
   this.setState({
     isShowing: false,
   });
 }
+
+openModalLoginPointsHandler = () => {
+  this.setState({
+    isShowingLoginPoints: true,
+  });
+}
+
+closeModalLoginPointsHandler = () => {
+  this.setState({
+    isShowingLoginPoints: false,
+  });
+}
+
 
 render() {
   return (
@@ -36,11 +45,24 @@ render() {
       { this.state.isShowing
         ? <div role='presentation' onClick={this.closeModalHandler} className='back-drop' /> : null }
       <h1 className='home__title'>Dashboard</h1>
-      <Modal
-        className='modal'
-        show={this.state.isShowing}
-        close={this.closeModalHandler}
-      />
+      <button type='button' onClick={this.openModalLoginPointsHandler}>Log-in points</button>
+      {
+        !this.state.isShowingLoginPoints
+          ? (
+            <Modal
+              className='modal'
+              show={this.state.isShowing}
+              close={this.closeModalHandler}
+            />
+          )
+          : (
+            <LoginModal
+              className='modal'
+              show={this.state.isShowingLoginPoints}
+              close={this.closeLoginPointsModal}
+            />
+          )
+      }
     </div>
   );
 }
