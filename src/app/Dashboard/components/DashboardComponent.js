@@ -15,9 +15,11 @@ const DashboardComponent = () => (
     <div className='content-wrapper'>
       <NavbarComponent />
       <div className='user-dashboard'>
-        <h2 className='user-dashboard__name'>Kevin Samoei</h2>
-        <h3 className='user-dashboard__level'>D2</h3>
-        <div className='profile-overview'>
+        <h2 className='user-dashboard__name col-sm-12'>Kevin Samoei</h2>
+        <div className='col-sm-12'>
+          <h3 className='user-dashboard__level'>D2</h3>
+        </div>
+        <div className='profile-overview col-sm-12'>
           <div className='profile-overview__image' />
           <MyStatsComponent
             points='1000'
@@ -28,7 +30,7 @@ const DashboardComponent = () => (
             remainingPoints='326'
           />
         </div>
-        <div className='user-dashboard__actions'>
+        <div className='user-dashboard__actions col-sm-12'>
           <h3 className='user-dashboard__title'>My Activities</h3>
           <div>
             <ButtonComponent className='button__add'>

@@ -12,7 +12,7 @@
   margin-top: rem(27px);
 }
 .user-dashboard__name {
-  @include text-styles( rem(27px), $lightAccent, 500, rem(0.56px), rem(34px));
+  @include text-styles(rem(27px), $lightAccent, 500, rem(0.56px), rem(27px));
 }
 
 .user-dashboard__level {
@@ -33,6 +33,7 @@
 .profile-overview__image {
   height: 134px;
   width: 122px;
+  background-repeat: no-repeat;
   background-position: center;
   background-image: url(../../../images/person-placeholder.jpg);
 }
@@ -79,3 +80,58 @@
     background-color: transparent;
   }
 }
+
+// Large devices (desktops/mac, 992px and up)
+@media (min-width: 992px) and (max-width: 1199.98px) { }
+
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .content-wrapper { 
+    padding-top: 0.5rem;
+  }
+  .user-dashboard {
+    margin-top: 0.5rem;
+  }
+  .user-dashboard__level { 
+    margin-top: 0;
+  }
+  .profile-overview {
+    flex-direction: column;
+  }
+  .profile-overview__image {
+    display: none;
+  }
+  .user-dashboard__actions {
+    margin-top: rem(14px);
+  }
+}
+
+// small devices
+@media (max-width: 767px) {
+  .content-wrapper {
+    padding-left: 0;
+    padding-right: 0; 
+    padding-top: 0.5rem;
+  }
+  .user-dashboard {
+    margin-top: 0.5rem;
+  }
+  .user-dashboard__name {
+    font-size: rem(20px);
+    line-height: rem(20px);
+  }
+  .user-dashboard__level { 
+    margin-top: 0;
+  }
+  .profile-overview {
+    flex-direction: column;
+  }
+  .profile-overview__image {
+    display: none;
+  }
+  .user-dashboard__actions {
+    margin-top: 0;
+    flex-direction: column;
+  }
+ }
