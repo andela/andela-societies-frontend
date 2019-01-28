@@ -1,11 +1,20 @@
-.content-wrapper {
+.wrapper {
+  display: flex;
+  justify-content: space-around;
+}
+
+.main-content {
+  display: flex;
+  position: absolute;
+  top: 0;
   z-index: 1;
-  position: fixed;
-  width: 100vw;
+  width: 90%;
+}
+
+.sub-content {
+  flex-grow: 100;
   font-family: 'DIN Pro';
   padding-top: rem(23px);
-  padding-left: rem(300px);
-  padding-right: rem(112px);
 }
 
 .user-dashboard {
