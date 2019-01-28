@@ -36,8 +36,8 @@
 }
 
 .sidebar_nav-label {
-  color: #FFFFFF;
-  line-height: rem(16px);
+  color: $lightAccent;
+  line-height: rem(14px);
   font-size: rem(14px);
   text-align: center;
   padding-left: 10px;
@@ -48,7 +48,12 @@
 
 .sidebar__footer {
   color: #ACACBF;
-  margin-top: auto;
+  position: absolute;
+  bottom: rem(30px);
+}
+
+.fa-cog {
+  font-size: 1.125rem!important;
 }
 
 .sidebar__separator--footer {
@@ -61,7 +66,26 @@
 }
 
 .sidebar__footer__text {
-  font-size: 11px;
+  font-size: rem(12px);
+  line-height: rem(12px);
   margin-left: 24px;
   margin-bottom: 12px;
 }
+
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) and (max-width: 1199.98px) { }
+
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) and (max-width: 991.98px) {
+
+}
+
+// Small devices
+@media (max-width: 767px) {
+  .sidebar {
+    display: none;
+    margin-left: 0.1rem;
+  }
+ }

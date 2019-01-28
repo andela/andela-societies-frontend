@@ -9,11 +9,19 @@
   background-color: $lightAccent;
 }
 
+.line-graph {
+  width: 100%;
+  height: 0.2rem;
+  background-color: $checkmarkGreen;
+  align-self: center;
+}
+
 .society-stats__desc {
   display: flex;
-  @include text-styles(rem(15px), $darkGray, 200, rem(0.33px), rem(21px));
+  @include text-styles(rem(15px), $darkGray, 200, rem(0.33px), rem(15px));
 
   .stats__description__figure {
+    margin-top: 20px;
     padding-left: 20px;
   }
 }
@@ -51,17 +59,73 @@
 
 #remaining-points {
   margin-left: auto;
-  margin-right: auto;
-}
-
-.society-points {
-  margin-top: 20px;
 }
 
 .society-stats__desc__logo {
   width: 50px;
+  margin-left: auto;
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
   background-image: url(../../../images/societyLogos/istelle.png);
+}
+
+// Large devices (desktops/mac, 992px and up)
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .society-stats {
+    padding: 0;
+  }
+  .line-graph {
+    width: 95%;
+  }
+  
+  .society-stats__desc {
+    font-size: rem(13px);
+    line-height: rem(13px);
+  }
+
+  #used-points {
+    margin-left: auto;
+  }
+  .society-stats__desc {
+    .stats__description__figure {
+      margin-top: 0;
+      padding-left: 0;
+    }
+  }
+  .society-stats__desc__logo {
+    margin-right: auto;
+    background-position: top;
+  }
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .society-stats {
+    width: 100%;
+    height: 100%;
+    margin-bottom: rem(15px);
+    flex: 0 0 100%;
+  }
+}
+
+// small devices
+@media (max-width: 767px) {
+  .society-stats {
+    width: 100%;
+    height: 100%;
+    margin-bottom: rem(15px);
+  }
+  .society-points {
+    margin-top: rem(10px);
+  }
+  .line-graph {
+    width: 100%;
+    height: 0.2rem;
+    background-color: rgba(0, 0, 0, 0.1);
+ }
+ .society-stats__desc {
+    line-height: 0.9375rem;
+ }
+
 }

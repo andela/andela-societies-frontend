@@ -2,7 +2,7 @@ import React from 'react';
 
 const NavbarComponent = () => (
   <nav className='navbar navbar-light'>
-    <form className='form-inline'>
+    <form className='form-inline col-sm-12'>
       <div className='input-group input-group-merge'>
         <input
           type='search'

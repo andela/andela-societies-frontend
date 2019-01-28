@@ -17,11 +17,11 @@ const SocietyStatsComponent = (props) => {
         </div>
       </div>
       <div className='society-stats__desc'>
-        <p className='stats__description__figure society-points' id='used-points'>
+        <p className='stats__description__figure' id='used-points'>
           {usedPoints}
           <span className='stats__description__figure-subsc '>Points</span>
         </p>
-        <p className='stats__description__figure society-points' id='remaining-points'>
+        <p className='stats__description__figure' id='remaining-points'>
           {remainingPoints}
           <span className='stats__description__figure-subsc '>Points</span>
         </p>
