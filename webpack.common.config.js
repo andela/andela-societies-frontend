@@ -29,7 +29,8 @@ module.exports = {
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
-          'sass-loader'
+          'resolve-url-loader',
+          'sass-loader?sourceMap'
         ]
       },
       {
@@ -59,5 +60,10 @@ module.exports = {
         }
       }
     }
+  },
+  devServer: {
+    compress: true,
+    host: 'soc-dev.andela.com',
+    port: 3000
   },
 }
