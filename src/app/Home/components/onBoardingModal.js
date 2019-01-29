@@ -19,6 +19,7 @@ const modal = props => (
           </span>
           <h4 className='home__title'>What do you want to do</h4>
           <h3>Log-in points</h3>
+          <p>{props.showTime}</p>
           <div className='form-check form-check-inline'>
             <input
               className='form-check-input'

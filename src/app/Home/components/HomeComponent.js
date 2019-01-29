@@ -9,14 +9,24 @@ export class HomeComponent extends Component {
 
     this.state = {
       isShowing: false,
+      shownTimes: 0,
     };
   }
 
   componentDidMount() {
-    this.setState({
-      isShowing: true,
-    });
+    if (this.state.shownTimes === 0) {
+      this.setState(
+        // isShowing: true,
+        prevState => ({
+          isShowing: !prevState.true,
+          shownTimes: prevState.shownTimes + 1,
+        }),
+      );
+    }
+    console.log(this.state.shownTimes);
+    console.log(this.state.isShowing);
   }
+
 
 openModalHandler = () => {
   this.setState({
@@ -40,6 +50,7 @@ render() {
         className='modal'
         show={this.state.isShowing}
         close={this.closeModalHandler}
+        showTime={this.state.shownTimes}
       />
     </div>
   );
