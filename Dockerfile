@@ -1,4 +1,4 @@
-FROM node:dubnium
+FROM node:dubnium-alpine
 
 LABEL AUTHOR="Crispus Kamau <crispus.kamau@andela.com>"
 LABEL application="soc-frontend"
