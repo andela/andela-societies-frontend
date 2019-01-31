@@ -1,23 +1,48 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-import LogoComponent from './LogoComponent';
+import { LogoComponent, NavItemComponent } from './index';
 
 /**
  * @name SidebarComponent
  * @description used to navigate to different pages
  */
-const SidebarComponent = () => (
-  <aside className='sidebar'>
+const SidebarComponent = ({ className, toggleSidebarState }) => (
+  <nav className={`${className}`}>
     <LogoComponent
       styles='sidebar__header'
       logoClassType='logo__image--white'
     />
+    <i
+      aria-hidden='true'
+      onClick={toggleSidebarState}
+      className='fa fa-times fa-2x close-btn'
+    />
     <nav className='sidebar_nav'>
-      <Link to='/dashboard' className='sidebar_nav-item'>
-        <span className='sidebar_nav-icon' />
-        <span className='sidebar_nav-label'>Dashboard</span>
-      </Link>
+      <NavItemComponent
+        route='dashboard'
+        iconClassName='sidebar_nav-icon'
+        labelClassName='sidebar_nav-label'
+        navItemClassName='sidebar_nav-item'
+      />
+      <NavItemComponent
+        route='dashboard'
+        iconClassName='sidebar_nav-icon'
+        labelClassName='sidebar_nav-label'
+        navItemClassName='sidebar_nav-item'
+      />
+      <NavItemComponent
+        route='dashboard'
+        iconClassName='sidebar_nav-icon'
+        labelClassName='sidebar_nav-label'
+        navItemClassName='sidebar_nav-item'
+      />
+      <NavItemComponent
+        route='dashboard'
+        iconClassName='sidebar_nav-icon'
+        labelClassName='sidebar_nav-label'
+        navItemClassName='sidebar_nav-item'
+      />
     </nav>
     <footer className='sidebar__footer'>
       <div className='sidebar_nav-item'>
@@ -29,8 +54,17 @@ const SidebarComponent = () => (
       <p className='sidebar__footer__text'> Redemption guideline </p>
       <p className='sidebar__footer__text'> Suggestions </p>
     </footer>
-  </aside>
+  </nav>
 );
 
+SidebarComponent.defaultProps = {
+  className: '',
+  toggleSidebarState: () => {},
+};
+
+SidebarComponent.propTypes = {
+  className: PropTypes.string,
+  toggleSidebarState: PropTypes.func,
+};
 
 export default SidebarComponent;

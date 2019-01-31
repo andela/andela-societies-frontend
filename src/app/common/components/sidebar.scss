@@ -2,12 +2,16 @@
   font-family: 'DINPro';
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: rem(142px);
   height: 100vh;
+  margin-right: rem(40px);
   padding-top: rem(28px);
   padding-bottom: rem(184px);
-  margin-left: rem(118px);
-  position: fixed;
+
+  .close-btn {
+    display: none;
+  }
 }
 
 .sidebar__header {
@@ -19,7 +23,8 @@
 }
 
 .sidebar_nav {
-  margin-top: rem(67px);
+  margin-top: rem(80px);
+  flex: 2;
 }
 
 .sidebar_nav-item {
@@ -72,20 +77,27 @@
   margin-bottom: 12px;
 }
 
+@media (min-width: 768px) {
+  .navbar-expand-md .navbar-collapse {
+    flex-direction: column!important;
+  }
+}
 
 // Large devices (desktops, 992px and up)
-@media (min-width: 992px) and (max-width: 1199.98px) { }
-
+@media (min-width: 992px) and (max-width: 1199.98px) {
+}
 
 // Medium devices (tablets, 768px and up)
 @media (min-width: 768px) and (max-width: 991.98px) {
-
 }
 
 // Small devices
 @media (max-width: 767px) {
   .sidebar {
     display: none;
-    margin-left: 0.1rem;
+  }
+  .sidebar_nav {
+    margin-top: rem(40px);
+    flex: 0;
   }
  }

@@ -3,5 +3,11 @@
   width: 100vw;
   background-color: $primaryBlue;
   z-index: -1;
-  position: fixed;
 }
+
+// Small devices
+@media (max-width: 767px) {
+  .hero {
+    height: rem(600px);
+  }
+ }
