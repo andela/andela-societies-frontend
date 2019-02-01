@@ -4,10 +4,3 @@
   background-color: $primaryBlue;
   z-index: -1;
 }
-
-// Small devices
-@media (max-width: 767px) {
-  .hero {
-    height: rem(600px);
-  }
- }
