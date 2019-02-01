@@ -10,6 +10,7 @@ import {
  * @param {Component} component
  * @param {Boolean} isAuthenticated
  */
+
 export const Authenticate = ({ component: Component, isAuthenticated, ...rest }) => (
   <Route
     {...rest}

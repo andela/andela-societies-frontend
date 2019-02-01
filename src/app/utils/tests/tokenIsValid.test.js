@@ -11,6 +11,7 @@ describe('TokenIsValid util', () => {
     Cookies.set('jwt-token', token);
     expect(tokenIsValid()).toBe(true);
   });
+
   it('returns false when an invalid token is provided', () => {
     Cookies.set('jwt-token', 'token');
     expect(tokenIsValid()).toBe(false);
