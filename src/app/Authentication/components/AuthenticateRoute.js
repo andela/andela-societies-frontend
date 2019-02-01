@@ -10,7 +10,8 @@ import {
  * @param {Component} component
  * @param {Boolean} isAuthenticated
  */
-const Authenticate = ({ component: Component, isAuthenticated, ...rest }) => (
+
+export const Authenticate = ({ component: Component, isAuthenticated, ...rest }) => (
   <Route
     {...rest}
     render={
