@@ -1,5 +1,5 @@
 .sidebar {
-  font-family: 'DINPro';
+  font-family: 'DIN Pro';
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,8 +17,8 @@
 .sidebar__header {
 
   .logo__text {
-    font-size: 16px;
-    color: #FFFFFF;
+    font-size: rem(16px);
+    color: $lightAccent;
   }
 }
 
@@ -29,15 +29,36 @@
 
 .sidebar_nav-item {
   display: flex;
-  padding: rem(10px) rem(26px) rem(10px) rem(20px);
+  padding: rem(10px) 0 rem(10px) rem(16px);
   height: rem(37px);
   width: rem(136px);
+  margin-bottom: rem(12.94px);
+  &:hover {
+    border-left: rem(4px) solid $lightAccent;
+  }
 }
 
 .sidebar_nav-icon {
   height: rem(18px);
   width: rem(18px);
-  background-image: url(../../../images/dashboard.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  &.dashboard {
+    color: #FFFFFF;
+    background-image: url(../../../images/dashboard.svg);
+  }
+  &.istelle {
+    background-image: url(../../../images/societyLogos/istelle.svg);
+  }
+  &.invictus {
+    background-image: url(../../../images/societyLogos/invictus.svg);
+  }
+  &.sparks {
+    background-image: url(../../../images/societyLogos/sparks.svg);
+  }
+  &.phoenix {
+    background-image: url(../../../images/societyLogos/phoenix.svg);
+  }
 }
 
 .sidebar_nav-label {
@@ -45,14 +66,21 @@
   line-height: rem(14px);
   font-size: rem(14px);
   text-align: center;
-  padding-left: 10px;
+  padding-left: rem(10px);
   &.sidebar_nav-label--footer {
-    color: #ACACBF;
+    color: $footerTextGray;
   }
 }
 
+.sidebar__separator--top {
+  box-sizing: border-box;
+  height: rem(0.81px);
+  width: rem(127.78px);
+  border: rem(1.3px) solid $separatorBlue;
+}
+
 .sidebar__footer {
-  color: #ACACBF;
+  color: $footerTextGray;
   position: absolute;
   bottom: rem(30px);
 }
@@ -65,16 +93,16 @@
   width: rem(127.78px);
   height: rem(0.81px);
   box-sizing: border-box;
-  margin-top: 14px;
-  margin-bottom: 14px;
+  margin-top: rem(14px);
+  margin-bottom: rem(14px);
   border: rem(1.08px) solid #E9E9EE;
 }
 
 .sidebar__footer__text {
   font-size: rem(12px);
   line-height: rem(12px);
-  margin-left: 24px;
-  margin-bottom: 12px;
+  margin-left: rem(24px);
+  margin-bottom: rem(12px);
 }
 
 @media (min-width: 768px) {

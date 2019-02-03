@@ -21,28 +21,35 @@ const SidebarComponent = ({ className, toggleSidebarState }) => (
     <nav className='sidebar_nav'>
       <NavItemComponent
         route='dashboard'
-        iconClassName='sidebar_nav-icon'
+        iconClassName='sidebar_nav-icon dashboard'
         labelClassName='sidebar_nav-label'
         navItemClassName='sidebar_nav-item'
       />
       <NavItemComponent
-        route='dashboard'
-        iconClassName='sidebar_nav-icon'
+        route='istelle'
+        iconClassName='sidebar_nav-icon istelle'
         labelClassName='sidebar_nav-label'
         navItemClassName='sidebar_nav-item'
       />
       <NavItemComponent
-        route='dashboard'
-        iconClassName='sidebar_nav-icon'
+        route='invictus'
+        iconClassName='sidebar_nav-icon invictus'
         labelClassName='sidebar_nav-label'
         navItemClassName='sidebar_nav-item'
       />
       <NavItemComponent
-        route='dashboard'
-        iconClassName='sidebar_nav-icon'
+        route='sparks'
+        iconClassName='sidebar_nav-icon sparks'
         labelClassName='sidebar_nav-label'
         navItemClassName='sidebar_nav-item'
       />
+      <NavItemComponent
+        route='phoenix'
+        iconClassName='sidebar_nav-icon phoenix'
+        labelClassName='sidebar_nav-label'
+        navItemClassName='sidebar_nav-item'
+      />
+      <hr className='sidebar__separator--top' />
     </nav>
     <footer className='sidebar__footer'>
       <div className='sidebar_nav-item'>
