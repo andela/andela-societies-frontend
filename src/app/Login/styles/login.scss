@@ -77,7 +77,7 @@
 // Small devices
 @media (max-width: 767px) { 
   .login__pane--left {
-    padding: 20px;
+    padding: rem(20px);
     text-align: center;
     align-items: center;
   }

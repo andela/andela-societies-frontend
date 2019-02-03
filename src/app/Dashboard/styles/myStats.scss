@@ -1,12 +1,12 @@
 .stats {
   display: flex;
-  height: 134px;
+  height: rem(134px);
   width: 45%;
   justify-content: space-evenly;
   box-sizing: border-box;
-  box-shadow: 0 7px 36px 0 rgba(48,48,48,0.13);
+  box-shadow: 0 rem(7px) rem(36px) 0 rgba(48,48,48,0.13);
   font-family: 'DIN Pro';
-  border: 1px solid $orange;
+  border: rem(1px) solid $orange;
 }
 
 .stats__points {
@@ -15,7 +15,7 @@
 
 .stats__activities {
   margin: auto 0;
-  margin-left: 20px;
+  margin-left: rem(20px);
 }
 
 .stats__description{
@@ -26,7 +26,7 @@
   @include text-styles(rem(28px), $orange, normal, rem(0.33px), rem(21px));
 
   span {
-    margin-left: 5px;
+    margin-left: rem(5px);
     font-size: rem(14px)!important;
   }
 }
@@ -45,7 +45,7 @@
     line-height: rem(14px);
   }
   .stats__activities {
-    margin-left: 10px;
+    margin-left: rem(10px);
   }
   .stats__description__figure {
     font-size: rem(24px);

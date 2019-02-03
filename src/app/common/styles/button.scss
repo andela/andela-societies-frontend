@@ -1,3 +1,10 @@
+button {
+  outline: none!important;
+}
+
+button:active {
+  transform: scale(0.99)!important;
+}
 .button {
-  border-radius: 2px;
+  border-radius: rem(2px);
 }

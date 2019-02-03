@@ -1,6 +1,13 @@
 .hero {
   height: rem(458px);
   width: 100vw;
-  background-color: $primaryBlue;
+  background-image:
+    linear-gradient( 
+      to right,
+      #122EB8,
+      #1331C0,
+      #112DB7,
+      #05127F,
+    );
   z-index: -1;
 }

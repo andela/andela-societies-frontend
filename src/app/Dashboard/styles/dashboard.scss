@@ -40,8 +40,8 @@
 
 
 .profile-overview__image {
-  height: 134px;
-  width: 122px;
+  height: rem(134px);
+  width: rem(122px);
   background-repeat: no-repeat;
   background-position: center;
   background-image: url(../../../images/person-placeholder.jpg);
@@ -49,8 +49,8 @@
 
 .user-dashboard__actions {
   display: flex;
-  margin-top: 45px;
-  padding-left: 14px;
+  margin-top: rem(45px);
+  padding-left: rem(14px);
   justify-content: space-between;
 
   .user-dashboard__title {
@@ -67,25 +67,25 @@
   }
 
   .fa-plus {
-    padding-right: 22.5px; 
+    padding-right: rem(22.5px); 
   }
 
   .fa-filter {
-    padding-left: 8px;
+    padding-left: rem(8px);
   }
 
   .button__add {
-    height: 32px;
-    width: 143px;
+    height: rem(32px);
+    width: rem(143px);
     background-color: #F5A623;
     box-shadow: inset 0 1px 3px 0 rgba(0,0,0,0.5), 0 12px 35px 0 rgba(52,77,178,0.34);
   }
 
   .button__filter {
-    height: 32px;
-    width: 78px;
-    margin-left: 26px;
-    border: 1px solid #FFFFFF;
+    height: rem(32px);
+    width: rem(78px);
+    margin-left: rem(26px);
+    border: rem(1px) solid #FFFFFF;
     background-color: transparent;
   }
 }

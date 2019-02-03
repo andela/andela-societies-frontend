@@ -1,8 +1,8 @@
 .society-stats{
   width: 38%;
-  height: 134px;
+  height: rem(134px);
   display: flex;
-  padding: 0 10px;
+  padding: 0 rem(10px);
   font-family: 'DIN Pro';
   flex-direction: column;
   justify-content: space-evenly;
@@ -21,13 +21,13 @@
   @include text-styles(rem(15px), $darkGray, 200, rem(0.33px), rem(15px));
 
   .stats__description__figure {
-    margin-top: 20px;
-    padding-left: 20px;
+    margin-top: rem(20px);
+    padding-left: rem(20px);
   }
 }
 
 .society-stats__desc-text {
-  margin-left: 5px;
+  margin-left: rem(5px);
 }
 
 .society-stats__desc__points {
@@ -62,7 +62,7 @@
 }
 
 .society-stats__desc__logo {
-  width: 50px;
+  width: rem(50px);
   margin-left: auto;
   background-position: center;
   background-size: contain;
