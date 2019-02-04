@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { myStats } from '../constants';
+
 const MyStatsComponent = (props) => {
   const { points, activities } = props;
   return (
@@ -24,8 +26,8 @@ const MyStatsComponent = (props) => {
 };
 
 MyStatsComponent.defaultProps = {
-  points: 0,
-  activities: 0,
+  points: myStats.points,
+  activities: myStats.activities,
 };
 
 

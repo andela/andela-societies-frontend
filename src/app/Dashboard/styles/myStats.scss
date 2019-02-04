@@ -40,17 +40,21 @@
   .stats {
     width: 43%;
   }
+
   .stats__description {
     font-size: rem(14px);
     line-height: rem(14px);
   }
+
   .stats__activities {
     margin-left: rem(10px);
   }
+
   .stats__description__figure {
     font-size: rem(24px);
     line-height: rem(24px);
   }
+
   .my-stats {
     margin-top: 0;
   }
@@ -73,11 +77,13 @@
     height: 100%;
     margin-bottom: rem(15px);
   }
+
   .stats__description {
     font-size: rem(14px);
     line-height: 0.875rem;
     margin-top: 0.5rem;
   }
+  
   .stats__description__figure {
     font-size: rem(18px);
   }

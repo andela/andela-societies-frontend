@@ -20,6 +20,7 @@
 .user-dashboard {
   margin-top: rem(27px);
 }
+
 .user-dashboard__name {
   @include text-styles(rem(27px), $lightAccent, 500, rem(0.56px), rem(27px));
 }
@@ -99,18 +100,23 @@
   .content-wrapper { 
     padding-top: 0.5rem;
   }
+
   .user-dashboard {
     margin-top: 0.5rem;
   }
+
   .user-dashboard__level { 
     margin-top: 0;
   }
+
   .profile-overview {
     flex-direction: column;
   }
+
   .profile-overview__image {
     display: none;
   }
+
   .user-dashboard__actions {
     margin-top: rem(14px);
   }
@@ -123,22 +129,28 @@
     padding-right: 0; 
     padding-top: 0.5rem;
   }
+
   .user-dashboard {
     margin-top: 0.5rem;
   }
+
   .user-dashboard__name {
     font-size: rem(20px);
     line-height: rem(20px);
   }
+
   .user-dashboard__level { 
     margin-top: 0;
   }
+
   .profile-overview {
     flex-direction: column;
   }
+
   .profile-overview__image {
     display: none;
   }
+  
   .user-dashboard__actions {
     margin-top: 0;
     flex-direction: column;

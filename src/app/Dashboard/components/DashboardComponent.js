@@ -1,12 +1,13 @@
 import React from 'react';
 
-import { MyStatsComponent, SocietyStatsComponent } from './index';
 import {
   HeroComponent,
   NavbarComponent,
   SidebarComponent,
   ButtonComponent,
 } from '../../common/components';
+import MyStatsComponent from './MyStatsComponent';
+import SocietyStatsComponent from './SocietyStatsComponent';
 
 const DashboardComponent = () => (
   <div className='wrapper'>

@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { societyStats } from '../constants';
+
 const SocietyStatsComponent = (props) => {
   const { usedPoints, remainingPoints } = props;
   return (
@@ -33,8 +35,8 @@ const SocietyStatsComponent = (props) => {
 
 
 SocietyStatsComponent.defaultProps = {
-  usedPoints: 0,
-  remainingPoints: 0,
+  usedPoints: societyStats.usedPoints,
+  remainingPoints: societyStats.remainingPoints,
 };
 
 SocietyStatsComponent.propTypes = {

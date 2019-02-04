@@ -7,11 +7,13 @@
   height: rem(31px);
   width: rem(31px);
   background-size: cover;
+  
   &.logo__image--blue {
-   background-image: url(./../../../images/logo_blue.png);
+   background-image: url(./../../../images/logo_blue.svg);
   }
+
   &.logo__image--white {
-    background-image: url(./../../../images/logo_white.png);
+    background-image: url(./../../../images/logo_white.svg);
    }
 }
 
