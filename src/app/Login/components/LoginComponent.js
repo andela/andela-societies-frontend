@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { format } from 'date-fns';
 
 import { LogoComponent } from '../../common/components';
 import config from '../../../../config';
@@ -63,7 +64,11 @@ class LoginComponent extends Component {
                 </div>
               </a>
             </div>
-            <p className='login__pane__footer'> 2018 &copy; Powered by Andela </p>
+            <p className='login__pane__footer'>
+              {format(new Date(), 'YYYY')}
+              &nbsp;
+              &copy; Powered by Andela
+            </p>
           </section>
           <section className='login__pane--right col-md-5 col-lg-6' />
         </div>

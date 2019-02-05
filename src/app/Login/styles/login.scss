@@ -53,6 +53,9 @@
   box-sizing: border-box;
   border: rem(1px) solid $googleButtonBlue;
   background-color: $googleButtonBlue;
+  &:focus {
+    outline: none!important;
+  }
 }
 
 .login__button_text {

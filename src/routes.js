@@ -19,6 +19,7 @@ import tokenIsValid from './app/utils';
 const Router = () => (
   <BrowserRouter>
     <Switch>
+      <Route exact path='/' component={LoginComponent} />
       <AuthenticateRoute
         isAuthenticated={tokenIsValid()}
         path='/home'
@@ -29,7 +30,6 @@ const Router = () => (
         path='/dashboard'
         component={DashboardComponent}
       />
-      <Route exact path='/' component={LoginComponent} />
     </Switch>
   </BrowserRouter>
 );
