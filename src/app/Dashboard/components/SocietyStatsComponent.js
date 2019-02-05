@@ -7,7 +7,24 @@ const SocietyStatsComponent = (props) => {
   const { usedPoints, remainingPoints } = props;
   return (
     <div className='society-stats'>
-      <hr className='line-graph' />
+      <div className='progress'>
+        <div
+          className='progress-bar'
+          role='progressbar'
+          id='progress-bar--blue'
+          aria-valuenow='65'
+          aria-valuemin='0'
+          aria-valuemax='100'
+        />
+        <div
+          className='progress-bar'
+          role='progressbar'
+          id='progress-bar--green'
+          aria-valuenow='35'
+          aria-valuemin='0'
+          aria-valuemax='100'
+        />
+      </div>
       <div className='society-stats__desc'>
         <div className='society-stats__desc__points'>
           <span className='society-stats__desc-indicator' id='blue-circle' />
