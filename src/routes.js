@@ -5,7 +5,7 @@ import {
   BrowserRouter,
 } from 'react-router-dom';
 
-import HomeComponent from './app/Home/components';
+import { HomeComponent } from './app/Home/components/HomeComponent';
 import LoginComponent from './app/Login/components';
 import AuthenticateRoute from './app/Authentication/components';
 

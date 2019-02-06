@@ -10,10 +10,8 @@ import './styles/main.scss';
 
 const store = configureStore();
 
-
 ReactDOM.render(
   <Provider store={store}>
     <Router />
   </Provider>, document.getElementById('root'),
 );
-
