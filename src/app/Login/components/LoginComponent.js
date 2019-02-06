@@ -33,7 +33,7 @@ class LoginComponent extends Component {
     const { history } = this.props;
     if (tokenIsValid()) {
       localStorage.removeItem('signInError');
-      history.push('/home');
+      history.push('/dashboard');
     } else {
       localStorage.setItem('signInError', 'error');
       history.push('/');
