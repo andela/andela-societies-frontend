@@ -1,1 +1,5 @@
-@import './Home/home.scss';
+@import './fonts/fonts.scss';
+@import 'vars';
+@import './functions.scss';
+@import './Home/home';
+@import '../app/Login/login';

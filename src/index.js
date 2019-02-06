@@ -1,3 +1,4 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -15,3 +16,4 @@ ReactDOM.render(
     <Router />
   </Provider>, document.getElementById('root'),
 );
+

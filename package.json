@@ -5,11 +5,10 @@
   "main": "server/server.js",
   "scripts": {
     "start": "webpack-dev-server --config=webpack.config.dev.js --open --history-api-fallback",
-    "build": "webpack -p --config=webpack.config.prod.js && npm run copy:favicon",
+    "build": "webpack -p --config=webpack.config.prod.js",
     "sandbox": "export NODE_ENV=sandbox && webpack --optimize-minimize --config=webpack.config.prod.js && npm run copy:favicon",
     "test": "export NODE_ENV=testing && jest --verbose",
     "test:dev": "export NODE_ENV=testing && jest --verbose --watch",
-    "copy:favicon": "cp src/assets/images/favicon.ico public/favicon.ico",
     "deploy": "npm run build && npm run serve",
     "coverage": "export NODE_ENV=testing && jest --coverage",
     "coveralls": "cat ./coverage/lcov.info | coveralls"
@@ -50,6 +49,7 @@
     "jest": "^23.6.0",
     "mini-css-extract-plugin": "^0.5.0",
     "node-sass": "^4.11.0",
+    "resolve-url-loader": "^3.0.0",
     "sass-loader": "^7.1.0",
     "url-loader": "^1.1.2",
     "webpack": "^4.27.1",
@@ -58,6 +58,9 @@
     "webpack-merge": "^4.1.5"
   },
   "dependencies": {
+    "bootstrap": "^4.2.1",
+    "js-cookie": "^2.2.0",
+    "jwt-decode": "^2.2.0",
     "prop-types": "^15.6.2",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
