@@ -11,7 +11,11 @@ import SocietyStatsComponent from './SocietyStatsComponent';
 import { actions } from '../operations';
 import { getUserInfo } from '../../utils/tokenIsValid';
 
-class DashboardComponent extends Component {
+export class DashboardComponent extends Component {
+  state = {
+    user: {},
+  }
+
   /**
    * @name defaultProps
    * @type {PropType}
@@ -33,8 +37,8 @@ class DashboardComponent extends Component {
    *
    */
   static propTypes = {
-    error: PropTypes.shape({}),
     loading: PropTypes.bool,
+    error: PropTypes.shape({}),
     pointsEarned: PropTypes.number,
     activitiesLogged: PropTypes.number,
     fetchUserActivites: PropTypes.func,
@@ -43,6 +47,7 @@ class DashboardComponent extends Component {
   componentDidMount() {
     const { fetchUserActivites } = this.props;
     const userInfo = getUserInfo();
+    this.setState({ user: userInfo });
     fetchUserActivites(userInfo.id);
   }
 
@@ -50,6 +55,7 @@ class DashboardComponent extends Component {
     const {
       error, loading, pointsEarned, activitiesLogged,
     } = this.props;
+    const { user } = this.state;
     if (loading) return <p>Loading ...</p>;
     if (!loading && error) return <p>The was an error while fetching your data. Please try again later.</p>;
     return (
@@ -60,7 +66,7 @@ class DashboardComponent extends Component {
           <div className='sub-content'>
             <NavbarComponent />
             <div className='user-dashboard'>
-              <h2 className='user-dashboard__name col-sm-12'>Kevin Samoei</h2>
+              <h2 className='user-dashboard__name col-sm-12'>{user.name}</h2>
               <div className='col-sm-12'>
                 <h3 className='user-dashboard__level'>D2</h3>
               </div>
