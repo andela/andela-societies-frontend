@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 
 import { LogoComponent } from '../../common/components';
 import config from '../../../../config';
-import tokenIsValid from '../../utils';
+import { tokenIsValid } from '../../utils/tokenIsValid';
 
 class LoginComponent extends Component {
   /**

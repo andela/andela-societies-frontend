@@ -8,21 +8,21 @@ import Cookie from 'js-cookie';
  */
 const getToken = () => {
   try {
-    let token = Cookie.get('jwt-token');
+    const token = Cookie.get('jwt-token');
     if (!token) return false;
-    return jwtDecode(token);  
+    return jwtDecode(token);
   } catch (error) {
     return {};
   }
-}
+};
 
 /**
  * @name tokenIsValid
  * @summary Checks that token has not expired and payload has Andelan role
  * @return {boolean} representing token
  */
-const tokenIsValid = () => {
-  token = getToken();
+export const tokenIsValid = () => {
+  const token = getToken();
   if (token.exp > new Date().getTime() / 1000 && token.UserInfo.roles.Andelan.length > 0) {
     return true;
   }
@@ -38,5 +38,3 @@ export const getUserInfo = () => {
   const userDetails = getToken();
   return userDetails.UserInfo || {};
 };
-
-export default tokenIsValid;

@@ -10,7 +10,7 @@ import LoginComponent from './app/Login/components';
 import DashboardComponent from './app/Dashboard/components';
 import AuthenticateRoute from './app/Authentication/components';
 
-import tokenIsValid from './app/utils';
+import { tokenIsValid } from './app/utils';
 
 /**
  * @name Router

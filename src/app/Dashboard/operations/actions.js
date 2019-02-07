@@ -1,7 +1,8 @@
 import types from './types';
 
-const fetchUserActivitiesRequest = () => ({
-  type: types.FETCH_USER_ACTIVITIES_REQUEST
+const fetchUserActivitiesRequest = userId => ({
+  type: types.FETCH_USER_ACTIVITIES_REQUEST,
+  userId,
 });
 
 const fetchUserActivitiesSuccess = (activites, pointsEarned, activitiesLogged) => ({
@@ -20,4 +21,4 @@ export default {
   fetchUserActivitiesError,
   fetchUserActivitiesRequest,
   fetchUserActivitiesSuccess,
-}
+};
