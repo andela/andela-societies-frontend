@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 
-import token from '../../fixtures/token';
-import tokenIsValid from '../tokenIsValid';
+import { token, userInfo } from './fixtures';
+import { tokenIsValid, getUserInfo } from '../tokenIsValid';
 
 describe('TokenIsValid util', () => {
   it('returns false when there is no token', () => {
@@ -16,4 +16,11 @@ describe('TokenIsValid util', () => {
     Cookies.set('jwt-token', 'token');
     expect(tokenIsValid()).toBe(false);
   });
+
+  describe('Get user info util', () => {
+    it('returns a user information ', () => {
+      Cookies.set('jwt-token', token);
+      expect(getUserInfo()).toEqual(userInfo);
+    });
+  })
 })

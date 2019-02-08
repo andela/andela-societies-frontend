@@ -4,7 +4,7 @@ import types from './types';
 import actions from './actions';
 import { get } from '../../utils/api';
 
-function* fetchUserActivities(action) {
+export function* fetchUserActivities(action) {
   try {
     const result = yield call(get, `users/${action.userId}/logged-activities`);
     yield put(actions.fetchUserActivitiesSuccess(result.data, result.pointsEarned, result.activitiesLogged));

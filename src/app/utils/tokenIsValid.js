@@ -6,7 +6,7 @@ import Cookie from 'js-cookie';
  * @summary Retrieves token
  * @return {object} representing token information
  */
-const getToken = () => {
+export const getToken = () => {
   try {
     const token = Cookie.get('jwt-token');
     if (!token) return false;
