@@ -1,7 +1,4 @@
 const initialState = {
-  login: {
-    user: {},
-  },
   dashboard: {
     error: null,
     loading: false,

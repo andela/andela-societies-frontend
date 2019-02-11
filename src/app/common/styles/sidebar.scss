@@ -33,6 +33,7 @@
   height: rem(37px);
   width: rem(136px);
   margin-bottom: rem(12.94px);
+  text-decoration: none !important;
   &:hover {
     border-left: rem(4px) solid $lightAccent;
   }

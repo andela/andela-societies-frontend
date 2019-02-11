@@ -2,12 +2,8 @@
   height: rem(458px);
   width: 100vw;
   background-image:
-    linear-gradient( 
-      to right,
-      #122EB8,
-      #1331C0,
-      #112DB7,
-      #05127F,
-    );
+    url('../../../images/pixels-top.png'),
+    linear-gradient(135deg, $primaryBlue 0%, $darkBlue 100%, $darkerBlue 100%);
+  background-position: 'center';
   z-index: -1;
 }
