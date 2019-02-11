@@ -4,7 +4,7 @@ import * as home from '../app/Home';
 
 const rootReducer = combineReducers({
   home,
-  dashboard
+  dashboard,
 });
 
 export default rootReducer;
