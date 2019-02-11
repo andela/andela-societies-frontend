@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {
-  HeroComponent, NavbarComponent, SidebarComponent, ButtonComponent,
+  ButtonComponent,
 } from '../../common/components';
 import MyStatsComponent from './MyStatsComponent';
 import SocietyStatsComponent from './SocietyStatsComponent';
