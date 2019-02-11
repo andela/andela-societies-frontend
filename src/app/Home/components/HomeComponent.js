@@ -1,7 +1,14 @@
-import React from 'react';
+/* eslint-disable react/destructuring-assignment */
+import React, { Component } from 'react';
+import TestSaga from './testSaga';
 
-const HomeComponent = () => (
-  <h1 className='home__title'>Welcome to Andela Societies </h1>
-);
+// eslint-disable-next-line react/prefer-stateless-function
+export class HomeComponent extends Component {
+  render() {
+    return (
+      <TestSaga />
+    );
+  }
+}
 
-export default HomeComponent;
+export default (HomeComponent);
