@@ -110,11 +110,9 @@ const mapStateToProps = ({ dashboard }) => ({
   activitiesLogged: dashboard.activitiesLogged,
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchUserActivites: () => dispatch(actions.fetchUserActivitiesRequest()),
-});
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  {
+    fetchUserActivites: actions.fetchUserActivitiesRequest,
+  },
 )(DashboardComponent);
