@@ -4,6 +4,7 @@ const initialState = {
   },
   dashboard: {
     error: null,
+    society: '',
     loading: false,
     pointsEarned: 0,
     userActivities: [],
