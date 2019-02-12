@@ -1,26 +1,22 @@
 import Cookies from 'js-cookie';
-
-import { token, userInfo } from './fixtures';
-import { tokenIsValid, getUserInfo } from '../tokenIsValid';
+import { validToken, invalidToken } from './fixtures';
+import { tokenIsValid, getUserInfo, getToken } from '../tokenIsValid';
 
 describe('TokenIsValid util', () => {
-  it('returns false when there is no token', () => {
-    expect(tokenIsValid()).toBe(false);
-  });
-  
-  it('returns true when there is a token', () => {
-    Cookies.set('jwt-token', token);
-    expect(tokenIsValid()).toBe(true);
-  });
-  it('returns false when an invalid token is provided', () => {
-    Cookies.set('jwt-token', 'token');
-    expect(tokenIsValid()).toBe(false);
+  it('returns empty object when there is an invalid token in cookie', () => {
+    Cookies.set('jwt-token', 'dsnkjsdaslsl');
+    expect(getToken()).toEqual({});
   });
 
-  describe('Get user info util', () => {
-    it('returns a user information ', () => {
-      Cookies.set('jwt-token', token);
-      expect(getUserInfo()).toEqual(userInfo);
-    });
-  })
+  it('returns false when there is not valid', () => {
+    expect(tokenIsValid(invalidToken)).toBe(false);
+  });
+  
+  it('returns true when token is valid', () => {
+    expect(tokenIsValid(validToken)).toBe(true);
+  });
+
+  it('returns a user information ', () => {
+    expect(getUserInfo(validToken)).toEqual(validToken.UserInfo);
+  });
 })

@@ -19,10 +19,10 @@ export const getToken = () => {
 /**
  * @name tokenIsValid
  * @summary Checks that token has not expired and payload has Andelan role
+ * @param {object} token
  * @return {boolean} representing token
  */
-export const tokenIsValid = () => {
-  const token = getToken();
+export const tokenIsValid = (token) => {
   if (token.exp > new Date().getTime() / 1000 && token.UserInfo.roles.Andelan.length > 0) {
     return true;
   }
@@ -32,9 +32,7 @@ export const tokenIsValid = () => {
 /**
  * @name getUserInfo
  * @summary Retrieves user information
+ * @param {object} token
  * @return {object} representing user information
  */
-export const getUserInfo = () => {
-  const userDetails = getToken();
-  return userDetails.UserInfo || {};
-};
+export const getUserInfo = token => (token.UserInfo || {});

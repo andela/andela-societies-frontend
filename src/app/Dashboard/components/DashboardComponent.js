@@ -9,7 +9,7 @@ import MyStatsComponent from './MyStatsComponent';
 import SocietyStatsComponent from './SocietyStatsComponent';
 
 import { actions } from '../operations';
-import { getUserInfo } from '../../utils/tokenIsValid';
+import { getUserInfo, getToken } from '../../utils/tokenIsValid';
 
 export class DashboardComponent extends Component {
   state = {
@@ -46,7 +46,8 @@ export class DashboardComponent extends Component {
 
   componentDidMount() {
     const { fetchUserActivites } = this.props;
-    const userInfo = getUserInfo();
+    const token = getToken();
+    const userInfo = getUserInfo(token);
     this.setState({ user: userInfo });
     fetchUserActivites(userInfo.id);
   }
