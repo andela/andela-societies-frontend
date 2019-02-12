@@ -11,7 +11,7 @@ describe('<LoginComponent />', () => {
   
   const shallowWrapper = shallow(<LoginComponent {...props} />);
 
-  it('should contain the title text Societes', () => {
-    expect(shallowWrapper.find('.login__pane__title--text').html()).toContain('Societies');
+  it('should contain the text Be part of something big', () => {
+    expect(shallowWrapper.find('.login__pane__description--title').html()).toContain('Be part of something big.');
   });
 });

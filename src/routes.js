@@ -7,6 +7,7 @@ import {
 
 import { HomeComponent } from './app/Home/components/HomeComponent';
 import LoginComponent from './app/Login/components';
+import DashboardComponent from './app/Dashboard/components';
 import AuthenticateRoute from './app/Authentication/components';
 
 import tokenIsValid from './app/utils';
@@ -18,12 +19,17 @@ import tokenIsValid from './app/utils';
 const Router = () => (
   <BrowserRouter>
     <Switch>
+      <Route exact path='/' component={LoginComponent} />
       <AuthenticateRoute
         isAuthenticated={tokenIsValid()}
         path='/home'
         component={HomeComponent}
       />
-      <Route exact path='/' component={LoginComponent} />
+      <AuthenticateRoute
+        isAuthenticated={tokenIsValid()}
+        path='/dashboard'
+        component={DashboardComponent}
+      />
     </Switch>
   </BrowserRouter>
 );
