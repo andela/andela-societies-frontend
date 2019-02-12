@@ -78,7 +78,18 @@
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-  background-image: url(../../../images/societyLogos/istelle.png);
+  &.phoenix {
+    background-image: url(../../../images/societyLogos/phoenix.png);
+  }
+  &.istelle {
+    background-image: url(../../../images/societyLogos/istelle.png);
+  }
+  &.invictus {
+    background-image: url(../../../images/societyLogos/invictus.jpg);
+  }
+  &.sparks {
+    background-image: url(../../../images/societyLogos/sparks.png);
+  }
 }
 
 // Large devices (desktops/mac, 992px and up)

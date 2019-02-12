@@ -22,6 +22,7 @@ export class DashboardComponent extends Component {
    */
   static defaultProps = {
     error: {},
+    society: '',
     loading: false,
     pointsEarned: 0,
     activitiesLogged: 0,
@@ -36,6 +37,7 @@ export class DashboardComponent extends Component {
    */
   static propTypes = {
     loading: PropTypes.bool,
+    society: PropTypes.string,
     error: PropTypes.shape({}),
     pointsEarned: PropTypes.number,
     activitiesLogged: PropTypes.number,
@@ -52,7 +54,7 @@ export class DashboardComponent extends Component {
 
   render() {
     const {
-      error, loading, pointsEarned, activitiesLogged,
+      error, society, loading, pointsEarned, activitiesLogged,
     } = this.props;
     const { user } = this.state;
     let dashboardHtml;
@@ -70,7 +72,7 @@ export class DashboardComponent extends Component {
           <div className='profile-overview col-sm-12'>
             <div className='profile-overview__image' />
             <MyStatsComponent points={pointsEarned} activities={activitiesLogged} />
-            <SocietyStatsComponent usedPoints={1508} remainingPoints={326} />
+            <SocietyStatsComponent society={society} usedPoints={1508} remainingPoints={326} />
           </div>
           <div className='user-dashboard__actions col-sm-12'>
             <h3 className='user-dashboard__title'>My Activities</h3>
@@ -94,6 +96,7 @@ export class DashboardComponent extends Component {
 
 const mapStateToProps = ({ dashboard }) => ({
   error: null,
+  society: dashboard.society,
   loading: dashboard.loading,
   pointsEarned: dashboard.pointsEarned,
   userActivities: dashboard.userActivities,
