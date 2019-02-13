@@ -24,14 +24,6 @@ set_variables() {
             DEPLOYMENT_NAME="${ENVIRONMENT}-${PROJECT_NAME}"
             export NODE_ENV=staging
             ;;
-        design)
-            IMAGE_TAG="design-${COMMIT_HASH}"
-            ENVIRONMENT=staging
-            GOOGLE_COMPUTE_ZONE=${STAGING_ZONE}
-            GOOGLE_CLUSTER_NAME=${STAGING_CLUSTER_NAME}
-            DEPLOYMENT_NAME="design-${PROJECT_NAME}"
-            export NODE_ENV=design
-            ;;
         *)
             echo "Err: This branch should not deploy."
             exit 1
