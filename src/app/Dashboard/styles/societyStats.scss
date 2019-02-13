@@ -12,7 +12,8 @@
 .progress {
   width: 95%;
   align-self: center;
-  height: 0.5rem!important;
+  height: rem(10px) !important;
+  margin-top: rem(15px);
   margin-bottom: rem(14px);
 
   #progress-bar--blue {

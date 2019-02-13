@@ -10,8 +10,9 @@ import LoginComponent from './app/Login/components';
 import DashboardComponent from './app/Dashboard/components';
 import AuthenticateRoute from './app/Authentication/components';
 
-import tokenIsValid from './app/utils';
+import { tokenIsValid, getToken } from './app/utils';
 
+const token = getToken();
 /**
  * @name Router
  * Handles routing
@@ -21,12 +22,12 @@ const Router = () => (
     <Switch>
       <Route exact path='/' component={LoginComponent} />
       <AuthenticateRoute
-        isAuthenticated={tokenIsValid()}
+        isAuthenticated={tokenIsValid(token)}
         path='/home'
         component={HomeComponent}
       />
       <AuthenticateRoute
-        isAuthenticated={tokenIsValid()}
+        isAuthenticated={tokenIsValid(token)}
         path='/dashboard'
         component={DashboardComponent}
       />

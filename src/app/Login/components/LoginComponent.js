@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 
 import { LogoComponent } from '../../common/components';
 import config from '../../../../config';
-import tokenIsValid from '../../utils';
+import { tokenIsValid, getToken } from '../../utils/tokenIsValid';
 
 class LoginComponent extends Component {
   /**
@@ -31,9 +31,10 @@ class LoginComponent extends Component {
 
   componentDidMount() {
     const { history } = this.props;
-    if (tokenIsValid()) {
+    const token = getToken();
+    if (tokenIsValid(token)) {
       localStorage.removeItem('signInError');
-      history.push('/home');
+      history.push('/dashboard');
     } else {
       localStorage.setItem('signInError', 'error');
       history.push('/');
