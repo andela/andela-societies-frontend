@@ -1,13 +1,36 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import {
+  Route,
+  Switch,
+  BrowserRouter,
+} from 'react-router-dom';
 
-// eslint-disable-next-line import/no-named-as-default
-import HomeComponent from './app/Home/components/HomeComponent';
+import { HomeComponent } from './app/Home/components/HomeComponent';
+import LoginComponent from './app/Login/components';
+import DashboardComponent from './app/Dashboard/components';
+import AuthenticateRoute from './app/Authentication/components';
 
+import { tokenIsValid, getToken } from './app/utils';
+
+const token = getToken();
+/**
+ * @name Router
+ * Handles routing
+ */
 const Router = () => (
   <BrowserRouter>
     <Switch>
-      <Route path='/home' component={HomeComponent} />
+      <Route exact path='/' component={LoginComponent} />
+      <AuthenticateRoute
+        isAuthenticated={tokenIsValid(token)}
+        path='/home'
+        component={HomeComponent}
+      />
+      <AuthenticateRoute
+        isAuthenticated={tokenIsValid(token)}
+        path='/dashboard'
+        component={DashboardComponent}
+      />
     </Switch>
   </BrowserRouter>
 );

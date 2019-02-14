@@ -29,11 +29,12 @@ module.exports = {
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
-          'sass-loader'
+          'resolve-url-loader',
+          'sass-loader?sourceMap'
         ]
       },
       {
-        test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+        test: /\.(png|jpg|woff|woff2|eot|ttf|svg)$/,
         use: 'url-loader?limit=100000'
       }
     ]
@@ -59,5 +60,10 @@ module.exports = {
         }
       }
     }
+  },
+  devServer: {
+    compress: true,
+    host: 'soc-dev.andela.com',
+    port: 3000
   },
 }

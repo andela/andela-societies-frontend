@@ -1,3 +1,10 @@
-@import './Home/home.scss';
 @import '/Home/onBoardingModal.scss';
 @import '/Home/loginPointsModal.scss';
+@import './fonts/fonts.scss';
+@import 'vars';
+@import './functions.scss';
+@import './mixins.scss';
+@import './Home/home';
+@import '../app/Login/styles/index.scss';
+@import '../app/common/styles/index.scss';
+@import '../app/Dashboard/styles/index.scss';

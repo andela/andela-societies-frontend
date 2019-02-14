@@ -1,0 +1,7 @@
+@mixin text-styles($size, $color, $weight, $letterSpacing, $lineHeight) {
+  font-size: $size;
+  color: $color;
+  font-weight: $weight;
+  letter-spacing: $letterSpacing;
+  line-height: $lineHeight;
+}

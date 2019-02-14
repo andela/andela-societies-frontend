@@ -1,0 +1,99 @@
+.login--wrapper {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+}
+
+.login {
+  margin: auto;
+  display: flex;
+  padding: 0;
+  font-family: "DIN Pro";
+  width: rem(1108px);
+  height: rem(650px);
+  background-color: #FFFFFF;
+  box-shadow: 0 rem(25px) rem(80px) rem(-10px) rgba(0,0,0,0.08);
+}
+
+.login__pane--left {
+  display: flex;
+  padding: rem(36px) 0 rem(32px) rem(65px);
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.login__pane--right {
+  background-position: center;
+  background-image: url(../../../images/default_img_placeholder.png);
+}
+
+.login__pane__description--title {
+  opacity: 0.84;
+  color: #000000;
+  font-size: rem(16px);
+  line-height: rem(36px);
+}
+
+.login__pane_description--content {
+  color: $lightGray;
+  font-size: rem(22px);
+  font-weight: normal;
+  line-height: rem(31px);
+}
+
+.login__pane_description--button {
+  width: rem(300px);
+  height: rem(52px);
+  display: flex;
+  cursor: pointer;
+  overflow: hidden;
+  user-select: none;
+  text-decoration: none;
+  border-radius: 0.2rem;
+  box-sizing: border-box;
+  border: rem(1px) solid $googleButtonBlue;
+  background-color: $googleButtonBlue;
+  &:focus {
+    outline: none!important;
+  }
+}
+
+.login__button_text {
+  margin: 0 auto;
+  font-size: rem(16px);
+  line-height: rem(52px);
+  color: $lightAccent;
+}
+
+.login__logo {
+  width: 4rem;
+  height: 100%;
+  box-sizing: border-box;
+  background: $lightAccent url(../../../images/googleFavicon.png) center/3rem no-repeat;
+}
+
+.login__pane__footer {
+  text-align: left;
+  color: $lightGray;
+  font-size: rem(16px);
+}
+// Small devices
+@media (max-width: 767px) { 
+  .login__pane--left {
+    padding: rem(20px);
+    text-align: center;
+    align-items: center;
+  }
+
+  .login__pane--right {
+    display: none;
+  }
+
+  .login__pane_description--content {
+    font-size: rem(20px);
+  }
+
+  .login__pane_description--button { 
+    margin: auto;
+  }  
+ }
