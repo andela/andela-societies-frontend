@@ -34,6 +34,7 @@
   width: rem(136px);
   margin-bottom: rem(12.94px);
   text-decoration: none !important;
+  
   &:hover {
     border-left: rem(4px) solid $lightAccent;
   }
@@ -44,19 +45,24 @@
   width: rem(18px);
   background-repeat: no-repeat;
   background-position: center;
+
   &.dashboard {
     color: #FFFFFF;
     background-image: url(../../../images/dashboard.svg);
   }
+
   &.istelle {
     background-image: url(../../../images/societyLogos/istelle.svg);
   }
+  
   &.invictus {
     background-image: url(../../../images/societyLogos/invictus.svg);
   }
+
   &.sparks {
     background-image: url(../../../images/societyLogos/sparks.svg);
   }
+
   &.phoenix {
     background-image: url(../../../images/societyLogos/phoenix.svg);
   }
@@ -68,6 +74,7 @@
   font-size: rem(14px);
   text-align: center;
   padding-left: rem(10px);
+
   &.sidebar_nav-label--footer {
     color: $footerTextGray;
   }
@@ -77,13 +84,20 @@
   box-sizing: border-box;
   height: rem(0.81px);
   width: rem(127.78px);
-  border: rem(1.3px) solid $separatorBlue;
+  background-color: $separatorBlue;
 }
 
 .sidebar__footer {
   color: $footerTextGray;
   position: absolute;
   bottom: rem(30px);
+
+  .sidebar_nav-item {
+    cursor: pointer;
+    &:hover {
+      border-left: 0;
+    }
+  }
 }
 
 .fa-cog {
@@ -100,6 +114,7 @@
 }
 
 .sidebar__footer__text {
+  cursor: pointer;
   font-size: rem(12px);
   line-height: rem(12px);
   margin-left: rem(24px);

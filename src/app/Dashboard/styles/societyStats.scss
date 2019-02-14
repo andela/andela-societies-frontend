@@ -13,8 +13,9 @@
   width: 95%;
   align-self: center;
   height: rem(10px) !important;
-  margin-top: rem(15px);
+  margin-top: rem(17px);
   margin-bottom: rem(14px);
+  border-radius: 0;
 
   #progress-bar--blue {
     background-color: $checkmarkBlue!important;
@@ -32,6 +33,7 @@
   @include text-styles(rem(15px), $darkGray, 200, rem(0.33px), rem(15px));
 
   .stats__description__figure {
+    font-weight: bold;
     margin-top: rem(20px);
     padding-left: rem(20px);
   }
