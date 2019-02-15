@@ -58,6 +58,7 @@ export const myloggedActivities = {
   activitiesLogged: 4,
   data: activities,
   pointsEarned: 300,
+  society: 'Phoenix',
 }
 
 export default activities;

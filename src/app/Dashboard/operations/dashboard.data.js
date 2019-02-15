@@ -7,7 +7,9 @@ import { get } from '../../utils/api';
 export function* fetchUserActivities(action) {
   try {
     const result = yield call(get, `users/${action.userId}/logged-activities`);
-    yield put(actions.fetchUserActivitiesSuccess(result.data, result.pointsEarned, result.activitiesLogged, result.society));
+    yield put(
+      actions.fetchUserActivitiesSuccess(result.data, result.pointsEarned, result.activitiesLogged, result.society),
+    );
   } catch (error) {
     yield put(actions.fetchUserActivitiesError(error));
   }
