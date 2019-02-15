@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { societyStats } from '../constants';
 
 const SocietyStatsComponent = (props) => {
-  const { usedPoints, remainingPoints } = props;
+  const { society, usedPoints, remainingPoints } = props;
   return (
     <div className='society-stats'>
       <div className='progress'>
@@ -44,7 +44,7 @@ const SocietyStatsComponent = (props) => {
           {remainingPoints}
           <span className='stats__description__figure-subsc '>Points</span>
         </p>
-        <span className='society-stats__desc__logo' />
+        <span className={`society-stats__desc__logo ${society.toLowerCase()}`} />
       </div>
     </div>
   );
@@ -52,11 +52,13 @@ const SocietyStatsComponent = (props) => {
 
 
 SocietyStatsComponent.defaultProps = {
+  society: societyStats.society,
   usedPoints: societyStats.usedPoints,
   remainingPoints: societyStats.remainingPoints,
 };
 
 SocietyStatsComponent.propTypes = {
+  society: PropTypes.string,
   usedPoints: PropTypes.number,
   remainingPoints: PropTypes.number,
 };

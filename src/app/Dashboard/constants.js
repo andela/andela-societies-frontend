@@ -4,6 +4,7 @@ export const myStats = {
 };
 
 export const societyStats = {
+  society: '',
   usedPoints: 0,
   remainingPoints: 0,
 };
