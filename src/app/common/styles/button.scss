@@ -4,7 +4,7 @@ button {
   
   &:hover {
     transition: box-shadow 0.2s;
-    box-shadow: rem(2px) rem(2px) rem(3px) rem(1px) rgba(255, 255, 255, 0.5);
+    box-shadow: rem(2px) rem(2px) rem(3px) rem(1px) $whiteShadow;
   }
 }
 
