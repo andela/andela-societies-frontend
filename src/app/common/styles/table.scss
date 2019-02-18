@@ -1,17 +1,30 @@
 .table {
-  background-color: $lightAccent;
+  background-color: transparent;
   box-sizing: border-box;
   font-family: 'DIN Pro';
 }
 
 .table__row--head {
+  background-color: $lightAccent;
   height: rem(56px);
   box-shadow: 0 rem(7px) rem(36px) 0 rgba(48,48,48,0.13);
 }
 
+.table__row--separator {
+  border: none;
+  height: rem(3px);
+  background-color: transparent;
+}
+
 .table__head {
   font-size: rem(14.56px);
-  // font-weight: 500;
+  margin: auto 0;
   letter-spacing: rem(0.2px);
   line-height: rem(14px);
+  vertical-align: middle !important;
+  border-bottom: none !important;
+
+  &:first-child {
+    padding-left: rem(30px);
+  }
 }

@@ -38,10 +38,13 @@ class TableComponent extends Component {
   );
 
   render() {
-    const { children, tableHeadings } = this.props;
+    const { children, tableHeadings, tableClassName } = this.props;
     return (
-      <table className='table'>
-        <thead>{this.renderTableHead(tableHeadings)}</thead>
+      <table className={`table ${tableClassName}`}>
+        <thead>
+        {this.renderTableHead(tableHeadings)}
+        <tr className='table__row--separator'/>
+        </thead>
         <tbody>{children}</tbody>
       </table>
     );

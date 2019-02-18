@@ -1,0 +1,12 @@
+.myactivities__table {
+  margin-top: rem(24px);
+}
+
+.myactivities__table__row {
+  height: rem(56px);
+  background-color: $lightAccent;
+
+  td:first-child {
+    padding-left: rem(30px);
+  }
+}

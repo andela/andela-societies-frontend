@@ -8,17 +8,17 @@ const MyActivitiesComponent = (props) => {
   const { userActivities } = props;
   const columnNames = ['Activity', 'Date', 'Description', 'Points', 'Status'];
   return (
-    <TableComponent tableHeadings={columnNames}>
+    <TableComponent tableClassName='myactivities__table' tableHeadings={columnNames}>
       {userActivities.map((activity) => {
         const {
           activityId, activityDate, description, points, status,
         } = activity;
         return (
-          <tr key={activityId}>
+          <tr key={activityId} className='myactivities__table__row'>
             <td>{activity.activity}</td>
             <td>{activityDate}</td>
             <td>
-              <TruncateDescriptionComponent description={description} wordCount={50} />
+              <TruncateDescriptionComponent description={description} wordCount={100} />
             </td>
             <td>{points}</td>
             <td>{status}</td>
