@@ -45,24 +45,35 @@
   width: rem(18px);
   background-repeat: no-repeat;
   background-position: center;
+  box-sizing: border-box;
+  height: rem(14.45px);
+  width: rem(24.51px);
 
   &.dashboard {
     background-image: url(../../../images/dashboard.svg);
   }
 
   &.istelle {
+    border: rem(1.5px) solid $lightAccent;
+    border-radius: rem(1.62px);
     background-image: url(../../../images/societyLogos/istelle.svg);
   }
   
   &.invictus {
+    border: rem(1.5px) solid $lightAccent;
+    border-radius: rem(1.62px);
     background-image: url(../../../images/societyLogos/invictus.svg);
   }
 
   &.sparks {
+    border: rem(1.5px) solid $lightAccent;
+    border-radius: rem(1.62px);
     background-image: url(../../../images/societyLogos/sparks.svg);
   }
 
   &.phoenix {
+    border: rem(1.5px) solid $lightAccent;
+    border-radius: rem(1.62px);
     background-image: url(../../../images/societyLogos/phoenix.svg);
   }
 }
