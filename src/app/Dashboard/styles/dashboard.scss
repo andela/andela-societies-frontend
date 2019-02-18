@@ -30,8 +30,8 @@
   width: rem(23px);
   padding: rem(1px);
   margin: rem(15px) 0;
-  @include text-styles( rem(14px), $orange, 500, rem(0.48px), rem(18px));
-  border: rem(1px) solid $orange;
+  @include text-styles( rem(14px), $andelaGold, 500, rem(0.48px), rem(18px));
+  border: rem(1px) solid $andelaGold;
 }
 
 .profile-overview {
@@ -78,7 +78,7 @@
   .button__add {
     height: rem(32px);
     width: rem(143px);
-    background-color: $orange;
+    background-color: $andelaGold;
     border: none;
   }
 
