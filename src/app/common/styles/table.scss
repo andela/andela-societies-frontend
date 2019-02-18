@@ -1,0 +1,17 @@
+.table {
+  background-color: $lightAccent;
+  box-sizing: border-box;
+  font-family: 'DIN Pro';
+}
+
+.table__row--head {
+  height: rem(56px);
+  box-shadow: 0 rem(7px) rem(36px) 0 rgba(48,48,48,0.13);
+}
+
+.table__head {
+  font-size: rem(14.56px);
+  // font-weight: 500;
+  letter-spacing: rem(0.2px);
+  line-height: rem(14px);
+}

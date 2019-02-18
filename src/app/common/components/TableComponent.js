@@ -28,9 +28,9 @@ class TableComponent extends Component {
   };
 
   renderTableHead = tableHeadings => (
-    <tr>
+    <tr className='table__row--head'>
       {tableHeadings.map(tableHead => (
-        <th scope='col' key={tableHead}>
+        <th scope='col' key={tableHead} className='table__head'>
           {tableHead}
         </th>
       ))}
