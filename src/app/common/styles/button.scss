@@ -1,13 +1,4 @@
 button {
   cursor: pointer;
   outline: none!important;
-  
-  &:hover {
-    transition: box-shadow 0.2s;
-    box-shadow: rem(2px) rem(2px) rem(3px) rem(1px) $whiteShadow;
-  }
-}
-
-.button {
-  border-radius: rem(2px);
 }

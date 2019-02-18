@@ -75,6 +75,15 @@
     padding-left: rem(8px);
   }
 
+  .user-dashboard__button {
+    border-radius: rem(2px);
+
+    &:hover {
+      transition: box-shadow 0.2s;
+      box-shadow: rem(2px) rem(2px) rem(3px) rem(1px) $whiteShadow;
+    }
+  }
+
   .button__add {
     height: rem(32px);
     width: rem(143px);
