@@ -26,8 +26,7 @@
 }
 
 .user-dashboard__level {
-  height: rem(23px);
-  width: rem(23px);
+  @include widthAndHeight(rem(23px), rem(23px));
   padding: rem(1px);
   margin: rem(15px) 0;
   @include text-styles( rem(14px), $andelaGold, 500, rem(0.48px), rem(18px));
@@ -41,8 +40,7 @@
 
 
 .profile-overview__image {
-  height: rem(134px);
-  width: rem(122px);
+  @include widthAndHeight(rem(122px), rem(134px));
   background-repeat: no-repeat;
   background-position: center;
   background-image: url(../../../images/person-placeholder.jpg);
@@ -85,15 +83,13 @@
   }
 
   .button__add {
-    height: rem(32px);
-    width: rem(143px);
+    @include widthAndHeight(rem(143px), rem(32px));
     background-color: $andelaGold;
     border: none;
   }
 
   .button__filter {
-    height: rem(32px);
-    width: rem(78px);
+    @include widthAndHeight(rem(78px), rem(32px));
     margin-left: rem(26px);
     background-color: transparent;
   }

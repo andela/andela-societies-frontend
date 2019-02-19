@@ -1,6 +1,5 @@
 .society-stats{
-  width: 38%;
-  height: rem(134px);
+  @include widthAndHeight(38%, rem(134px));
   display: flex;
   padding: 0 rem(10px);
   font-family: 'DIN Pro';
@@ -118,8 +117,7 @@
 // Medium devices (tablets, 768px and up)
 @media (min-width: 768px) and (max-width: 991.98px) {
   .society-stats {
-    width: 100%;
-    height: 100%;
+    @include widthAndHeight(100%, 100%);
     margin-bottom: rem(15px);
     flex: 0 0 100%;
   }
@@ -128,8 +126,7 @@
 // small devices
 @media (max-width: 767px) {
   .society-stats {
-    width: 100%;
-    height: 100%;
+    @include widthAndHeight(100%, 100%);
     margin-bottom: rem(15px);
   }
 
@@ -138,8 +135,7 @@
   }
 
   .line-graph {
-    width: 100%;
-    height: 0.2rem;
+    @include widthAndHeight(100%, 0.2rem);
     background-color: rgba(0, 0, 0, 0.1);
  }
  

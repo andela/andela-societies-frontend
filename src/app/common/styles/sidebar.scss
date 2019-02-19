@@ -3,8 +3,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: rem(142px);
-  height: 100vh;
+  @include widthAndHeight(rem(142px), 100vh);
   margin-right: rem(40px);
   padding-top: rem(28px);
   padding-bottom: rem(184px);
@@ -30,8 +29,7 @@
 .sidebar_nav-item {
   display: flex;
   padding: rem(10px) 0 rem(10px) rem(16px);
-  height: rem(37px);
-  width: rem(136px);
+  @include widthAndHeight(rem(136px), rem(37px));
   margin-bottom: rem(12.94px);
   text-decoration: none !important;
   
@@ -41,47 +39,39 @@
 }
 
 .sidebar_nav-icon {
-  height: rem(18px);
-  width: rem(18px);
+  @include widthAndHeight(rem(18px), rem(18px));
   background-repeat: no-repeat;
   background-position: center;
   box-sizing: border-box;
-  height: rem(14.45px);
-  width: rem(24.51px);
+  @include widthAndHeight(rem(24.51px), rem(14.45px));
 
   &.dashboard {
     background-image: url(../../../images/dashboard.svg);
   }
 
   &.istelle {
-    border: rem(1.5px) solid $lightAccent;
-    border-radius: rem(1.62px);
+    @include border;
     background-image: url(../../../images/societyLogos/istelle.svg);
   }
   
   &.invictus {
-    border: rem(1.5px) solid $lightAccent;
-    border-radius: rem(1.62px);
+    @include border;
     background-image: url(../../../images/societyLogos/invictus.svg);
   }
 
   &.sparks {
-    border: rem(1.5px) solid $lightAccent;
-    border-radius: rem(1.62px);
+    @include border;
     background-image: url(../../../images/societyLogos/sparks.svg);
   }
 
   &.phoenix {
-    border: rem(1.5px) solid $lightAccent;
-    border-radius: rem(1.62px);
+    @include border;
     background-image: url(../../../images/societyLogos/phoenix.svg);
   }
 }
 
 .sidebar_nav-label {
-  color: $lightAccent;
-  line-height: rem(14px);
-  font-size: rem(14px);
+  @include text-styles(rem(14px), $lightAccent, normal, 0, rem(14px));
   text-align: center;
   padding-left: rem(10px);
 
@@ -92,8 +82,7 @@
 
 .sidebar__separator--top {
   box-sizing: border-box;
-  height: rem(0.81px);
-  width: rem(127.78px);
+  @include widthAndHeight(rem(127.78px), rem(0.81px));
   background-color: $separatorBlue;
 }
 
@@ -115,8 +104,7 @@
 }
 
 .sidebar__separator--footer {
-  width: rem(127.78px);
-  height: rem(0.81px);
+  @include widthAndHeight(rem(127.78px), rem(0.81px));
   box-sizing: border-box;
   margin-top: rem(14px);
   margin-bottom: rem(14px);
