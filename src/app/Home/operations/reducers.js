@@ -1,8 +1,14 @@
-const initialState = 0;
+import { CATEGORIES } from './constants';
 
-export default function reducer(state = initialState, action) {
-  switch (action.type) {
-  default:
-    return state;
+const initialState = {
+  categories: [],
+};
+
+const reducer = (state = initialState, action) => {
+  if (action.type === CATEGORIES.LOAD_SUCCESS) {
+    return { ...state, categories: action.categories.data };
   }
-}
+  return state;
+};
+
+export default reducer;
