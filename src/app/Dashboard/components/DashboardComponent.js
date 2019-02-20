@@ -70,7 +70,7 @@ export class DashboardComponent extends Component {
       dashboardHtml = (
         <div className='user-dashboard'>
           <h2 className='user-dashboard__name col-sm-12'>{user.name}</h2>
-          <div className='col-sm-12'>
+          <div className='col-sm-12 user-dashboard__level--container'>
             <h3 className='user-dashboard__level'>D2</h3>
           </div>
           <div className='profile-overview col-sm-12'>
