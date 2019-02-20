@@ -83,11 +83,11 @@ export class DashboardComponent extends Component {
                 <div className='user-dashboard__actions col-sm-12'>
                   <h3 className='user-dashboard__title'>My Activities</h3>
                   <div>
-                    <ButtonComponent className='button__add'>
+                    <ButtonComponent className='user-dashboard__button button__add'>
                       <span className='fa fa-plus' />
                       <span>Log Points</span>
                     </ButtonComponent>
-                    <ButtonComponent className='button__filter'>
+                    <ButtonComponent className='user-dashboard__button button__filter'>
                       <span>Filter</span>
                       <span className='fa fa-filter' />
                     </ButtonComponent>

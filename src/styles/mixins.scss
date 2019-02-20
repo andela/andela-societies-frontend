@@ -5,3 +5,13 @@
   letter-spacing: $letterSpacing;
   line-height: $lineHeight;
 }
+
+@mixin border {
+  border: rem(1.5px) solid $lightAccent;
+  border-radius: rem(1.62px);
+}
+
+@mixin widthAndHeight($width, $height) {
+  width: $width;
+  height: $height;
+}
