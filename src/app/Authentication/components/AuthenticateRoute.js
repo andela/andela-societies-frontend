@@ -4,6 +4,14 @@ import {
   withRouter,
 } from 'react-router-dom';
 
+import {
+  HeroComponent,
+  NavbarComponent,
+  SidebarComponent,
+} from '../../common/components';
+import LoginComponent from '../../Login/components';
+
+
 /**
  * @name _Authenticate
  * Authenticates routes. If not authenticated returns a message
@@ -16,13 +24,20 @@ export const Authenticate = ({ component: Component, isAuthenticated, ...rest })
     render={
       (props) => {
         if (isAuthenticated) {
-          return <Component {...props} />;
+          return (
+            <div className='wrapper'>
+              <HeroComponent />
+              <div className='main-content'>
+                <SidebarComponent className='sidebar' />
+                <div className='sub-content'>
+                  <NavbarComponent />
+                  <Component {...props} />
+                </div>
+              </div>
+            </div>
+          );
         }
-        return (
-          <div>
-            <h1> PLEASE LOGIN. NOT AUTHORIZED </h1>
-          </div>
-        );
+        return (<LoginComponent />);
       }
     }
   />
