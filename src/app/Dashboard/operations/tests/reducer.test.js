@@ -21,6 +21,7 @@ describe('Dashboard reducer', () => {
         }),
       ).toEqual({
         error: null,
+        society: '',
         loading: true,
         pointsEarned: 0,
         userActivities: [],
@@ -39,6 +40,7 @@ describe('Dashboard reducer', () => {
         }),
       ).toEqual({
         error,
+        society: '',
         loading: false,
         pointsEarned: 0,
         userActivities: [],
@@ -49,13 +51,15 @@ describe('Dashboard reducer', () => {
 
   describe('handles case FETCH_USER_ACTIVITIES_SUCCESS', () => {
     it('returns poinstEarned, activitiesLogged and userActivities', () => {
-      const { data, pointsEarned, activitiesLogged } = myloggedActivities;
+      const { data, society, pointsEarned, activitiesLogged } = myloggedActivities;
       expect(dashboard(defaultState, {
         type: types.FETCH_USER_ACTIVITIES_SUCCESS,
+        society,
         activities: data,
         pointsEarned,
         activitiesLogged,
       })).toEqual({
+        society,
         error: null,
         pointsEarned,
         loading: false,

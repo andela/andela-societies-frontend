@@ -12,6 +12,7 @@ const dashboard = (state = initialState.dashboard, action) => {
     return {
       ...state,
       loading: false,
+      society: action.society,
       pointsEarned: action.pointsEarned,
       userActivities: action.activities,
       activitiesLogged: action.activitiesLogged,
