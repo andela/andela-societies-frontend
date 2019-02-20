@@ -5,9 +5,9 @@ const fetchUserActivitiesRequest = userId => ({
   userId,
 });
 
-const fetchUserActivitiesSuccess = (activites, pointsEarned, activitiesLogged, society) => ({
+const fetchUserActivitiesSuccess = (activities, pointsEarned, activitiesLogged, society) => ({
   society,
-  activites,
+  activities,
   pointsEarned,
   activitiesLogged,
   type: types.FETCH_USER_ACTIVITIES_SUCCESS,
