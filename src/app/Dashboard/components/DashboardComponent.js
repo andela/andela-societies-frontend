@@ -58,7 +58,7 @@ export class DashboardComponent extends Component {
 
   render() {
     const {
-      error, loading, pointsEarned, activitiesLogged, userActivities,
+      error, loading, pointsEarned, activitiesLogged, userActivities, society,
     } = this.props;
     const { user } = this.state;
     let dashboardHtml;
