@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import dateFns from 'date-fns';
 
 import { TableComponent } from '../../common/components';
 import TruncateDescriptionComponent from './TruncateDescriptionComponent';
@@ -16,9 +17,9 @@ const MyActivitiesComponent = (props) => {
         return (
           <tr key={activityId} className='myactivities__table__row'>
             <td>{activity.activity}</td>
-            <td>{activityDate}</td>
+            <td>{dateFns.format(activityDate, 'MMM DD YYYY')}</td>
             <td>
-              <TruncateDescriptionComponent description={description} wordCount={100} />
+              <TruncateDescriptionComponent description={description} wordCount={80} />
             </td>
             <td>{points}</td>
             <td>{status}</td>

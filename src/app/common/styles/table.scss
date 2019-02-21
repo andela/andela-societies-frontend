@@ -2,18 +2,14 @@
   background-color: transparent;
   box-sizing: border-box;
   font-family: 'DIN Pro';
+  border-collapse: separate !important;
+  border-spacing: 0 rem(4px); 
 }
 
 .table__row--head {
   background-color: $lightAccent;
   height: rem(56px);
-  box-shadow: 0 rem(7px) rem(36px) 0 rgba(48,48,48,0.13);
-}
-
-.table__row--separator {
-  border: none;
-  height: rem(3px);
-  background-color: transparent;
+  box-shadow: 0 rem(7px) rem(36px) 0 $grayShadow;
 }
 
 .table__head {

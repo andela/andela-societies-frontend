@@ -10,6 +10,7 @@ class TableComponent extends Component {
    */
   static defaultProps = {
     tableHeadings: [],
+    tableClassName: '',
   };
 
   /**
@@ -20,10 +21,8 @@ class TableComponent extends Component {
    *
    */
   static propTypes = {
-    children: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.node),
-      PropTypes.node,
-    ]).isRequired,
+    tableClassName: PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
     tableHeadings: PropTypes.arrayOf(PropTypes.string),
   };
 
@@ -42,8 +41,7 @@ class TableComponent extends Component {
     return (
       <table className={`table ${tableClassName}`}>
         <thead>
-        {this.renderTableHead(tableHeadings)}
-        <tr className='table__row--separator'/>
+          {this.renderTableHead(tableHeadings)}
         </thead>
         <tbody>{children}</tbody>
       </table>
