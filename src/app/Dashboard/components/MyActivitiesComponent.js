@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import dateFns from 'date-fns';
 
-import { TableComponent } from '../../common/components';
+import { TableComponent, StatusIndicatorComponent } from '../../common/components';
 import TruncateDescriptionComponent from './TruncateDescriptionComponent';
 
 const MyActivitiesComponent = (props) => {
@@ -32,7 +32,7 @@ const MyActivitiesComponent = (props) => {
             <TruncateDescriptionComponent description={description} wordCount={80} />
           </td>
           <td>{points}</td>
-          <td>{status}</td>
+          <td><StatusIndicatorComponent status={status} /></td>
         </tr>
       );
     });

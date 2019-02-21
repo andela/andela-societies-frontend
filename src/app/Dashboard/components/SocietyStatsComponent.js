@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { StatusIndicatorComponent } from '../../common/components';
+
 import { societyStats } from '../constants';
 
 const SocietyStatsComponent = (props) => {
@@ -27,11 +29,11 @@ const SocietyStatsComponent = (props) => {
       </div>
       <div className='society-stats__desc'>
         <div className='society-stats__desc__points'>
-          <span className='society-stats__desc-indicator' id='blue-circle' />
+          <StatusIndicatorComponent className='society-stats--used-points-indicator' status='completed' />
           <span className='society-stats__desc-text'> Used points</span>
         </div>
         <div className='society-stats__desc__points' id='society-stats__desc--remaining-points'>
-          <span className='society-stats__desc-indicator' id='green-circle' />
+          <StatusIndicatorComponent status='approved' />
           <span className='society-stats__desc-text'> Total Remaining Points</span>
         </div>
       </div>
@@ -50,7 +52,6 @@ const SocietyStatsComponent = (props) => {
   );
 };
 
-
 SocietyStatsComponent.defaultProps = {
   society: societyStats.society,
   usedPoints: societyStats.usedPoints,
@@ -62,6 +63,5 @@ SocietyStatsComponent.propTypes = {
   usedPoints: PropTypes.number,
   remainingPoints: PropTypes.number,
 };
-
 
 export default SocietyStatsComponent;

@@ -18,9 +18,6 @@ describe('<MyActivitiesComponent />', () => {
       shallowWrapper,
     };
   };
-  // const props = {
-  //   userActivities: activities
-  // }
 
   it('should have a TableComponent', () => {
     const { shallowWrapper } = setUpWrapper();
