@@ -2,9 +2,9 @@ const numberOfItems = 4;
 
 export const activity = {
   id: '',
-  category: 'Participating in a tech event',
+  category: 'Tech events',
   date: '2017-11-03',
-  activity: '',
+  activity: 'Participating in a tech event',
   points: 250,
   status: 'default',
   owner: 'Lawrence Wachira',
@@ -49,7 +49,7 @@ for (let i = 0; i < numberOfItems; i += 1) {
     ...activity,
     id: activityIDs[Math.floor(Math.random() * activityIDs.length)],
     status: statuses[Math.floor(Math.random() * statuses.length)],
-    activity: descriptions[Math.floor(Math.random() * descriptions.length)],
+    description: descriptions[Math.floor(Math.random() * descriptions.length)],
     society: societies[Math.floor(Math.random() * societies.length)],
   });
 }
