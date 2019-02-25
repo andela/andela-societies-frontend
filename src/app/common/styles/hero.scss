@@ -1,0 +1,9 @@
+.hero {
+  height: rem(458px);
+  width: 100vw;
+  background-image:
+    url('../../../images/pixels-top.png'),
+    linear-gradient(135deg, $primaryBlue 0%, $darkBlue 100%, $darkerBlue 100%);
+  background-position: 'center';
+  z-index: -1;
+}

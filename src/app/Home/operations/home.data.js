@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { put, takeEvery, call } from 'redux-saga/effects';
 
-import { setCategories, setError } from './actions';
+import actions from './actions';
 import { CATEGORIES, LOG_POINTS } from './constants';
 
 const fetchCategoriesUrl = 'https://private-anon-6062be0d7e-andelasocietiesapi.apiary-mock.com/api/v1/activity-types';
@@ -16,12 +16,12 @@ const fetchCategories = async (url) => {
   return data;
 };
 
-export function* handleCategoriesLoad() {
+function* handleCategoriesLoad() {
   try {
     const categories = yield call(fetchCategories, fetchCategoriesUrl);
-    yield put(setCategories(categories));
+    yield put(actions.setCategories(categories));
   } catch (error) {
-    yield put(setError(error.toString()));
+    yield put(actions.setError(error.toString()));
   }
 }
 
@@ -39,7 +39,6 @@ function* postActivityPoints(newActivity) {
       description: newActivity.description,
     }),
   });
-  console.log('gtyujkl', response);
   return yield (response.status === 201);
 }
 
@@ -50,7 +49,7 @@ function* addNewActivity(action) {
       yield put(result);
     }
   } catch (error) {
-    yield put(setError(error.toString()));
+    yield put(actions.setError(error.toString()));
   }
 }
 

@@ -1,0 +1,28 @@
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo__image {
+  height: rem(31px);
+  width: rem(31px);
+  background-size: cover;
+  
+  &.logo__image--blue {
+   background-image: url(./../../../images/logo_blue.svg);
+  }
+
+  &.logo__image--white {
+    background-image: url(./../../../images/logo_white.svg);
+   }
+}
+
+.logo__text {
+  font-size: rem(24px);
+  color: #323C5A;
+  font-weight: 500;
+  line-height: rem(31px);
+  padding-left: rem(11px);
+  margin-bottom: 0;
+  letter-spacing: rem(0.5px);
+}

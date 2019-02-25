@@ -9,8 +9,8 @@ import { loadCategories } from '../operations/actions';
 
 // eslint-disable-next-line react/prefer-stateless-function
 export class HomeComponent extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       isShowing: false,
@@ -21,6 +21,9 @@ export class HomeComponent extends Component {
   componentDidMount() {
     // eslint-disable-next-line react/prop-types
     this.props.loadCategories();
+    console.log('testrethjrykt', this.props);
+  //   const { loadCategorie } = this.props;
+  //   loadCategorie();
   }
 
 closeModalHandler = () => {
@@ -43,6 +46,7 @@ closeModalLoginPointsHandler = () => {
 
 
 render() {
+  console.log('render', this.props);
   return (
     <div>
       { this.state.isShowing
@@ -62,7 +66,7 @@ render() {
             <LoginModal
               className='modal'
               show={this.state.isShowingLoginPoints}
-              close={this.loadCategories}
+              // close={this.loadCategories}
             />
           )
       }
@@ -71,8 +75,12 @@ render() {
 }
 }
 
+const mapStateToProps = state => ({
+  test: state,
+});
+
 const mapDispatchToProps = dispatch => ({
   loadCategories: () => dispatch(loadCategories()),
 });
 
-export default connect(null, mapDispatchToProps)(HomeComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeComponent);

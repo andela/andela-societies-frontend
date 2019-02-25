@@ -1,0 +1,148 @@
+.society-stats{
+  width: 38%;
+  height: rem(134px);
+  display: flex;
+  padding: 0 rem(10px);
+  font-family: 'DIN Pro';
+  flex-direction: column;
+  justify-content: space-evenly;
+  background-color: $lightAccent;
+}
+
+.progress {
+  width: 95%;
+  align-self: center;
+  height: rem(10px) !important;
+  margin-top: rem(15px);
+  margin-bottom: rem(14px);
+
+  #progress-bar--blue {
+    background-color: $checkmarkBlue!important;
+    width: 60%;
+  }
+  
+  #progress-bar--green {
+    background-color: $checkmarkGreen!important;
+    width: 40%;
+  }
+}
+
+.society-stats__desc {
+  display: flex;
+  @include text-styles(rem(15px), $darkGray, 200, rem(0.33px), rem(15px));
+
+  .stats__description__figure {
+    margin-top: rem(20px);
+    padding-left: rem(20px);
+  }
+}
+
+.society-stats__desc-text {
+  margin-left: rem(5px);
+}
+
+.society-stats__desc__points {
+  display: flex;
+}
+
+#society-stats__desc--remaining-points {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.society-stats__desc-indicator:before {
+  content: ' \25CF';
+  font-size: rem(30px);
+}
+
+#blue-circle {
+  color: $checkmarkBlue;
+  margin-left: rem(10px);
+}
+
+#green-circle {
+  color: $checkmarkGreen;
+}
+
+#used-points {
+  margin-left: rem(10px);
+}
+
+#remaining-points {
+  margin-left: auto;
+}
+
+.society-stats__desc__logo {
+  width: rem(50px);
+  margin-left: auto;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url(../../../images/societyLogos/istelle.png);
+}
+
+// Large devices (desktops/mac, 992px and up)
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .society-stats {
+    padding: 0;
+  }
+
+  .line-graph {
+    width: 95%;
+  }
+  
+  .society-stats__desc {
+    font-size: rem(13px);
+    line-height: rem(13px);
+  }
+
+  #used-points {
+    margin-left: auto;
+  }
+
+  .society-stats__desc {
+    .stats__description__figure {
+      margin-top: 0;
+      padding-left: 0;
+    }
+  }
+
+  .society-stats__desc__logo {
+    margin-right: auto;
+    background-position: top;
+  }
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .society-stats {
+    width: 100%;
+    height: 100%;
+    margin-bottom: rem(15px);
+    flex: 0 0 100%;
+  }
+}
+
+// small devices
+@media (max-width: 767px) {
+  .society-stats {
+    width: 100%;
+    height: 100%;
+    margin-bottom: rem(15px);
+  }
+
+  .society-points {
+    margin-top: rem(10px);
+  }
+
+  .line-graph {
+    width: 100%;
+    height: 0.2rem;
+    background-color: rgba(0, 0, 0, 0.1);
+ }
+ 
+ .society-stats__desc {
+    line-height: 0.9375rem;
+ }
+
+}

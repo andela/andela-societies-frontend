@@ -29,7 +29,7 @@ const logPointsFail = error => ({
   error,
 });
 
-export {
+export default {
   loadCategories,
   setCategories,
   setError,
