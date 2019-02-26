@@ -1,11 +1,7 @@
-.logo {
-  display: flex;
-  align-items: center;
-}
-
 .logo__image {
   @include widthAndHeight(rem(31px), rem(31px));
   background-size: cover;
+  display: inline-block;
   
   &.logo__image--blue {
    background-image: url(./../../../images/logo_blue.svg);
@@ -18,6 +14,8 @@
 
 .logo__text {
   @include text-styles(rem(24px), #323C5A, 500, 0, rem(31px));
+  display: inline-block;
+  vertical-align: top;
   padding-left: rem(11px);
   margin-bottom: 0;
   letter-spacing: rem(0.5px);

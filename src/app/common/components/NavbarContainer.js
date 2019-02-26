@@ -1,16 +1,37 @@
 import React, { Component } from 'react';
-import { LogoComponent, SidebarComponent } from './index';
+import PropTypes from 'prop-types';
+
+import LogoComponent from './LogoComponent';
+import SidebarComponent from './SidebarComponent';
+import ProfileContainer from './ProfileContainer';
 
 class NavbarContainer extends Component {
+  static defaultProps = {
+    userInfo: {
+      name: '',
+      picture: '',
+    },
+  };
+
+  static propTypes = {
+    userInfo: PropTypes.shape({
+      name: PropTypes.string,
+      picture: PropTypes.string,
+    }),
+  };
+
   state = {
     sidebarState: false,
   };
 
   toggleSidebarState = () => {
     this.setState(prevState => ({ sidebarState: !prevState.sidebarState }));
-  }
+  };
 
   render() {
+    const {
+      userInfo: { name, picture },
+    } = this.props;
     const { sidebarState } = this.state;
     return (
       <nav className='navbar navbar-light'>
@@ -27,6 +48,7 @@ class NavbarContainer extends Component {
             </div>
           </div>
         </form>
+        <ProfileContainer className='desktop-profile' name={name} userImage={picture} />
         <SidebarComponent
           toggleSidebarState={this.toggleSidebarState}
           className={sidebarState ? 'mobile-sidenav open' : 'mobile-sidenav close'}
@@ -41,10 +63,8 @@ class NavbarContainer extends Component {
             onKeyPress={this.toggleSidebarState}
             className='fa fa-bars fa-2x toggle-btn'
           />
-          <LogoComponent
-            styles='navbar__logo'
-            logoClassType='logo__image--white'
-          />
+          <LogoComponent styles='navbar__logo' logoClassType='logo__image--white' />
+          <ProfileContainer className='mobile-profile' name={name} userImage={picture} />
         </div>
       </nav>
     );

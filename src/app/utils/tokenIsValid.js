@@ -36,3 +36,15 @@ export const tokenIsValid = (token) => {
  * @return {object} representing user information
  */
 export const getUserInfo = token => (token.UserInfo || {});
+
+/**
+ * @name removeCookies
+ * @summary Clears the jwt-token cookies
+ */
+export const removeCookies = (name, params = undefined) => {
+  const options = params || {
+    expires: 3,
+    domain: '.andela.com',
+  };
+  return Cookie.remove(name, options);
+};
