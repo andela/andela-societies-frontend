@@ -16,14 +16,14 @@ import actions from '../operations/actions';
    * @returns Returns a form
    */
 class LogActivityForm extends Component {
-  static defaultProps = {
-    categories: [],
-  }
+    static defaultProps = {
+      categories: [],
+    }
 
   static propTypes = {
-    categories: PropTypes.arrayOf(PropTypes.shape({})),
     show: PropTypes.bool.isRequired,
     logActivity: PropTypes.func.isRequired,
+    categories: PropTypes.arrayOf(PropTypes.shape({})),
   };
 
   constructor(props) {
@@ -50,7 +50,7 @@ class LogActivityForm extends Component {
     const {
       categoryOption, numberOfParticipants, description, activityDate,
     } = this.state;
-    const { show, categories, logActivity } = this.props;
+    const { show, logActivity, categories } = this.props;
     console.log('the categories', categoryOption.id);
     console.log('the number of part', numberOfParticipants);
     console.log('the desacription', description);
@@ -178,7 +178,7 @@ class LogActivityForm extends Component {
 }
 
 const mapStateToProps = state => ({
-  categories: state.home.categories,
+  categories: state.dashboard.activities,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Modal from './onBoardingModal';
 import LoginModal from './logInPointsModal';
 
-import { loadCategories } from '../operations/actions';
+import actions from '../operations/actions';
 
 // eslint-disable-next-line react/prefer-stateless-function
 export class HomeComponent extends Component {
@@ -80,7 +80,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  loadCategories: () => dispatch(loadCategories()),
+  loadCategories: () => dispatch(actions.loadCategories()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeComponent);

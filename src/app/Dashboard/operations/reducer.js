@@ -22,9 +22,27 @@ const dashboard = (state = initialState.dashboard, action) => {
       loading: false,
       error: action.error,
     };
+  case types.CATEGORIES.LOAD_SUCCESS:
+    return {
+      ...state,
+      activities: action.categories.data,
+    };
+  case types.LOG_POINTS.POST_SUCCESS:
+    console.table([action.activity.data]);
+    return {
+      ...state,
+      activity: action.activity,
+    };
   default:
     return state;
   }
 };
+
+// const activities = (state = initialState.activities, action) => {
+//   if (action.type === types.CATEGORIES.LOAD_SUCCESS) {
+//     return { ...state, activities: action.categories.data };
+//   }
+//   return state;
+// };
 
 export default dashboard;
