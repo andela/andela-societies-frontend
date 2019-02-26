@@ -12,11 +12,7 @@ const MyActivitiesComponent = (props) => {
   if (!userActivities.length) {
     tableBodyHtml = (
       <tr className='myactivities__table__row'>
-        <td />
-        <td />
-        <td> You have not logged any activities </td>
-        <td />
-        <td />
+        <td colSpan={5} className='myactivities__table__data'> You have not logged any activities </td>
       </tr>
     );
   } else {
