@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {
-  HeroComponent, NavbarComponent, SidebarComponent, ButtonComponent,
-} from '../../common/components';
+import { ButtonComponent } from '../../common/components';
 import MyStatsComponent from './MyStatsComponent';
 import SocietyStatsComponent from './SocietyStatsComponent';
 import LoginModal from './LogPointsModal';
@@ -27,6 +25,7 @@ export class DashboardComponent extends Component {
    */
   static defaultProps = {
     error: {},
+    society: '',
     loading: false,
     pointsEarned: 0,
     activitiesLogged: 0,
@@ -42,6 +41,7 @@ export class DashboardComponent extends Component {
    */
   static propTypes = {
     loading: PropTypes.bool,
+    society: PropTypes.string,
     error: PropTypes.shape({}),
     pointsEarned: PropTypes.number,
     activitiesLogged: PropTypes.number,
@@ -68,7 +68,7 @@ export class DashboardComponent extends Component {
 
   render() {
     const {
-      error, loading, pointsEarned, activitiesLogged,
+      error, society, loading, pointsEarned, activitiesLogged,
     } = this.props;
     const { user, logPoints } = this.state;
     console.log('before click', logPoints);
@@ -131,6 +131,7 @@ export class DashboardComponent extends Component {
 
 const mapStateToProps = ({ dashboard }) => ({
   error: null,
+  society: dashboard.society,
   loading: dashboard.loading,
   pointsEarned: dashboard.pointsEarned,
   userActivities: dashboard.userActivities,

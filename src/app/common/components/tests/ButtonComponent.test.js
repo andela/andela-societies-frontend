@@ -6,6 +6,6 @@ describe('<ButtonComponent />', () => {
   const shallowWrapper = shallow(<ButtonComponent> Test Button </ButtonComponent>);
 
   it('should have button element', () => {
-    expect(shallowWrapper.find('.button').html()).toContain('Test Button');
+    expect(shallowWrapper.html()).toContain('Test Button');
   });
 });

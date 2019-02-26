@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import { Authenticate } from '../AuthenticateRoute';
+import LoginComponent from '../../../Login/components';
 
 describe('<AuthenticateRoute />', () => {
   const setUpWrapper = ({
@@ -20,9 +21,9 @@ describe('<AuthenticateRoute />', () => {
     expect(wrapper.find('Route').exists()).toBe(true);
   });
 
-  it('renders error message when component is not authenticated', () => {
+  it('renders Login component when component is not authenticated', () => {
     const wrapper = setUpWrapper({ isAuthenticated: false});
     wrapper.props().render({ isAuthenticated: false });
-    expect(wrapper.props().render({ isAuthenticated: false })).toEqual(<div><h1> PLEASE LOGIN. NOT AUTHORIZED </h1></div>);
+    expect(wrapper.props().render({ isAuthenticated: false })).toEqual(<LoginComponent />);
   });
 });

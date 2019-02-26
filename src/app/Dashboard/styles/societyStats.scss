@@ -1,6 +1,5 @@
 .society-stats{
-  width: 38%;
-  height: rem(134px);
+  @include widthAndHeight(38%, rem(134px));
   display: flex;
   padding: 0 rem(10px);
   font-family: 'DIN Pro';
@@ -13,8 +12,9 @@
   width: 95%;
   align-self: center;
   height: rem(10px) !important;
-  margin-top: rem(15px);
+  margin-top: rem(17px);
   margin-bottom: rem(14px);
+  border-radius: 0;
 
   #progress-bar--blue {
     background-color: $checkmarkBlue!important;
@@ -32,6 +32,7 @@
   @include text-styles(rem(15px), $darkGray, 200, rem(0.33px), rem(15px));
 
   .stats__description__figure {
+    font-weight: bold;
     margin-top: rem(20px);
     padding-left: rem(20px);
   }
@@ -78,7 +79,18 @@
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-  background-image: url(../../../images/societyLogos/istelle.png);
+  &.phoenix {
+    background-image: url(../../../images/societyLogos/phoenix.png);
+  }
+  &.istelle {
+    background-image: url(../../../images/societyLogos/istelle.png);
+  }
+  &.invictus {
+    background-image: url(../../../images/societyLogos/invictus.jpg);
+  }
+  &.sparks {
+    background-image: url(../../../images/societyLogos/sparks.png);
+  }
 }
 
 // Large devices (desktops/mac, 992px and up)
@@ -116,8 +128,7 @@
 // Medium devices (tablets, 768px and up)
 @media (min-width: 768px) and (max-width: 991.98px) {
   .society-stats {
-    width: 100%;
-    height: 100%;
+    @include widthAndHeight(100%, 100%);
     margin-bottom: rem(15px);
     flex: 0 0 100%;
   }
@@ -126,8 +137,7 @@
 // small devices
 @media (max-width: 767px) {
   .society-stats {
-    width: 100%;
-    height: 100%;
+    @include widthAndHeight(100%, 100%);
     margin-bottom: rem(15px);
   }
 
@@ -136,8 +146,7 @@
   }
 
   .line-graph {
-    width: 100%;
-    height: 0.2rem;
+    @include widthAndHeight(100%, 0.2rem);
     background-color: rgba(0, 0, 0, 0.1);
  }
  
