@@ -5,7 +5,6 @@ import {
   BrowserRouter,
 } from 'react-router-dom';
 
-import { HomeComponent } from './app/Home/components/HomeComponent';
 import LoginComponent from './app/Login/components';
 import DashboardComponent from './app/Dashboard/components';
 import AuthenticateRoute from './app/Authentication/components';
@@ -21,11 +20,6 @@ const Router = () => (
   <BrowserRouter>
     <Switch>
       <Route exact path='/' component={LoginComponent} />
-      <AuthenticateRoute
-        isAuthenticated={tokenIsValid(token)}
-        path='/home'
-        component={HomeComponent}
-      />
       <AuthenticateRoute
         isAuthenticated={tokenIsValid(token)}
         path='/dashboard'

@@ -7,14 +7,15 @@ import {
 } from '../../common/components';
 import MyStatsComponent from './MyStatsComponent';
 import SocietyStatsComponent from './SocietyStatsComponent';
+import LoginModal from './LogPointsModal';
 
 import { actions } from '../operations';
-import { hactions } from '../../Home/operations';
 import { getUserInfo, getToken } from '../../utils/tokenIsValid';
 
 export class DashboardComponent extends Component {
   state = {
     user: {},
+    logPoints: false,
   };
 
   /**
@@ -29,6 +30,7 @@ export class DashboardComponent extends Component {
     pointsEarned: 0,
     activitiesLogged: 0,
     fetchUserActivites: () => {},
+    loadCategories: () => {},
   };
 
   /**
@@ -43,7 +45,7 @@ export class DashboardComponent extends Component {
     pointsEarned: PropTypes.number,
     activitiesLogged: PropTypes.number,
     fetchUserActivites: PropTypes.func,
-    loadCategories: PropTypes.func.isRequired,
+    loadCategories: PropTypes.func,
   };
 
   componentDidMount() {
@@ -55,13 +57,25 @@ export class DashboardComponent extends Component {
     loadCategories();
   }
 
+  openModalLoginPointsHandler = () => {
+    this.setState({
+      logPoints: true,
+    });
+  }
+
+  closeLogPointsModal = () => {
+    this.setState({
+      logPoints: false,
+    });
+  }
+
   render() {
     const {
-      error, loading, pointsEarned, activitiesLogged, loadCategories,
+      error, loading, pointsEarned, activitiesLogged,
     } = this.props;
-    console.log('tyhjksdf', loadCategories);
-
-    const { user } = this.state;
+    const {
+      user, logPoints,
+    } = this.state;
     let dashboardHtml;
     if (loading) {
       dashboardHtml = <p>Loading ...</p>;
@@ -87,12 +101,23 @@ export class DashboardComponent extends Component {
                 </div>
                 <div className='user-dashboard__actions col-sm-12'>
                   <h3 className='user-dashboard__title'>My Activities</h3>
+                  {
+                    logPoints
+                      ? (
+                        <LoginModal
+                          className='modal'
+                          show={logPoints}
+                          close={this.closeLogPointsModal}
+                        />
+                      )
+                      : null
+                  }
                   <div>
-                    <ButtonComponent className='button__add'>
+                    <button type='button' className='button__add' onClick={this.openModalLoginPointsHandler}>
                       <span className='fa fa-plus' />
                       <span>Log Points</span>
-                    </ButtonComponent>
-                    <ButtonComponent className='button__filter'>
+                    </button>
+                    <ButtonComponent className='button__filter' onClick={this.openModalLoginPointsHandler}>
                       <span>Filter</span>
                       <span className='fa fa-filter' />
                     </ButtonComponent>
@@ -120,6 +145,6 @@ export default connect(
   mapStateToProps,
   {
     fetchUserActivites: actions.fetchUserActivitiesRequest,
-    loadCategories: hactions.loadCategories,
+    loadCategories: actions.loadCategories,
   },
 )(DashboardComponent);

@@ -2,14 +2,10 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import IconButton from '@material-ui/core/IconButton';
 import StartIcon from '@material-ui/icons/Star';
-import EventIcon from '@material-ui/icons/Event';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import { logPointsRequest } from '../operations/actions';
-
+import actions from '../operations/actions';
 
 /**
    * @name LogActivityForm
@@ -17,14 +13,15 @@ import { logPointsRequest } from '../operations/actions';
    * @returns Returns a form
    */
 class LogActivityForm extends Component {
-  static defaultProps = {
-    categories: [],
-  }
+    static defaultProps = {
+      categories: [],
+    }
 
   static propTypes = {
-    categories: PropTypes.arrayOf(PropTypes.shape({})),
     show: PropTypes.bool.isRequired,
     logActivity: PropTypes.func.isRequired,
+    categories: PropTypes.arrayOf(PropTypes.shape({})),
+    close: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -37,28 +34,34 @@ class LogActivityForm extends Component {
     };
   }
 
-  /**
-   * @name requiresNumberOf
-   * @summary determine whether a category should have a number of input
-   * @return {Boolean} whether a category should have a number of input
-   */
-
   handleChange = prop => (event) => {
     this.setState({ [prop]: event.target.value });
   };
+
+
+  handleSubmit = () => {
+    const { logActivity, close } = this.props;
+    const {
+      categoryOption, activityDate, numberOfParticipants, description,
+    } = this.state;
+    logActivity(
+      {
+        activityId: categoryOption.id,
+        date: activityDate,
+        noOfParticipants: numberOfParticipants,
+        description,
+      },
+    );
+    close();
+  }
 
   render() {
     const {
       categoryOption, numberOfParticipants, description, activityDate,
     } = this.state;
-    const { show, categories, logActivity } = this.props;
-    console.log('the categories', categoryOption.id);
-    console.log('the number of part', numberOfParticipants);
-    console.log('the desacription', description);
-    console.log('the date', activityDate);
-    console.log('the state', categories);
+    const { show, categories, close } = this.props;
     return (
-      <div>
+      <div className='login-jumbotron'>
         <section className='login-jumbotron'>
           <div
             className='login-container'
@@ -77,6 +80,7 @@ class LogActivityForm extends Component {
             </div>
             <form className='form-container'>
               <TextField
+                required
                 value={categoryOption}
                 select
                 label='Category'
@@ -95,15 +99,13 @@ class LogActivityForm extends Component {
                   ? (
                     <Fragment>
                       <TextField
+                        required
                         id='filled-number'
                         name='numberOfParticipants'
                         label='Number'
                         value={numberOfParticipants}
                         onChange={this.handleChange('numberOfParticipants')}
                         type='number'
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
                         margin='normal'
                         fullWidth
                       />
@@ -112,6 +114,7 @@ class LogActivityForm extends Component {
                   : null
               }
               <TextField
+                required
                 id='date'
                 label='Date'
                 type='date'
@@ -122,27 +125,15 @@ class LogActivityForm extends Component {
                 }}
                 fullWidth
                 onChange={this.handleChange('activityDate')}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position='end'>
-                      <IconButton>
-                        <EventIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
               />
               <TextField
+                required
                 id='standard-description'
                 label='Briefly what did you do'
-                placeholder=''
                 margin='normal'
                 fullWidth
                 value={description}
                 onChange={this.handleChange('description')}
-                InputLabelProps={{
-                  shrink: true,
-                }}
               />
               <div>
                 <button type='button' className='btn-points'>
@@ -155,20 +146,11 @@ class LogActivityForm extends Component {
                 <button
                   type='button'
                   className='btn-log'
-                  onClick={() => {
-                    logActivity(
-                      {
-                        activityId: categoryOption.id,
-                        date: activityDate,
-                        noOfParticipants: numberOfParticipants,
-                        description,
-                      },
-                    );
-                  }}
+                  onClick={this.handleSubmit}
                 >
                 Log
                 </button>
-                <button type='button' className='btn-abort'>Cancel</button>
+                <button type='button' className='btn-abort' onClick={close}>Cancel</button>
               </div>
             </form>
           </div>
@@ -179,11 +161,11 @@ class LogActivityForm extends Component {
 }
 
 const mapStateToProps = state => ({
-  categories: state.home.categories,
+  categories: state.dashboard.categories,
 });
 
 const mapDispatchToProps = dispatch => ({
-  logActivity: activity => dispatch(logPointsRequest(activity)),
+  logActivity: activity => dispatch(actions.logPointsRequest(activity)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LogActivityForm);

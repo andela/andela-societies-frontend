@@ -29,8 +29,8 @@ describe('Dashboard actions', () => {
       const expected = {
         type: types.FETCH_USER_ACTIVITIES_SUCCESS,
         activites: data,
-        pointsEarned: pointsEarned,
-        activitiesLogged: activitiesLogged,
+        pointsEarned,
+        activitiesLogged,
       };
       expect(actions.fetchUserActivitiesSuccess(data, pointsEarned, activitiesLogged)).toEqual(expected);
     });

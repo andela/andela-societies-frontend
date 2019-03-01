@@ -11,7 +11,7 @@ describe('Dashboard reducer', () => {
       expect(dashboard(defaultState, { type: 'DOES_NOT_EXIST' })).toEqual(defaultState);
     });
   });
-  
+
   describe('handles case FETCH_USER_ACTIVITIES_REQUEST', () => {
     it('returns loading true', () => {
       expect(
@@ -25,6 +25,8 @@ describe('Dashboard reducer', () => {
         pointsEarned: 0,
         userActivities: [],
         activitiesLogged: 0,
+        activity: {},
+        categories: {},
       });
     });
   });
@@ -43,24 +45,32 @@ describe('Dashboard reducer', () => {
         pointsEarned: 0,
         userActivities: [],
         activitiesLogged: 0,
+        activity: {},
+        categories: {},
       });
     });
   });
 
   describe('handles case FETCH_USER_ACTIVITIES_SUCCESS', () => {
     it('returns poinstEarned, activitiesLogged and userActivities', () => {
-      const { data, pointsEarned, activitiesLogged } = myloggedActivities;
+      const {
+        data, pointsEarned, activitiesLogged, categories, activity,
+      } = myloggedActivities;
       expect(dashboard(defaultState, {
         type: types.FETCH_USER_ACTIVITIES_SUCCESS,
         activities: data,
         pointsEarned,
         activitiesLogged,
+        categories,
+        activity,
       })).toEqual({
         error: null,
         pointsEarned,
         loading: false,
         activitiesLogged,
         userActivities: data,
+        categories,
+        activity,
       });
     });
   });

@@ -38,9 +38,13 @@ const societies = [
 
 const descriptions = [
   'Mentored teens how to code. (DBC 2016 at Redemption camp)',
-  'Jim Shelton of ChanZuckerberginitiative sits down with Andela fellows ' +
-  'at Andela\'s Nairobi HQ in a Facebook Live event',
+  'Jim Shelton of ChanZuckerberginitiative sits down with Andela fellows '
+  + 'at Andela\'s Nairobi HQ in a Facebook Live event',
 ];
+
+const category = {};
+
+const categories = {};
 
 const activities = [];
 
@@ -58,6 +62,8 @@ export const myloggedActivities = {
   activitiesLogged: 4,
   data: activities,
   pointsEarned: 300,
-}
+  activity: category,
+  categories,
+};
 
 export default activities;

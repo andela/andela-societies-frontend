@@ -25,6 +25,19 @@ export const get = async (path) => {
   }
 };
 
+export const postActivityPoints = async (path, newActivity) => fetch(`${config.API_BASE_URL}/${path}`, {
+  method: 'POST',
+  headers: new Headers(),
+  body: JSON.stringify({
+    activityId: newActivity.activityId,
+    date: newActivity.date,
+    noOfParticipants: newActivity.noOfParticipants,
+    description: newActivity.description,
+  }),
+}).then(res => res.json())
+  .then(data => data)
+  .catch(err => err);
+
 export const post = async (path, data) => {
   try {
     const response = await fetch(`${config.API_BASE_URL}/${path}`, {

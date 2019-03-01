@@ -1,7 +1,7 @@
 .login-jumbotron {
     display: flex;
-    align-items: center;
-    height: 500px;
+    align-items: center; 
+    height: 3rem;
     text-shadow: 0.25px 0.25px 0.25px #000000;
     transition: all .8s;
   }
@@ -72,4 +72,8 @@
 
 .log-points-inputs {
     -webkit-text-fill-color: #686868;
+}
+
+.snackbar {
+    background: rgb(255, 255, 255);
 }
