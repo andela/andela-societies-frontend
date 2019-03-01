@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {
-  HeroComponent, NavbarComponent, SidebarComponent, ButtonComponent,
+  ButtonComponent,
 } from '../../common/components';
 import MyStatsComponent from './MyStatsComponent';
 import SocietyStatsComponent from './SocietyStatsComponent';
@@ -83,47 +83,38 @@ export class DashboardComponent extends Component {
       dashboardHtml = <p>The was an error while fetching your data. Please try again later.</p>;
     } else {
       dashboardHtml = (
-        <div className='wrapper'>
-          <HeroComponent />
-          <div className='main-content'>
-            <SidebarComponent className='sidebar' />
-            <div className='sub-content'>
-              <NavbarComponent />
-              <div className='user-dashboard'>
-                <h2 className='user-dashboard__name col-sm-12'>{user.name}</h2>
-                <div className='col-sm-12'>
-                  <h3 className='user-dashboard__level'>D2</h3>
-                </div>
-                <div className='profile-overview col-sm-12'>
-                  <div className='profile-overview__image' />
-                  <MyStatsComponent points={pointsEarned} activities={activitiesLogged} />
-                  <SocietyStatsComponent usedPoints={1508} remainingPoints={326} />
-                </div>
-                <div className='user-dashboard__actions col-sm-12'>
-                  <h3 className='user-dashboard__title'>My Activities</h3>
-                  {
-                    logPoints
-                      ? (
-                        <LoginModal
-                          className='modal'
-                          show={logPoints}
-                          close={this.closeLogPointsModal}
-                        />
-                      )
-                      : null
-                  }
-                  <div>
-                    <button type='button' className='button__add' onClick={this.openModalLoginPointsHandler}>
-                      <span className='fa fa-plus' />
-                      <span>Log Points</span>
-                    </button>
-                    <ButtonComponent className='button__filter' onClick={this.openModalLoginPointsHandler}>
-                      <span>Filter</span>
-                      <span className='fa fa-filter' />
-                    </ButtonComponent>
-                  </div>
-                </div>
-              </div>
+        <div className='user-dashboard'>
+          <h2 className='user-dashboard__name col-sm-12'>{user.name}</h2>
+          <div className='col-sm-12'>
+            <h3 className='user-dashboard__level'>D2</h3>
+          </div>
+          <div className='profile-overview col-sm-12'>
+            <div className='profile-overview__image' />
+            <MyStatsComponent points={pointsEarned} activities={activitiesLogged} />
+            <SocietyStatsComponent usedPoints={1508} remainingPoints={326} />
+          </div>
+          <div className='user-dashboard__actions col-sm-12'>
+            <h3 className='user-dashboard__title'>My Activities</h3>
+            {
+              logPoints
+                ? (
+                  <LoginModal
+                    className='modal'
+                    show={logPoints}
+                    close={this.closeLogPointsModal}
+                  />
+                )
+                : null
+            }
+            <div>
+              <button type='button' className='button__add' onClick={this.openModalLoginPointsHandler}>
+                <span className='fa fa-plus' />
+                <span>Log Points</span>
+              </button>
+              <ButtonComponent className='button__filter' onClick={this.openModalLoginPointsHandler}>
+                <span>Filter</span>
+                <span className='fa fa-filter' />
+              </ButtonComponent>
             </div>
           </div>
         </div>
@@ -135,6 +126,7 @@ export class DashboardComponent extends Component {
 
 const mapStateToProps = ({ dashboard }) => ({
   error: null,
+  society: dashboard.society,
   loading: dashboard.loading,
   pointsEarned: dashboard.pointsEarned,
   userActivities: dashboard.userActivities,

@@ -4,8 +4,7 @@
 }
 
 .logo__image {
-  height: rem(31px);
-  width: rem(31px);
+  @include widthAndHeight(rem(31px), rem(31px));
   background-size: cover;
   
   &.logo__image--blue {
@@ -18,10 +17,7 @@
 }
 
 .logo__text {
-  font-size: rem(24px);
-  color: #323C5A;
-  font-weight: 500;
-  line-height: rem(31px);
+  @include text-styles(rem(24px), #323C5A, 500, 0, rem(31px));
   padding-left: rem(11px);
   margin-bottom: 0;
   letter-spacing: rem(0.5px);

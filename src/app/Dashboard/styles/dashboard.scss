@@ -26,12 +26,11 @@
 }
 
 .user-dashboard__level {
-  height: rem(23px);
-  width: rem(23px);
+  @include widthAndHeight(rem(23px), rem(23px));
   padding: rem(1px);
   margin: rem(15px) 0;
-  @include text-styles( rem(14px), $orange, 500, rem(0.48px), rem(18px));
-  border: rem(1px) solid $orange;
+  @include text-styles( rem(14px), $andelaGold, 500, rem(0.48px), rem(18px));
+  border: rem(1px) solid $andelaGold;
 }
 
 .profile-overview {
@@ -41,8 +40,7 @@
 
 
 .profile-overview__image {
-  height: rem(134px);
-  width: rem(122px);
+  @include widthAndHeight(rem(122px), rem(134px));
   background-repeat: no-repeat;
   background-position: center;
   background-image: url(../../../images/person-placeholder.jpg);
@@ -75,18 +73,24 @@
     padding-left: rem(8px);
   }
 
+  .user-dashboard__button {
+    border-radius: rem(2px);
+
+    &:hover {
+      transition: box-shadow 0.2s;
+      box-shadow: rem(2px) rem(2px) rem(3px) rem(1px) $whiteShadow;
+    }
+  }
+
   .button__add {
-    height: rem(32px);
-    width: rem(143px);
-    background-color: #F5A623;
-    box-shadow: inset 0 1px 3px 0 rgba(0,0,0,0.5), 0 12px 35px 0 rgba(52,77,178,0.34);
+    @include widthAndHeight(rem(143px), rem(32px));
+    background-color: $andelaGold;
+    border: none;
   }
 
   .button__filter {
-    height: rem(32px);
-    width: rem(78px);
+    @include widthAndHeight(rem(78px), rem(32px));
     margin-left: rem(26px);
-    border: rem(1px) solid #FFFFFF;
     background-color: transparent;
   }
 }
@@ -97,9 +101,6 @@
 
 // Medium devices (tablets, 768px and up)
 @media (min-width: 768px) and (max-width: 991.98px) {
-  .content-wrapper { 
-    padding-top: 0.5rem;
-  }
 
   .user-dashboard {
     margin-top: 0.5rem;
@@ -124,12 +125,6 @@
 
 // small devices
 @media (max-width: 767px) {
-  .content-wrapper {
-    padding-left: 0;
-    padding-right: 0; 
-    padding-top: 0.5rem;
-  }
-
   .user-dashboard {
     margin-top: 0.5rem;
   }

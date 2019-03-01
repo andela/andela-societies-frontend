@@ -1,9 +1,8 @@
 .hero {
-  height: rem(458px);
-  width: 100vw;
+  @include widthAndHeight(100vw, rem(458px));
   background-image:
     url('../../../images/pixels-top.png'),
-    linear-gradient(135deg, $primaryBlue 0%, $darkBlue 100%, $darkerBlue 100%);
+    linear-gradient(135deg, $andelaBlue 0%, $darkBlue 100%, $darkerBlue 100%);
   background-position: 'center';
   z-index: -1;
 }

@@ -13,21 +13,29 @@
 }
 
 .input-group.input-group-merge {
-  
+  width: rem(258.79px);
+
   .form-control-search {
-    font-family: 'DINPro';
+    font-family: 'DIN Pro';
     font-size: rem(14px);
     color: #ffffff;
     padding-right: .375rem;
     border: 0;
+    outline: none!important;
     background-color: rgba(255,255,255,0.2);
+
     &::placeholder {
       color:rgba(255,255,255,0.75);
+    }
+
+    &:focus {
+      box-shadow: unset;
     }
   }
 
   .input-group-append {
     margin-left: 0;
+    
     .input-group-icon {
       border: 0;
       color: $lightAccent;
@@ -80,7 +88,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-image: linear-gradient(135deg, $primaryBlue 0%, $darkBlue 100%, $darkerBlue 100%);
+    background-image: linear-gradient(135deg, $andelaBlue 0%, $darkBlue 100%, $darkerBlue 100%);
     border-right: rem(.1px) solid $lightGray;
 
     &.open {

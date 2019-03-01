@@ -64,6 +64,7 @@ export const myloggedActivities = {
   pointsEarned: 300,
   activity: category,
   categories,
+  society: 'Phoenix',
 };
 
 export default activities;
