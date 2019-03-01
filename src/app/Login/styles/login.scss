@@ -9,8 +9,8 @@
   padding: 0;
   font-family: "DIN Pro";
   @include widthAndHeight(rem(1108px), rem(650px));
-  background-color: #FFFFFF;
-  box-shadow: 0 rem(25px) rem(80px) rem(-10px) rgba(0,0,0,0.08);
+  background-color: $lightAccent;
+  box-shadow: 0 rem(25px) rem(80px) rem(-10px) $darkShadow;
 }
 
 .login__pane--left {
@@ -22,12 +22,13 @@
 
 .login__pane--right {
   background-position: center;
-  background-image: url(../../../images/default_img_placeholder.png);
+  background-image: url(../../../images/login-societies.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .login__pane__description--title {
   opacity: 0.84;
-  color: #000000;
   font-size: rem(16px);
   line-height: rem(36px);
 }
