@@ -83,6 +83,8 @@ export const myloggedActivities = {
   pointsEarned: 300,
   activity: category,
   society: 'Phoenix',
+  categoryError: 'Categories load failed',
+  logError: 'Log activity points failed',
 };
 
 export default activities;
