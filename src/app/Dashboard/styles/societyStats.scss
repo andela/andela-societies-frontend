@@ -17,12 +17,12 @@
   border-radius: 0;
 
   #progress-bar--blue {
-    background-color: $checkmarkBlue!important;
+    background-color: $andelaBlue!important;
     width: 60%;
   }
   
   #progress-bar--green {
-    background-color: $checkmarkGreen!important;
+    background-color: $approvedStatusGreen!important;
     width: 40%;
   }
 }
@@ -56,14 +56,10 @@
   font-size: rem(30px);
 }
 
-#blue-circle {
-  color: $checkmarkBlue;
+.society-stats--used-points-indicator {
   margin-left: rem(10px);
 }
 
-#green-circle {
-  color: $checkmarkGreen;
-}
 
 #used-points {
   margin-left: rem(10px);

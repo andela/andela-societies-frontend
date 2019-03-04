@@ -5,7 +5,9 @@ import PropTypes from 'prop-types';
 import { ButtonComponent } from '../../common/components';
 import MyStatsComponent from './MyStatsComponent';
 import SocietyStatsComponent from './SocietyStatsComponent';
+import MyActivitiesComponent from './MyActivitiesComponent';
 
+import { myStats } from '../constants';
 import { actions } from '../operations';
 import { getUserInfo, getToken } from '../../utils/tokenIsValid';
 
@@ -24,8 +26,9 @@ export class DashboardComponent extends Component {
     error: {},
     society: '',
     loading: false,
-    pointsEarned: 0,
-    activitiesLogged: 0,
+    pointsEarned: myStats.points,
+    activitiesLogged: myStats.activities,
+    userActivities: myStats.userActivities,
     fetchUserActivites: () => {},
   };
 
@@ -42,6 +45,7 @@ export class DashboardComponent extends Component {
     pointsEarned: PropTypes.number,
     activitiesLogged: PropTypes.number,
     fetchUserActivites: PropTypes.func,
+    userActivities: PropTypes.arrayOf(PropTypes.shape({})),
   };
 
   componentDidMount() {
@@ -54,7 +58,7 @@ export class DashboardComponent extends Component {
 
   render() {
     const {
-      error, society, loading, pointsEarned, activitiesLogged,
+      error, loading, pointsEarned, activitiesLogged, userActivities, society,
     } = this.props;
     const { user } = this.state;
     let dashboardHtml;
@@ -66,7 +70,7 @@ export class DashboardComponent extends Component {
       dashboardHtml = (
         <div className='user-dashboard'>
           <h2 className='user-dashboard__name col-sm-12'>{user.name}</h2>
-          <div className='col-sm-12'>
+          <div className='col-sm-12 user-dashboard__level--container'>
             <h3 className='user-dashboard__level'>D2</h3>
           </div>
           <div className='profile-overview col-sm-12'>
@@ -87,6 +91,7 @@ export class DashboardComponent extends Component {
               </ButtonComponent>
             </div>
           </div>
+          <MyActivitiesComponent userActivities={userActivities} />
         </div>
       );
     }
