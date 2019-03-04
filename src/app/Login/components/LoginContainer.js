@@ -6,7 +6,7 @@ import { LogoComponent } from '../../common/components';
 import config from '../../../../config';
 import { tokenIsValid, getToken } from '../../utils/tokenIsValid';
 
-class LoginComponent extends Component {
+class LoginContainer extends Component {
   /**
    * @name propTypes
    * @type {PropType}
@@ -78,4 +78,4 @@ class LoginComponent extends Component {
   }
 }
 
-export default LoginComponent;
+export default LoginContainer;

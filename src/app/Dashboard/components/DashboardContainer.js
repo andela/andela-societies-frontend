@@ -11,7 +11,7 @@ import { myStats } from '../constants';
 import { actions } from '../operations';
 import { getUserInfo, getToken } from '../../utils/tokenIsValid';
 
-export class DashboardComponent extends Component {
+export class DashboardContainer extends Component {
   state = {
     user: {},
   };
@@ -113,4 +113,4 @@ export default connect(
   {
     fetchUserActivites: actions.fetchUserActivitiesRequest,
   },
-)(DashboardComponent);
+)(DashboardContainer);

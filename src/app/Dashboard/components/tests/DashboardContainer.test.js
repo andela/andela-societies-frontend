@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { DashboardComponent } from '../DashboardComponent';
+import { DashboardContainer } from '../DashboardContainer';
 
-describe('<DashboardComponent />', () => {
+describe('<DashboardContainer />', () => {
   const setUpWrapper = ({
     error = null,
     loading = false,
@@ -20,7 +20,7 @@ describe('<DashboardComponent />', () => {
       activitiesLogged,
       society,
     };
-    const shallowWrapper = shallow(<DashboardComponent {...props} />);
+    const shallowWrapper = shallow(<DashboardContainer {...props} />);
     return {
       shallowWrapper,
     };
