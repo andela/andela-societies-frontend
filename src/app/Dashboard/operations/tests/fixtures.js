@@ -44,7 +44,26 @@ const descriptions = [
 
 const category = {};
 
-const categories = {};
+export const categories = [{
+  createdAt: '2018-04-19T12:33:59.112718+00:00',
+  description: 'Interviewing candidate for a fellow recruiting event',
+  id: 'eef0e594-43cd-11e8-87a7-9801a7ae0329',
+  modifiedAt: null,
+  name: 'Bootcamp Interviews',
+  supportsMultipleParticipants: true,
+  photo: null,
+  value: 20,
+},
+{
+  createdAt: '2018-04-19T12:33:59.116177+00:00',
+  description: 'Participating in a Hackathon',
+  id: 'eef48c80-43cd-11e8-9362-9801a7ae0329',
+  modifiedAt: null,
+  name: 'Hackathon',
+  supportsMultipleParticipants: false,
+  photo: null,
+  value: 100,
+}];
 
 const activities = [];
 
@@ -63,7 +82,6 @@ export const myloggedActivities = {
   data: activities,
   pointsEarned: 300,
   activity: category,
-  categories,
   society: 'Phoenix',
 };
 

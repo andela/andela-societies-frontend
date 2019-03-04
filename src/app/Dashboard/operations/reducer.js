@@ -28,10 +28,22 @@ const dashboard = (state = initialState.dashboard, action) => {
       ...state,
       categories: action.categories.data,
     };
+  case types.LOG_POINTS.POST_REQUEST:
+    return {
+      ...state,
+      loading: true,
+    };
   case types.LOG_POINTS.POST_SUCCESS:
     return {
       ...state,
       activity: action.activity,
+      loading: false,
+    };
+  case types.LOG_POINTS.POST_FAIL:
+    return {
+      ...state,
+      loading: false,
+      error: action.error,
     };
   default:
     return state;

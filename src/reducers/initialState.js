@@ -6,7 +6,7 @@ const initialState = {
     pointsEarned: 0,
     userActivities: [],
     activitiesLogged: 0,
-    categories: {},
+    categories: [],
     activity: {},
   },
 };

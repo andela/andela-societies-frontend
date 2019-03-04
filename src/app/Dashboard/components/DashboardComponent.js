@@ -29,6 +29,7 @@ export class DashboardComponent extends Component {
     loading: false,
     pointsEarned: 0,
     activitiesLogged: 0,
+    society: '',
     fetchUserActivites: () => {},
     loadCategories: () => {},
   };
@@ -46,6 +47,7 @@ export class DashboardComponent extends Component {
     activitiesLogged: PropTypes.number,
     fetchUserActivites: PropTypes.func,
     loadCategories: PropTypes.func,
+    society: PropTypes.string,
   };
 
   componentDidMount() {
@@ -71,7 +73,7 @@ export class DashboardComponent extends Component {
 
   render() {
     const {
-      error, loading, pointsEarned, activitiesLogged,
+      error, loading, pointsEarned, activitiesLogged, society,
     } = this.props;
     const {
       user, logPoints,
@@ -91,7 +93,7 @@ export class DashboardComponent extends Component {
           <div className='profile-overview col-sm-12'>
             <div className='profile-overview__image' />
             <MyStatsComponent points={pointsEarned} activities={activitiesLogged} />
-            <SocietyStatsComponent usedPoints={1508} remainingPoints={326} />
+            <SocietyStatsComponent society={society} usedPoints={1508} remainingPoints={326} />
           </div>
           <div className='user-dashboard__actions col-sm-12'>
             <h3 className='user-dashboard__title'>My Activities</h3>

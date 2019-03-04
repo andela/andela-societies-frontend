@@ -1,6 +1,6 @@
 import types from '../types';
 import dashboard from '../reducer';
-import { myloggedActivities } from './fixtures';
+import { myloggedActivities, categories } from './fixtures';
 import initialState from '../../../../reducers/initialState';
 
 const defaultState = initialState.dashboard;
@@ -27,7 +27,7 @@ describe('Dashboard reducer', () => {
         userActivities: [],
         activitiesLogged: 0,
         activity: {},
-        categories: {},
+        categories: [],
       });
     });
   });
@@ -48,7 +48,7 @@ describe('Dashboard reducer', () => {
         userActivities: [],
         activitiesLogged: 0,
         activity: {},
-        categories: {},
+        categories: [],
       });
     });
   });
@@ -56,7 +56,7 @@ describe('Dashboard reducer', () => {
   describe('handles case FETCH_USER_ACTIVITIES_SUCCESS', () => {
     it('returns poinstEarned, activitiesLogged and userActivities', () => {
       const {
-        data, pointsEarned, activitiesLogged, categories, activity, society,
+        data, pointsEarned, activitiesLogged, activity, society,
       } = myloggedActivities;
       expect(dashboard(defaultState, {
         type: types.FETCH_USER_ACTIVITIES_SUCCESS,
@@ -64,7 +64,7 @@ describe('Dashboard reducer', () => {
         activities: data,
         pointsEarned,
         activitiesLogged,
-        categories,
+        categories: [],
         activity,
       })).toEqual({
         society,
@@ -73,9 +73,98 @@ describe('Dashboard reducer', () => {
         loading: false,
         activitiesLogged,
         userActivities: data,
-        categories,
+        categories: [],
         activity,
       });
+    });
+  });
+});
+
+
+describe('handles case CATEGORIES.LOAD_SUCCESS', () => {
+  it('returns society activity categories', () => {
+    const {
+      activity,
+    } = myloggedActivities;
+    expect(
+      dashboard(defaultState, {
+        type: types.CATEGORIES.LOAD_SUCCESS,
+        categories,
+      }),
+    ).toEqual({
+      society: '',
+      error: null,
+      pointsEarned: 0,
+      loading: false,
+      activitiesLogged: 0,
+      userActivities: [],
+      activity,
+    });
+  });
+});
+
+describe('handles case LOG_POINTS.POST_REQUEST', () => {
+  it('returns loading true', () => {
+    expect(
+      dashboard(defaultState, {
+        type: types.LOG_POINTS.POST_REQUEST,
+        loading: true,
+      }),
+    ).toEqual({
+      error: null,
+      society: '',
+      loading: true,
+      pointsEarned: 0,
+      userActivities: [],
+      activitiesLogged: 0,
+      activity: {},
+      categories: [],
+    });
+  });
+});
+
+
+describe('handles case LOG_POINTS.POST_SUCCESS', () => {
+  it('returns loading false', () => {
+    const {
+      activity,
+    } = myloggedActivities;
+    expect(
+      dashboard(defaultState, {
+        type: types.LOG_POINTS.POST_SUCCESS,
+        loading: false,
+        activity,
+      }),
+    ).toEqual({
+      error: null,
+      society: '',
+      loading: false,
+      pointsEarned: 0,
+      userActivities: [],
+      activitiesLogged: 0,
+      activity,
+      categories: [],
+    });
+  });
+});
+
+describe('handles case LOG_POINTS.POST_FAIL', () => {
+  it('returns error', () => {
+    const error = new Error('Request failed with status code 401');
+    expect(
+      dashboard(defaultState, {
+        type: types.LOG_POINTS.POST_FAIL,
+        error,
+      }),
+    ).toEqual({
+      error,
+      society: '',
+      loading: false,
+      pointsEarned: 0,
+      userActivities: [],
+      activitiesLogged: 0,
+      activity: {},
+      categories: [],
     });
   });
 });
