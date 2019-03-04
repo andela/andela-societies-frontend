@@ -6,7 +6,7 @@ import {
 
 import {
   HeroComponent,
-  NavbarComponent,
+  NavbarContainer,
   SidebarComponent,
 } from '../../common/components';
 import LoginComponent from '../../Login/components';
@@ -30,7 +30,7 @@ export const Authenticate = ({ component: Component, isAuthenticated, ...rest })
               <div className='main-content'>
                 <SidebarComponent className='sidebar' />
                 <div className='sub-content'>
-                  <NavbarComponent />
+                  <NavbarContainer />
                   <Component {...props} />
                 </div>
               </div>

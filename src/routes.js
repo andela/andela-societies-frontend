@@ -6,8 +6,8 @@ import {
 } from 'react-router-dom';
 
 import { HomeComponent } from './app/Home/components/HomeComponent';
-import LoginComponent from './app/Login/components';
-import DashboardComponent from './app/Dashboard/components';
+import LoginContainer from './app/Login/components';
+import DashboardContainer from './app/Dashboard/components';
 import AuthenticateRoute from './app/Authentication/components';
 
 import { tokenIsValid, getToken } from './app/utils';
@@ -20,7 +20,7 @@ const token = getToken();
 const Router = () => (
   <BrowserRouter>
     <Switch>
-      <Route exact path='/' component={LoginComponent} />
+      <Route exact path='/' component={LoginContainer} />
       <AuthenticateRoute
         isAuthenticated={tokenIsValid(token)}
         path='/home'
@@ -29,7 +29,7 @@ const Router = () => (
       <AuthenticateRoute
         isAuthenticated={tokenIsValid(token)}
         path='/dashboard'
-        component={DashboardComponent}
+        component={DashboardContainer}
       />
     </Switch>
   </BrowserRouter>

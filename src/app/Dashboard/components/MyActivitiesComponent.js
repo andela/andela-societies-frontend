@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import dateFns from 'date-fns';
 
 import { TableComponent, StatusIndicatorComponent } from '../../common/components';
-import TruncateDescriptionComponent from './TruncateDescriptionComponent';
+import TruncateDescriptionContainer from './TruncateDescriptionContainer';
 
 const MyActivitiesComponent = (props) => {
   const { userActivities } = props;
@@ -25,7 +25,7 @@ const MyActivitiesComponent = (props) => {
           <td>{activity.activity}</td>
           <td>{dateFns.format(activityDate, 'MMM DD YYYY')}</td>
           <td>
-            <TruncateDescriptionComponent description={description} wordCount={80} />
+            <TruncateDescriptionContainer description={description} wordCount={80} />
           </td>
           <td>{points}</td>
           <td><StatusIndicatorComponent status={status} /></td>

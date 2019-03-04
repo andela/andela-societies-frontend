@@ -1,18 +1,18 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import TruncateDescriptionComponent from '../TruncateDescriptionComponent';
+import TruncateDescriptionContainer from '../TruncateDescriptionContainer';
 
-describe('<TruncateDescriptionComponent />', () => {
+describe('<TruncateDescriptionContainer />', () => {
   const setUpWrapper = ({
       description = 'Jim Shelton of ChanZuckerberginitiative sits down with Andela fellows at Andela\'s Nairobi HQ in a Facebook Live event',
       wordCount = 80
     } = {}) => {
     const props = { description, wordCount };
-    return shallow(<TruncateDescriptionComponent {...props} />);
+    return shallow(<TruncateDescriptionContainer {...props} />);
   };
 
-  it('should render TruncateDescriptionComponent', () => {
+  it('should render TruncateDescriptionContainer', () => {
     const shallowWrapper = setUpWrapper();
     expect(shallowWrapper.length).toBe(1);
   });

@@ -7,10 +7,10 @@ import { ButtonComponent } from '../../common/components';
 
 /**
  * @summary Renders description
- * @class TruncateDescriptionComponent
+ * @class TruncateDescriptionContainer
  * @extends React.Component
  */
-class TruncateDescriptionComponent extends Component {
+class TruncateDescriptionContainer extends Component {
   /**
    * @name propTypes
    * @type {PropType}
@@ -78,4 +78,4 @@ class TruncateDescriptionComponent extends Component {
   }
 }
 
-export default TruncateDescriptionComponent;
+export default TruncateDescriptionContainer;
