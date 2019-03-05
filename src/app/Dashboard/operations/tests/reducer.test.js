@@ -108,12 +108,11 @@ describe('handles case LOG_POINTS.POST_REQUEST', () => {
     expect(
       dashboard(defaultState, {
         type: types.LOG_POINTS.POST_REQUEST,
-        loading: true,
       }),
     ).toEqual({
       error: null,
       society: '',
-      loading: true,
+      loading: false,
       pointsEarned: 0,
       userActivities: [],
       activitiesLogged: 0,

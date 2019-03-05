@@ -3,7 +3,7 @@ import { takeEvery, call, put } from 'redux-saga/effects';
 
 import types from '../types';
 import actions from '../actions';
-import { get, postActivityPoints } from '../../../utils/api';
+import { get, post } from '../../../utils/api';
 import {
   handleCategoriesLoad, watchCategoriesLoad, watchLogActivityPoints, addNewActivity,
 } from '../logPoints.data';
@@ -26,10 +26,10 @@ describe('Log Activity saga', () => {
   });
 
   describe('addNewActivity generator', () => {
-    it('calls postActivityPoints api post/log activity util with url', async () => {
+    it('calls post api post/log activity util with url', async () => {
       generator = addNewActivity(types.LOG_POINTS.POST_REQUEST);
       expect(generator.next().value).toEqual(call(
-        postActivityPoints, 'logged-activities', types.LOG_POINTS.POST_REQUEST.activity,
+        post, 'logged-activities', types.LOG_POINTS.POST_REQUEST.activity,
       ));
       expect(generator.next().value).toEqual(put(actions.logPointsSuccess()));
       fetchMock.reset();

@@ -1,9 +1,11 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import TextField from '@material-ui/core/TextField';
 import StartIcon from '@material-ui/icons/Star';
 import MenuItem from '@material-ui/core/MenuItem';
+import { ButtonComponent } from '../../common/components';
 
 import actions from '../operations/actions';
 
@@ -62,7 +64,7 @@ export class LogActivityForm extends Component {
     const { show, categories, close } = this.props;
     return (
       <div className='login-jumbotron'>
-        <form className='login-jumbotron'>
+        <section className='login-jumbotron'>
           <div
             className='login-container'
             style={{
@@ -97,19 +99,17 @@ export class LogActivityForm extends Component {
               {
                 categoryOption.supportsMultipleParticipants === true
                   ? (
-                    <Fragment>
-                      <TextField
-                        required
-                        id='filled-number'
-                        name='numberOfParticipants'
-                        label='Number'
-                        value={numberOfParticipants}
-                        onChange={this.handleChange('numberOfParticipants')}
-                        type='number'
-                        margin='normal'
-                        fullWidth
-                      />
-                    </Fragment>
+                    <TextField
+                      required
+                      id='filled-number'
+                      name='numberOfParticipants'
+                      label='Number'
+                      value={numberOfParticipants}
+                      onChange={this.handleChange('numberOfParticipants')}
+                      type='number'
+                      margin='normal'
+                      fullWidth
+                    />
                   )
                   : null
               }
@@ -136,25 +136,25 @@ export class LogActivityForm extends Component {
                 onChange={this.handleChange('description')}
               />
               <div>
-                <button type='button' className='btn-points'>
+                <ButtonComponent type='button' className='btn-points'>
                   {categoryOption.value}
                   {' '}
                   Points
-                </button>
+                </ButtonComponent>
               </div>
               <div className='log-points-footer'>
-                <button
+                <ButtonComponent
                   type='button'
                   className='btn-log'
                   onClick={this.handleSubmit}
                 >
                 Log
-                </button>
-                <button type='button' className='btn-abort' onClick={close}>Cancel</button>
+                </ButtonComponent>
+                <ButtonComponent type='button' className='btn-abort' onClick={close}>Cancel</ButtonComponent>
               </div>
             </form>
           </div>
-        </form>
+        </section>
       </div>
     );
   }

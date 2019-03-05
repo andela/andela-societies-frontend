@@ -1,9 +1,8 @@
-/* eslint-disable max-len */
 import { put, takeEvery, call } from 'redux-saga/effects';
 
 import actions from './actions';
 import types from './types';
-import { get, postActivityPoints } from '../../utils/api';
+import { get, post } from '../../utils/api';
 
 export function* handleCategoriesLoad() {
   try {
@@ -16,7 +15,7 @@ export function* handleCategoriesLoad() {
 
 export function* addNewActivity(action) {
   try {
-    const result = yield call(postActivityPoints, 'logged-activities', action.activity);
+    const result = yield call(post, 'logged-activities', action.activity);
     yield put(actions.logPointsSuccess(result));
   } catch (error) {
     yield put(actions.setError(error.toString()));

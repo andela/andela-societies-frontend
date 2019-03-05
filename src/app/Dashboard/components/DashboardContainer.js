@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {
-  ButtonComponent,
-} from '../../common/components';
+import { ButtonComponent } from '../../common/components';
 import MyStatsComponent from './MyStatsComponent';
 import SocietyStatsComponent from './SocietyStatsComponent';
 import LoginModal from './LogPointsModal';
@@ -28,8 +26,8 @@ export class DashboardContainer extends Component {
    */
   static defaultProps = {
     error: {},
-    loading: false,
     society: '',
+    loading: false,
     pointsEarned: myStats.points,
     activitiesLogged: myStats.activities,
     userActivities: myStats.userActivities,
@@ -45,12 +43,12 @@ export class DashboardContainer extends Component {
    */
   static propTypes = {
     loading: PropTypes.bool,
+    society: PropTypes.string,
     error: PropTypes.shape({}),
     pointsEarned: PropTypes.number,
     activitiesLogged: PropTypes.number,
     fetchUserActivites: PropTypes.func,
     loadCategories: PropTypes.func,
-    society: PropTypes.string,
     userActivities: PropTypes.arrayOf(PropTypes.shape({})),
   };
 
@@ -113,11 +111,11 @@ export class DashboardContainer extends Component {
                 : null
             }
             <div>
-              <button type='button' className='button__add' onClick={this.openModalLoginPointsHandler}>
+              <ButtonComponent type='button' className='button__add' onClick={this.openModalLoginPointsHandler}>
                 <span className='fa fa-plus' />
                 <span>Log Points</span>
-              </button>
-              <ButtonComponent className='button__filter' onClick={this.openModalLoginPointsHandler}>
+              </ButtonComponent>
+              <ButtonComponent className='button__filter'>
                 <span>Filter</span>
                 <span className='fa fa-filter' />
               </ButtonComponent>
