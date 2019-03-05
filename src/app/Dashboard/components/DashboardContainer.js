@@ -99,17 +99,11 @@ export class DashboardContainer extends Component {
           </div>
           <div className='user-dashboard__actions col-sm-12'>
             <h3 className='user-dashboard__title'>My Activities</h3>
-            {
-              logPoints
-                ? (
-                  <LoginModal
-                    className='modal'
-                    show={logPoints}
-                    close={this.closeLogPointsModal}
-                  />
-                )
-                : null
-            }
+            <LoginModal
+              className='modal'
+              show={logPoints}
+              close={this.closeLogPointsModal}
+            />
             <div>
               <ButtonComponent type='button' className='button__add' onClick={this.openModalLoginPointsHandler}>
                 <span className='fa fa-plus' />
