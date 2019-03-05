@@ -10,7 +10,7 @@ describe('<DashboardContainer />', () => {
     pointsEarned = 0,
     userActivities = [],
     activitiesLogged = 0,
-    society= ''
+    society = '',
   } = {}) => {
     const props = {
       error,
