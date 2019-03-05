@@ -22,6 +22,10 @@ const Router = () => (
       <Route exact path='/' component={LoginContainer} />
       <AuthenticateRoute
         isAuthenticated={tokenIsValid(token)}
+      />
+      <AuthenticateRoute
+        isAuthenticated={tokenIsValid(token)}
+        userInfo={token.UserInfo}
         path='/dashboard'
         component={DashboardContainer}
       />

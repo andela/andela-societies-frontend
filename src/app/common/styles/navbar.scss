@@ -52,6 +52,10 @@
   .toggle-btn {
     display: none;
   }
+
+  .mobile-profile {
+    display: none;
+  }
 }
 
 // Small devices
@@ -111,6 +115,25 @@
 
   .navbar__actions {
     display: flex
+  }
+
+  .desktop-profile {
+    display: none;
+  }
+
+  .mobile-profile {
+    margin-left: 0 !important;
+    border-left: none !important;
+
+    .profile__name {
+      display: none;
+    }
+
+    .profile__content {
+      i {
+        display: none;
+      }
+    }
   }
 
   .toggle-btn {

@@ -1,16 +1,8 @@
 import React from 'react';
-import {
-  Route,
-  withRouter,
-} from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 
-import {
-  HeroComponent,
-  NavbarContainer,
-  SidebarComponent,
-} from '../../common/components';
+import { HeroComponent, NavbarContainer, SidebarComponent } from '../../common/components';
 import LoginComponent from '../../Login/components';
-
 
 /**
  * @name _Authenticate
@@ -18,28 +10,28 @@ import LoginComponent from '../../Login/components';
  * @param {Component} component
  * @param {Boolean} isAuthenticated
  */
-export const Authenticate = ({ component: Component, isAuthenticated, ...rest }) => (
+export const Authenticate = ({
+  component: Component, isAuthenticated, userInfo, ...rest
+}) => (
   <Route
     {...rest}
-    render={
-      (props) => {
-        if (isAuthenticated) {
-          return (
-            <div className='wrapper'>
-              <HeroComponent />
-              <div className='main-content'>
-                <SidebarComponent className='sidebar' />
-                <div className='sub-content'>
-                  <NavbarContainer />
-                  <Component {...props} />
-                </div>
+    render={(props) => {
+      if (isAuthenticated) {
+        return (
+          <div className='wrapper'>
+            <HeroComponent />
+            <div className='main-content'>
+              <SidebarComponent className='sidebar' />
+              <div className='sub-content'>
+                <NavbarContainer userInfo={userInfo} />
+                <Component {...props} />
               </div>
             </div>
-          );
-        }
-        return (<LoginComponent />);
+          </div>
+        );
       }
-    }
+      return <LoginComponent />;
+    }}
   />
 );
 

@@ -1,0 +1,68 @@
+.profile {
+  margin-left: auto;
+  padding-right: 0.9375rem; 
+  border-left: rem(1px) solid $separatorBlue;
+  @include text-styles(rem(11.32px), $lightAccent, normal, normal, rem(15px));
+
+  .profile__content {
+    display: flex;
+    align-items: center; 
+    cursor: pointer;
+  }
+
+  .profile__name {
+    margin: 0 rem(10.96px) 0 rem(25.55px);
+  }
+
+  .profile__image {
+    @include widthAndHeight(rem(29.11px),  rem(29.11px));
+    background-size: contain;
+    background-position: center;
+    border-radius: 50%;
+    margin-right: rem(8.69px);
+  }
+
+  .dropdown-menu {
+    @include widthAndHeight(rem(214px), rem(178px));
+
+    &.show {
+      display: flex !important;
+      flex-direction: column;
+      left: unset !important;
+      right: rem(13px) !important;
+      margin-top: rem(5.89px);
+      padding: rem(25px) rem(33.5px) rem(14px) rem(20px);
+      box-shadow: rem(-15px) rem(15px) rem(36px) rem(-10px) $profileBoxShadow;
+    }
+
+    .dropdown-divider {
+      height: rem(2px) !important;
+      margin-top: 0;
+      margin-bottom: rem(18.5px);    
+    }
+  }
+
+  .profile-dropdown__option--name {
+    margin-bottom: rem(11.5px);
+    @include text-styles(rem(16px), $purple, normal, normal, rem(21px));
+  }
+
+  .profile-dropdown__option {
+    display: inline-block;
+    margin-left: rem(7.83px);
+    margin-bottom: 0;
+    text-decoration: none !important;
+    @include text-styles(rem(14px), $tableBodyTextColor, normal, normal, rem(43px));
+
+    &:hover {
+      color: $andelaGold;
+      cursor: pointer;
+    }
+  }
+
+  .profile-dropdown__icon {
+    font-size: 16px !important;
+    color: $footerTextGray;
+  }
+
+}
