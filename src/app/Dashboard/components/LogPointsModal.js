@@ -12,27 +12,27 @@ import actions from '../operations/actions';
    * @summary Returns Form
    * @returns Returns a form
    */
-class LogActivityForm extends Component {
-    static defaultProps = {
-      categories: [],
-    }
-
-  static propTypes = {
-    show: PropTypes.bool.isRequired,
-    logActivity: PropTypes.func.isRequired,
-    categories: PropTypes.arrayOf(PropTypes.shape({})),
-    close: PropTypes.func.isRequired,
+export class LogActivityForm extends Component {
+  state = {
+    categoryOption: [],
+    numberOfParticipants: '',
+    description: '',
+    activityDate: '',
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      categoryOption: [],
-      numberOfParticipants: '',
-      description: '',
-      activityDate: '',
-    };
+  static defaultProps = {
+    categories: [],
+    show: false,
+    logActivity: () => {},
+    close: () => {},
   }
+
+  static propTypes = {
+    show: PropTypes.bool,
+    logActivity: PropTypes.func,
+    categories: PropTypes.arrayOf(PropTypes.shape({})),
+    close: PropTypes.func,
+  };
 
   handleChange = prop => (event) => {
     this.setState({ [prop]: event.target.value });
@@ -62,7 +62,7 @@ class LogActivityForm extends Component {
     const { show, categories, close } = this.props;
     return (
       <div className='login-jumbotron'>
-        <section className='login-jumbotron'>
+        <form className='login-jumbotron'>
           <div
             className='login-container'
             style={{
@@ -76,7 +76,7 @@ class LogActivityForm extends Component {
               <StartIcon className='ratings-icon' />
             </div>
             <div className='log-points'>
-              <h5>Log in points</h5>
+              <h5 className='log-points__heading'>Log in points</h5>
             </div>
             <form className='form-container'>
               <TextField
@@ -154,18 +154,17 @@ class LogActivityForm extends Component {
               </div>
             </form>
           </div>
-        </section>
+        </form>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
+export const mapStateToProps = state => ({
   categories: state.dashboard.categories,
 });
 
-const mapDispatchToProps = dispatch => ({
-  logActivity: activity => dispatch(actions.logPointsRequest(activity)),
-});
 
-export default connect(mapStateToProps, mapDispatchToProps)(LogActivityForm);
+export default connect(mapStateToProps, {
+  logActivity: activity => actions.logPointsRequest(activity),
+})(LogActivityForm);

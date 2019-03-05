@@ -39,7 +39,28 @@ describe('<DashboardComponent />', () => {
   });
 
   it('should contain <MyStatsComponent points={300} activities={2} />', () => {
-    const { shallowWrapper } = setUpWrapper({ pointsEarned: 300, activitiesLogged: 2});
-    expect(shallowWrapper.find('.profile-overview').debug()).toContain("<MyStatsComponent points={300} activities={2} />");
+    const { shallowWrapper } = setUpWrapper({ pointsEarned: 300, activitiesLogged: 2 });
+    expect(shallowWrapper.find('.profile-overview').debug())
+      .toContain('<MyStatsComponent points={300} activities={2} />');
+  });
+
+  it('should open the Log Points Modal', () => {
+    const { shallowWrapper } = setUpWrapper();
+    const instance = shallowWrapper.instance();
+    instance.setState({
+      logPoints: false,
+    });
+    instance.openModalLoginPointsHandler();
+    expect(instance.state.logPoints).toBe(true);
+  });
+
+  it('should close the Log Points Modal', () => {
+    const { shallowWrapper } = setUpWrapper();
+    const instance = shallowWrapper.instance();
+    instance.setState({
+      logPoints: true,
+    });
+    instance.closeLogPointsModal();
+    expect(instance.state.logPoints).toBe(false);
   });
 });

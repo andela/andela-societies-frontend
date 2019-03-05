@@ -5,7 +5,7 @@ import actions from './actions';
 import types from './types';
 import { get, postActivityPoints } from '../../utils/api';
 
-function* handleCategoriesLoad() {
+export function* handleCategoriesLoad() {
   try {
     const categories = yield call(get, 'activity-types');
     yield put(actions.setCategories(categories));
@@ -14,7 +14,7 @@ function* handleCategoriesLoad() {
   }
 }
 
-function* addNewActivity(action) {
+export function* addNewActivity(action) {
   try {
     const result = yield call(postActivityPoints, 'logged-activities', action.activity);
     yield put(actions.logPointsSuccess(result));

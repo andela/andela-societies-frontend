@@ -1,6 +1,6 @@
 const numberOfItems = 4;
 
-const activity = {
+export const activity = {
   id: '',
   category: 'Participating in a tech event',
   date: '2017-11-03',
