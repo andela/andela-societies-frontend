@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { LogoComponent, SidebarComponent } from './index';
 
-class NavbarComponent extends Component {
+class NavbarContainer extends Component {
   state = {
     sidebarState: false,
   };
@@ -51,4 +51,4 @@ class NavbarComponent extends Component {
   }
 }
 
-export default NavbarComponent;
+export default NavbarContainer;

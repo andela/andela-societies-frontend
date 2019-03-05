@@ -14,7 +14,7 @@
 .sub-content {
   flex-grow: 100;
   font-family: 'DIN Pro';
-  padding-top: rem(23px);
+  padding-top: rem(25px);
 }
 
 .user-dashboard {
@@ -22,7 +22,13 @@
 }
 
 .user-dashboard__name {
+  padding-left: rem(6px); 
+  margin-bottom: rem(12px); 
   @include text-styles(rem(27px), $lightAccent, 500, rem(0.56px), rem(27px));
+}
+
+.user-dashboard__level--container{
+  padding-left: rem(6px); 
 }
 
 .user-dashboard__level {
@@ -36,6 +42,7 @@
 .profile-overview {
   display: flex;
   justify-content: space-between;
+  padding-left: 0;
 }
 
 
@@ -49,7 +56,7 @@
 .user-dashboard__actions {
   display: flex;
   margin-top: rem(45px);
-  padding-left: rem(14px);
+  padding-left: rem(15px);
   justify-content: space-between;
 
   .user-dashboard__title {

@@ -1,15 +1,15 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import LoginComponent from '../LoginComponent';
+import LoginContainer from '../LoginContainer';
 
-describe('<LoginComponent />', () => {
+describe('<LoginContainer />', () => {
   const props = {
     history: {
       push: jest.fn()
     }
   }
   
-  const shallowWrapper = shallow(<LoginComponent {...props} />);
+  const shallowWrapper = shallow(<LoginContainer {...props} />);
 
   it('should contain the text Be part of something big', () => {
     expect(shallowWrapper.find('.login__pane__description--title').html()).toContain('Be part of something big.');

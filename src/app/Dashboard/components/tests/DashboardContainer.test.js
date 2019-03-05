@@ -1,14 +1,16 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { DashboardComponent } from '../DashboardComponent';
 
-describe('<DashboardComponent />', () => {
+import { DashboardContainer } from '../DashboardContainer';
+
+describe('<DashboardContainer />', () => {
   const setUpWrapper = ({
     error = null,
     loading = false,
     pointsEarned = 0,
     userActivities = [],
     activitiesLogged = 0,
+    society= ''
   } = {}) => {
     const props = {
       error,
@@ -16,8 +18,9 @@ describe('<DashboardComponent />', () => {
       pointsEarned,
       userActivities,
       activitiesLogged,
+      society,
     };
-    const shallowWrapper = shallow(<DashboardComponent {...props} />);
+    const shallowWrapper = shallow(<DashboardContainer {...props} />);
     return {
       shallowWrapper,
     };

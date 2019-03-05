@@ -1,6 +1,7 @@
 export const myStats = {
   points: 0,
   activities: 0,
+  userActivities: [],
 };
 
 export const societyStats = {

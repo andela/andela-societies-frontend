@@ -8,11 +8,13 @@ import {
 import MyStatsComponent from './MyStatsComponent';
 import SocietyStatsComponent from './SocietyStatsComponent';
 import LoginModal from './LogPointsModal';
+import MyActivitiesComponent from './MyActivitiesComponent';
 
+import { myStats } from '../constants';
 import { actions } from '../operations';
 import { getUserInfo, getToken } from '../../utils/tokenIsValid';
 
-export class DashboardComponent extends Component {
+export class DashboardContainer extends Component {
   state = {
     user: {},
     logPoints: false,
@@ -27,9 +29,10 @@ export class DashboardComponent extends Component {
   static defaultProps = {
     error: {},
     loading: false,
-    pointsEarned: 0,
-    activitiesLogged: 0,
     society: '',
+    pointsEarned: myStats.points,
+    activitiesLogged: myStats.activities,
+    userActivities: myStats.userActivities,
     fetchUserActivites: () => {},
     loadCategories: () => {},
   };
@@ -48,6 +51,7 @@ export class DashboardComponent extends Component {
     fetchUserActivites: PropTypes.func,
     loadCategories: PropTypes.func,
     society: PropTypes.string,
+    userActivities: PropTypes.arrayOf(PropTypes.shape({})),
   };
 
   componentDidMount() {
@@ -73,7 +77,7 @@ export class DashboardComponent extends Component {
 
   render() {
     const {
-      error, loading, pointsEarned, activitiesLogged, society,
+      error, loading, pointsEarned, activitiesLogged, userActivities, society,
     } = this.props;
     const {
       user, logPoints,
@@ -87,7 +91,7 @@ export class DashboardComponent extends Component {
       dashboardHtml = (
         <div className='user-dashboard'>
           <h2 className='user-dashboard__name col-sm-12'>{user.name}</h2>
-          <div className='col-sm-12'>
+          <div className='col-sm-12 user-dashboard__level--container'>
             <h3 className='user-dashboard__level'>D2</h3>
           </div>
           <div className='profile-overview col-sm-12'>
@@ -119,6 +123,7 @@ export class DashboardComponent extends Component {
               </ButtonComponent>
             </div>
           </div>
+          <MyActivitiesComponent userActivities={userActivities} />
         </div>
       );
     }
@@ -141,4 +146,4 @@ export default connect(
     fetchUserActivites: actions.fetchUserActivitiesRequest,
     loadCategories: actions.loadCategories,
   },
-)(DashboardComponent);
+)(DashboardContainer);

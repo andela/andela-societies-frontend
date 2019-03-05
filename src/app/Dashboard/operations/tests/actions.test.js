@@ -28,7 +28,7 @@ describe('Dashboard actions', () => {
       const { data, pointsEarned, activitiesLogged } = myloggedActivities;
       const expected = {
         type: types.FETCH_USER_ACTIVITIES_SUCCESS,
-        activites: data,
+        activities: data,
         pointsEarned,
         activitiesLogged,
       };

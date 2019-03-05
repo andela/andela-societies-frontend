@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import NavbarComponent from '../NavbarComponent';
+import NavbarContainer from '../NavbarContainer';
 
-describe('<NavbarComponent />', () => {
-  const shallowWrapper = shallow(<NavbarComponent />);
+describe('<NavbarContainer />', () => {
+  const shallowWrapper = shallow(<NavbarContainer />);
 
   it('should have the class navbar', () => {
     expect(shallowWrapper.find('.navbar')).toHaveLength(1);
