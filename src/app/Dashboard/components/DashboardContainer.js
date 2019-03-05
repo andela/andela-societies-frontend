@@ -105,11 +105,11 @@ export class DashboardContainer extends Component {
               close={this.closeLogPointsModal}
             />
             <div>
-              <ButtonComponent type='button' className='button__add' onClick={this.openModalLoginPointsHandler}>
+              <ButtonComponent type='button' className='button__add user-dashboard__button' onClick={this.openModalLoginPointsHandler}>
                 <span className='fa fa-plus' />
                 <span>Log Points</span>
               </ButtonComponent>
-              <ButtonComponent className='button__filter'>
+              <ButtonComponent className='button__filter user-dashboard__button'>
                 <span>Filter</span>
                 <span className='fa fa-filter' />
               </ButtonComponent>
