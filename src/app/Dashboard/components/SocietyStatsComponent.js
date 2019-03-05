@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { StatusIndicatorComponent } from '../../common/components';
+import { StatusIndicatorComponent, ProgressBarComponent } from '../../common/components';
 
 import { societyStats } from '../constants';
 
@@ -9,24 +9,10 @@ const SocietyStatsComponent = (props) => {
   const { society, usedPoints, remainingPoints } = props;
   return (
     <div className='society-stats'>
-      <div className='progress'>
-        <div
-          className='progress-bar'
-          role='progressbar'
-          id='progress-bar--blue'
-          aria-valuenow='65'
-          aria-valuemin='0'
-          aria-valuemax='100'
-        />
-        <div
-          className='progress-bar'
-          role='progressbar'
-          id='progress-bar--green'
-          aria-valuenow='35'
-          aria-valuemin='0'
-          aria-valuemax='100'
-        />
-      </div>
+      <ProgressBarComponent
+        earnedOrUsedPoints={usedPoints}
+        remPointsOrActivitiesLogged={remainingPoints}
+      />
       <div className='society-stats__desc'>
         <div className='society-stats__desc__points'>
           <StatusIndicatorComponent className='society-stats--used-points-indicator' status='completed' />
