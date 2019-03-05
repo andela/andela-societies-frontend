@@ -23,11 +23,13 @@ const Router = () => (
       <Route exact path='/' component={LoginContainer} />
       <AuthenticateRoute
         isAuthenticated={tokenIsValid(token)}
+        userInfo={token.UserInfo}
         path='/home'
         component={HomeComponent}
       />
       <AuthenticateRoute
         isAuthenticated={tokenIsValid(token)}
+        userInfo={token.UserInfo}
         path='/dashboard'
         component={DashboardContainer}
       />
