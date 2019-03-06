@@ -8,10 +8,9 @@ export function* fetchSocietyInfo(action) {
   yield put(actions.societyPageLoading());
   try {
     const result = yield call(get, `societies?name=${societyName}`);
-    console.log('Result', result);
     const {
       totalPoints, usedPoints, remainingPoints, loggedActivities,
-    } = result;
+    } = result.societyDetails;
     const activitiesLogged = loggedActivities.length;
     yield put(
       actions.fetchSocietyInfoSuccess(totalPoints, usedPoints, remainingPoints, loggedActivities, activitiesLogged),

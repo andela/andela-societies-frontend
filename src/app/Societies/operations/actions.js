@@ -10,7 +10,7 @@ const societyPageError = () => ({
 
 const fetchSocietyInfoRequest = societyName => ({
   type: types.FETCH_SOCIETY_INFO_REQUEST,
-  payload: societyName,
+  payload: { societyName },
 });
 
 const fetchSocietyInfoSuccess = (pointsEarned, usedPoints, remainingPoints, loggedActivities, activitiesLogged) => ({

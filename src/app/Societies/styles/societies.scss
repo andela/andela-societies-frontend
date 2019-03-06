@@ -1,0 +1,39 @@
+.profile-overview--society {
+  margin-top: rem(42px);
+}
+
+.profile-overview__image--society {
+  @include widthAndHeight(rem(662px), rem(205px));
+  margin-right: rem(18px);
+  background-size: cover;
+  background-position: top;
+  box-sizing: border-box;
+  background-color: $lightAccent;
+  border: rem(1.08px) solid $lightAccent;
+  box-shadow: 0 rem(7px) rem(14px) 0 $darkShadow, 0 rem(11px) rem(36px) 0 $grayShadow;
+
+  &.phoenix {
+    background-image: url(../../../images/society_istelle.jpg)
+  }
+  &.sparks {
+    background-image: url(../../../images/society_istelle.jpg);
+  }
+  &.invictus {
+    background-image: url(../../../images/society_istelle.jpg)
+  }
+  &.istelle {
+    background-image: url(../../../images/society_istelle.jpg)
+  }
+}
+
+.society-page__stats {
+  height: rem(207px);
+}
+
+.society__tabs {
+  display: flex;
+}
+
+.society__tabs--redemptions {
+  margin-left: rem(33px); 
+}

@@ -6,13 +6,12 @@ import { StatusIndicatorComponent, ProgressBarComponent } from '../../common/com
 import { societyStats } from '../constants';
 
 const SocietyStatsComponent = (props) => {
-  const { society, usedPoints, remainingPoints } = props;
+  const {
+    society, usedPoints, remainingPoints, className,
+  } = props;
   return (
-    <div className='society-stats'>
-      <ProgressBarComponent
-        earnedOrUsedPoints={usedPoints}
-        remPointsOrActivitiesLogged={remainingPoints}
-      />
+    <div className={`society-stats ${className}`}>
+      <ProgressBarComponent earnedOrUsedPoints={usedPoints} remPointsOrActivitiesLogged={remainingPoints} />
       <div className='society-stats__desc'>
         <div className='society-stats__desc__points'>
           <StatusIndicatorComponent className='society-stats--used-points-indicator' status='completed' />
@@ -41,6 +40,7 @@ const SocietyStatsComponent = (props) => {
 SocietyStatsComponent.defaultProps = {
   society: societyStats.society,
   usedPoints: societyStats.usedPoints,
+  className: '',
   remainingPoints: societyStats.remainingPoints,
 };
 
@@ -48,6 +48,7 @@ SocietyStatsComponent.propTypes = {
   society: PropTypes.string,
   usedPoints: PropTypes.number,
   remainingPoints: PropTypes.number,
+  className: PropTypes.string,
 };
 
 export default SocietyStatsComponent;

@@ -1,25 +1,82 @@
 import React, { Component } from 'react';
-import { SocietyStatsComponent } from '../../Dashboard/components';
-import { TableComponent, ButtonComponent } from '../../common/components';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-class Societies extends Component {
+import { actions } from '../operations';
+import SocietyActivities from './SocietyActivitiesComponent';
+import { SocietyStatsComponent } from '../../Dashboard/components';
+import { ButtonComponent } from '../../common/components';
+
+class SocietiesContainer extends Component {
+  static defaultProps = {
+    match: {
+      params: {
+        society: '',
+      },
+    },
+    usedPoints: 0,
+    remainingPoints: 0,
+    loggedActivities: [],
+    fetchSocietyInfoRequest: null,
+  };
+
+  static propTypes = {
+    match: PropTypes.shape({}),
+    usedPoints: PropTypes.number,
+    remainingPoints: PropTypes.number,
+    loggedActivities: PropTypes.arrayOf(PropTypes.shape({})),
+    fetchSocietyInfoRequest: PropTypes.func,
+  };
+
   componentDidMount() {
     // get society from params
     // call action to get actities for that society
+    const {
+      match: {
+        params: { society },
+      },
+      fetchSocietyInfoRequest,
+    } = this.props;
+    fetchSocietyInfoRequest(society);
+  }
+
+  componentDidUpdate(prevProps) {
+    const {
+      match: {
+        params: { society },
+      },
+      fetchSocietyInfoRequest,
+    } = this.props;
+    if (prevProps.match.params.society !== society) {
+      fetchSocietyInfoRequest(society);
+    }
   }
 
   render() {
+    const {
+      usedPoints,
+      remainingPoints,
+      loggedActivities,
+      match: {
+        params: { society },
+      },
+    } = this.props;
+
     return (
       <div>
-        <div>
-          <div>{/* Society image */}</div>
+        <div className='profile-overview profile-overview--society col-sm-12'>
+          <div className={`profile-overview__image--society ${society.toLowerCase()}`}>{/* Society image */}</div>
           <SocietyStatsComponent
-            usedPoints={1000}
-            remainingPoints={508}
+            usedPoints={usedPoints}
+            remainingPoints={remainingPoints}
+            className='society-page__stats'
           />
         </div>
-        <div>
-          <div>{/* Tabs */}</div>
+        <div className='user-dashboard__actions col-sm-12'>
+          <div className='society__tabs'>
+            <h3 className='user-dashboard__title'>Activities</h3>
+            <h3 className='user-dashboard__title society__tabs--redemptions'>Redemptions</h3>
+          </div>
           <div>
             <ButtonComponent className='button__add'>
               <span className='fa fa-plus' />
@@ -31,10 +88,26 @@ class Societies extends Component {
             </ButtonComponent>
           </div>
         </div>
-        <TableComponent />
+        <SocietyActivities activities={loggedActivities} />
       </div>
     );
   }
 }
 
-export default Societies;
+const mapStateToProps = ({ society }) => ({
+  loading: society.loading,
+  totalPoints: society.totalPoints,
+  usedPoints: society.usedPoints,
+  remainingPoints: society.remainingPoints,
+  loggedActivities: society.loggedActivities,
+  activitiesLogged: society.activitiesLogged,
+});
+
+const mapDispatchToProps = {
+  fetchSocietyInfoRequest: actions.fetchSocietyInfoRequest,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SocietiesContainer);
