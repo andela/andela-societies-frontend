@@ -13,14 +13,16 @@ export function* fetchSocietyInfo(action) {
       totalPoints, usedPoints, remainingPoints, loggedActivities,
     } = result;
     const activitiesLogged = loggedActivities.length;
-    yield put(actions.fetchSocietyInfoSuccess(totalPoints, usedPoints, remainingPoints, activitiesLogged));
+    yield put(
+      actions.fetchSocietyInfoSuccess(totalPoints, usedPoints, remainingPoints, loggedActivities, activitiesLogged),
+    );
   } catch (error) {
     yield put(actions.societyPageError());
   }
 }
 
 function* watchFetchSocietyInfoReq() {
-  takeEvery(types.FETCH_SOCIETY_INFO_REQUEST, fetchSocietyInfo);
+  yield takeEvery(types.FETCH_SOCIETY_INFO_REQUEST, fetchSocietyInfo);
 }
 
 export default watchFetchSocietyInfoReq;

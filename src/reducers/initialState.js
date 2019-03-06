@@ -15,7 +15,7 @@ const initialState = {
     remainingPoints: 0,
     loggedActivities: [],
     activitiesLogged: 0,
-  }
+  },
 };
 
 export default initialState;

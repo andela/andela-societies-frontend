@@ -14,18 +14,16 @@ const society = (state = initialState.society, action) => {
       error: true,
     };
   case types.FETCH_SOCIETY_INFO_SUCCESS:
-    const {
-      totalPoints, usedPoints, remainingPoints, activitiesLogged,
-    } = action.payload;
     return {
       ...state,
-      totalPoints,
-      usedPoints,
-      remainingPoints,
-      activitiesLogged,
+      pointsEarned: action.payload.pointsEarned,
+      usedPoints: action.payload.usedPoints,
+      remainingPoints: action.payload.remainingPoints,
+      loggedActivities: action.payload.loggedActivities,
+      activitiesLogged: action.payload.activitiesLogged,
     };
-    default:
-      return state;
+  default:
+    return state;
   }
 };
 

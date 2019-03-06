@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 // third party libraries
 import PropType from 'prop-types';
 
-import { ButtonComponent } from '../../common/components';
+import ButtonComponent from './ButtonComponent';
 
 /**
  * @summary Renders description

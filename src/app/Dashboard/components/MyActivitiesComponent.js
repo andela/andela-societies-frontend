@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import dateFns from 'date-fns';
 
-import { TableComponent, StatusIndicatorComponent } from '../../common/components';
-import TruncateDescriptionContainer from './TruncateDescriptionContainer';
+import { TableComponent, StatusIndicatorComponent, TruncateDescriptionContainer } from '../../common/components';
 
 const MyActivitiesComponent = (props) => {
   const { userActivities } = props;

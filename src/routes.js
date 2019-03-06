@@ -36,7 +36,7 @@ const Router = () => (
       />
       <AuthenticateRoute
         isAuthenticated={tokenIsValid(token)}
-        path='/society/:name'
+        path='/:society'
         component={SocietiesContainer}
       />
     </Switch>
