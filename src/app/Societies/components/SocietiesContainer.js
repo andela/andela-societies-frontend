@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { actions } from '../operations';
+import { societyStats } from '../../Dashboard/constants';
 import SocietyActivities from './SocietyActivitiesComponent';
 import { SocietyStatsComponent } from '../../Dashboard/components';
 import { ButtonComponent } from '../../common/components';
@@ -14,8 +15,10 @@ class SocietiesContainer extends Component {
         society: '',
       },
     },
-    usedPoints: 0,
-    remainingPoints: 0,
+    usedPoints: societyStats.usedPoints,
+    remainingPoints: societyStats.remainingPoints,
+    totalPoints: societyStats.totalPoints,
+    activitiesLogged: societyStats.activitiesLogged,
     loggedActivities: [],
     fetchSocietyInfoRequest: null,
   };
@@ -23,7 +26,9 @@ class SocietiesContainer extends Component {
   static propTypes = {
     match: PropTypes.shape({}),
     usedPoints: PropTypes.number,
+    totalPoints: PropTypes.number,
     remainingPoints: PropTypes.number,
+    activitiesLogged: PropTypes.number,
     loggedActivities: PropTypes.arrayOf(PropTypes.shape({})),
     fetchSocietyInfoRequest: PropTypes.func,
   };
@@ -55,8 +60,10 @@ class SocietiesContainer extends Component {
   render() {
     const {
       usedPoints,
+      totalPoints,
       remainingPoints,
       loggedActivities,
+      activitiesLogged,
       match: {
         params: { society },
       },
@@ -65,10 +72,12 @@ class SocietiesContainer extends Component {
     return (
       <div>
         <div className='profile-overview profile-overview--society col-sm-12'>
-          <div className={`profile-overview__image--society ${society.toLowerCase()}`}>{/* Society image */}</div>
+          <div className={`profile-overview__image--society ${society.toLowerCase()}`} />
           <SocietyStatsComponent
             usedPoints={usedPoints}
+            totalPoints={totalPoints}
             remainingPoints={remainingPoints}
+            activitiesLogged={activitiesLogged}
             className='society-page__stats'
           />
         </div>

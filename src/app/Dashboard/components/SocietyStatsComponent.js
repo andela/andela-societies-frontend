@@ -7,10 +7,32 @@ import { societyStats } from '../constants';
 
 const SocietyStatsComponent = (props) => {
   const {
-    society, usedPoints, remainingPoints, className,
+    society, usedPoints, remainingPoints, className, totalPoints, activitiesLogged,
   } = props;
+  let totalPointsActivitiesLoggedHtml;
+  if (totalPoints && activitiesLogged) {
+    totalPointsActivitiesLoggedHtml = (
+      <div>
+        <div>
+          <p>Total Points Earned</p>
+          <p>Activities Logged</p>
+        </div>
+        <div>
+          <p>
+            {societyStats.totalPoints}
+            <span>Points</span>
+          </p>
+          <p>
+            {societyStats.activitiesLogged}
+            <span>Points</span>
+          </p>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className={`society-stats ${className}`}>
+      {totalPointsActivitiesLoggedHtml}
       <ProgressBarComponent earnedOrUsedPoints={usedPoints} remPointsOrActivitiesLogged={remainingPoints} />
       <div className='society-stats__desc'>
         <div className='society-stats__desc__points'>
@@ -41,7 +63,9 @@ SocietyStatsComponent.defaultProps = {
   society: societyStats.society,
   usedPoints: societyStats.usedPoints,
   className: '',
+  totalPoints: societyStats.totalPoints,
   remainingPoints: societyStats.remainingPoints,
+  activitiesLogged: societyStats.activitiesLogged,
 };
 
 SocietyStatsComponent.propTypes = {
@@ -49,6 +73,8 @@ SocietyStatsComponent.propTypes = {
   usedPoints: PropTypes.number,
   remainingPoints: PropTypes.number,
   className: PropTypes.string,
+  totalPoints: PropTypes.number,
+  activitiesLogged: PropTypes.number,
 };
 
 export default SocietyStatsComponent;
