@@ -9,37 +9,48 @@ const SocietyStatsComponent = (props) => {
   const {
     society, usedPoints, remainingPoints, className, totalPoints, activitiesLogged,
   } = props;
-  let totalPointsActivitiesLoggedHtml;
+  let totalPointsActivitiesLoggedText;
+  let pointsHtml;
+  let separatorHtml;
   if (totalPoints && activitiesLogged) {
-    totalPointsActivitiesLoggedHtml = (
-      <div>
-        <div>
-          <p>Total Points Earned</p>
-          <p>Activities Logged</p>
-        </div>
-        <div>
-          <p>
-            {societyStats.totalPoints}
-            <span>Points</span>
-          </p>
-          <p>
-            {societyStats.activitiesLogged}
-            <span>Points</span>
-          </p>
-        </div>
+    totalPointsActivitiesLoggedText = (
+      <div className='society-stats__desc'>
+        <p>Total Points Earned</p>
+        <p className='right-side'>
+          Activities Logged
+        </p>
       </div>
+    );
+    pointsHtml = (
+      <div className='society-stats__desc'>
+        <p className='stats__description__figure' id='points-earned'>
+          {totalPoints}
+          <span>Points</span>
+        </p>
+        <p className='stats__description__figure right-side' id='activities-logged'>
+          {activitiesLogged}
+          <span>
+            Activities
+          </span>
+        </p>
+      </div>
+    );
+    separatorHtml = (
+      <div className='society-stats__separator' />
     );
   }
   return (
     <div className={`society-stats ${className}`}>
-      {totalPointsActivitiesLoggedHtml}
+      {totalPointsActivitiesLoggedText}
+      {pointsHtml}
       <ProgressBarComponent earnedOrUsedPoints={usedPoints} remPointsOrActivitiesLogged={remainingPoints} />
+      {separatorHtml}
       <div className='society-stats__desc'>
         <div className='society-stats__desc__points'>
-          <StatusIndicatorComponent className='society-stats--used-points-indicator' status='completed' />
+          <StatusIndicatorComponent status='completed' />
           <span className='society-stats__desc-text'> Used points</span>
         </div>
-        <div className='society-stats__desc__points' id='society-stats__desc--remaining-points'>
+        <div className='society-stats__desc__points right-side' id='society-stats__desc--remaining-points'>
           <StatusIndicatorComponent status='approved' />
           <span className='society-stats__desc-text'> Total Remaining Points</span>
         </div>
@@ -47,11 +58,11 @@ const SocietyStatsComponent = (props) => {
       <div className='society-stats__desc'>
         <p className='stats__description__figure' id='used-points'>
           {usedPoints}
-          <span className='stats__description__figure-subsc '>Points</span>
+          <span>Points</span>
         </p>
-        <p className='stats__description__figure' id='remaining-points'>
+        <p className='stats__description__figure right-side' id='remaining-points'>
           {remainingPoints}
-          <span className='stats__description__figure-subsc '>Points</span>
+          <span>Points</span>
         </p>
         <span className={`society-stats__desc__logo ${society.toLowerCase()}`} />
       </div>

@@ -105,7 +105,7 @@ class SocietiesContainer extends Component {
 
 const mapStateToProps = ({ society }) => ({
   loading: society.loading,
-  totalPoints: society.totalPoints,
+  totalPoints: society.pointsEarned,
   usedPoints: society.usedPoints,
   remainingPoints: society.remainingPoints,
   loggedActivities: society.loggedActivities,

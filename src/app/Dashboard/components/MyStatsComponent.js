@@ -11,14 +11,14 @@ const MyStatsComponent = (props) => {
         <p className='stats__description'>My Total Points Earned</p>
         <p className='stats__description__figure my-stats'>
           {points}
-          <span className='stats__description--footer--subsc'>Points</span>
+          <span>Points</span>
         </p>
       </div>
       <div className='stats__activities'>
         <p className='stats__description'>My Activities Logged</p>
         <p className='stats__description__figure my-stats'>
           {activities}
-          <span className='stats__description__figure--subsc'>Activities</span>
+          <span>Activities</span>
         </p>
       </div>
     </div>

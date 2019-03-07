@@ -11,6 +11,6 @@ describe('<MyStatsComponent />', () => {
   const shallowWrapper = shallow(<MyStatsComponent {...props} />);
 
   it('should contain Points subscript text', () => {
-    expect(shallowWrapper.find('.stats__description--footer--subsc').html()).toContain('Points');
+    expect(shallowWrapper.find('.stats__points').html()).toContain('My Total Points Earned');
   });
 });
