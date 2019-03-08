@@ -8,7 +8,7 @@ import SocietyActivities from './SocietyActivitiesComponent';
 import { SocietyStatsComponent } from '../../Dashboard/components';
 import { ButtonComponent } from '../../common/components';
 
-class SocietiesContainer extends Component {
+export class SocietiesContainer extends Component {
   static defaultProps = {
     match: {
       params: {
@@ -71,7 +71,7 @@ class SocietiesContainer extends Component {
 
     return (
       <div>
-        <div className='profile-overview profile-overview--society col-sm-12'>
+        <div className='profile-overview profile-overview--society'>
           <div className={`profile-overview__image--society ${society.toLowerCase()}`} />
           <SocietyStatsComponent
             usedPoints={usedPoints}
@@ -81,10 +81,11 @@ class SocietiesContainer extends Component {
             className='society-page__stats'
           />
         </div>
-        <div className='user-dashboard__actions col-sm-12'>
+        <div className='user-dashboard__actions user-dashboard__actions--society col-sm-12'>
           <div className='society__tabs'>
             <h3 className='user-dashboard__title'>Activities</h3>
             <h3 className='user-dashboard__title society__tabs--redemptions'>Redemptions</h3>
+            <div className='society__tabs--underline' />
           </div>
           <div>
             <ButtonComponent className='button__add'>

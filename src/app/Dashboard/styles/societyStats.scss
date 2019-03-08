@@ -9,9 +9,8 @@
 }
 
 .progress {
-  width: 100%;
+  @include widthAndHeight(100%, rem(10px));
   align-self: center;
-  height: rem(10px) !important;
   margin-top: rem(17px);
   margin-bottom: rem(24px);
   border-radius: 0;
@@ -40,12 +39,12 @@
     color: $andelaBlue;
 
     span {
-      color: $darkGray;
+      color: $pointsSubscriptColor;
     }
   }
 
   #activities-logged {
-    color: $darkGray;
+    color: $pointsSubscriptColor;
   }
 
   #used-points {
@@ -60,10 +59,10 @@
 }
 
 .society-stats__separator {
-  height: rem(2px);
-  width: 100%;
+  box-sizing: border-box;
+  @include widthAndHeight(100%, rem(2px));
   margin-bottom: rem(18px);
-  border: 1px solid $lightAccent;
+  border: 1px solid $separatorBgColor;
 }
 
 .society-stats__desc-text {
@@ -134,6 +133,14 @@
     @include widthAndHeight(100%, 100%);
     margin-bottom: rem(15px);
     flex: 0 0 100%;
+  }
+
+  .progress {
+      margin-bottom: rem(8px);
+  }
+
+  .society-stats__separator {
+    margin-bottom: rem(8px);
   }
 }
 
