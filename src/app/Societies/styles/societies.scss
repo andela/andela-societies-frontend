@@ -36,13 +36,32 @@
 .society__tabs--underline {
   border: rem(1px) solid $lightAccent;
   position: absolute;
-  bottom: 0;
+  bottom: rem(6px);
   left: 0;
   width: rem(662px);
 }
 
 .society__tabs {
   display: flex;
+
+  h3:hover {
+    cursor: pointer;
+  }
+
+  .selected__title {
+    color: $andelaGold;
+  }
+
+  .society__tabs__selected {
+    @include selectedSocietyTab;
+    width: rem(70px);
+  }
+
+  .society__tabs__selected--redemptions {
+    @include selectedSocietyTab;
+    left: 111px;
+    width: rem(109px);
+  }
 }
 
 .society__tabs--redemptions {

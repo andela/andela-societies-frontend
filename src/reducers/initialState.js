@@ -15,6 +15,7 @@ const initialState = {
     pointsEarned: 0,
     usedPoints: 0,
     remainingPoints: 0,
+    redemptions: [],
     loggedActivities: [],
     activitiesLogged: 0,
   },

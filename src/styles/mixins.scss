@@ -15,3 +15,10 @@
   width: $width;
   height: $height;
 }
+
+@mixin selectedSocietyTab {
+  border: rem(3px) solid $andelaGold;
+  position: absolute;
+  bottom: 0;
+  border-radius: 2px;
+}

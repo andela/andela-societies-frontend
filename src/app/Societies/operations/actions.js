@@ -4,8 +4,9 @@ const societyPageLoading = () => ({
   type: types.SOCIETY_PAGE_LOADING,
 });
 
-const societyPageError = () => ({
+const societyPageError = error => ({
   type: types.SOCIETY_PAGE_ERROR,
+  payload: { error },
 });
 
 const fetchSocietyInfoRequest = societyName => ({
@@ -24,9 +25,21 @@ const fetchSocietyInfoSuccess = (pointsEarned, usedPoints, remainingPoints, logg
   },
 });
 
+const fetchSocietyRedemptionsRequest = societyName => ({
+  type: types.FETCH_SOCIETY_REDEMPTIONS_REQUEST,
+  payload: { societyName },
+});
+
+const fetchSocietyRedemptionsSuccess = (redemptions, societyName) => ({
+  type: types.FETCH_SOCIETY_REDEMPTIONS_SUCCESS,
+  payload: { redemptions, societyName },
+});
+
 export default {
   societyPageError,
   societyPageLoading,
   fetchSocietyInfoRequest,
   fetchSocietyInfoSuccess,
+  fetchSocietyRedemptionsRequest,
+  fetchSocietyRedemptionsSuccess,
 };
