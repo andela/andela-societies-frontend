@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 
 import TextField from '@material-ui/core/TextField';
 import StartIcon from '@material-ui/icons/Star';
-import MenuItem from '@material-ui/core/MenuItem';
-import { ButtonComponent } from '../../common/components';
-
+import { MenuItem, ButtonComponent } from '../../common/components';
 import actions from '../operations/actions';
 
 /**
@@ -62,15 +60,21 @@ export class LogActivityForm extends Component {
       categoryOption, numberOfParticipants, description, activityDate,
     } = this.state;
     const { show, categories, close } = this.props;
+    const styles = {
+      login: {
+        transform: show ? 'translateY(0vh)' : 'translateY(-100vh)',
+        opacity: show ? '1' : '0',
+      },
+      textField: {
+        display: categoryOption.supportsMultipleParticipants ? '' : 'none',
+      },
+    };
     return (
       <div className='login-jumbotron'>
         <section className='login-jumbotron'>
           <div
             className='login-container'
-            style={{
-              transform: show ? 'translateY(0vh)' : 'translateY(-100vh)',
-              opacity: show ? '1' : '0',
-            }}
+            style={styles.login}
           >
             <div className='log-points-ratings'>
               <StartIcon className='ratings-icon' />
@@ -82,6 +86,7 @@ export class LogActivityForm extends Component {
             </div>
             <form className='form-container'>
               <TextField
+                id='category'
                 required
                 value={categoryOption}
                 select
@@ -90,29 +95,22 @@ export class LogActivityForm extends Component {
                 fullWidth
                 onChange={this.handleChange('categoryOption')}
               >
-                {categories.map(option => (
-                  <MenuItem key={option.id} value={option}>
-                    {option.name}
-                  </MenuItem>
-                ))}
+                <MenuItem
+                  categories={categories}
+                />
               </TextField>
-              {
-                categoryOption.supportsMultipleParticipants === true
-                  ? (
-                    <TextField
-                      required
-                      id='filled-number'
-                      name='numberOfParticipants'
-                      label='Number'
-                      value={numberOfParticipants}
-                      onChange={this.handleChange('numberOfParticipants')}
-                      type='number'
-                      margin='normal'
-                      fullWidth
-                    />
-                  )
-                  : null
-              }
+              <TextField
+                id='filled-number'
+                name='numberOfParticipants'
+                label='Number'
+                show={categoryOption.supportsMultipleParticipants}
+                value={numberOfParticipants}
+                onChange={this.handleChange('numberOfParticipants')}
+                type='number'
+                style={styles.textField}
+                margin='normal'
+                fullWidth
+              />
               <TextField
                 required
                 id='date'
