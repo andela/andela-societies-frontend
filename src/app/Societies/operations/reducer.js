@@ -13,20 +13,37 @@ const society = (state = initialState.society, { type, payload }) => {
       ...state,
       error: payload.error,
     };
-  case types.FETCH_SOCIETY_INFO_SUCCESS:
+  case types.FETCH_SOCIETY_INFO_SUCCESS: {
+    const {
+      societyName,
+      pointsEarned,
+      usedPoints,
+      remainingPoints,
+      loggedActivities,
+      activitiesLogged,
+    } = payload;
     return {
       ...state,
-      pointsEarned: payload.pointsEarned,
-      usedPoints: payload.usedPoints,
-      remainingPoints: payload.remainingPoints,
-      loggedActivities: payload.loggedActivities,
-      activitiesLogged: payload.activitiesLogged,
+      [societyName]: {
+        ...state[societyName],
+        pointsEarned,
+        usedPoints,
+        remainingPoints,
+        loggedActivities,
+        activitiesLogged,
+      },
     };
-  case types.FETCH_SOCIETY_REDEMPTIONS_SUCCESS:
+  }
+  case types.FETCH_SOCIETY_REDEMPTIONS_SUCCESS: {
+    const { societyName } = payload;
     return {
       ...state,
-      redemptions: payload.redemptions,
+      [societyName]: {
+        ...state[societyName],
+        redemptions: payload.redemptions,
+      },
     };
+  }
   default:
     return state;
   }

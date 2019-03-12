@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { actions } from '../operations';
-import { societyStats } from '../../Dashboard/constants';
 import { ButtonComponent } from '../../common/components';
 import TabsComponent from './TabsComponent';
 import SocietyActivities from './SocietyActivitiesComponent';
@@ -16,24 +15,14 @@ export class SocietiesContainer extends Component {
         society: '',
       },
     },
-    usedPoints: societyStats.usedPoints,
-    remainingPoints: societyStats.remainingPoints,
-    totalPoints: societyStats.totalPoints,
-    activitiesLogged: societyStats.activitiesLogged,
-    redemptions: [],
-    loggedActivities: [],
+    society: {},
     fetchSocietyInfoRequest: null,
     fetchSocietyRedemptionsRequest: null,
   };
 
   static propTypes = {
     match: PropTypes.shape({}),
-    usedPoints: PropTypes.number,
-    totalPoints: PropTypes.number,
-    remainingPoints: PropTypes.number,
-    activitiesLogged: PropTypes.number,
-    redemptions: PropTypes.arrayOf(PropTypes.shape({})),
-    loggedActivities: PropTypes.arrayOf(PropTypes.shape({})),
+    society: PropTypes.shape({}),
     fetchSocietyInfoRequest: PropTypes.func,
     fetchSocietyRedemptionsRequest: PropTypes.func,
   };
@@ -59,14 +48,17 @@ export class SocietiesContainer extends Component {
   componentDidUpdate(prevProps) {
     const {
       match: {
-        params: { society },
+        params: { society: societyName },
       },
       fetchSocietyInfoRequest,
       fetchSocietyRedemptionsRequest,
     } = this.props;
-    if (prevProps.match.params.society !== society) {
-      fetchSocietyInfoRequest(society);
-      fetchSocietyRedemptionsRequest(society);
+    if (
+      prevProps.match.params.society !== societyName
+      && !prevProps.society[societyName].redemptions.length
+    ) {
+      fetchSocietyInfoRequest(societyName);
+      fetchSocietyRedemptionsRequest(societyName);
     }
   }
 
@@ -77,24 +69,24 @@ export class SocietiesContainer extends Component {
   render() {
     const { selectedTab } = this.state;
     const {
-      usedPoints,
-      totalPoints,
-      redemptions,
-      remainingPoints,
-      loggedActivities,
-      activitiesLogged,
+      society,
       match: {
-        params: { society },
+        params: { society: societyName },
       },
     } = this.props;
-    console.log('redemptions', redemptions);
+    const {
+      usedPoints, pointsEarned, redemptions, remainingPoints, activitiesLogged, loggedActivities,
+    } = society[
+      societyName
+    ];
+    const societyData = selectedTab === 'activities' ? loggedActivities : redemptions;
     return (
       <div>
         <div className='profile-overview profile-overview--society'>
-          <div className={`profile-overview__image--society ${society.toLowerCase()}`} />
+          <div className={`profile-overview__image--society ${societyName.toLowerCase()}`} />
           <SocietyStatsComponent
             usedPoints={usedPoints}
-            totalPoints={totalPoints}
+            totalPoints={pointsEarned}
             remainingPoints={remainingPoints}
             activitiesLogged={activitiesLogged}
             className='society-page__stats'
@@ -113,7 +105,7 @@ export class SocietiesContainer extends Component {
             </ButtonComponent>
           </div>
         </div>
-        <SocietyActivities activities={loggedActivities} />
+        <SocietyActivities activities={societyData} selectedTab={selectedTab} />
       </div>
     );
   }
@@ -121,12 +113,7 @@ export class SocietiesContainer extends Component {
 
 const mapStateToProps = ({ society }) => ({
   loading: society.loading,
-  totalPoints: society.pointsEarned,
-  usedPoints: society.usedPoints,
-  redemptions: society.redemptions,
-  remainingPoints: society.remainingPoints,
-  loggedActivities: society.loggedActivities,
-  activitiesLogged: society.activitiesLogged,
+  society,
 });
 
 const mapDispatchToProps = {

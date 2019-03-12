@@ -13,7 +13,14 @@ export function* fetchSocietyInfo(action) {
     } = result.societyDetails;
     const activitiesLogged = loggedActivities.length;
     yield put(
-      actions.fetchSocietyInfoSuccess(totalPoints, usedPoints, remainingPoints, loggedActivities, activitiesLogged),
+      actions.fetchSocietyInfoSuccess(
+        societyName,
+        totalPoints,
+        usedPoints,
+        remainingPoints,
+        loggedActivities,
+        activitiesLogged,
+      ),
     );
   } catch (error) {
     yield put(actions.societyPageError('There was an error fetching activities. Try again later'));

@@ -14,9 +14,17 @@ const fetchSocietyInfoRequest = societyName => ({
   payload: { societyName },
 });
 
-const fetchSocietyInfoSuccess = (pointsEarned, usedPoints, remainingPoints, loggedActivities, activitiesLogged) => ({
+const fetchSocietyInfoSuccess = (
+  societyName,
+  pointsEarned,
+  usedPoints,
+  remainingPoints,
+  loggedActivities,
+  activitiesLogged,
+) => ({
   type: types.FETCH_SOCIETY_INFO_SUCCESS,
   payload: {
+    societyName,
     pointsEarned,
     usedPoints,
     remainingPoints,

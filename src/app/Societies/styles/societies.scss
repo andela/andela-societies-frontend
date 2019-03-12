@@ -68,8 +68,26 @@
   margin-left: rem(33px); 
 }
 
+// Larger devices (monitors, 1199.98px and up)
+@media (min-width: 1199.98px) {
+  .profile-overview__image--society {
+    width: 70% !important;
+  }
+
+  .society__tabs--underline {
+    width: 64%;
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .society__tabs--underline {
+    width: 62%;
+  }
+}
+
 // Medium devices (tablets, 768px and up)
-@media (min-width: 768px) and (max-width: 991.98px) {
+@media (min-width: 768px) and (max-width: 991.97px) {
   .profile-overview--society {
     .profile-overview__image--society {
       display: none;
