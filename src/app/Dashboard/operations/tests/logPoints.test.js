@@ -25,13 +25,10 @@ describe('Log Activity saga', () => {
       fetchMock.reset();
     });
 
-    it('puts addNewActivityError', async () => {
+    it('puts handleCategoriesLoadError', async () => {
       generator = handleCategoriesLoad();
-      const err = new TypeError('Cannot read property \'activity\' of undefined');
       expect(generator.next().value).toEqual(call(get, 'activity-types'));
-      expect(generator.next().value).not.toEqual(put(actions.setError(err.toString())));
-      expect(generator.next().value).toBeFalsy();
-      // expect(generator.next()).toThrow(err.toString());
+      expect(generator.throw('An error has occured').value).toEqual(put(actions.setError('An error has occured')));
     });
   });
 
