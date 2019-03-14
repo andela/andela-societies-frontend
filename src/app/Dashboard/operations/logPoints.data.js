@@ -5,12 +5,8 @@ import types from './types';
 import { get, post } from '../../utils/api';
 
 export function* handleCategoriesLoad() {
-  try {
-    const categories = yield call(get, 'activity-types');
-    yield put(actions.setCategories(categories));
-  } catch (error) {
-    yield put(actions.setError(error.toString()));
-  }
+  const categories = yield call(get, 'activity-types');
+  yield put(actions.setCategories(categories));
 }
 
 export function* addNewActivity(action) {
