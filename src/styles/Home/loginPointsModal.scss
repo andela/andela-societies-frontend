@@ -11,7 +11,29 @@
     box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.17);
     margin: 10% auto 0;
     transition: all .8s;
-    width: 500px;
+    width: 30rem;
+}
+
+// small devices
+@media (max-width: 660px) {
+    .login-container {
+        background: rgb(255, 255, 255);
+        box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.17);
+        margin-top: -45rem ;
+        transition: all .8s;
+        width: 20rem;
+    }
+   }
+
+// Medium devices
+@media (min-width: 660px) and (max-width: 1024px) {
+    .login-container {
+        background: rgb(255, 255, 255);
+        margin-top: -10rem ;
+        box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.17);
+        transition: all .8s;
+        width: 30rem;
+    }
 }
 
 .form-container {

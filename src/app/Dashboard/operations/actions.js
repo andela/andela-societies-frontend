@@ -19,31 +19,31 @@ const fetchUserActivitiesError = error => ({
 });
 
 const loadCategories = () => ({
-  type: types.CATEGORIES.LOAD,
+  type: types.CATEGORIES_REQUEST,
 });
 
 const setCategories = categories => ({
-  type: types.CATEGORIES.LOAD_SUCCESS,
+  type: types.CATEGORIES_SUCCESS,
   categories,
 });
 
 const setError = error => ({
-  type: types.CATEGORIES.LOAD_FAIL,
+  type: types.CATEGORIES_FAIL,
   error,
 });
 
 const logPointsRequest = activity => ({
-  type: types.LOG_POINTS.POST_REQUEST,
+  type: types.LOG_POINTS_REQUEST,
   activity,
 });
 
 const logPointsSuccess = activity => ({
-  type: types.LOG_POINTS.POST_SUCCESS,
+  type: types.LOG_POINTS_SUCCESS,
   activity,
 });
 
 const logPointsFail = error => ({
-  type: types.LOG_POINTS.POST_FAIL,
+  type: types.LOG_POINTS_FAIL,
   error,
 });
 

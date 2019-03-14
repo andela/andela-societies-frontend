@@ -50,20 +50,10 @@ describe('<DashboardContainer />', () => {
   it('should open the Log Points Modal', () => {
     const { shallowWrapper } = setUpWrapper();
     const instance = shallowWrapper.instance();
-    instance.setState({
-      logPoints: false,
-    });
-    instance.openModalLoginPointsHandler();
-    expect(instance.state.logPoints).toBe(true);
-  });
-
-  it('should close the Log Points Modal', () => {
-    const { shallowWrapper } = setUpWrapper();
-    const instance = shallowWrapper.instance();
-    instance.setState({
-      logPoints: true,
-    });
-    instance.closeLogPointsModal();
     expect(instance.state.logPoints).toBe(false);
+
+    shallowWrapper.find('.button__add').simulate('click');
+
+    expect(instance.state.logPoints).toBe(true);
   });
 });

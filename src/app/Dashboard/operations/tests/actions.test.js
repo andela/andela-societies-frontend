@@ -37,18 +37,18 @@ describe('Dashboard actions', () => {
   });
 
   describe('fetch categories request', () => {
-    it('has a type of CATEGORIES.LOAD', () => {
+    it('has a type of CATEGORIES_REQUEST', () => {
       const expected = {
-        type: types.CATEGORIES.LOAD,
+        type: types.CATEGORIES_REQUEST,
       };
       expect(actions.loadCategories()).toEqual(expected);
     });
   });
 
   describe('fetch categories request is successful', () => {
-    it('has a type of CATEGORIES.LOAD_SUCCESS', () => {
+    it('has a type of CATEGORIES_SUCCESS', () => {
       const expected = {
-        type: types.CATEGORIES.LOAD_SUCCESS,
+        type: types.CATEGORIES_SUCCESS,
         categories,
       };
       expect(actions.setCategories(categories)).toEqual(expected);
@@ -56,10 +56,10 @@ describe('Dashboard actions', () => {
   });
 
   describe('fetch categories error', () => {
-    it('has a type of CATEGORIES.LOAD_FAIL', () => {
+    it('has a type of CATEGORIES_FAIL', () => {
       const { categoryError } = myloggedActivities;
       const expected = {
-        type: types.CATEGORIES.LOAD_FAIL,
+        type: types.CATEGORIES_FAIL,
         error: categoryError,
       };
       expect(actions.setError(categoryError)).toEqual(expected);
@@ -67,19 +67,19 @@ describe('Dashboard actions', () => {
   });
 
   describe('fetch log activity points request', () => {
-    it('has a type of LOG_POINTS.POST_REQUEST', () => {
+    it('has a type of LOG_POINTS_REQUEST', () => {
       const expected = {
-        type: types.LOG_POINTS.POST_REQUEST,
+        type: types.LOG_POINTS_REQUEST,
       };
       expect(actions.logPointsRequest()).toEqual(expected);
     });
   });
 
   describe('fetch log activity points request is successful', () => {
-    it('has a type of LOG_POINTS.POST_SUCCESS', () => {
+    it('has a type of LOG_POINTS_SUCCESS', () => {
       const { activity } = myloggedActivities;
       const expected = {
-        type: types.LOG_POINTS.POST_SUCCESS,
+        type: types.LOG_POINTS_SUCCESS,
         activity,
       };
       expect(actions.logPointsSuccess(activity)).toEqual(expected);
@@ -87,10 +87,10 @@ describe('Dashboard actions', () => {
   });
 
   describe('fetch log activity points error', () => {
-    it('has a type of LOG_POINTS.POST_FAIL', () => {
+    it('has a type of LOG_POINTS_FAIL', () => {
       const { logError } = myloggedActivities;
       const expected = {
-        type: types.LOG_POINTS.POST_FAIL,
+        type: types.LOG_POINTS_FAIL,
         error: logError,
       };
       expect(actions.logPointsFail(logError)).toEqual(expected);

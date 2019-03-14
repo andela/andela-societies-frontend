@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { ButtonComponent } from '../../common/components';
 import MyStatsComponent from './MyStatsComponent';
 import SocietyStatsComponent from './SocietyStatsComponent';
-import LogACtivityForm from './LogPointsModal';
+import LogPointsComponent from './LogPointsModal';
 import MyActivitiesComponent from './MyActivitiesComponent';
 
 import { myStats } from '../constants';
@@ -61,15 +61,10 @@ export class DashboardContainer extends Component {
     loadCategories();
   }
 
-  openModalLoginPointsHandler = () => {
+  logPointsModal = () => {
+    const { logPoints } = this.state;
     this.setState({
-      logPoints: true,
-    });
-  }
-
-  closeLogPointsModal = () => {
-    this.setState({
-      logPoints: false,
+      logPoints: !logPoints,
     });
   }
 
@@ -99,16 +94,11 @@ export class DashboardContainer extends Component {
           </div>
           <div className='user-dashboard__actions col-sm-12'>
             <h3 className='user-dashboard__title'>My Activities</h3>
-            <LogACtivityForm
-              className='modal'
-              show={logPoints}
-              close={this.closeLogPointsModal}
-            />
             <div>
               <ButtonComponent
                 type='button'
                 className='button__add user-dashboard__button'
-                onClick={this.openModalLoginPointsHandler}
+                onClick={this.logPointsModal}
               >
                 <span className='fa fa-plus' />
                 <span>Log Points</span>
@@ -120,6 +110,13 @@ export class DashboardContainer extends Component {
             </div>
           </div>
           <MyActivitiesComponent userActivities={userActivities} />
+          {logPoints && (
+            <LogPointsComponent
+              className='modal'
+              open={logPoints}
+              close={this.logPointsModal}
+            />
+          ) }
         </div>
       );
     }

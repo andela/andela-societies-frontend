@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { LogActivityForm } from '../LogPointsModal';
+import { LogPointsModal } from '../LogPointsModal';
 
 describe('<LogPointsComponent />', () => {
   const setUpWrapper = ({
@@ -11,7 +11,7 @@ describe('<LogPointsComponent />', () => {
       loadCategories: jest.fn(),
       handleChange: jest.fn(),
     };
-    const shallowWrapper = shallow(<LogActivityForm {...props} />);
+    const shallowWrapper = shallow(<LogPointsModal {...props} />);
     return {
       shallowWrapper,
     };

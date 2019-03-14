@@ -13,13 +13,13 @@ describe('Log Activity saga', () => {
   describe('watchCategoriesLoad generator', () => {
     it('takes CATEGORIES.LOAD action', () => {
       generator = watchCategoriesLoad();
-      expect(generator.next().value).toEqual(takeEvery(types.CATEGORIES.LOAD, handleCategoriesLoad));
+      expect(generator.next().value).toEqual(takeEvery(types.CATEGORIES_REQUEST, handleCategoriesLoad));
     });
   });
 
   describe('handleCategoriesLoad generator', () => {
     it('calls get api get activity util with url', async () => {
-      generator = handleCategoriesLoad(types.CATEGORIES.LOAD_SUCCESS);
+      generator = handleCategoriesLoad(types.CATEGORIES_SUCCESS);
       expect(generator.next().value).toEqual(call(get, 'activity-types'));
       expect(generator.next().value).toEqual(put(actions.setCategories()));
     });
@@ -27,9 +27,9 @@ describe('Log Activity saga', () => {
 
   describe('addNewActivity generator', () => {
     it('calls post api post/log activity util with url', async () => {
-      generator = addNewActivity(types.LOG_POINTS.POST_REQUEST);
+      generator = addNewActivity(types.LOG_POINTS_REQUEST);
       expect(generator.next().value).toEqual(call(
-        post, 'logged-activities', types.LOG_POINTS.POST_REQUEST.activity,
+        post, 'logged-activities', types.LOG_POINTS_REQUEST.activity,
       ));
       expect(generator.next().value).toEqual(put(actions.logPointsSuccess()));
       fetchMock.reset();
@@ -37,9 +37,9 @@ describe('Log Activity saga', () => {
   });
 
   describe('watchLogActivityPoints generator', () => {
-    it('takes LOG_POINTS.POST_REQUEST action', () => {
+    it('takes LOG_POINTS_REQUEST action', () => {
       generator = watchLogActivityPoints();
-      expect(generator.next().value).toEqual(takeEvery(types.LOG_POINTS.POST_REQUEST, addNewActivity));
+      expect(generator.next().value).toEqual(takeEvery(types.LOG_POINTS_REQUEST, addNewActivity));
     });
   });
 });

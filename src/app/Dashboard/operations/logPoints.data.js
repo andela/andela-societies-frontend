@@ -23,9 +23,9 @@ export function* addNewActivity(action) {
 }
 
 export function* watchLogActivityPoints() {
-  yield takeEvery(types.LOG_POINTS.POST_REQUEST, addNewActivity);
+  yield takeEvery(types.LOG_POINTS_REQUEST, addNewActivity);
 }
 
 export function* watchCategoriesLoad() {
-  yield takeEvery(types.CATEGORIES.LOAD, handleCategoriesLoad);
+  yield takeEvery(types.CATEGORIES_REQUEST, handleCategoriesLoad);
 }

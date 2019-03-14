@@ -23,21 +23,21 @@ const dashboard = (state = initialState.dashboard, action) => {
       loading: false,
       error: action.error,
     };
-  case types.CATEGORIES.LOAD_SUCCESS:
+  case types.CATEGORIES_SUCCESS:
     return {
       ...state,
       categories: action.categories.data,
     };
-  case types.LOG_POINTS.POST_REQUEST:
+  case types.LOG_POINTS_REQUEST:
     return {
       ...state,
     };
-  case types.LOG_POINTS.POST_SUCCESS:
+  case types.LOG_POINTS_SUCCESS:
     return {
       ...state,
       activity: action.activity,
     };
-  case types.LOG_POINTS.POST_FAIL:
+  case types.LOG_POINTS_FAIL:
     return {
       ...state,
       error: action.error,

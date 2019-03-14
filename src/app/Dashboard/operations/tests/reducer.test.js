@@ -81,14 +81,14 @@ describe('Dashboard reducer', () => {
 });
 
 
-describe('handles case CATEGORIES.LOAD_SUCCESS', () => {
+describe('handles case CATEGORIES_SUCCESS', () => {
   it('returns society activity categories', () => {
     const {
       activity,
     } = myloggedActivities;
     expect(
       dashboard(defaultState, {
-        type: types.CATEGORIES.LOAD_SUCCESS,
+        type: types.CATEGORIES_SUCCESS,
         categories,
       }),
     ).toEqual({
@@ -103,11 +103,11 @@ describe('handles case CATEGORIES.LOAD_SUCCESS', () => {
   });
 });
 
-describe('handles case LOG_POINTS.POST_REQUEST', () => {
+describe('handles case LOG_POINTS_REQUEST', () => {
   it('returns loading true', () => {
     expect(
       dashboard(defaultState, {
-        type: types.LOG_POINTS.POST_REQUEST,
+        type: types.LOG_POINTS_REQUEST,
       }),
     ).toEqual({
       error: null,
@@ -123,14 +123,14 @@ describe('handles case LOG_POINTS.POST_REQUEST', () => {
 });
 
 
-describe('handles case LOG_POINTS.POST_SUCCESS', () => {
+describe('handles case LOG_POINTS_SUCCESS', () => {
   it('returns loading false', () => {
     const {
       activity,
     } = myloggedActivities;
     expect(
       dashboard(defaultState, {
-        type: types.LOG_POINTS.POST_SUCCESS,
+        type: types.LOG_POINTS_SUCCESS,
         loading: false,
         activity,
       }),
@@ -147,12 +147,12 @@ describe('handles case LOG_POINTS.POST_SUCCESS', () => {
   });
 });
 
-describe('handles case LOG_POINTS.POST_FAIL', () => {
+describe('handles case LOG_POINTS_FAIL', () => {
   it('returns error', () => {
     const error = new Error('Request failed with status code 401');
     expect(
       dashboard(defaultState, {
-        type: types.LOG_POINTS.POST_FAIL,
+        type: types.LOG_POINTS_FAIL,
         error,
       }),
     ).toEqual({
