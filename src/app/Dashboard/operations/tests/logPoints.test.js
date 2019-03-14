@@ -34,6 +34,12 @@ describe('Log Activity saga', () => {
       expect(generator.next().value).toEqual(put(actions.logPointsSuccess()));
       fetchMock.reset();
     });
+
+    it('puts fetchUserActivitiesError', async () => {
+      generator = addNewActivity();
+      const err = new TypeError('Cannot read property \'activity\' of undefined');
+      expect(generator.next().value).toEqual(put(actions.setError(err.toString())));
+    });
   });
 
   describe('watchLogActivityPoints generator', () => {
