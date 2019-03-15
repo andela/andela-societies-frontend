@@ -112,7 +112,6 @@ export class DashboardContainer extends Component {
           <MyActivitiesComponent userActivities={userActivities} />
           {logPoints && (
             <LogPointsComponent
-              className='modal'
               open={logPoints}
               close={this.logPointsModal}
             />
