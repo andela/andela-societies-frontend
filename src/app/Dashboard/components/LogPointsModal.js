@@ -26,6 +26,7 @@ export class LogPointsModal extends Component {
     open: false,
     logActivity: () => {},
     close: () => {},
+    showToast: () => {},
   }
 
   static propTypes = {
@@ -33,6 +34,7 @@ export class LogPointsModal extends Component {
     logActivity: PropTypes.func,
     categories: PropTypes.arrayOf(PropTypes.shape({})),
     close: PropTypes.func,
+    showToast: PropTypes.func,
   };
 
   /**
@@ -50,7 +52,7 @@ export class LogPointsModal extends Component {
    * @return {void}
    */
   handleSubmit = () => {
-    const { logActivity, close } = this.props;
+    const { logActivity, close, showToast } = this.props;
     const {
       categoryOption, activityDate, numberOfParticipants, description,
     } = this.state;
@@ -63,6 +65,7 @@ export class LogPointsModal extends Component {
       },
     );
     close();
+    showToast();
   }
 
   render() {

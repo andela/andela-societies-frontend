@@ -39,6 +39,21 @@
   border: rem(1px) solid $andelaGold;
 }
 
+.success {
+  align-items: center;
+  border-radius: 25px;
+  top: 10px;
+  display: flex;
+  min-height: 40px;
+  max-height: 40px;
+  justify-content: space-between;
+  left: 45%;
+  padding: 0 20px;
+  position: fixed;
+  transition: transform .35s ease;
+  background-color: #16a085;
+}
+
 .profile-overview {
   display: flex;
   justify-content: space-between;
