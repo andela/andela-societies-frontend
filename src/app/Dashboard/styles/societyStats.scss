@@ -1,7 +1,7 @@
 .society-stats{
   @include widthAndHeight(38%, rem(134px));
   display: flex;
-  padding: 0 rem(10px);
+  padding:  rem(10px) rem(21px) rem(10px) rem(26px);
   font-family: 'DIN Pro';
   flex-direction: column;
   justify-content: space-evenly;
@@ -9,11 +9,10 @@
 }
 
 .progress {
-  width: 95%;
+  @include widthAndHeight(100%, rem(10px));
   align-self: center;
-  height: rem(10px) !important;
   margin-top: rem(17px);
-  margin-bottom: rem(14px);
+  margin-bottom: rem(24px);
   border-radius: 0;
 
   #progress-bar--blue {
@@ -29,39 +28,54 @@
 
 .society-stats__desc {
   display: flex;
-  @include text-styles(rem(15px), $darkGray, 200, rem(0.33px), rem(15px));
+  font-family: 'Din Pro';
+  @include text-styles(rem(15px), $darkGray, 200, rem(-0.08px), rem(15px));
 
   .stats__description__figure {
     font-weight: bold;
+  }
+   
+  #points-earned {
+    color: $andelaBlue;
+
+    span {
+      color: $pointsSubscriptColor;
+    }
+  }
+
+  #activities-logged {
+    color: $pointsSubscriptColor;
+  }
+
+  #used-points {
     margin-top: rem(20px);
-    padding-left: rem(20px);
+    padding-left: rem(28px);
+  }
+
+  #remaining-points {
+    margin-top: rem(20px);
+    padding-left: rem(60px);
   }
 }
 
+.society-stats__separator {
+  box-sizing: border-box;
+  @include widthAndHeight(100%, rem(2px));
+  margin-bottom: rem(18px);
+  border: 1px solid $separatorBgColor;
+}
+
 .society-stats__desc-text {
-  margin-left: rem(5px);
+  margin-left: rem(12px);
 }
 
 .society-stats__desc__points {
   display: flex;
 }
 
-#society-stats__desc--remaining-points {
+.right-side {
   margin-left: auto;
   margin-right: auto;
-}
-
-.society-stats--used-points-indicator {
-  margin-left: rem(10px);
-}
-
-
-#used-points {
-  margin-left: rem(10px);
-}
-
-#remaining-points {
-  margin-left: auto;
 }
 
 .society-stats__desc__logo {
@@ -99,9 +113,6 @@
     line-height: rem(13px);
   }
 
-  #used-points {
-    margin-left: auto;
-  }
 
   .society-stats__desc {
     .stats__description__figure {
@@ -122,6 +133,14 @@
     @include widthAndHeight(100%, 100%);
     margin-bottom: rem(15px);
     flex: 0 0 100%;
+  }
+
+  .progress {
+      margin-bottom: rem(8px);
+  }
+
+  .society-stats__separator {
+    margin-bottom: rem(8px);
   }
 }
 

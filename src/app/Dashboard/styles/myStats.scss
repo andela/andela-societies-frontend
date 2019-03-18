@@ -22,6 +22,7 @@
 }
 
 .stats__description__figure {
+  margin-bottom: 0;
   @include text-styles(rem(28px), $andelaGold, normal, rem(0.33px), rem(21px));
 
   span {
