@@ -36,6 +36,8 @@ const dashboard = (state = initialState.dashboard, action) => {
     return {
       ...state,
       activity: action.activity,
+      userActivities: [action.activity.data, ...state.userActivities],
+      activitiesLogged: state.activitiesLogged + 1,
     };
   case types.LOG_POINTS_FAIL:
     return {

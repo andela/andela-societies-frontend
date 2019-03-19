@@ -18,7 +18,7 @@ export function* addNewActivity(action) {
     const result = yield call(post, 'logged-activities', action.activity);
     yield put(actions.logPointsSuccess(result));
   } catch (error) {
-    yield put(actions.setError(error.toString()));
+    yield put(actions.logPointsFail(error.toString()));
   }
 }
 

@@ -1,6 +1,6 @@
 import types from '../types';
 import dashboard from '../reducer';
-import { myloggedActivities, categories } from './fixtures';
+import { myloggedActivities, categories, myActivityItem } from './fixtures';
 import initialState from '../../../../reducers/initialState';
 
 const defaultState = initialState.dashboard;
@@ -65,7 +65,6 @@ describe('Dashboard reducer', () => {
         pointsEarned,
         activitiesLogged,
         categories: [],
-        activity,
       })).toEqual({
         society,
         error: null,
@@ -104,7 +103,7 @@ describe('handles case CATEGORIES_SUCCESS', () => {
 });
 
 describe('handles case LOG_POINTS_REQUEST', () => {
-  it('returns loading true', () => {
+  it('returns loading false', () => {
     expect(
       dashboard(defaultState, {
         type: types.LOG_POINTS_REQUEST,
@@ -124,25 +123,25 @@ describe('handles case LOG_POINTS_REQUEST', () => {
 
 
 describe('handles case LOG_POINTS_SUCCESS', () => {
-  it('returns loading false', () => {
+  it('returns the created society activity', () => {
     const {
       activity,
-    } = myloggedActivities;
+    } = myActivityItem;
     expect(
       dashboard(defaultState, {
         type: types.LOG_POINTS_SUCCESS,
-        loading: false,
         activity,
+        userActivities: [],
       }),
     ).toEqual({
       error: null,
       society: '',
       loading: false,
       pointsEarned: 0,
-      userActivities: [],
-      activitiesLogged: 0,
+      activitiesLogged: 1,
       activity,
       categories: [],
+      userActivities: [activity.data],
     });
   });
 });

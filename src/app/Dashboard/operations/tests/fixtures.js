@@ -13,6 +13,35 @@ export const activity = {
   society: '',
 };
 
+const activityItem = {
+  data: {
+    activityId: 'eefad176-43cd-11e8-b3b9-9801a7ae0329',
+    name: null,
+    createdAt: '2018-06-03T18:31:25.783099+00:00',
+    description: 'blah blah',
+    societyId: 'eef704b0-43cd-11e8-97fb-9801a7ae0329',
+    activity: '2018-jun-bootcamp-18',
+    category: 'Bootcamp Interviews',
+    society: 'Phoenix',
+    activityTypeId: 'eef0e594-43cd-11e8-87a7-9801a7ae0329',
+    approvedBy: null,
+    status: 'pending',
+    modifiedAt: null,
+    owner_photo: 'https://lh3.googleusercontent.com/-Ke1NKb5MPuk/AAAAAAAAAAI/AAAAAAAAABg/8ofOe_CueLA/photo.jpg?sz=50',
+    id: '87d137f6-4724-11e8-97ee-9801a7ae0329',
+    points: 100,
+    redeemed: false,
+    reviewedBy: null,
+    date: '2018-06-03',
+    user: 'Lawrence Wachira',
+  },
+  message: 'Activity logged successfully',
+};
+
+export const myActivityItem = {
+  activity: activityItem,
+};
+
 const activityIDs = ['8437fa68-8e6b-11e8-a05c-9801a7ae0330', '8437fa68-8e6b-11e8-a05c-9801a7ae0331',
   '8437fa68-8e6b-11e8-a05c-9801a7ae0332', '8437fa68-8e6b-11e8-a05c-9801a7ae0333'];
 

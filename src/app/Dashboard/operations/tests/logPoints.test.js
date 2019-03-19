@@ -45,7 +45,7 @@ describe('Log Activity saga', () => {
     it('puts addNewActivityError', async () => {
       generator = addNewActivity();
       const err = new TypeError('Cannot read property \'activity\' of undefined');
-      expect(generator.next().value).toEqual(put(actions.setError(err.toString())));
+      expect(generator.next().value).toEqual(put(actions.logPointsFail(err.toString())));
     });
   });
 

@@ -15,10 +15,12 @@ import actions from '../operations/actions';
  */
 export class LogPointsModal extends Component {
   state = {
-    categoryOption: {},
+    categoryOption: '',
     numberOfParticipants: '',
     description: '',
     activityDate: '',
+    categoryValue: 0,
+    supportsMultipleParticipants: false,
   };
 
   static defaultProps = {
@@ -34,6 +36,19 @@ export class LogPointsModal extends Component {
     categories: PropTypes.arrayOf(PropTypes.shape({})),
     close: PropTypes.func,
   };
+
+  componentDidUpdate(prevProps, prevState) {
+    const { categoryOption } = this.state;
+    const { categories } = this.props;
+    const categoryItem = categories.find(category => category.id === categoryOption);
+    if (categoryOption !== prevState.categoryOption) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        categoryValue: categoryItem.value,
+        supportsMultipleParticipants: categoryItem.supportsMultipleParticipants,
+      });
+    }
+  }
 
   /**
    * @name handleChange
@@ -56,7 +71,7 @@ export class LogPointsModal extends Component {
     } = this.state;
     logActivity(
       {
-        activityId: categoryOption.id,
+        activityId: categoryOption,
         date: activityDate,
         noOfParticipants: numberOfParticipants,
         description,
@@ -67,16 +82,23 @@ export class LogPointsModal extends Component {
 
   render() {
     const {
-      categoryOption, numberOfParticipants, description, activityDate,
+      categoryOption,
+      numberOfParticipants,
+      description,
+      activityDate,
+      categoryValue,
+      supportsMultipleParticipants,
     } = this.state;
-    const { open, categories, close } = this.props;
+    const {
+      open, categories, close,
+    } = this.props;
     const styles = {
       login: {
-        transform: open ? 'translateY(-70%)' : 'translateY(-100vh)',
+        transform: open ? 'translateY(0%)' : 'translateY(-100vh)',
         opacity: open ? '1' : '0',
       },
       textField: {
-        display: categoryOption.supportsMultipleParticipants ? '' : 'none',
+        display: supportsMultipleParticipants ? '' : 'none',
       },
     };
     return (
@@ -97,21 +119,18 @@ export class LogPointsModal extends Component {
             <MenuItem
               handleChange={this.handleChange('categoryOption')}
               categories={categories}
-              categoryOption={categoryOption}
+              categoryId={categoryOption}
             />
             <TextField
               id='filled-number'
               name='numberOfParticipants'
               label='Number'
-              open={categoryOption.supportsMultipleParticipants}
+              open={supportsMultipleParticipants}
               value={numberOfParticipants}
               onChange={this.handleChange('numberOfParticipants')}
               type='number'
               style={styles.textField}
               margin='normal'
-              InputLabelProps={{
-                shrink: true,
-              }}
               fullWidth
             />
             <TextField
@@ -135,13 +154,10 @@ export class LogPointsModal extends Component {
               fullWidth
               value={description}
               onChange={this.handleChange('description')}
-              InputLabelProps={{
-                shrink: true,
-              }}
             />
             <div>
               <ButtonComponent type='button' className='btn-points'>
-                {categoryOption.value}
+                {categoryValue}
                 {' '}
                   Points
               </ButtonComponent>

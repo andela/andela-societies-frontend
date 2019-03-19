@@ -76,6 +76,15 @@ export class DashboardContainer extends Component {
       user, logPoints,
     } = this.state;
     let dashboardHtml;
+    let logPointsComponent;
+    if (logPoints) {
+      logPointsComponent = (
+        <LogPointsComponent
+          open={logPoints}
+          close={this.logPointsModal}
+        />
+      );
+    }
     if (loading) {
       dashboardHtml = <p>Loading ...</p>;
     } else if (!loading && error) {
@@ -109,14 +118,8 @@ export class DashboardContainer extends Component {
               </ButtonComponent>
             </div>
           </div>
+          { logPointsComponent }
           <MyActivitiesComponent userActivities={userActivities} />
-          {logPoints && (
-            <LogPointsComponent
-              className='modal'
-              open={logPoints}
-              close={this.logPointsModal}
-            />
-          ) }
         </div>
       );
     }

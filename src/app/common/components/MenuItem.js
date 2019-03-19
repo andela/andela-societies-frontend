@@ -3,18 +3,21 @@ import PropTypes from 'prop-types';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 
-const Item = ({ categoryOption, categories, handleChange }) => (
+const Item = ({
+  categoryId, categories, handleChange, handleClick,
+}) => (
   <TextField
     required
-    value={categoryOption}
+    value={categoryId}
     select
     label='Category'
     margin='normal'
     fullWidth
     onChange={handleChange}
+    onClick={handleClick}
   >
     {categories.map(option => (
-      <MenuItem key={option.id} value={option}>
+      <MenuItem key={option.id} value={option.id}>
         {option.name}
       </MenuItem>
     ))}
@@ -24,14 +27,16 @@ const Item = ({ categoryOption, categories, handleChange }) => (
 
 Item.defaultProps = {
   categories: [],
-  categoryOption: {},
+  categoryId: '',
   handleChange: () => {},
+  handleClick: () => {},
 };
 
 Item.propTypes = {
   categories: PropTypes.arrayOf(PropTypes.shape({})),
   handleChange: PropTypes.func,
-  categoryOption: PropTypes.objectOf(PropTypes.shape({})),
+  handleClick: PropTypes.func,
+  categoryId: PropTypes.string,
 };
 
 export default Item;

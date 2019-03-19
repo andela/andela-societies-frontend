@@ -51,9 +51,7 @@ describe('<DashboardContainer />', () => {
     const { shallowWrapper } = setUpWrapper();
     const instance = shallowWrapper.instance();
     expect(instance.state.logPoints).toBe(false);
-
     shallowWrapper.find('.button__add').simulate('click');
-
     expect(instance.state.logPoints).toBe(true);
   });
 });
