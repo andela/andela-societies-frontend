@@ -38,11 +38,14 @@ export class LogPointsModal extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
+    this.setFormState(prevState);
+  }
+
+  setFormState = (prevState) => {
     const { categoryOption } = this.state;
     const { categories } = this.props;
     const categoryItem = categories.find(category => category.id === categoryOption);
     if (categoryOption !== prevState.categoryOption) {
-      // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         categoryValue: categoryItem.value,
         supportsMultipleParticipants: categoryItem.supportsMultipleParticipants,

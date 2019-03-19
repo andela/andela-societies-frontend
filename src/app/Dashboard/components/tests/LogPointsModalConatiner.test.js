@@ -1,10 +1,11 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { LogPointsModal } from '../LogPointsModal';
+import { LogPointsModal } from '../LogPointsModalContainer';
+import { categories as activities } from '../../operations/tests/fixtures';
 
 describe('<LogPointsComponent />', () => {
   const setUpWrapper = ({
-    categories = [],
+    categories = activities,
   } = {}) => {
     const props = {
       categories,
@@ -35,5 +36,11 @@ describe('<LogPointsComponent />', () => {
   it('should contain Log in points text', () => {
     const { shallowWrapper } = setUpWrapper();
     expect(shallowWrapper.find('.log-points__heading').text()).toEqual('Log in points');
+  });
+
+  it('should call componentDidUpdate after state change', () => {
+    const { shallowWrapper } = setUpWrapper();
+    const instance = shallowWrapper.instance();
+    expect(instance.state.supportsMultipleParticipants).toBe(false);
   });
 });

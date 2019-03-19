@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { ButtonComponent } from '../../common/components';
 import MyStatsComponent from './MyStatsComponent';
 import SocietyStatsComponent from './SocietyStatsComponent';
-import LogPointsComponent from './LogPointsModal';
+import LogPointsComponent from './LogPointsModalContainer';
 import MyActivitiesComponent from './MyActivitiesComponent';
 
 import { myStats } from '../constants';
