@@ -41,6 +41,7 @@ describe('<LogPointsComponent />', () => {
   it('should call componentDidUpdate after state change', () => {
     const { shallowWrapper } = setUpWrapper();
     const instance = shallowWrapper.instance();
-    expect(instance.state.supportsMultipleParticipants).toBe(false);
+    const categoryOption = 0;
+    expect(instance.setFormState(categoryOption, activities[0], categoryOption)).toMatchSnapshot();
   });
 });

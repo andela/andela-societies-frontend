@@ -19,8 +19,10 @@ export class LogPointsModal extends Component {
     numberOfParticipants: '',
     description: '',
     activityDate: '',
-    categoryValue: 0,
-    supportsMultipleParticipants: false,
+    selectCategory: {
+      value: 0,
+      supportsMultipleParticipants: false,
+    },
   };
 
   static defaultProps = {
@@ -38,17 +40,16 @@ export class LogPointsModal extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    this.setFormState(prevState);
-  }
-
-  setFormState = (prevState) => {
     const { categoryOption } = this.state;
     const { categories } = this.props;
     const categoryItem = categories.find(category => category.id === categoryOption);
+    this.setFormState(prevState, categoryItem, categoryOption);
+  }
+
+  setFormState = (prevState, categoryItem, categoryOption) => {
     if (categoryOption !== prevState.categoryOption) {
       this.setState({
-        categoryValue: categoryItem.value,
-        supportsMultipleParticipants: categoryItem.supportsMultipleParticipants,
+        selectCategory: categoryItem,
       });
     }
   }
@@ -89,8 +90,7 @@ export class LogPointsModal extends Component {
       numberOfParticipants,
       description,
       activityDate,
-      categoryValue,
-      supportsMultipleParticipants,
+      selectCategory,
     } = this.state;
     const {
       open, categories, close,
@@ -101,7 +101,7 @@ export class LogPointsModal extends Component {
         opacity: open ? '1' : '0',
       },
       textField: {
-        display: supportsMultipleParticipants ? '' : 'none',
+        display: selectCategory.supportsMultipleParticipants ? '' : 'none',
       },
     };
     return (
@@ -128,7 +128,6 @@ export class LogPointsModal extends Component {
               id='filled-number'
               name='numberOfParticipants'
               label='Number'
-              open={supportsMultipleParticipants}
               value={numberOfParticipants}
               onChange={this.handleChange('numberOfParticipants')}
               type='number'
@@ -160,7 +159,7 @@ export class LogPointsModal extends Component {
             />
             <div>
               <ButtonComponent type='button' className='btn-points'>
-                {categoryValue}
+                {selectCategory.value}
                 {' '}
                   Points
               </ButtonComponent>
