@@ -7,6 +7,7 @@ import {
 
 import LoginContainer from './app/Login/components';
 import DashboardContainer from './app/Dashboard/components';
+import SocietiesContainer from './app/Societies/components';
 import AuthenticateRoute from './app/Authentication/components';
 
 import { tokenIsValid, getToken } from './app/utils';
@@ -25,6 +26,12 @@ const Router = () => (
         userInfo={token.UserInfo}
         path='/dashboard'
         component={DashboardContainer}
+      />
+      <AuthenticateRoute
+        isAuthenticated={tokenIsValid(token)}
+        userInfo={token.UserInfo}
+        path='/:society'
+        component={SocietiesContainer}
       />
     </Switch>
   </BrowserRouter>

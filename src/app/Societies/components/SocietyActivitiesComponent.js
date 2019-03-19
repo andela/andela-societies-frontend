@@ -4,30 +4,35 @@ import dateFns from 'date-fns';
 
 import { TableComponent, StatusIndicatorComponent, TruncateDescriptionContainer } from '../../common/components';
 
-const MyActivitiesComponent = (props) => {
-  const { userActivities } = props;
-  const columnNames = ['Activity', 'Date', 'Description', 'Points', 'Status'];
+const SocietyActivitiesComponent = (props) => {
+  const { activities } = props;
+  const columnNames = ['Name', 'Activity', 'Points', 'Date', 'Description', 'Status'];
   let tableBodyHtml;
-  if (!userActivities.length) {
+  if (!activities.length) {
     tableBodyHtml = (
       <tr className='myactivities__table__row'>
-        <td colSpan={5} className='myactivities__table__data'> You have not logged any activities </td>
+        <td colSpan={6} className='myactivities__table__data'>
+          Your society does not have logged any activities
+        </td>
       </tr>
     );
   } else {
-    tableBodyHtml = userActivities.map((activity) => {
+    tableBodyHtml = activities.map((activity) => {
       const {
-        id, activityDate, description, points, status,
+        id, owner, points, activityDate, description, status,
       } = activity;
       return (
         <tr key={id} className='myactivities__table__row'>
+          <td>{owner}</td>
           <td>{activity.activity}</td>
+          <td>{points}</td>
           <td>{dateFns.format(activityDate, 'MMM DD YYYY')}</td>
           <td>
             <TruncateDescriptionContainer description={description} wordCount={80} />
           </td>
-          <td>{points}</td>
-          <td><StatusIndicatorComponent status={status} /></td>
+          <td>
+            <StatusIndicatorComponent status={status} />
+          </td>
         </tr>
       );
     });
@@ -39,12 +44,12 @@ const MyActivitiesComponent = (props) => {
   );
 };
 
-MyActivitiesComponent.defaultProps = {
-  userActivities: [],
+SocietyActivitiesComponent.defaultProps = {
+  activities: [],
 };
 
-MyActivitiesComponent.propTypes = {
-  userActivities: PropTypes.arrayOf(PropTypes.shape({})),
+SocietyActivitiesComponent.propTypes = {
+  activities: PropTypes.arrayOf(PropTypes.shape({})),
 };
 
-export default MyActivitiesComponent;
+export default SocietyActivitiesComponent;

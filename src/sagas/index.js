@@ -1,5 +1,5 @@
 import { all, fork } from 'redux-saga/effects';
-
+import { watchFetchSocietyInfoReq } from '../app/Societies/operations';
 import watchFetchUserActivitiesRequest from '../app/Dashboard/operations';
 import { watchCategoriesLoad, watchLogActivityPoints } from '../app/Dashboard/operations/logPoints.data';
 
@@ -11,5 +11,6 @@ export default function* rootSaga() {
     fork(watchFetchUserActivitiesRequest),
     fork(watchCategoriesLoad),
     fork(watchLogActivityPoints),
+    fork(watchFetchSocietyInfoReq),
   ]);
 }
