@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DashboardContainer /> should call componentDidUpdate after state change 1`] = `undefined`;

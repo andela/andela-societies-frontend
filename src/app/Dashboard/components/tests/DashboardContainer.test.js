@@ -54,4 +54,11 @@ describe('<DashboardContainer />', () => {
     shallowWrapper.find('.button__add').simulate('click');
     expect(instance.state.logPoints).toBe(true);
   });
+
+  it('should call componentDidUpdate after state change', () => {
+    const { shallowWrapper } = setUpWrapper();
+    const instance = shallowWrapper.instance();
+    instance.setState({ showToast: false });
+    expect(instance.showToast()).toMatchSnapshot();
+  });
 });

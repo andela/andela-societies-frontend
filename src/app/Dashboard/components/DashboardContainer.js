@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { ButtonComponent } from '../../common/components';
+import { ButtonComponent, ToastMessageComponent } from '../../common/components';
 import MyStatsComponent from './MyStatsComponent';
 import SocietyStatsComponent from './SocietyStatsComponent';
 import LogPointsComponent from './LogPointsModalContainer';
@@ -16,6 +16,7 @@ export class DashboardContainer extends Component {
   state = {
     user: {},
     logPoints: false,
+    showToast: false,
   };
 
   /**
@@ -33,6 +34,7 @@ export class DashboardContainer extends Component {
     userActivities: myStats.userActivities,
     fetchUserActivites: () => {},
     loadCategories: () => {},
+    successMessage: '',
   };
 
   /**
@@ -50,6 +52,7 @@ export class DashboardContainer extends Component {
     fetchUserActivites: PropTypes.func,
     loadCategories: PropTypes.func,
     userActivities: PropTypes.arrayOf(PropTypes.shape({})),
+    successMessage: PropTypes.string,
   };
 
   componentDidMount() {
@@ -68,12 +71,24 @@ export class DashboardContainer extends Component {
     });
   }
 
+  showToast = () => {
+    setTimeout(() => this.setState({
+      showToast: true,
+    }, () => {
+      setTimeout(() => this.setState({
+        showToast: false,
+      }),
+      3000);
+    }),
+    1000);
+  }
+
   render() {
     const {
-      error, loading, pointsEarned, activitiesLogged, userActivities, society,
+      error, loading, pointsEarned, activitiesLogged, userActivities, society, successMessage,
     } = this.props;
     const {
-      user, logPoints,
+      user, logPoints, showToast,
     } = this.state;
     let dashboardHtml;
     let logPointsComponent;
@@ -82,6 +97,7 @@ export class DashboardContainer extends Component {
         <LogPointsComponent
           open={logPoints}
           close={this.logPointsModal}
+          showToast={this.showToast}
         />
       );
     }
@@ -103,6 +119,12 @@ export class DashboardContainer extends Component {
           </div>
           <div className='user-dashboard__actions col-sm-12'>
             <h3 className='user-dashboard__title'>My Activities</h3>
+            <ToastMessageComponent
+              className='success'
+              show={showToast}
+            >
+              <span>{successMessage}</span>
+            </ToastMessageComponent>
             <div>
               <ButtonComponent
                 type='button'
@@ -134,6 +156,7 @@ const mapStateToProps = ({ dashboard }) => ({
   pointsEarned: dashboard.pointsEarned,
   userActivities: dashboard.userActivities,
   activitiesLogged: dashboard.activitiesLogged,
+  successMessage: dashboard.activity.message,
 });
 
 export default connect(
