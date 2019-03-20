@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import LogoComponent from './LogoComponent';
-import SidebarComponent from './SidebarComponent';
+import SidebarContainer from '../../Sidebar/components';
 import ProfileContainer from './ProfileContainer';
 
 class NavbarContainer extends Component {
@@ -49,7 +49,7 @@ class NavbarContainer extends Component {
           </div>
         </form>
         <ProfileContainer className='desktop-profile' name={name} userImage={picture} />
-        <SidebarComponent
+        <SidebarContainer
           toggleSidebarState={this.toggleSidebarState}
           className={sidebarState ? 'mobile-sidenav open' : 'mobile-sidenav close'}
         />

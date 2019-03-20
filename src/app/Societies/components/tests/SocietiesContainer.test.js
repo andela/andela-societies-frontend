@@ -19,6 +19,14 @@ describe('<SocietiesContainer />', () => {
         totalPoints: 200,
         activitiesLogged: activities.length,
         loggedActivities: activities,
+      },
+      istelle: {
+        usedPoints: 100,
+        remainingPoints: 100,
+        totalPoints: 200,
+        activitiesLogged: activities.length,
+        loggedActivities: activities,
+        redemptions: []
       }
     },
     fetchSocietyInfoRequest: jest.fn(),
@@ -39,5 +47,12 @@ describe('<SocietiesContainer />', () => {
     instance.setState({ selectedTab: 'tab' });
     instance.changeSelectedTab('activities');
     expect(instance.state.selectedTab).toEqual('activities');
+  });
+
+  it('invokes fetchSocietyInfoRequest when society props change', () => {
+    const instance = shallowWrapper.instance();
+    const spy = jest.spyOn(instance.props, 'fetchSocietyInfoRequest');
+    shallowWrapper.setProps({ match: { params: { society: 'istelle' }} });
+    expect(spy).toHaveBeenCalled();
   });
 });

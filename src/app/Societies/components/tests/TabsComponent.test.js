@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 
 import TabsComponent from '../TabsComponent';
 
@@ -11,7 +11,7 @@ describe('<TabsComponent />', () => {
       selectedTab,
       changeSelectedTab: jest.fn(),
     };
-    const shallowWrapper = shallow(<TabsComponent {...props} />);
+    const shallowWrapper = mount(<TabsComponent {...props} />);
     return {
       shallowWrapper,
     };
@@ -30,5 +30,12 @@ describe('<TabsComponent />', () => {
   it('has the class selected__title with Redemptions text ', () => {
     const { shallowWrapper } = setUpWrapper({ selectedTab: 'redemptions' });
     expect(shallowWrapper.find('.selected__title').html()).toContain('Redemptions');
+  });
+
+  it('calls changeSelectedTab when selected__title is clicked ', () => {
+    const { shallowWrapper } = setUpWrapper();
+    const spy = jest.spyOn(shallowWrapper.props(), 'changeSelectedTab')
+    shallowWrapper.find('.selected__title').simulate('click')
+    expect(spy).toHaveBeenCalled();
   });
 });

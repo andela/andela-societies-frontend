@@ -22,3 +22,11 @@
   bottom: 0;
   border-radius: 2px;
 }
+
+@mixin checkmark {
+  margin: 0 auto;
+  transform: rotate(45deg);
+  @include widthAndHeight(rem(6px), rem(12px));
+  border-bottom: rem(2px) solid $lightAccent;
+  border-right: rem(2px) solid $lightAccent;
+}

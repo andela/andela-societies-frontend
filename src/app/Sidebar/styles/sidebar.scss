@@ -28,7 +28,7 @@
 
 .sidebar_nav-item {
   display: flex;
-  padding: rem(10px) 0 rem(10px) rem(16px);
+  padding: rem(10px) 0 rem(10px) rem(6px);
   @include widthAndHeight(rem(136px), rem(37px));
   margin-bottom: rem(12.94px);
   text-decoration: none !important;
@@ -67,6 +67,17 @@
   &.phoenix {
     @include border;
     background-image: url(../../../images/societyLogos/phoenix.svg);
+  }
+
+  &.outlinedCheckmark {
+    @include widthAndHeight(rem(20px), rem(20px));
+    border: rem(2px) solid $lightAccent;
+    text-align: center;
+    border-radius: rem(2px);
+
+    .checkmark {
+      @include checkmark;
+    }
   }
 }
 

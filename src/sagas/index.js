@@ -1,7 +1,8 @@
 import { all, fork } from 'redux-saga/effects';
-import { watchFetchSocietyInfoReq, watchFetchSocietyRedemptionsReq } from '../app/Societies/operations';
+import { watchFetchUserRoleRequest } from '../app/Sidebar/operations';
 import watchFetchUserActivitiesRequest from '../app/Dashboard/operations';
 import { watchCategoriesLoad, watchLogActivityPoints } from '../app/Dashboard/operations/logPoints.data';
+import { watchFetchSocietyInfoReq, watchFetchSocietyRedemptionsReq } from '../app/Societies/operations';
 
 const watchIncrementAsync = {};
 
@@ -9,10 +10,11 @@ const watchIncrementAsync = {};
 export default function* rootSaga() {
   yield all([
     watchIncrementAsync,
-    fork(watchFetchUserActivitiesRequest),
     fork(watchCategoriesLoad),
     fork(watchLogActivityPoints),
     fork(watchFetchSocietyInfoReq),
+    fork(watchFetchUserRoleRequest),
+    fork(watchFetchUserActivitiesRequest),
     fork(watchFetchSocietyRedemptionsReq),
   ]);
 }

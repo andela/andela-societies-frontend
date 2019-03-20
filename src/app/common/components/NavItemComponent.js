@@ -5,16 +5,16 @@ import { Link } from 'react-router-dom';
 import { capitalize } from '../../utils';
 
 const NavItemComponent = ({
-  route,
-  iconClassName,
-  labelClassName,
-  navItemClassName,
-}) => (
-  <Link to={`/${route}`} className={navItemClassName}>
-    <span className={iconClassName} />
-    <span className={labelClassName}>{capitalize(route)}</span>
-  </Link>
-);
+  route, iconClassName, labelClassName, navItemClassName,
+}) => {
+  const checkmarkHtml = iconClassName.includes('outlinedCheckmark') && <div className='checkmark' />;
+  return (
+    <Link to={`/${route}`} className={navItemClassName}>
+      <div className={iconClassName}>{checkmarkHtml}</div>
+      <span className={labelClassName}>{capitalize(route)}</span>
+    </Link>
+  );
+};
 
 NavItemComponent.defaultProps = {
   route: '',

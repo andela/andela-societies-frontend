@@ -1,0 +1,7 @@
+.loader {
+  position: absolute;
+  left: 50%;
+  top: 20%;
+  color: $lightAccent;
+  @include widthAndHeight(3rem, 3rem);
+}

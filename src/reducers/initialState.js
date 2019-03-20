@@ -9,6 +9,10 @@ const initialState = {
     categories: [],
     activity: {},
   },
+  sidebar: {
+    error: '',
+    userRole: {},
+  },
   society: {
     loading: false,
     error: false,
