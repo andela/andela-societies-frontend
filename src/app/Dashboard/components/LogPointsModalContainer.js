@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 import TextField from '@material-ui/core/TextField';
 import StartIcon from '@material-ui/icons/Star';
-// import { MenuItem } from '@material-ui/core';
 import { MenuItem, ButtonComponent } from '../../common/components';
 import actions from '../operations/actions';
 

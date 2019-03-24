@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import dateFns from 'date-fns';
+import { format } from 'date-fns';
 
 import { TableComponent, StatusIndicatorComponent, TruncateDescriptionContainer } from '../../common/components';
 
@@ -26,7 +26,7 @@ const SocietyActivitiesComponent = (props) => {
           <td>{owner}</td>
           <td>{activity.activity}</td>
           <td>{points}</td>
-          <td>{dateFns.format(activityDate, 'MMM DD YYYY')}</td>
+          <td>{format(new Date(activityDate), 'MMM dd yyyy')}</td>
           <td>
             <TruncateDescriptionContainer description={description} wordCount={80} />
           </td>
