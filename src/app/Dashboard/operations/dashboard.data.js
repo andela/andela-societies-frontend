@@ -1,5 +1,6 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
-
+import {
+  call, put, takeLatest, delay,
+} from 'redux-saga/effects';
 import types from './types';
 import actions from './actions';
 import { get } from '../../utils/api';
@@ -15,8 +16,22 @@ export function* fetchUserActivities(action) {
   }
 }
 
+export function* logActivitySuccess() {
+  try {
+    yield put({ type: types.LOG_ACTIVITY_TOAST_OPEN });
+    yield delay(2000);
+    yield put({ type: types.LOG_ACTIVITY_TOAST_CLOSE });
+  } catch (error) {
+    yield put(actions.logPointsFail(error.toString()));
+  }
+}
+
 function* watchFetchUserActivitiesRequest() {
   yield takeLatest(types.FETCH_USER_ACTIVITIES_REQUEST, fetchUserActivities);
+}
+
+export function* watchLogActivitySuccess() {
+  yield takeLatest(types.LOG_POINTS_SUCCESS, logActivitySuccess);
 }
 
 export default watchFetchUserActivitiesRequest;
