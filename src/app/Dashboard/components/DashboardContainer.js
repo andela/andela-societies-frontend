@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { ButtonComponent } from '../../common/components';
 import MyStatsComponent from './MyStatsComponent';
 import SocietyStatsComponent from './SocietyStatsComponent';
+import LogPointsComponent from './LogPointsModalContainer';
 import MyActivitiesComponent from './MyActivitiesComponent';
 
 import { myStats } from '../constants';
@@ -14,6 +15,7 @@ import { getUserInfo, getToken } from '../../utils/tokenIsValid';
 export class DashboardContainer extends Component {
   state = {
     user: {},
+    logPoints: false,
   };
 
   /**
@@ -30,6 +32,7 @@ export class DashboardContainer extends Component {
     activitiesLogged: myStats.activities,
     userActivities: myStats.userActivities,
     fetchUserActivites: () => {},
+    loadCategories: () => {},
   };
 
   /**
@@ -45,23 +48,43 @@ export class DashboardContainer extends Component {
     pointsEarned: PropTypes.number,
     activitiesLogged: PropTypes.number,
     fetchUserActivites: PropTypes.func,
+    loadCategories: PropTypes.func,
     userActivities: PropTypes.arrayOf(PropTypes.shape({})),
   };
 
   componentDidMount() {
-    const { fetchUserActivites } = this.props;
+    const { fetchUserActivites, loadCategories } = this.props;
     const token = getToken();
     const userInfo = getUserInfo(token);
     this.setState({ user: userInfo });
     fetchUserActivites(userInfo.id);
+    loadCategories();
+  }
+
+  logPointsModal = () => {
+    const { logPoints } = this.state;
+    this.setState({
+      logPoints: !logPoints,
+    });
   }
 
   render() {
     const {
       error, loading, pointsEarned, activitiesLogged, userActivities, society,
     } = this.props;
-    const { user } = this.state;
+    const {
+      user, logPoints,
+    } = this.state;
     let dashboardHtml;
+    let logPointsComponent;
+    if (logPoints) {
+      logPointsComponent = (
+        <LogPointsComponent
+          open={logPoints}
+          close={this.logPointsModal}
+        />
+      );
+    }
     if (loading) {
       dashboardHtml = <p>Loading ...</p>;
     } else if (!loading && error) {
@@ -81,7 +104,11 @@ export class DashboardContainer extends Component {
           <div className='user-dashboard__actions col-sm-12'>
             <h3 className='user-dashboard__title'>My Activities</h3>
             <div>
-              <ButtonComponent className='button__add user-dashboard__button'>
+              <ButtonComponent
+                type='button'
+                className='button__add user-dashboard__button'
+                onClick={this.logPointsModal}
+              >
                 <span className='fa fa-plus' />
                 <span>Log Points</span>
               </ButtonComponent>
@@ -91,6 +118,7 @@ export class DashboardContainer extends Component {
               </ButtonComponent>
             </div>
           </div>
+          { logPointsComponent }
           <MyActivitiesComponent userActivities={userActivities} />
         </div>
       );
@@ -112,5 +140,6 @@ export default connect(
   mapStateToProps,
   {
     fetchUserActivites: actions.fetchUserActivitiesRequest,
+    loadCategories: actions.loadCategories,
   },
 )(DashboardContainer);

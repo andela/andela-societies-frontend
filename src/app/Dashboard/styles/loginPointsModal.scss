@@ -1,0 +1,105 @@
+.login-jumbotron {
+    display: flex;
+    align-items: center; 
+    height: 0rem;
+    transition: all .8s;
+    position:relative;
+  }
+
+.login-container {
+    background: rgb(255, 255, 255);
+    box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.17);
+    margin: 10% auto 0;
+    transition: all .8s;
+    width: 30rem;
+}
+
+.log-points__heading {
+    color: #000
+}
+
+// small devices
+@media (max-width: 660px) {
+    .login-container {
+        background: rgb(255, 255, 255);
+        box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.17);
+        margin-top: -5rem ;
+        transition: all .8s;
+        width: 20rem;
+    }
+   }
+
+// Medium devices
+@media (min-width: 660px) and (max-width: 1324px) {
+    .login-container {
+        background: rgb(255, 255, 255);
+        margin-top: 0rem ;
+        box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.17);
+        transition: all .8s;
+        width: 30rem;
+    }
+}
+
+.form-container {
+    padding-left: 15%;
+    padding-right: 15%;
+    border-radius: 20px;
+}
+
+.btn-points {
+    border: 1px solid #F5A623;
+    color: white;
+    background: #F5A623;
+    width: 100px;
+    height: 40px;
+    margin-top: 10%;
+}
+
+.btn-abort {
+    border: 1px solid #F5A623;
+    color: #9B9B9B;
+    width: 95px;
+    background: #fff;
+    height: 42px;
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+}
+
+.btn-log {
+    color: white;
+    background: #122EB8;
+    width: 95px;
+    height: 42px;
+    margin-left: 0.5rem;
+    margin-left: 0.5rem;
+}
+
+.log-points-ratings {
+    text-align: center;
+    padding-top: 10%;
+}
+
+.log-points {
+    text-align: center;
+    padding-top: 10%;
+    color: #686868;
+    font-family: sans-serif;
+}
+
+.log-points-footer {
+    text-align: center;
+    padding-top: 15%;
+    padding-bottom: 30%;
+}
+
+.ratings-icon {
+    color: #F5A623;
+}
+
+.log-points-inputs {
+    -webkit-text-fill-color: #686868;
+}
+
+.snackbar {
+    background: rgb(255, 255, 255);
+}

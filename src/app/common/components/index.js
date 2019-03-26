@@ -7,4 +7,5 @@ export { default as SidebarComponent } from './SidebarComponent';
 export { default as NavItemComponent } from './NavItemComponent';
 export { default as ProgressBarComponent } from './ProgressBarComponent';
 export { default as StatusIndicatorComponent } from './StatusIndicatorComponent';
+export { default as MenuItem } from './MenuItem';
 export { default as TruncateDescriptionContainer } from './TruncateDescriptionContainer';

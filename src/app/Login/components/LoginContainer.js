@@ -66,7 +66,7 @@ class LoginContainer extends Component {
               </a>
             </div>
             <p className='login__pane__footer'>
-              {format(new Date(), 'YYYY')}
+              {format(new Date(), 'yyyy')}
               &nbsp;
               &copy; Powered by Andela
             </p>

@@ -10,7 +10,7 @@ describe('<DashboardContainer />', () => {
     pointsEarned = 0,
     userActivities = [],
     activitiesLogged = 0,
-    society= ''
+    society = '',
   } = {}) => {
     const props = {
       error,
@@ -42,7 +42,16 @@ describe('<DashboardContainer />', () => {
   });
 
   it('should contain <MyStatsComponent points={300} activities={2} />', () => {
-    const { shallowWrapper } = setUpWrapper({ pointsEarned: 300, activitiesLogged: 2});
-    expect(shallowWrapper.find('.profile-overview').debug()).toContain("<MyStatsComponent points={300} activities={2} />");
+    const { shallowWrapper } = setUpWrapper({ pointsEarned: 300, activitiesLogged: 2 });
+    expect(shallowWrapper.find('.profile-overview').debug())
+      .toContain('<MyStatsComponent points={300} activities={2} />');
+  });
+
+  it('should open the Log Points Modal', () => {
+    const { shallowWrapper } = setUpWrapper();
+    const instance = shallowWrapper.instance();
+    expect(instance.state.logPoints).toBe(false);
+    shallowWrapper.find('.button__add').simulate('click');
+    expect(instance.state.logPoints).toBe(true);
   });
 });
