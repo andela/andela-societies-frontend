@@ -218,3 +218,4 @@ describe('handles case LOG_ACTIVITY_TOAST_CLOSE', () => {
     });
   });
 });
+

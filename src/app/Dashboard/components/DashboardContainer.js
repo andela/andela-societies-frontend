@@ -85,7 +85,6 @@ export class DashboardContainer extends Component {
         <LogPointsComponent
           open={logPoints}
           close={this.logPointsModal}
-          showToast={this.showToast}
         />
       );
     }
