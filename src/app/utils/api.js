@@ -1,8 +1,13 @@
+import Cookie from 'js-cookie';
+
 import config from '../../../config';
+
+const token = Cookie.get('jwt-token');
 
 const headers = {
   'Content-Type': 'application/json',
   Accept: 'application/json',
+  Authorization: token,
 };
 
 const checkStatus = (response) => {
