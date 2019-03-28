@@ -9,6 +9,7 @@ const initialState = {
     activitiesLogged: 0,
     categories: [],
     activity: {},
+    showToastMessage: false,
   },
   sidebar: {
     error: '',

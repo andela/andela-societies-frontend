@@ -45,6 +45,16 @@ const dashboard = (state = initialState.dashboard, action) => {
       ...state,
       error: action.error,
     };
+  case types.LOG_ACTIVITY_TOAST_OPEN:
+    return {
+      ...state,
+      showToastMessage: true,
+    };
+  case types.LOG_ACTIVITY_TOAST_CLOSE:
+    return {
+      ...state,
+      showToastMessage: false,
+    };
   default:
     return state;
   }

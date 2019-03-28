@@ -9,3 +9,4 @@ export { default as ProgressBarComponent } from './ProgressBarComponent';
 export { default as StatusIndicatorComponent } from './StatusIndicatorComponent';
 export { default as MenuItem } from './MenuItem';
 export { default as TruncateDescriptionContainer } from './TruncateDescriptionContainer';
+export { default as ToastMessageComponent } from './ToastMessageComponent';
