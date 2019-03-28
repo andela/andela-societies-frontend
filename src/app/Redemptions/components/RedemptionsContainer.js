@@ -14,6 +14,7 @@ export class RedemptionsContainer extends Component {
     society: {},
     societyName: '',
     fetchUserActivites: null,
+    fetchSocietyInfoRequest: null,
     fetchSocietyRedemptionsRequest: null,
   };
 
@@ -21,27 +22,34 @@ export class RedemptionsContainer extends Component {
     society: PropTypes.shape({}),
     societyName: PropTypes.string,
     fetchUserActivites: PropTypes.func,
+    fetchSocietyInfoRequest: PropTypes.func,
     fetchSocietyRedemptionsRequest: PropTypes.func,
   };
 
   componentDidMount() {
-    const { fetchSocietyRedemptionsRequest, societyName, fetchUserActivites } = this.props;
+    const {
+      fetchSocietyRedemptionsRequest, fetchSocietyInfoRequest, societyName, fetchUserActivites,
+    } = this.props;
     const token = getToken();
     const userInfo = getUserInfo(token);
     fetchUserActivites(userInfo.id);
+    fetchSocietyInfoRequest(societyName.toLowerCase());
     fetchSocietyRedemptionsRequest(societyName.toLowerCase());
   }
 
   componentDidUpdate(prevProps) {
-    const { fetchSocietyRedemptionsRequest, societyName } = this.props;
-    if (prevProps.societyName !== societyName) {
+    const {
+      fetchSocietyRedemptionsRequest, fetchSocietyInfoRequest, societyName,
+    } = this.props;
+    if (prevProps.societyName !== societyName && !prevProps.society[societyName.toLowerCase()].redemptions.length) {
+      fetchSocietyInfoRequest(societyName.toLowerCase());
       fetchSocietyRedemptionsRequest(societyName.toLowerCase());
     }
   }
 
   render() {
     const { society, societyName } = this.props;
-    let verifyActivitiesHtml = (<LoaderComponent className='loader' />);
+    let verifyActivitiesHtml = <LoaderComponent className='loader' />;
     if (societyName) {
       const {
         usedPoints, pointsEarned, remainingPoints, activitiesLogged, redemptions,
@@ -92,8 +100,9 @@ const mapStateToProps = ({ society, dashboard }) => ({
 });
 
 const mapDispatchToProps = {
-  fetchSocietyRedemptionsRequest: societyActions.fetchSocietyRedemptionsRequest,
   fetchUserActivites: dashboardActions.fetchUserActivitiesRequest,
+  fetchSocietyInfoRequest: societyActions.fetchSocietyInfoRequest,
+  fetchSocietyRedemptionsRequest: societyActions.fetchSocietyRedemptionsRequest,
 };
 
 export default connect(

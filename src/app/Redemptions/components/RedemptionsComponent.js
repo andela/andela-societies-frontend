@@ -7,7 +7,7 @@ import { TableComponent, TruncateDescriptionContainer, StatusIndicatorComponent 
 
 const RedemptionsComponent = ({ activities }) => {
   let tableBodyHtml;
-  const columnNames = ['Cash', 'Date', 'Event', 'Points', 'Status'];
+  const columnNames = ['Cash', 'Date', 'Description', 'Points', 'Status'];
   if (!activities.length) {
     tableBodyHtml = (
       <tr className='myactivities__table__row'>

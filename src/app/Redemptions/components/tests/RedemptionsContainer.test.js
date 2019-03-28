@@ -25,6 +25,7 @@ describe('<RedemptionsContainer />', () => {
       },
     },
     fetchUserActivites: jest.fn(),
+    fetchSocietyInfoRequest: jest.fn(),
     fetchSocietyRedemptionsRequest: jest.fn(),
   };
   const shallowWrapper = shallow(<RedemptionsContainer {...props} />);

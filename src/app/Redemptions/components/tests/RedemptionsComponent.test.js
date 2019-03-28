@@ -38,7 +38,7 @@ describe('<RedemptionsComponent />', () => {
     expect(shallowWrapper.find('TableComponent').props().tableHeadings).toEqual([
       'Cash',
       'Date',
-      'Event',
+      'Description',
       'Points',
       'Status',
     ]);
