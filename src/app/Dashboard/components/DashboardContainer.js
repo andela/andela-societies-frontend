@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { ButtonComponent } from '../../common/components';
+import { ButtonComponent, LoaderComponent } from '../../common/components';
 import MyStatsComponent from './MyStatsComponent';
 import SocietyStatsComponent from './SocietyStatsComponent';
 import LogPointsComponent from './LogPointsModalContainer';
@@ -86,7 +86,7 @@ export class DashboardContainer extends Component {
       );
     }
     if (loading) {
-      dashboardHtml = <p>Loading ...</p>;
+      dashboardHtml = (<LoaderComponent className='loader' />);
     } else if (!loading && error) {
       dashboardHtml = <p>The was an error while fetching your data. Please try again later.</p>;
     } else {

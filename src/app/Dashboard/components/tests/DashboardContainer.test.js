@@ -33,7 +33,7 @@ describe('<DashboardContainer />', () => {
 
   it('should return loading text when loading prop is true ', () => {
     const { shallowWrapper } = setUpWrapper({ loading: true });
-    expect(shallowWrapper.text()).toContain('Loading ...');
+    expect(shallowWrapper.text()).toContain('LoaderComponent');
   });
 
   it('should contain My Activities text', () => {
