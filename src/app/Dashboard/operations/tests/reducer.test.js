@@ -21,6 +21,7 @@ describe('Dashboard reducer', () => {
         }),
       ).toEqual({
         error: null,
+        dlevel: '',
         society: '',
         loading: true,
         pointsEarned: 0,
@@ -43,6 +44,7 @@ describe('Dashboard reducer', () => {
         }),
       ).toEqual({
         error,
+        dlevel: '',
         society: '',
         loading: false,
         pointsEarned: 0,
@@ -58,17 +60,26 @@ describe('Dashboard reducer', () => {
   describe('handles case FETCH_USER_ACTIVITIES_SUCCESS', () => {
     it('returns poinstEarned, activitiesLogged and userActivities', () => {
       const {
-        data, pointsEarned, activitiesLogged, activity, society,
-      } = myloggedActivities;
-      expect(dashboard(defaultState, {
-        type: types.FETCH_USER_ACTIVITIES_SUCCESS,
+        data,
         society,
-        activities: data,
         pointsEarned,
         activitiesLogged,
-        categories: [],
-      })).toEqual({
+        activity,
+        level: { name },
+      } = myloggedActivities;
+      expect(
+        dashboard(defaultState, {
+          type: types.FETCH_USER_ACTIVITIES_SUCCESS,
+          dlevel: name,
+          society,
+          activities: data,
+          pointsEarned,
+          activitiesLogged,
+          categories: [],
+        }),
+      ).toEqual({
         society,
+        dlevel: name,
         error: null,
         pointsEarned,
         loading: false,
@@ -82,12 +93,9 @@ describe('Dashboard reducer', () => {
   });
 });
 
-
 describe('handles case CATEGORIES_SUCCESS', () => {
   it('returns society activity categories', () => {
-    const {
-      activity,
-    } = myloggedActivities;
+    const { activity } = myloggedActivities;
     expect(
       dashboard(defaultState, {
         type: types.CATEGORIES_SUCCESS,
@@ -95,6 +103,7 @@ describe('handles case CATEGORIES_SUCCESS', () => {
       }),
     ).toEqual({
       society: '',
+      dlevel: '',
       error: null,
       pointsEarned: 0,
       loading: false,
@@ -115,6 +124,7 @@ describe('handles case LOG_POINTS_REQUEST', () => {
     ).toEqual({
       error: null,
       society: '',
+      dlevel: '',
       loading: false,
       pointsEarned: 0,
       userActivities: [],
@@ -128,9 +138,7 @@ describe('handles case LOG_POINTS_REQUEST', () => {
 
 describe('handles case LOG_POINTS_SUCCESS', () => {
   it('returns the created society activity', () => {
-    const {
-      activity,
-    } = myActivityItem;
+    const { activity } = myActivityItem;
     expect(
       dashboard(defaultState, {
         type: types.LOG_POINTS_SUCCESS,
@@ -140,6 +148,7 @@ describe('handles case LOG_POINTS_SUCCESS', () => {
     ).toEqual({
       error: null,
       society: '',
+      dlevel: '',
       loading: false,
       pointsEarned: 0,
       activitiesLogged: 1,
@@ -162,6 +171,7 @@ describe('handles case LOG_POINTS_FAIL', () => {
     ).toEqual({
       error,
       society: '',
+      dlevel: '',
       loading: false,
       pointsEarned: 0,
       userActivities: [],

@@ -1,8 +1,9 @@
 import React from 'react';
 import { Route, withRouter } from 'react-router-dom';
 
-import { HeroComponent, NavbarContainer, SidebarComponent } from '../../common/components';
 import LoginComponent from '../../Login/components';
+import SidebarContainer from '../../Sidebar/components';
+import { HeroComponent, NavbarContainer } from '../../common/components';
 
 /**
  * @name _Authenticate
@@ -21,7 +22,7 @@ export const Authenticate = ({
           <div className='wrapper'>
             <HeroComponent />
             <div className='main-content'>
-              <SidebarComponent className='sidebar' />
+              <SidebarContainer className='sidebar' userId={userInfo.id} />
               <div className='sub-content'>
                 <NavbarContainer userInfo={userInfo} />
                 <Component {...props} />
