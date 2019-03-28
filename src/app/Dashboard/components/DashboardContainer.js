@@ -76,7 +76,7 @@ export class DashboardContainer extends Component {
 
   render() {
     const {
-      error, loading, pointsEarned, activitiesLogged, userActivities, society, successMessage, showToastMessage, dlevel,,
+      error, loading, pointsEarned, activitiesLogged, userActivities, society, successMessage, showToastMessage, dlevel,
     } = this.props;
     const {
       user, logPoints,

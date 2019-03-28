@@ -1,7 +1,6 @@
 import { all, fork } from 'redux-saga/effects';
-import { watchFetchSocietyInfoReq } from '../app/Societies/operations';
+import { watchFetchUserRoleRequest } from '../app/Sidebar/operations';
 import watchFetchUserActivitiesRequest, { watchLogActivitySuccess } from '../app/Dashboard/operations/dashboard.data';
-
 import { watchCategoriesLoad, watchLogActivityPoints } from '../app/Dashboard/operations/logPoints.data';
 import { watchFetchSocietyInfoReq, watchFetchSocietyRedemptionsReq } from '../app/Societies/operations';
 

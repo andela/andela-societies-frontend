@@ -194,6 +194,7 @@ describe('handles case LOG_ACTIVITY_TOAST_OPEN', () => {
       error: null,
       society: '',
       loading: false,
+      dlevel: '',
       pointsEarned: 0,
       activitiesLogged: 0,
       activity: {},
@@ -219,6 +220,7 @@ describe('handles case LOG_ACTIVITY_TOAST_CLOSE', () => {
       error: null,
       society: '',
       loading: false,
+      dlevel: '',
       pointsEarned: 0,
       activitiesLogged: 0,
       activity,
@@ -228,4 +230,3 @@ describe('handles case LOG_ACTIVITY_TOAST_CLOSE', () => {
     });
   });
 });
-
