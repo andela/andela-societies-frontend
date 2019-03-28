@@ -4,7 +4,11 @@ import types from '../types';
 import actions from '../actions';
 import { get } from '../../../utils/api';
 import activities from '../../../Dashboard/operations/tests/fixtures';
-import watchFetchSocietyInfoReq, { fetchSocietyInfo } from '../societies.data';
+import watchFetchSocietyInfoReq, {
+  fetchSocietyInfo,
+  fetchSocietyRedemptions,
+  watchFetchSocietyRedemptionsReq,
+} from '../societies.data';
 
 describe('Society saga', () => {
   let generator;
@@ -16,11 +20,12 @@ describe('Society saga', () => {
   });
 
   describe('fetchSocietyInfo generator', () => {
+    const societyName = 'phoenix';
     const action = {
       type: types.FETCH_SOCIETY_INFO_REQUEST,
-      payload: { societyName: 'phoenix' },
+      payload: { societyName },
     };
-    const url = `societies?name=${action.payload.societyName}`;
+    const url = `societies?name=${societyName}`;
 
     it('fetches society info successfully', async () => {
       const result = {
@@ -38,9 +43,10 @@ describe('Society saga', () => {
 
       expect(generator.next().value).toEqual(call(get, url));
 
-      expect(generator.next(result).value).toEqual(
+      expect(generator.next(result, societyName).value).toEqual(
         put(
           actions.fetchSocietyInfoSuccess(
+            societyName,
             result.societyDetails.totalPoints,
             result.societyDetails.usedPoints,
             result.societyDetails.remainingPoints,
@@ -57,7 +63,55 @@ describe('Society saga', () => {
 
       expect(generator.next().value).toEqual(call(get, url));
 
-      expect(generator.throw('There is an error').value).toEqual(put(actions.societyPageError()));
+      expect(generator.throw().value).toEqual(
+        put(actions.societyPageError('There was an error fetching activities. Try again later')),
+      );
+    });
+  });
+
+  describe('watchFetchSocietyRedemptionsReq generator', () => {
+    it('takes FETCH_SOCIETY_REDEMPTIONS_REQUEST action', () => {
+      generator = watchFetchSocietyRedemptionsReq();
+      expect(generator.next().value).toEqual(
+        takeEvery(types.FETCH_SOCIETY_REDEMPTIONS_REQUEST, fetchSocietyRedemptions),
+      );
+    });
+  });
+
+  describe('fetchSocietyRedemptions generator', () => {
+    const societyName = 'phoenix';
+    const action = {
+      type: types.FETCH_SOCIETY_REDEMPTIONS_REQUEST,
+      payload: { societyName },
+    };
+    const url = `societies/redeem?society=${societyName}`;
+
+    it('fetches society redemptions successfully', async () => {
+      const result = {
+        data: {
+          redemptions: [],
+        },
+      };
+
+      generator = fetchSocietyRedemptions(action);
+      expect(generator.next().value).toEqual(put(actions.societyPageLoading()));
+
+      expect(generator.next().value).toEqual(call(get, url));
+
+      expect(generator.next(result, societyName).value).toEqual(
+        put(actions.fetchSocietyRedemptionsSuccess(result.data, societyName)),
+      );
+    });
+
+    it('fetch society redemptions error', () => {
+      generator = fetchSocietyRedemptions(action);
+      expect(generator.next().value).toEqual(put(actions.societyPageLoading()));
+
+      expect(generator.next().value).toEqual(call(get, url));
+
+      expect(generator.throw().value).toEqual(
+        put(actions.societyPageError('There was an error fetching redemptions. Try again later')),
+      );
     });
   });
 });

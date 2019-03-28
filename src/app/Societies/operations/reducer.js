@@ -1,8 +1,8 @@
 import types from './types';
 import initialState from '../../../reducers/initialState';
 
-const society = (state = initialState.society, action) => {
-  switch (action.type) {
+const society = (state = initialState.society, { type, payload }) => {
+  switch (type) {
   case types.SOCIETY_PAGE_LOADING:
     return {
       ...state,
@@ -11,17 +11,39 @@ const society = (state = initialState.society, action) => {
   case types.SOCIETY_PAGE_ERROR:
     return {
       ...state,
-      error: true,
+      error: payload.error,
     };
-  case types.FETCH_SOCIETY_INFO_SUCCESS:
+  case types.FETCH_SOCIETY_INFO_SUCCESS: {
+    const {
+      societyName,
+      pointsEarned,
+      usedPoints,
+      remainingPoints,
+      loggedActivities,
+      activitiesLogged,
+    } = payload;
     return {
       ...state,
-      pointsEarned: action.payload.pointsEarned,
-      usedPoints: action.payload.usedPoints,
-      remainingPoints: action.payload.remainingPoints,
-      loggedActivities: action.payload.loggedActivities,
-      activitiesLogged: action.payload.activitiesLogged,
+      [societyName]: {
+        ...state[societyName],
+        pointsEarned,
+        usedPoints,
+        remainingPoints,
+        loggedActivities,
+        activitiesLogged,
+      },
     };
+  }
+  case types.FETCH_SOCIETY_REDEMPTIONS_SUCCESS: {
+    const { societyName } = payload;
+    return {
+      ...state,
+      [societyName]: {
+        ...state[societyName],
+        redemptions: payload.redemptions,
+      },
+    };
+  }
   default:
     return state;
   }
