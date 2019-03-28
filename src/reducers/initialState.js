@@ -1,6 +1,7 @@
 const initialState = {
   dashboard: {
     error: null,
+    dlevel: '',
     society: '',
     loading: false,
     pointsEarned: 0,
