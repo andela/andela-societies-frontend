@@ -22,7 +22,7 @@ const MyActivitiesComponent = (props) => {
       return (
         <tr key={id} className='myactivities__table__row'>
           <td>{activity.activity}</td>
-          <td>{format(new Date(activityDate), 'MMM dd yyyy')}</td>
+          <td>{format(new Date(activityDate), 'MMM DD YYYY')}</td>
           <td>
             <TruncateDescriptionContainer description={description} wordCount={80} />
           </td>

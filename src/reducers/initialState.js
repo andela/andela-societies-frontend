@@ -12,11 +12,38 @@ const initialState = {
   society: {
     loading: false,
     error: false,
-    pointsEarned: 0,
-    usedPoints: 0,
-    remainingPoints: 0,
-    loggedActivities: [],
-    activitiesLogged: 0,
+    istelle: {
+      pointsEarned: 0,
+      usedPoints: 0,
+      remainingPoints: 0,
+      redemptions: [],
+      loggedActivities: [],
+      activitiesLogged: 0,
+    },
+    phoenix: {
+      pointsEarned: 0,
+      usedPoints: 0,
+      remainingPoints: 0,
+      redemptions: [],
+      loggedActivities: [],
+      activitiesLogged: 0,
+    },
+    invictus: {
+      pointsEarned: 0,
+      usedPoints: 0,
+      remainingPoints: 0,
+      redemptions: [],
+      loggedActivities: [],
+      activitiesLogged: 0,
+    },
+    sparks: {
+      pointsEarned: 0,
+      usedPoints: 0,
+      remainingPoints: 0,
+      redemptions: [],
+      loggedActivities: [],
+      activitiesLogged: 0,
+    },
   },
 };
 

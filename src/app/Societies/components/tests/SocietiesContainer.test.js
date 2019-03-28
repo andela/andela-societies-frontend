@@ -9,15 +9,20 @@ describe('<SocietiesContainer />', () => {
   const props = {
     match: {
       params: {
-        society: '',
+        society: 'phoenix',
       },
     },
-    usedPoints: 100,
-    remainingPoints: 100,
-    totalPoints: 200,
-    activitiesLogged: activities.length,
-    loggedActivities: activities,
+    society: {
+      phoenix: {
+        usedPoints: 100,
+        remainingPoints: 100,
+        totalPoints: 200,
+        activitiesLogged: activities.length,
+        loggedActivities: activities,
+      }
+    },
     fetchSocietyInfoRequest: jest.fn(),
+    fetchSocietyRedemptionsRequest: jest.fn()
   };
   const shallowWrapper = shallow(<SocietiesContainer {...props} />);
 
@@ -25,7 +30,14 @@ describe('<SocietiesContainer />', () => {
     expect(shallowWrapper.find('ButtonComponent')).toHaveLength(2);
   });
 
-  it('has Activities and Redemptions text tabs', () => {
-    expect(shallowWrapper.find('.society__tabs').text()).toContain('ActivitiesRedemptions');
+  it('has TabsComponent', () => {
+    expect(shallowWrapper.find('TabsComponent')).toHaveLength(1);
+  });
+
+  it('changes selectedTab state when changeSelectedTab is called with a society name', () => {
+    const instance = shallowWrapper.instance();
+    instance.setState({ selectedTab: 'tab' });
+    instance.changeSelectedTab('activities');
+    expect(instance.state.selectedTab).toEqual('activities');
   });
 });
