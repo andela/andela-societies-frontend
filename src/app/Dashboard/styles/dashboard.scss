@@ -169,6 +169,11 @@
     border: none;
   }
 
+  .button__redemption {
+    @include widthAndHeight(rem(163px), rem(32px));
+    margin-left: rem(16px);
+  }
+
   .button__filter {
     @include widthAndHeight(rem(78px), rem(32px));
     margin-left: rem(26px);
