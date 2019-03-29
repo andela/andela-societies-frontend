@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { ButtonComponent, ToastMessageComponent, LoaderComponent } from '../../common/components';
 
+import {
+  ButtonComponent,
+  LoaderComponent,
+  SocietyStatsComponent,
+  ToastMessageComponent,
+} from '../../common/components';
 import MyStatsComponent from './MyStatsComponent';
-import SocietyStatsComponent from './SocietyStatsComponent';
 import LogPointsComponent from './LogPointsModalContainer';
 import MyActivitiesComponent from './MyActivitiesComponent';
 
@@ -72,27 +76,20 @@ export class DashboardContainer extends Component {
     this.setState({
       logPoints: !logPoints,
     });
-  }
+  };
 
   render() {
     const {
       error, loading, pointsEarned, activitiesLogged, userActivities, society, successMessage, showToastMessage, dlevel,
     } = this.props;
-    const {
-      user, logPoints,
-    } = this.state;
+    const { user, logPoints } = this.state;
     let dashboardHtml;
     let logPointsComponent;
     if (logPoints) {
-      logPointsComponent = (
-        <LogPointsComponent
-          open={logPoints}
-          close={this.logPointsModal}
-        />
-      );
+      logPointsComponent = <LogPointsComponent open={logPoints} close={this.logPointsModal} />;
     }
     if (loading) {
-      dashboardHtml = (<LoaderComponent className='loader' />);
+      dashboardHtml = <LoaderComponent className='loader' />;
     } else if (!loading && error) {
       dashboardHtml = <p>The was an error while fetching your data. Please try again later.</p>;
     } else {
@@ -136,7 +133,7 @@ export class DashboardContainer extends Component {
               </ButtonComponent>
             </div>
           </div>
-          { logPointsComponent }
+          {logPointsComponent}
           <MyActivitiesComponent userActivities={userActivities} />
         </div>
       );
