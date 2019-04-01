@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 
 import { RedemptionsContainer } from '../RedemptionsContainer';
 
@@ -28,7 +28,7 @@ describe('<RedemptionsContainer />', () => {
     fetchSocietyInfoRequest: jest.fn(),
     fetchSocietyRedemptionsRequest: jest.fn(),
   };
-  const shallowWrapper = shallow(<RedemptionsContainer {...props} />);
+  const shallowWrapper = mount(<RedemptionsContainer {...props} />);
 
   it('has a 3 ButtonComponents', () => {
     expect(shallowWrapper.find('ButtonComponent')).toHaveLength(3);
@@ -44,7 +44,7 @@ describe('<RedemptionsContainer />', () => {
 
   it('invokes fetchSocietyRedemptionsRequest in componentDidUpdate when societyName props change', () => {
     const instance = shallowWrapper.instance();
-    const spy = jest.spyOn(instance.props, 'fetchSocietyRedemptionsRequest');
+    const spy = jest.spyOn(instance.props, 'fetchSocietyInfoRequest');
     shallowWrapper.setProps({ societyName: 'istelle' });
     expect(spy).toHaveBeenCalled();
   });
