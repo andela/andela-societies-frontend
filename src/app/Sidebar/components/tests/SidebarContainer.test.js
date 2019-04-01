@@ -4,7 +4,6 @@ import { SidebarContainer } from '../SidebarContainer';
 
 describe('<SidebarContainer />', () => {
   const props = {
-    userId: '',
     className: '',
     userRole: {},
     fetchUserRole: jest.fn(),
