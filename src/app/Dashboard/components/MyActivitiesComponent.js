@@ -17,11 +17,11 @@ const MyActivitiesComponent = (props) => {
   } else {
     tableBodyHtml = userActivities.map((activity) => {
       const {
-        id, activityDate, description, points, status,
+        id, activityDate, description, points, status, category,
       } = activity;
       return (
         <tr key={id} className='myactivities__table__row'>
-          <td>{activity.activity}</td>
+          <td>{category}</td>
           <td>{format(new Date(activityDate), 'MMM DD YYYY')}</td>
           <td>
             <TruncateDescriptionContainer description={description} wordCount={80} />

@@ -39,14 +39,14 @@ const SocietyActivitiesComponent = ({ activities, selectedTab }) => {
   } else {
     tableBodyHtml = activities.map((activity) => {
       const {
-        id, owner, points, date, description, status,
+        id, owner, points, activityDate, description, status, category,
       } = activity;
       return (
         <tr key={id} className='myactivities__table__row'>
           <td>{owner}</td>
-          <td>{activity.activity}</td>
+          <td>{category}</td>
           <td>{points}</td>
-          <td>{format(new Date(date), 'MMM DD YYYY')}</td>
+          <td>{format(new Date(activityDate), 'MMM DD YYYY')}</td>
           <td>
             <TruncateDescriptionContainer description={description} wordCount={80} />
           </td>

@@ -1,5 +1,5 @@
 import React from 'react';
-import dateFns from 'date-fns';
+import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 
 import ActionsComponent from './ActionsComponent';
@@ -19,13 +19,13 @@ const VerifyActivitiesComponent = ({ activities }) => {
   } else {
     tableBodyHtml = activities.map((activity) => {
       const {
-        id, owner, date, description, points,
+        id, owner, date, description, points, category,
       } = activity;
       return (
         <tr key={id} className='myactivities__table__row'>
           <td>{owner}</td>
-          <td>{dateFns.format(date, 'MMM DD YYYY')}</td>
-          <td>{activity.activity}</td>
+          <td>{format(new Date(date), 'MMM DD YYYY')}</td>
+          <td>{category}</td>
           <td>{points}</td>
           <td>
             <TruncateDescriptionContainer description={description} wordCount={80} />
