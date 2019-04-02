@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { actions } from '../operations';
 
+import { getUserInfo, getToken } from '../../utils/tokenIsValid';
 import { LogoComponent, NavItemComponent } from '../../common/components/index';
 
 /**
@@ -11,7 +12,6 @@ import { LogoComponent, NavItemComponent } from '../../common/components/index';
  */
 export class SidebarContainer extends Component {
   static defaultProps = {
-    userId: '',
     className: '',
     userRole: {},
     fetchUserRole: null,
@@ -19,7 +19,6 @@ export class SidebarContainer extends Component {
   };
 
   static propTypes = {
-    userId: PropTypes.string,
     userRole: PropTypes.shape({}),
     className: PropTypes.string,
     fetchUserRole: PropTypes.func,
@@ -27,9 +26,11 @@ export class SidebarContainer extends Component {
   };
 
   componentDidMount() {
-    const { userId, fetchUserRole } = this.props;
+    const { fetchUserRole } = this.props;
     // action to get user role
-    fetchUserRole(userId);
+    const token = getToken();
+    const userInfo = getUserInfo(token);
+    fetchUserRole(userInfo.id);
   }
 
   render() {

@@ -22,7 +22,7 @@ export const Authenticate = ({
           <div className='wrapper'>
             <HeroComponent />
             <div className='main-content'>
-              <SidebarContainer className='sidebar' userId={userInfo.id} />
+              <SidebarContainer className='sidebar' />
               <div className='sub-content'>
                 <NavbarContainer userInfo={userInfo} />
                 <Component {...props} />
