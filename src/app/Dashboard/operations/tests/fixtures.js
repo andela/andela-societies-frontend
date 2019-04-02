@@ -107,6 +107,7 @@ for (let i = 0; i < numberOfItems; i += 1) {
 }
 
 export const myloggedActivities = {
+  level: { name: 'D1 developer' },
   activitiesLogged: 4,
   data: activities,
   pointsEarned: 300,

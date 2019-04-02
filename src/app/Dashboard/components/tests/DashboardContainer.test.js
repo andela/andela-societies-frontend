@@ -33,7 +33,7 @@ describe('<DashboardContainer />', () => {
 
   it('should return loading text when loading prop is true ', () => {
     const { shallowWrapper } = setUpWrapper({ loading: true });
-    expect(shallowWrapper.text()).toContain('Loading ...');
+    expect(shallowWrapper.text()).toContain('LoaderComponent');
   });
 
   it('should contain My Activities text', () => {
@@ -53,12 +53,5 @@ describe('<DashboardContainer />', () => {
     expect(instance.state.logPoints).toBe(false);
     shallowWrapper.find('.button__add').simulate('click');
     expect(instance.state.logPoints).toBe(true);
-  });
-
-  it('should call componentDidUpdate after state change', () => {
-    const { shallowWrapper } = setUpWrapper();
-    const instance = shallowWrapper.instance();
-    instance.setState({ showToast: false });
-    expect(instance.showToast()).toMatchSnapshot();
   });
 });

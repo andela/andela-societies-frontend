@@ -41,18 +41,76 @@
 
 .success {
   align-items: center;
-  border-radius: 25px;
-  top: 10px;
+  top: 20rem;
   display: flex;
-  min-height: 40px;
-  max-height: 40px;
+  min-height: rem(200px);
+  max-height: rem(200px);
   justify-content: space-between;
-  left: 45%;
-  padding: 0 20px;
+  left: 35%;
+  padding: 0 20px 20px 20px;
   position: fixed;
   transition: transform .35s ease;
-  background-color: #16a085;
+  background-color: $lightAccent;
+  border-color: $grayShadow;
+  box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.17);
+  width: 30rem;
+  text-align: center;
 }
+
+.success-message {
+  color: $andelaBlue !important;
+  font-size: rem(25px) !important;
+  text-align: center !important;
+}
+
+.checkmark {
+    text-align: center !important;
+    display:inline-block;
+    width: rem(145px);
+    height: rem(100px);
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+}
+
+ .checkmark_stem {
+    position: absolute;
+    width:rem(12px);
+    height:rem(72px);
+    background-color:$approvedStatusGreen;
+    left:rem(88px);
+    top:rem(48px);
+}
+
+ .checkmark_kick {
+    position: absolute;
+    width:rem(25px);
+    height:rem(12px);
+    background-color:$approvedStatusGreen;
+    left:rem(64px);
+    top:rem(108px);
+}
+
+// small devices
+@media (max-width: 660px) {
+  .success {
+    align-items: center;
+    top: 20rem;
+    display: flex;
+    min-height: rem(200px);
+    max-height: rem(200px);
+    justify-content: space-between;
+    left: 5%;
+    padding: 0 20px 20px 20px;
+    position: fixed;
+    transition: transform .35s ease;
+    background-color: $lightAccent;
+    border-color: $grayShadow;
+    box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.17);
+    width: 23rem;
+    text-align: center;
+  }
+ }
 
 .profile-overview {
   display: flex;

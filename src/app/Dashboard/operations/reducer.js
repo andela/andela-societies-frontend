@@ -12,6 +12,7 @@ const dashboard = (state = initialState.dashboard, action) => {
     return {
       ...state,
       loading: false,
+      dlevel: action.dlevel,
       society: action.society,
       pointsEarned: action.pointsEarned,
       userActivities: action.activities,
@@ -43,6 +44,16 @@ const dashboard = (state = initialState.dashboard, action) => {
     return {
       ...state,
       error: action.error,
+    };
+  case types.LOG_ACTIVITY_TOAST_OPEN:
+    return {
+      ...state,
+      showToastMessage: true,
+    };
+  case types.LOG_ACTIVITY_TOAST_CLOSE:
+    return {
+      ...state,
+      showToastMessage: false,
     };
   default:
     return state;

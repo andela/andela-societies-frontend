@@ -6,16 +6,17 @@ const ToastMessageComponent = (props) => {
     children, className, show,
   } = props;
   return (
-    <button
-      type='button'
+    <div
       className={`${className}`}
+      role='button'
+      tabIndex={0}
       style={{
         transform: show ? 'translateY(0vh)' : 'translateY(-100vh)',
         opacity: show ? '1' : '0',
       }}
     >
       {children}
-    </button>
+    </div>
   );
 };
 
