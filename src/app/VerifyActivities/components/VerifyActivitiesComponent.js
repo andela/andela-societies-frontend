@@ -24,7 +24,7 @@ const VerifyActivitiesComponent = ({ activities }) => {
       return (
         <tr key={id} className='myactivities__table__row'>
           <td>{owner}</td>
-          <td>{format(new Date(date), 'MMM DD YYYY')}</td>
+          <td>{format(new Date(date), 'MMM dd yyyy')}</td>
           <td>{category}</td>
           <td>{points}</td>
           <td>

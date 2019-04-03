@@ -20,7 +20,7 @@ const SocietyActivitiesComponent = ({ activities, selectedTab }) => {
     columnNames = ['Points', 'Cash', 'Event', 'Date', 'Status'];
     tableBodyHtml = activities.map((activity) => {
       const {
-        id, value, name, createdAt, status,
+        id, value, name, activityDate, status,
       } = activity;
       return (
         <tr key={id} className='myactivities__table__row'>
@@ -29,7 +29,7 @@ const SocietyActivitiesComponent = ({ activities, selectedTab }) => {
           <td>
             <TruncateDescriptionContainer description={name} wordCount={80} />
           </td>
-          <td>{format(createdAt, 'MMM DD YYYY')}</td>
+          <td>{format(new Date(activityDate), 'MMM dd yyyy')}</td>
           <td>
             <StatusIndicatorComponent status={status} />
           </td>

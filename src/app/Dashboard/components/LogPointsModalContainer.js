@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import validator from 'validator';
-import moment from 'moment';
-
-import 'date-fns';
+import { format } from 'date-fns';
 import TextField from '@material-ui/core/TextField';
 import StartIcon from '@material-ui/icons/Star';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers';
 import { MenuItem, ButtonComponent } from '../../common/components';
 import actions from '../operations/actions';
+import validatePointsModal from '../../utils/validation';
 
 /**
  * @summary Renders the Log society points Modal
@@ -20,9 +18,9 @@ import actions from '../operations/actions';
 export class LogPointsModal extends Component {
   state = {
     categoryOption: '',
-    numberOfParticipants: '',
+    numberOfParticipants: '0',
     description: '',
-    activityDate: moment().format('YYYY-MM-DD'),
+    activityDate: format(new Date(), 'MMM dd yyyy'),
     selectCategory: {
       value: 0,
       supportsMultipleParticipants: false,
@@ -33,17 +31,13 @@ export class LogPointsModal extends Component {
   static defaultProps = {
     categories: [],
     open: false,
-    // logActivity: () => {},
     close: () => {},
-    // showToast: () => {},
   }
 
   static propTypes = {
     open: PropTypes.bool,
-    // logActivity: PropTypes.func,
     categories: PropTypes.arrayOf(PropTypes.shape({})),
     close: PropTypes.func,
-    // showToast: PropTypes.func,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -80,142 +74,129 @@ export class LogPointsModal extends Component {
    * @return {void}
    */
   handleSubmit = async () => {
-    // const { showToast, logActivity, close } = this.props;
+    const { logActivity, close } = this.props;
     const {
       categoryOption, activityDate, numberOfParticipants, description, selectCategory,
     } = this.state;
     const data = {
       categoryOption, numberOfParticipants, description, activityDate, selectCategory,
     };
-    const errors = this.validate(data);
+    const errors = validatePointsModal(data);
     const number = Object.keys(errors).length;
-    console.log('sdfgfdsdfdwerf', number);
     this.setState({ errors });
-    // if (number <= 0) {
-    //   logActivity(
-    //     {
-    //       activityId: categoryOption,
-    //       date: activityDate,
-    //       noOfParticipants: numberOfParticipants,
-    //       description,
-    //     },
-    //   );
-    //   await close();
-    //   showToast();
-    // }
+    if (number <= 0) {
+      logActivity(
+        {
+          activityTypeId: categoryOption,
+          date: activityDate,
+          noOfParticipants: numberOfParticipants,
+          description,
+        },
+      );
+      close();
+    }
   }
 
-validate = (data) => {
-  const errors = {};
-  if (validator.isEmpty(data.categoryOption)) errors.categoryOption = 'Please select a category';
-  if (validator.isEmpty(data.description)) errors.description = 'Please provide some a description';
-  if (data.selectCategory.supportsMultipleParticipants
-    && validator.isEmpty(data.numberOfParticipants)) errors.numberOfParticipants = 'This field is required';
-  return errors;
-};
-
-render() {
-  const {
-    categoryOption,
-    numberOfParticipants,
-    description,
-    activityDate,
-    selectCategory,
-    errors,
-  } = this.state;
-  const {
-    open, categories, close,
-  } = this.props;
-  console.log('>>>>', errors);
-  console.log('Date', activityDate);
-  const DEFAULT_DATE_FORMAT = 'YYYY-MM-DD';
-  const today = moment().format(DEFAULT_DATE_FORMAT);
-  const minDate = moment().subtract(30, 'days').format(DEFAULT_DATE_FORMAT);
-  const styles = {
-    login: {
-      transform: open ? 'translateY(0%)' : 'translateY(-100vh)',
-      opacity: open ? '1' : '0',
-    },
-    textField: {
-      display: selectCategory.supportsMultipleParticipants ? '' : 'none',
-    },
-  };
-  return (
-    <div className='login-jumbotron'>
-      <div
-        className='login-container'
-        style={styles.login}
-      >
-        <div className='log-points-ratings'>
-          <StartIcon className='ratings-icon' />
-          <StartIcon className='ratings-icon' />
-          <StartIcon className='ratings-icon' />
-        </div>
-        <div className='log-points'>
-          <h5 className='log-points__heading'>Log in points</h5>
-        </div>
-        <form className='form-container'>
-          <MenuItem
-            handleChange={this.handleChange('categoryOption')}
-            categories={categories}
-            categoryId={categoryOption}
-          />
-          {errors.categoryOption && <span className='validation-error'>{errors.categoryOption}</span>}
-          <TextField
-            id='filled-number'
-            name='numberOfParticipants'
-            label='Number'
-            value={numberOfParticipants}
-            onChange={this.handleChange('numberOfParticipants')}
-            type='number'
-            style={styles.textField}
-            margin='normal'
-            fullWidth
-          />
-          {errors.numberOfParticipants && <span className='validation-error'>{errors.numberOfParticipants}</span>}
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <DatePicker
+  render() {
+    const {
+      categoryOption,
+      numberOfParticipants,
+      description,
+      activityDate,
+      selectCategory,
+      errors,
+    } = this.state;
+    const {
+      open, categories, close,
+    } = this.props;
+    const now = new Date();
+    const today = format(now, 'MMM dd yyyy');
+    const minDate = format(new Date(now.setDate(now.getDate() - 30)), 'MMM dd yyyy');
+    const styles = {
+      login: {
+        transform: open ? 'translateY(0%)' : 'translateY(-100vh)',
+        opacity: open ? '1' : '0',
+      },
+      textField: {
+        display: selectCategory.supportsMultipleParticipants ? '' : 'none',
+      },
+    };
+    return (
+      <div className='login-jumbotron'>
+        <div
+          className='login-container'
+          style={styles.login}
+        >
+          <div className='log-points-ratings'>
+            <StartIcon className='ratings-icon' />
+            <StartIcon className='ratings-icon' />
+            <StartIcon className='ratings-icon' />
+          </div>
+          <div className='log-points'>
+            <h5 className='log-points__heading'>Log in points</h5>
+          </div>
+          <form className='form-container'>
+            <MenuItem
+              handleChange={this.handleChange('categoryOption')}
+              categories={categories}
+              categoryId={categoryOption}
+            />
+            {errors.categoryOption && <span className='validation-error'>{errors.categoryOption}</span>}
+            <TextField
+              id='filled-number'
+              name='numberOfParticipants'
+              label='Number'
+              value={numberOfParticipants}
+              onChange={this.handleChange('numberOfParticipants')}
+              type='number'
+              style={styles.textField}
               margin='normal'
               fullWidth
-              label='Date'
-              value={activityDate}
-              maxDate={today}
-              minDate={minDate}
-              onChange={this.handleDateChange}
             />
-          </MuiPickersUtilsProvider>
-          <TextField
-            required
-            id='standard-description'
-            label='Briefly what did you do'
-            margin='normal'
-            fullWidth
-            value={description}
-            onChange={this.handleChange('description')}
-          />
-          {errors.description && <span className='validation-error'>{errors.description}</span>}
-          <div>
-            <ButtonComponent type='button' className='btn-points'>
-              {selectCategory.value}
-              {' '}
+            {errors.numberOfParticipants && <span className='validation-error'>{errors.numberOfParticipants}</span>}
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <DatePicker
+                margin='normal'
+                fullWidth
+                label='Date'
+                value={activityDate}
+                maxDate={today}
+                minDate={minDate}
+                onChange={this.handleDateChange}
+              />
+            </MuiPickersUtilsProvider>
+            <TextField
+              required
+              id='standard-description'
+              label='Briefly what did you do'
+              margin='normal'
+              fullWidth
+              value={description}
+              onChange={this.handleChange('description')}
+            />
+            {errors.description && <span className='validation-error'>{errors.description}</span>}
+            <div>
+              <ButtonComponent type='button' className='btn-points'>
+                {selectCategory.value}
+                {' '}
                   Points
-            </ButtonComponent>
-          </div>
-          <div className='log-points-footer'>
-            <ButtonComponent
-              type='button'
-              className='btn-log'
-              onClick={this.handleSubmit}
-            >
+              </ButtonComponent>
+            </div>
+            <div className='log-points-footer'>
+              <ButtonComponent
+                type='button'
+                className='btn-log'
+                onClick={this.handleSubmit}
+              >
                 Log
-            </ButtonComponent>
-            <ButtonComponent type='button' className='btn-abort' onClick={close}>Cancel</ButtonComponent>
-          </div>
-        </form>
+              </ButtonComponent>
+              <ButtonComponent type='button' className='btn-abort' onClick={close}>Cancel</ButtonComponent>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
 }
 
 export const mapStateToProps = state => ({
