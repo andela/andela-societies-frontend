@@ -32,12 +32,14 @@ export class LogPointsModal extends Component {
     categories: [],
     open: false,
     close: () => {},
+    logActivity: () => {},
   }
 
   static propTypes = {
     open: PropTypes.bool,
     categories: PropTypes.arrayOf(PropTypes.shape({})),
     close: PropTypes.func,
+    logActivity: PropTypes.func,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -73,7 +75,7 @@ export class LogPointsModal extends Component {
    * @summary Handles submission of society activity points
    * @return {void}
    */
-  handleSubmit = async () => {
+  handleSubmit = () => {
     const { logActivity, close } = this.props;
     const {
       categoryOption, activityDate, numberOfParticipants, description, selectCategory,
@@ -84,7 +86,8 @@ export class LogPointsModal extends Component {
     const errors = validatePointsModal(data);
     const number = Object.keys(errors).length;
     this.setState({ errors });
-    if (number <= 0) {
+    // eslint-disable-next-line no-unused-expressions
+    (number <= 0) ? (
       logActivity(
         {
           activityTypeId: categoryOption,
@@ -92,9 +95,8 @@ export class LogPointsModal extends Component {
           noOfParticipants: numberOfParticipants,
           description,
         },
-      );
-      close();
-    }
+      ),
+      close()) : null;
   }
 
   render() {
@@ -184,6 +186,7 @@ export class LogPointsModal extends Component {
             </div>
             <div className='log-points-footer'>
               <ButtonComponent
+                id='submit'
                 type='button'
                 className='btn-log'
                 onClick={this.handleSubmit}

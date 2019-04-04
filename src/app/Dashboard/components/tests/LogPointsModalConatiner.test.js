@@ -33,6 +33,17 @@ describe('<LogPointsComponent />', () => {
     expect(shallowWrapper.find('#standard-description').simulate('change', { target: { value: 'Description' } }));
   });
 
+  it('should handle Date Change', () => {
+    const { shallowWrapper } = setUpWrapper();
+    const instance = shallowWrapper.instance();
+    const date = 'Mon Apr 01 2019 00:00:00 GMT+0300 (East Africa Time)';
+    instance.setState({
+      activityDate: date,
+    });
+    instance.handleDateChange(date);
+    expect(instance.state.activityDate).toBe(date);
+  });
+
   it('should contain Log in points text', () => {
     const { shallowWrapper } = setUpWrapper();
     expect(shallowWrapper.find('.log-points__heading').text()).toEqual('Log in points');
