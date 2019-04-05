@@ -44,6 +44,17 @@ const society = (state = initialState.society, { type, payload }) => {
       },
     };
   }
+
+  case types.CREATE_REDEMPTION_SUCCESS: {
+    const { societyName } = payload;
+    return {
+      ...state,
+      [societyName]: {
+        ...state[societyName],
+        redemptions: [payload.redemption, ...state[societyName].redemptions],
+      },
+    };
+  }
   default:
     return state;
   }
