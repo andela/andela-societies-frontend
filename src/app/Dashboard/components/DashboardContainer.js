@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import {
+  ButtonComponent,
+  ToastMessageComponent,
+  LoaderComponent,
+  Filter,
+} from '../../common/components';
 
 import {
   ButtonComponent,
@@ -21,7 +27,18 @@ export class DashboardContainer extends Component {
   state = {
     user: {},
     logPoints: false,
+    filteredUserActivities: null,
+    filterBy: [
+      { name: 'Select All', checked: false },
+      { name: 'approved', checked: false },
+      { name: 'in review', checked: false },
+      { name: 'rejected', checked: false },
+      { name: 'pending', checked: false },
+    ],
+    show: false,
   };
+
+  filterRef = React.createRef();
 
   /**
    * @name defaultProps
@@ -69,6 +86,7 @@ export class DashboardContainer extends Component {
     this.setState({ user: userInfo });
     fetchUserActivites(userInfo.id);
     loadCategories();
+    document.addEventListener('mousedown', this.hideFilter, false);
   }
 
   logPointsModal = () => {
@@ -78,20 +96,95 @@ export class DashboardContainer extends Component {
     });
   };
 
+  handleClick = index => (event) => {
+    if (event.target.value === 'Select All') {
+      const filterBy = this.state.filterBy.map((item) => {
+        if (event.target.checked) {
+          return (item.checked = true), item;
+        }
+
+        return (item.checked = false), item;
+      });
+
+      this.setState({ filterBy, filteredUserActivities: null });
+    } else {
+      const filterBy = this.state.filterBy.slice();
+      filterBy[index].checked = !filterBy[index].checked;
+
+      if (!filterBy[index].checked) {
+        const filteredUserActivities = (
+          this.state.filteredUserActivities || this.props.userActivities
+        ).filter(activity => activity.status !== event.target.value);
+
+        if (!filteredUserActivities.length) {
+          this.setState({ filterBy, filteredUserActivities: null });
+          return;
+        }
+
+        this.setState({ filterBy, filteredUserActivities });
+        return;
+      }
+
+      if (this.state.filteredUserActivities) {
+        const filteredUserActivities = [
+          ...this.state.filteredUserActivities,
+          ...this.props.userActivities.filter(
+            activity => activity.status === event.target.value,
+          ),
+        ];
+
+        this.setState({ filterBy, filteredUserActivities });
+        return;
+      }
+
+      const filteredUserActivities = this.props.userActivities.filter(
+        activity => activity.status === event.target.value,
+      );
+      this.setState({ filterBy, filteredUserActivities });
+    }
+  };
+
+  hideFilter = (e) => {
+    if (
+      !this.filterRef.current.contains(e.target)
+      && !e.target.className == ''
+    ) {
+      this.setState({ show: false });
+    }
+  };
+
+  showFilter = () => {
+    this.setState(prevState => ({ show: !prevState.show }));
+  };
+
   render() {
     const {
-      error, loading, pointsEarned, activitiesLogged, userActivities, society, successMessage, showToastMessage, dlevel,
+      error,
+      loading,
+      pointsEarned,
+      activitiesLogged,
+      userActivities,
+      society,
+      successMessage,
+      showToastMessage,
+      dlevel,
     } = this.props;
     const { user, logPoints } = this.state;
     let dashboardHtml;
     let logPointsComponent;
     if (logPoints) {
-      logPointsComponent = <LogPointsComponent open={logPoints} close={this.logPointsModal} />;
+      logPointsComponent = (
+        <LogPointsComponent open={logPoints} close={this.logPointsModal} />
+      );
     }
     if (loading) {
       dashboardHtml = <LoaderComponent className='loader' />;
     } else if (!loading && error) {
-      dashboardHtml = <p>The was an error while fetching your data. Please try again later.</p>;
+      dashboardHtml = (
+        <p>
+          The was an error while fetching your data. Please try again later.
+        </p>
+      );
     } else {
       dashboardHtml = (
         <div className='user-dashboard'>
@@ -101,15 +194,19 @@ export class DashboardContainer extends Component {
           </div>
           <div className='profile-overview col-sm-12'>
             <div className='profile-overview__image' />
-            <MyStatsComponent points={pointsEarned} activities={activitiesLogged} />
-            <SocietyStatsComponent society={society} usedPoints={1508} remainingPoints={326} />
+            <MyStatsComponent
+              points={pointsEarned}
+              activities={activitiesLogged}
+            />
+            <SocietyStatsComponent
+              society={society}
+              usedPoints={1508}
+              remainingPoints={326}
+            />
           </div>
           <div className='user-dashboard__actions col-sm-12'>
             <h3 className='user-dashboard__title'>My Activities</h3>
-            <ToastMessageComponent
-              className='success'
-              show={showToastMessage}
-            >
+            <ToastMessageComponent className='success' show={showToastMessage}>
               <div>
                 <span className='success-message'>{successMessage}</span>
                 <span className='checkmark'>
@@ -127,14 +224,27 @@ export class DashboardContainer extends Component {
                 <span className='fa fa-plus' />
                 <span>Log Points</span>
               </ButtonComponent>
-              <ButtonComponent className='button__filter user-dashboard__button'>
+
+              <ButtonComponent
+                onClick={this.showFilter}
+                className='button__filter user-dashboard__button'
+              >
                 <span>Filter</span>
                 <span className='fa fa-filter' />
               </ButtonComponent>
+
+              <Filter
+                handleClick={this.handleClick}
+                filterBy={this.state.filterBy}
+                show={this.state.show}
+                filterRef={this.filterRef}
+              />
             </div>
           </div>
           {logPointsComponent}
-          <MyActivitiesComponent userActivities={userActivities} />
+          <MyActivitiesComponent
+            userActivities={this.state.filteredUserActivities || userActivities}
+          />
         </div>
       );
     }
