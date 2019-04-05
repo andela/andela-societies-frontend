@@ -147,7 +147,7 @@ export class DashboardContainer extends Component {
   hideFilter = (e) => {
     if (
       !this.filterRef.current.contains(e.target)
-      && !e.target.className == ''
+      && !e.target.className === ''
     ) {
       this.setState({ show: false });
     }

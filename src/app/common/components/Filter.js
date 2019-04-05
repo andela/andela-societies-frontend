@@ -8,7 +8,7 @@ const Filter = ({
   <div className='dropdown'>
     <div ref={filterRef} className={`dropdown-menu filter ${show ? 'show' : ''}`} aria-labelledby='dropdownMenuButton'>
       {filterBy.map((item, index) => (
-        <div className='dropdown-item filter__option'>
+        <div key={item} className='dropdown-item filter__option'>
           <input
             className='form-check-input'
             type='checkbox'
@@ -16,6 +16,7 @@ const Filter = ({
             id={item.name}
             onClick={handleClick(index)}
             checked={item.checked}
+            readOnly
           />
           <div className='form-check-label filter__text' htmlFor={item.name} id={item.name}>
             {capitalize(item.name)}
@@ -27,7 +28,10 @@ const Filter = ({
 );
 
 Filter.propTypes = {
-  names: PropTypes.array.isRequired,
+  filterBy: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  show: PropTypes.bool.isRequired,
+  handleClick: PropTypes.func.isRequired,
+  filterRef: PropTypes.shape({}).isRequired,
 };
 
 export default Filter;
