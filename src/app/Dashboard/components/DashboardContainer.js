@@ -29,7 +29,7 @@ export class DashboardContainer extends Component {
     logPoints: false,
     filteredUserActivities: null,
     filterBy: [
-      { name: 'Select All', checked: false },
+      { name: 'select all', checked: false },
       { name: 'approved', checked: false },
       { name: 'in review', checked: false },
       { name: 'rejected', checked: false },
