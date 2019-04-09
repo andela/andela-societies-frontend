@@ -8,7 +8,7 @@ const Filter = ({
   <div className='dropdown'>
     <div ref={filterRef} className={`dropdown-menu filter ${show ? 'show' : ''}`} aria-labelledby='dropdownMenuButton'>
       {filterBy.map((item, index) => (
-        <div key={item} className='dropdown-item filter__option'>
+        <div key={item.name} className='dropdown-item filter__option'>
           <input
             className='form-check-input'
             type='checkbox'
