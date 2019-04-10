@@ -1,7 +1,9 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
+import {
+  call, put, takeEvery, takeLatest,
+} from 'redux-saga/effects';
 import types from './types';
 import actions from './actions';
-import { get } from '../../utils/api';
+import { get, edit } from '../../utils/api';
 
 export function* fetchSocietyInfo(action) {
   const { societyName } = action.payload;
@@ -29,6 +31,19 @@ export function* fetchSocietyInfo(action) {
 
 function* watchFetchSocietyInfoReq() {
   yield takeEvery(types.FETCH_SOCIETY_INFO_REQUEST, fetchSocietyInfo);
+}
+
+export function* verifyActivitySecretary(action) {
+  try {
+    const result = yield call(edit, `logged-activities/review/${action.loggedActivityId}`, action.activityStatus);
+    yield put(actions.verifyActivitySuccess(result));
+  } catch (error) {
+    yield put(actions.verifyActivityFail(error.toString()));
+  }
+}
+
+export function* watchVerifyActivitySecretary() {
+  yield takeLatest(types.VERIFY_ACTIVITY_REQUEST, verifyActivitySecretary);
 }
 
 export function* fetchSocietyRedemptions(action) {

@@ -32,6 +32,7 @@ const society = (state = initialState.society, { type, payload }) => {
         loggedActivities,
         activitiesLogged,
       },
+      inReview: loggedActivities.filter(activity => activity.status === 'in review'),
     };
   }
   case types.FETCH_SOCIETY_REDEMPTIONS_SUCCESS: {
@@ -44,6 +45,11 @@ const society = (state = initialState.society, { type, payload }) => {
       },
     };
   }
+  case types.VERIFY_ACTIVITY_SUCCESS:
+    return {
+      ...state,
+      inReview: state.inReview.filter(item => item.activityId !== payload.data.activityId),
+    };
   default:
     return state;
   }

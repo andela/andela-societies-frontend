@@ -15,6 +15,7 @@ export class VerifyActivitiesContainer extends Component {
     societyName: '',
     fetchUserActivites: null,
     fetchSocietyInfoRequest: null,
+    verifyActivity: null,
   };
 
   static propTypes = {
@@ -22,6 +23,7 @@ export class VerifyActivitiesContainer extends Component {
     societyName: PropTypes.string,
     fetchUserActivites: PropTypes.func,
     fetchSocietyInfoRequest: PropTypes.func,
+    verifyActivity: PropTypes.func,
   };
 
   componentDidMount() {
@@ -42,16 +44,21 @@ export class VerifyActivitiesContainer extends Component {
   filterActivitiesByInReviewStatus = activities => (
     activities.filter(activity => activity.status === ACTIVITY_STATUS.IN_REVIEW))
 
+  handleVerify = (loggedActivityId, status) => {
+    const { verifyActivity } = this.props;
+    verifyActivity(loggedActivityId, status);
+  }
+
   render() {
     const { society, societyName } = this.props;
     let verifyActivitiesHtml = (<LoaderComponent className='loader' />);
     if (societyName) {
+      const { inReview } = society;
       const {
-        usedPoints, pointsEarned, remainingPoints, activitiesLogged, loggedActivities,
+        usedPoints, pointsEarned, remainingPoints, activitiesLogged,
       } = society[
         societyName.toLowerCase()
       ];
-      const inReviewActivities = this.filterActivitiesByInReviewStatus(loggedActivities);
       verifyActivitiesHtml = (
         <div>
           <div className='profile-overview profile-overview--society'>
@@ -77,7 +84,10 @@ export class VerifyActivitiesContainer extends Component {
               </ButtonComponent>
             </div>
           </div>
-          <VerifyActivities activities={inReviewActivities} />
+          <VerifyActivities
+            activities={inReview}
+            handleVerify={this.handleVerify}
+          />
         </div>
       );
     }
@@ -93,6 +103,7 @@ const mapStateToProps = ({ society, dashboard }) => ({
 const mapDispatchToProps = {
   fetchSocietyInfoRequest: actions.fetchSocietyInfoRequest,
   fetchUserActivites: dashboardActions.fetchUserActivitiesRequest,
+  verifyActivity: (loggedActivityId, status) => actions.verifyActivityRequest(loggedActivityId, status),
 };
 
 export default connect(
