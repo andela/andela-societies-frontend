@@ -27,11 +27,16 @@ describe('<SidebarContainer />', () => {
 
   it('has Verify Activities navigation item', () => {
     const wrapper = setUpWrapper({ userRole: { 'society secretary': '12345' }});
-    expect(wrapper.html()).toContain('Verify-activities');
+    expect(wrapper.html()).toContain('Verify activities');
   });
 
   it('has Redemptions navigation item', () => {
     const wrapper = setUpWrapper({ userRole: { 'society president': '12345' }});
     expect(wrapper.html()).toContain('Redemptions');
+  });
+
+  it('has Approve budget navigation item', () => {
+    const wrapper = setUpWrapper({ userRole: { 'success ops': '12345' }});
+    expect(wrapper.html()).toContain('Approve budget');
   });
 });

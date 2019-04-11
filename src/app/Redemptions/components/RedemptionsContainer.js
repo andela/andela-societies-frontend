@@ -6,8 +6,7 @@ import societyActions from '../../Societies/operations/actions';
 import { getUserInfo, getToken } from '../../utils/tokenIsValid';
 
 import RedemptionsComponent from './RedemptionsComponent';
-import { SocietyStatsComponent } from '../../Dashboard/components';
-import { ButtonComponent, LoaderComponent } from '../../common/components';
+import { ButtonComponent, LoaderComponent, SocietyStatsComponent } from '../../common/components';
 
 export class RedemptionsContainer extends Component {
   static defaultProps = {
@@ -38,9 +37,7 @@ export class RedemptionsContainer extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const {
-      fetchSocietyRedemptionsRequest, fetchSocietyInfoRequest, societyName,
-    } = this.props;
+    const { fetchSocietyRedemptionsRequest, fetchSocietyInfoRequest, societyName } = this.props;
     if (prevProps.societyName !== societyName && !prevProps.society[societyName.toLowerCase()].redemptions.length) {
       fetchSocietyInfoRequest(societyName.toLowerCase());
       fetchSocietyRedemptionsRequest(societyName.toLowerCase());
@@ -49,15 +46,14 @@ export class RedemptionsContainer extends Component {
 
   render() {
     const { society, societyName } = this.props;
-    let verifyActivitiesHtml = <LoaderComponent className='loader' />;
+    let redemptionsHtml = <LoaderComponent className='loader' />;
     if (societyName) {
       const {
         usedPoints, pointsEarned, remainingPoints, activitiesLogged, redemptions,
       } = society[
         societyName.toLowerCase()
       ];
-      // const inReviewActivities = this.filterActivitiesByInReviewStatus(loggedActivities);
-      verifyActivitiesHtml = (
+      redemptionsHtml = (
         <div>
           <div className='profile-overview profile-overview--society'>
             <div className={`profile-overview__image--society ${societyName.toLowerCase()}`} />
@@ -90,7 +86,7 @@ export class RedemptionsContainer extends Component {
         </div>
       );
     }
-    return verifyActivitiesHtml;
+    return redemptionsHtml;
   }
 }
 

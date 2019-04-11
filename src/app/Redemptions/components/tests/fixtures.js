@@ -8,6 +8,7 @@ export const redemption = {
     id: '-Kkh3MFLCBgVTSZ4s-de',
     name: 'Invictus',
   },
+  name: 'Team dinner to celebrate new activities',
   center: {
     createdAt: '2018-05-29T17:34:45.859205+00:00',
     description: null,
@@ -16,7 +17,7 @@ export const redemption = {
     name: 'Nairobi',
     photo: null,
   },
-  requestedBy: {
+  user: {
     createdAt: '2018-05-15 18:31:47.376565',
     description: 'None',
     email: 'test@andela.com',
@@ -76,7 +77,7 @@ export const redemptions = Array(3).fill({}).map((el, index) => ({
     name: 'Nairobi',
     photo: null,
   },
-  requestedBy: {
+  user: {
     createdAt: '2018-05-15 18:31:47.376565',
     description: 'None',
     email: 'test@andela.com',

@@ -3,10 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { actions } from '../operations';
-import { ButtonComponent } from '../../common/components';
-import TabsComponent from './TabsComponent';
 import SocietyActivities from './SocietyActivitiesComponent';
-import { SocietyStatsComponent } from '../../Dashboard/components';
+import { ButtonComponent, TabsComponent, SocietyStatsComponent } from '../../common/components';
 
 export class SocietiesContainer extends Component {
   static defaultProps = {
@@ -80,6 +78,7 @@ export class SocietiesContainer extends Component {
       societyName
     ];
     const societyData = selectedTab === 'activities' ? loggedActivities : redemptions;
+    const tabNames = ['activities', 'redemptions'];
     return (
       <div>
         <div className='profile-overview profile-overview--society'>
@@ -93,7 +92,7 @@ export class SocietiesContainer extends Component {
           />
         </div>
         <div className='user-dashboard__actions user-dashboard__actions--society col-sm-12'>
-          <TabsComponent selectedTab={selectedTab} changeSelectedTab={this.changeSelectedTab} />
+          <TabsComponent selectedTab={selectedTab} changeSelectedTab={this.changeSelectedTab} tabNames={tabNames} />
           <div>
             <ButtonComponent className='button__add'>
               <span className='fa fa-plus' />
