@@ -155,7 +155,6 @@ export class LogPointsModal extends Component {
               margin='normal'
               fullWidth
             />
-            {errors.numberOfParticipants && <span className='validation-error'>{errors.numberOfParticipants}</span>}
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <DatePicker
                 margin='normal'
