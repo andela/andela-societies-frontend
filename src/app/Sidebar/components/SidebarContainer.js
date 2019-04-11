@@ -35,14 +35,26 @@ export class SidebarContainer extends Component {
 
   render() {
     const { className, toggleSidebarState, userRole } = this.props;
-    const verifyNavItemHtml = userRole && Object.keys(userRole).includes('society secretary') && (
-      <NavItemComponent
-        route='verify-activities'
-        iconClassName='sidebar_nav-icon outlinedCheckmark'
-        labelClassName='sidebar_nav-label'
-        navItemClassName='sidebar_nav-item'
-      />
-    );
+    let navItemHtml;
+    if (userRole && Object.keys(userRole).includes('society secretary')) {
+      navItemHtml = (
+        <NavItemComponent
+          route='verify-activities'
+          iconClassName='sidebar_nav-icon outlinedCheckmark'
+          labelClassName='sidebar_nav-label'
+          navItemClassName='sidebar_nav-item'
+        />
+      );
+    } else if (userRole && Object.keys(userRole).includes('society president')) {
+      navItemHtml = (
+        <NavItemComponent
+          route='redemptions'
+          iconClassName='sidebar_nav-icon outlinedCheckmark'
+          labelClassName='sidebar_nav-label'
+          navItemClassName='sidebar_nav-item'
+        />
+      );
+    }
     return (
       <nav className={`${className}`}>
         <LogoComponent styles='sidebar__header' logoClassType='logo__image--white' />
@@ -79,7 +91,7 @@ export class SidebarContainer extends Component {
             navItemClassName='sidebar_nav-item'
           />
           <hr className='sidebar__separator--top' />
-          {verifyNavItemHtml}
+          {navItemHtml}
         </nav>
         <footer className='sidebar__footer'>
           <div className='sidebar_nav-item'>
