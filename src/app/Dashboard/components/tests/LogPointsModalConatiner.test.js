@@ -11,6 +11,8 @@ describe('<LogPointsComponent />', () => {
       categories,
       loadCategories: jest.fn(),
       handleChange: jest.fn(),
+      logActivity: jest.fn(),
+      validatePointsModal: jest.fn(() => false),
     };
     const shallowWrapper = shallow(<LogPointsModal {...props} />);
     return {
@@ -26,6 +28,21 @@ describe('<LogPointsComponent />', () => {
     });
     instance.handleSubmit();
     expect(instance.state.logPoints).toBe(false);
+  });
+
+  it('should logActivity', () => {
+    const { shallowWrapper } = setUpWrapper();
+    const instance = shallowWrapper.instance();
+    const data = {
+      categoryOption: activities[0].id,
+      date: activities[0].createdAt,
+      numberOfParticipants: '1',
+      description: activities[0].description,
+    };
+    instance.setState(data);
+    const spy = jest.spyOn(instance.props, 'logActivity');
+    instance.handleSubmit();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should handleChange on the Textfields', () => {

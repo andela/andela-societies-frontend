@@ -12,7 +12,7 @@ const validatePointsModal = (data) => {
   const errors = {};
   (validator.isEmpty(data.categoryOption)) ? errors.categoryOption = 'Please select a category' : null;
   (validator.isEmpty(data.description)) ? errors.description = 'Please provide some a description' : null;
-  (data.selectCategory.supportsMultipleParticipants
+  (data && data.selectCategory.supportsMultipleParticipants
       && (numberofparticipatnts <= 0)) ? errors.numberOfParticipants = 'Should be atleast one participant' : null;
   return errors;
 };

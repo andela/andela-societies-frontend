@@ -84,19 +84,19 @@ export class LogPointsModal extends Component {
       categoryOption, numberOfParticipants, description, activityDate, selectCategory,
     };
     const errors = validatePointsModal(data);
-    const number = Object.keys(errors).length;
-    this.setState({ errors });
-    // eslint-disable-next-line no-unused-expressions
-    (number <= 0) ? (
-      logActivity(
-        {
-          activityTypeId: categoryOption,
-          date: activityDate,
-          noOfParticipants: numberOfParticipants,
-          description,
-        },
-      ),
-      close()) : null;
+    if (Object.keys(errors) && Object.keys(errors).length > 0) {
+      this.setState({ errors });
+      return;
+    }
+    logActivity(
+      {
+        activityTypeId: categoryOption,
+        date: activityDate,
+        noOfParticipants: numberOfParticipants,
+        description,
+      },
+    );
+    close();
   }
 
   render() {
@@ -120,7 +120,7 @@ export class LogPointsModal extends Component {
         opacity: open ? '1' : '0',
       },
       textField: {
-        display: selectCategory.supportsMultipleParticipants ? '' : 'none',
+        display: selectCategory && selectCategory.supportsMultipleParticipants ? '' : 'none',
       },
     };
     return (
@@ -179,7 +179,7 @@ export class LogPointsModal extends Component {
             {errors.description && <span className='validation-error'>{errors.description}</span>}
             <div>
               <ButtonComponent type='button' className='btn-points'>
-                {selectCategory.value}
+                {selectCategory ? selectCategory.value : 0}
                 {' '}
                   Points
               </ButtonComponent>
