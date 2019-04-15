@@ -1,0 +1,89 @@
+.redeem-points {
+  display: flex;
+  justify-content: center; 
+  flex-direction: column;
+}
+
+.redeem-points__icon {
+  top: rem(30px);
+  right: rem(22px);
+  position: absolute;
+  cursor: pointer;
+}
+
+.redeem-points__image {
+  width: rem(100px);
+  height: rem(100px);
+  align-self: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-top: rem(60px);
+  margin-bottom: rem(47px);
+  background-image: url('../../../images/money.svg');
+}
+
+.redeem-points__title {
+  font-size: rem(20px);
+  line-height: rem(26px);
+  color: $modalTitleColor;
+  align-self: center;
+  margin-bottom: rem(47px);
+}
+
+.redeem-points__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.redeem-points__description {
+  font-size: rem(16px);
+  line-height: rem(21px);
+  margin-bottom: rem(19px);
+  color: $rejectedStatusRed;
+
+  .fa-info-circle {
+    font-size: rem(24px);
+    margin-right: rem(12px);
+  }
+}
+
+.redeem-points__error {
+  margin-top: 0 !important;
+  margin-bottom: rem(14px) !important;
+}
+
+.redeem-points__input {
+  font-size: rem(16px);
+  line-height: rem(21px);
+  margin-bottom: rem(5px) !important;
+
+  label {
+    color: $modalTextColor !important;
+  }
+
+  div::after {
+    border-bottom: rem(1px) solid $googleButtonBlue;
+  }
+
+  div > input {
+    color: $googleButtonBlue;
+  }
+}
+
+.redeem-points__label {
+  font-size: rem(16px);
+  line-height: rem(21px);
+  color: $modalTextColor !important;
+}
+
+.redeem-points__button {
+  align-self: center;
+  color: $lightAccent;
+  font-size: rem(14px);
+  margin-top: rem(11px);
+  line-height: rem(20px);
+  margin-bottom: rem(152px);
+  padding: rem(11px) rem(29px);
+  background-color: $andelaBlue;
+  @include widthAndHeight(rem(115px), rem(42px));
+}

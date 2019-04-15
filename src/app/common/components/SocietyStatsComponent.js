@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { StatusIndicatorComponent, ProgressBarComponent } from '../../common/components';
+import ProgressBarComponent from './ProgressBarComponent';
+import StatusIndicatorComponent from './StatusIndicatorComponent';
 
-import { societyStats } from '../constants';
+import { societyStats } from '../../Dashboard/constants';
 
 const SocietyStatsComponent = (props) => {
   const {

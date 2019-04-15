@@ -6,6 +6,7 @@ import {
   watchFetchSocietyInfoReq,
   watchFetchSocietyRedemptionsReq,
   watchVerifyActivitySecretary,
+  watchCreateRedemptionReq,
 } from '../app/Societies/operations';
 
 // single entry point to start all Sagas at once
@@ -17,6 +18,7 @@ export default function* rootSaga() {
     fork(watchFetchSocietyInfoReq),
     fork(watchFetchUserRoleRequest),
     fork(watchLogActivitySuccess),
+    fork(watchCreateRedemptionReq),
     fork(watchFetchSocietyRedemptionsReq),
     fork(watchVerifyActivitySecretary),
   ]);

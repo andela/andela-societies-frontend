@@ -5,4 +5,5 @@ export {
   watchFetchSocietyInfoReq,
   watchFetchSocietyRedemptionsReq,
   watchVerifyActivitySecretary,
+  watchCreateRedemptionReq,
 } from './societies.data';
