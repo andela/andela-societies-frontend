@@ -43,11 +43,23 @@ const fetchSocietyRedemptionsSuccess = (redemptions, societyName) => ({
   payload: { redemptions, societyName },
 });
 
+const createRedemptionRequest = (data, societyName) => ({
+  type: types.CREATE_REDEMPTION_REQUEST,
+  payload: { data, societyName },
+});
+
+const createRedemptionSuccess = (redemption, societyName) => ({
+  type: types.CREATE_REDEMPTION_SUCCESS,
+  payload: { redemption, societyName },
+});
+
 export default {
   societyPageError,
   societyPageLoading,
   fetchSocietyInfoRequest,
   fetchSocietyInfoSuccess,
+  createRedemptionRequest,
+  createRedemptionSuccess,
   fetchSocietyRedemptionsRequest,
   fetchSocietyRedemptionsSuccess,
 };
