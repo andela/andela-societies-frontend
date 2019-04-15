@@ -18,6 +18,10 @@ const initialState = {
   society: {
     loading: false,
     error: false,
+    approveBudgetStatus: null,
+    approveBudgetPageLoading: false,
+    approveBudgetPageError: null,
+    approveBudgetMessage: null,
     istelle: {
       pointsEarned: 0,
       usedPoints: 0,

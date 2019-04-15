@@ -1,12 +1,13 @@
 import actions from '../actions';
 import types from '../types';
 import activities from '../../../Dashboard/operations/tests/fixtures';
+import { redemption } from '../../../Redemptions/components/tests/fixtures';
 
 describe('Societies actions', () => {
   describe('page loading', () => {
     it('has type SOCIETY_PAGE_LOADING', () => {
       const expected = {
-        type: types.SOCIETY_PAGE_LOADING
+        type: types.SOCIETY_PAGE_LOADING,
       };
       expect(actions.societyPageLoading()).toEqual(expected);
     });
@@ -17,7 +18,7 @@ describe('Societies actions', () => {
       const error = 'There is an error';
       const expected = {
         type: types.SOCIETY_PAGE_ERROR,
-        payload: { error }
+        payload: { error },
       };
       expect(actions.societyPageError(error)).toEqual(expected);
     });
@@ -28,7 +29,7 @@ describe('Societies actions', () => {
     it('has type FETCH_SOCIETY_INFO_REQUEST', () => {
       const expected = {
         type: types.FETCH_SOCIETY_INFO_REQUEST,
-        payload: { societyName }
+        payload: { societyName },
       };
 
       expect(actions.fetchSocietyInfoRequest(societyName)).toEqual(expected);
@@ -44,10 +45,12 @@ describe('Societies actions', () => {
           remainingPoints: 100,
           loggedActivities: activities,
           activitiesLogged: activities.length,
-         }
+        },
       };
 
-      expect(actions.fetchSocietyInfoSuccess(societyName, 200, 100, 100, activities, activities.length)).toEqual(expected);
+      expect(actions.fetchSocietyInfoSuccess(societyName, 200, 100, 100, activities, activities.length)).toEqual(
+        expected,
+      );
     });
   });
 
@@ -56,7 +59,7 @@ describe('Societies actions', () => {
     it('has type FETCH_SOCIETY_REDEMPTIONS_REQUEST', () => {
       const expected = {
         type: types.FETCH_SOCIETY_REDEMPTIONS_REQUEST,
-        payload: { societyName }
+        payload: { societyName },
       };
 
       expect(actions.fetchSocietyRedemptionsRequest(societyName)).toEqual(expected);
@@ -68,8 +71,8 @@ describe('Societies actions', () => {
         type: types.FETCH_SOCIETY_REDEMPTIONS_SUCCESS,
         payload: {
           societyName,
-         redemptions,
-         }
+          redemptions,
+        },
       };
 
       expect(actions.fetchSocietyRedemptionsSuccess(redemptions, societyName)).toEqual(expected);
@@ -98,5 +101,62 @@ describe('Societies actions', () => {
 
       expect(actions.createRedemptionSuccess(data, societyName)).toEqual(expected);
     });
-  })
+  });
+
+  describe('approve budget action', () => {
+    it('has type APPROVE_BUDGET_PAGE_ERROR', () => {
+      const error = 'There is an error';
+      const expected = {
+        type: types.APPROVE_BUDGET_PAGE_ERROR,
+        payload: { error },
+      };
+
+      expect(actions.approveBudgetPageError(error)).toEqual(expected);
+    });
+
+    it('has type APPROVE_BUDGET_PAGE_LOADING', () => {
+      const expected = {
+        type: types.APPROVE_BUDGET_PAGE_LOADING,
+      };
+
+      expect(actions.approveBudgetPageLoading()).toEqual(expected);
+    });
+
+    it('has type RESET_APPROVE_BUDGET_STATUS', () => {
+      const expected = {
+        type: types.RESET_APPROVE_BUDGET_STATUS,
+      };
+
+      expect(actions.resetApproveBugetStatus()).toEqual(expected);
+    });
+
+    it('has type APPROVE_BUDGET_SUCCESS', () => {
+      const societyName = 'phoenix';
+      const status = 'rejected';
+      const message = '200 Rejected';
+      const expected = {
+        type: types.APPROVE_BUDGET_SUCCESS,
+        payload: {
+          redemption, societyName, status, message,
+        },
+      };
+
+      expect(actions.approveBudgetSuccess(redemption, societyName, status, message)).toEqual(expected);
+    });
+  });
+
+  it('has type APPROVE_BUDGET_REQUEST', () => {
+    const societyName = 'phoenix';
+    const status = 'rejected';
+    const id = redemption.id;
+    const expected = {
+      type: types.APPROVE_BUDGET_REQUEST,
+      payload: {
+        societyName, status, id,
+      },
+    };
+
+    expect(actions.approveBudgetRequest({ id, societyName, status })).toEqual(expected);
+  });
+
 });

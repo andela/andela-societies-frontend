@@ -3,7 +3,9 @@ import {
 } from 'redux-saga/effects';
 import types from './types';
 import actions from './actions';
-import { get, post, edit } from '../../utils/api';
+import {
+  get, post, edit, pointsToDollarConverter, capitalize,
+} from '../../utils';
 
 export function* fetchSocietyInfo(action) {
   const { societyName } = action.payload;
@@ -88,6 +90,24 @@ export function* verifyActivitySuccess() {
 
 export function* watchVerifyActivitySuccess() {
   yield takeLatest(types.VERIFY_ACTIVITY_SUCCESS, verifyActivitySuccess);
+}
+
+export function* approveBudget(action) {
+  const {
+    id, status, societyName,
+  } = action.payload;
+  yield put(actions.approveBudgetPageLoading());
+  try {
+    const response = yield call(edit, `societies/redeem/verify/${id}`, { status });
+    const message = `USD ${pointsToDollarConverter(response.data.value)} ${capitalize(status)}`;
+    yield put(actions.approveBudgetSuccess(response.data, societyName, status, message));
+  } catch (error) {
+    yield put(actions.approveBudgetPageError(`There was an error completing the ${status} action`));
+  }
+}
+
+export function* watchApproveBudgetRequest() {
+  yield takeEvery(types.APPROVE_BUDGET_REQUEST, approveBudget);
 }
 
 export default watchFetchSocietyInfoReq;

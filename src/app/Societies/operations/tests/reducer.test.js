@@ -101,7 +101,20 @@ describe('Society reducer', () => {
             owner: action.payload.data.owner,
             points: action.payload.data.points,
           },
-        },
+        },})
+      })
+    });
+
+  describe('case APPROVE_BUDGET_PAGE_LOADING', () => {
+    it('updates approveBudgetPageLoading', () => {
+      const action = {
+        type: types.APPROVE_BUDGET_PAGE_LOADING,
+      };
+
+      expect(society(defaultState, action)).toEqual({
+        ...defaultState,
+        approveBudgetPageError: null,
+        approveBudgetPageLoading: true,
       });
     });
   });
@@ -201,6 +214,22 @@ describe('Society reducer', () => {
         inReview: [],
         verifyAlertMessage: false,
         verifiedSecretaryActivity: {},
+      })
+    })
+  });
+
+  describe('case APPROVE_BUDGET_PAGE_ERROR', () => {
+    it('updates approveBudgetPageError', () => {
+      const error = 'There is an error';
+      const action = {
+        type: types.APPROVE_BUDGET_PAGE_ERROR,
+        payload: { error }
+      };
+
+      expect(society(defaultState, action)).toEqual({
+        ...defaultState,
+        approveBudgetPageError: error,
+        approveBudgetPageLoading: false,
       });
     });
   });
@@ -221,7 +250,20 @@ describe('Society reducer', () => {
         [societyName]: {
           ...defaultState[societyName],
           redemptions: [payload.redemption, ...defaultState[societyName].redemptions],
-        },
+        },})
+      })
+    });
+
+  describe('case RESET_APPROVE_BUDGET_STATUS', () => {
+    it('updates approveBudgetMessage and approveBudgetStatus', () => {
+      const action = {
+        type: types.RESET_APPROVE_BUDGET_STATUS,
+      };
+
+      expect(society(defaultState, action)).toEqual({
+        ...defaultState,
+        approveBudgetStatus: null,
+        approveBudgetMessage: null,
       });
     });
   });
@@ -271,56 +313,51 @@ describe('Society reducer', () => {
         inReview: [],
         verifyAlertMessage: true,
         verifiedSecretaryActivity: {},
+      })})});
+
+  describe('case RESET_APPROVE_BUDGET_STATUS', () => {
+    it('updates approveBudgetMessage and approveBudgetStatus', () => {
+      const action = {
+        type: types.RESET_APPROVE_BUDGET_STATUS,
+      };
+
+      expect(society(defaultState, action)).toEqual({
+        ...defaultState,
+        approveBudgetStatus: null,
+        approveBudgetMessage: null,
       });
     });
   });
 
-  describe('handles case LOG_ACTIVITY_TOAST_OPEN', () => {
-    it('returns toast message', () => {
-      expect(
-        society(defaultState, {
-          type: types.VERIFY_ALERT_CLOSE,
-          verifyAlertMessage: false,
-          verifiedSecretaryActivity: {},
-        }),
-      ).toEqual({
-        loading: false,
-        error: false,
-        istelle: {
-          pointsEarned: 0,
-          usedPoints: 0,
-          remainingPoints: 0,
-          redemptions: [],
-          loggedActivities: [],
-          activitiesLogged: 0,
+  describe('case APPROVE_BUDGET_SUCCESS', () => {
+    it('updates approveBudgetMessage, approveBudgetStatus, approveBudgetPageLoading, society redemptions ', () => {
+      const societyName = 'phoenix';
+      const status = 'rejected';
+      const message = '200 Rejected';
+      const action = {
+        type: types.APPROVE_BUDGET_SUCCESS,
+        payload: {
+          redemption, societyName, status, message,
+        }
+      };
+
+      const newInitialState = {
+        ...defaultState,
+        [societyName]: {
+          ...defaultState[societyName],
+          redemptions: [redemption]
+        }
+      };
+
+      expect(society(newInitialState, action)).toEqual({
+        ...newInitialState,
+        approveBudgetStatus: status,
+        approveBudgetMessage: message,
+        approveBudgetPageLoading: false,
+        [societyName]: {
+          ...newInitialState[societyName],
+          redemptions: newInitialState[societyName].redemptions.map(el => (el.id === action.payload.redemption.id ? action.payload.redemption: el)),
         },
-        phoenix: {
-          pointsEarned: 0,
-          usedPoints: 0,
-          remainingPoints: 0,
-          redemptions: [],
-          loggedActivities: [],
-          activitiesLogged: 0,
-        },
-        invictus: {
-          pointsEarned: 0,
-          usedPoints: 0,
-          remainingPoints: 0,
-          redemptions: [],
-          loggedActivities: [],
-          activitiesLogged: 0,
-        },
-        sparks: {
-          pointsEarned: 0,
-          usedPoints: 0,
-          remainingPoints: 0,
-          redemptions: [],
-          loggedActivities: [],
-          activitiesLogged: 0,
-        },
-        inReview: [],
-        verifyAlertMessage: false,
-        verifiedSecretaryActivity: {},
       });
     });
   });

@@ -2,11 +2,10 @@ import React from 'react';
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 
-import ActionsComponent from '../../VerifyActivities/components/ActionsComponent';
-import { TableComponent, TruncateDescriptionContainer } from '../../common/components';
+import { TableComponent, TruncateDescriptionContainer, ActionsComponent } from '../../common/components';
 import { pointsToDollarConverter } from '../../utils';
 
-const ApproveBudgetComponent = ({ activities }) => {
+const ApproveBudgetComponent = ({ activities, handleApproveOrRejectClick }) => {
   let tableBodyHtml;
   const columnNames = ['Name', 'Date', 'Amount', 'Description', 'Actions'];
   if (!activities.length) {
@@ -31,7 +30,7 @@ const ApproveBudgetComponent = ({ activities }) => {
             <TruncateDescriptionContainer description={name} wordCount={80} />
           </td>
           <td>
-            <ActionsComponent />
+            <ActionsComponent id={id} onClick={handleApproveOrRejectClick} />
           </td>
         </tr>
       );
@@ -46,9 +45,11 @@ const ApproveBudgetComponent = ({ activities }) => {
 
 ApproveBudgetComponent.defaultProps = {
   activities: [],
+  handleApproveOrRejectClick: null,
 };
 
 ApproveBudgetComponent.propTypes = {
+  handleApproveOrRejectClick: PropTypes.func,
   activities: PropTypes.arrayOf(PropTypes.shape({})),
 };
 

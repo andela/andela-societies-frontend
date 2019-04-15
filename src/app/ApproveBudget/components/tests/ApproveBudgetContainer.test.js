@@ -9,7 +9,10 @@ import { redemptions } from '../../../Redemptions/components/tests/fixtures';
 
 describe('<ApproveBudgetContainer />', () => {
   const props = {
+    status: null,
     society: {
+      approveBudgetStatus: null,
+      approveBudgetMessage: null,
       phoenix: {
         usedPoints: 100,
         remainingPoints: 100,
@@ -26,6 +29,8 @@ describe('<ApproveBudgetContainer />', () => {
         redemptions: []
       }
     },
+    approveBudget: jest.fn(),
+    resetApproveBugetStatus: jest.fn(),
     fetchSocietyInfoRequest: jest.fn(),
     fetchSocietyRedemptionsRequest: jest.fn()
   };
@@ -56,6 +61,34 @@ describe('<ApproveBudgetContainer />', () => {
     const instance = shallowWrapper.instance();
     const spy = jest.spyOn(instance.props, 'fetchSocietyRedemptionsRequest');
     instance.setState({ selectedSociety: 'phoenix' });
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('invokes toggleAlertDialogOpen when status prop changes state change', () => {
+    const instance = shallowWrapper.instance();
+    const spy = jest.spyOn(instance, 'toggleAlertDialogOpen');
+    shallowWrapper.setProps({ status: 'approved' });
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('changes alertDialogOpen state when toggleAlertDialogOpen is called with a boolean value', () => {
+    const instance = shallowWrapper.instance();
+    instance.setState({ alertDialogOpen: true });
+    instance.toggleAlertDialogOpen(false);
+    expect(instance.state.alertDialogOpen).toBeFalsy();
+  });
+
+  it('invokes resetApproveBugetStatus when handleAlertDialogClose is called', () => {
+    const instance = shallowWrapper.instance();
+    const spy = jest.spyOn(instance.props, 'resetApproveBugetStatus');
+    instance.handleAlertDialogClose();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('invokes approveBudget when handleApproveOrRejectClick is called', () => {
+    const instance = shallowWrapper.instance();
+    const spy = jest.spyOn(instance.props, 'approveBudget');
+    instance.handleApproveOrRejectClick('2', 'approved');
     expect(spy).toHaveBeenCalled();
   });
 });

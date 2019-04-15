@@ -17,19 +17,19 @@ describe('Api util', () => {
   it('makes a post request  ', async () => {
     const url = 'activity-types';
     const data = {
-      description: "Running new initiatives",
-      name: "New Events Organizer",
+      description: 'Running new initiatives',
+      name: 'New Events Organizer',
       value: 5,
-      supports_multiple: "False"
+      supports_multiple: 'False'
     };
     const result = {
       data: {
         ...data,
-        id: "eefad176-43cd-11e8-b3b9-9801a7ae0329",
+        id: 'eefad176-43cd-11e8-b3b9-9801a7ae0329',
         modifiedAt: null,
-        createdAt: "2018-04-19T12:33:59.124758+00:00"
+        createdAt: '2018-04-19T12:33:59.124758+00:00'
       },
-      message: "Activity type created successfully"
+      message: 'Activity type created successfully'
     };
     fetchMock.post(`${config.API_BASE_URL}/${url}`, { ...result });
     expect(await post(url, data)).toEqual(result);
