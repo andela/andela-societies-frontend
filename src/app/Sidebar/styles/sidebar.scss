@@ -72,8 +72,9 @@
   &.outlinedCheckmark {
     @include widthAndHeight(rem(20px), rem(20px));
     border: rem(2px) solid $lightAccent;
-    text-align: center;
     border-radius: rem(2px);
+    display: flex;
+    justify-content: center;
 
     .checkmark {
       @include checkmark;

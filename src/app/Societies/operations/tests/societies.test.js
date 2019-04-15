@@ -2,11 +2,13 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 
 import types from '../types';
 import actions from '../actions';
-import { get } from '../../../utils/api';
+import { get, post } from '../../../utils/api';
 import activities from '../../../Dashboard/operations/tests/fixtures';
 import watchFetchSocietyInfoReq, {
+  createRedemption,
   fetchSocietyInfo,
   fetchSocietyRedemptions,
+  watchCreateRedemptionReq,
   watchFetchSocietyRedemptionsReq,
 } from '../societies.data';
 
@@ -111,6 +113,51 @@ describe('Society saga', () => {
 
       expect(generator.throw().value).toEqual(
         put(actions.societyPageError('There was an error fetching redemptions. Try again later')),
+      );
+    });
+  });
+
+  describe('watchCreateRedemptionReq generator', () => {
+    it('takes CREATE_REDEMPTION_REQUEST action', () => {
+      generator = watchCreateRedemptionReq();
+      expect(generator.next().value).toEqual(
+        takeEvery(types.CREATE_REDEMPTION_REQUEST, createRedemption),
+      );
+    });
+  });
+
+  describe('createRedemption generator', () => {
+    const societyName = 'phoenix';
+    const data = { date: '12/01/2018', center: 'nairobi', points: 10000, reason: 'to carryout tests'}
+    const action = {
+      type: types.CREATE_REDEMPTION_REQUEST,
+      payload: { data, societyName },
+    };
+    const url = `/societies/redeem`;
+
+    it('creates redemptions successfully', () => {
+      const result = {
+        data,
+      };
+
+      generator = createRedemption(action);
+      expect(generator.next().value).toEqual(put(actions.societyPageLoading()));
+
+      expect(generator.next().value).toEqual(call(post, url, data));
+
+      expect(generator.next(result, societyName).value).toEqual(
+        put(actions.createRedemptionSuccess(result.data, societyName)),
+      );
+    });
+
+    it('create redemptions error', () => {
+      generator = createRedemption(action);
+      expect(generator.next().value).toEqual(put(actions.societyPageLoading()));
+
+      expect(generator.next().value).toEqual(call(post, url, data));
+
+      expect(generator.throw().value).toEqual(
+        put(actions.societyPageError('There was an error creating your redemption')),
       );
     });
   });
