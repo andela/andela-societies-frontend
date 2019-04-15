@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import dashboardActions from '../../Dashboard/operations/actions';
 import societyActions from '../../Societies/operations/actions';
-import { getUserInfo, getToken } from '../../utils/tokenIsValid';
+import { getUserInfo, getToken, dollarsToPointsConverter } from '../../utils';
 
+import RedeemPointsModal from './RedeemPointsDialogComponent';
 import RedemptionsComponent from './RedemptionsComponent';
 import { ButtonComponent, LoaderComponent, SocietyStatsComponent } from '../../common/components';
 
@@ -12,6 +13,7 @@ export class RedemptionsContainer extends Component {
   static defaultProps = {
     society: {},
     societyName: '',
+    createRedemption: null,
     fetchUserActivites: null,
     fetchSocietyInfoRequest: null,
     fetchSocietyRedemptionsRequest: null,
@@ -20,9 +22,24 @@ export class RedemptionsContainer extends Component {
   static propTypes = {
     society: PropTypes.shape({}),
     societyName: PropTypes.string,
+    createRedemption: PropTypes.func,
     fetchUserActivites: PropTypes.func,
     fetchSocietyInfoRequest: PropTypes.func,
     fetchSocietyRedemptionsRequest: PropTypes.func,
+  };
+
+  initialState = {
+    date: '',
+    errors: {},
+    reason: '',
+    points: null,
+    center: '',
+    usdValue: '',
+    openRedeemPointsModal: false,
+  }
+
+  state = {
+    ...this.initialState,
   };
 
   componentDidMount() {
@@ -44,7 +61,67 @@ export class RedemptionsContainer extends Component {
     }
   }
 
+  showRedeemPointsModal = (bool) => {
+    this.setState({ openRedeemPointsModal: bool });
+  };
+
+  handleChange = (event) => {
+    const { name, value } = event.target;
+    if (name === 'usdValue') {
+      this.setState({ points: dollarsToPointsConverter(value) });
+    }
+    this.setState(prevState => ({
+      [name]: value,
+      errors: {
+        ...prevState.errors,
+        [name]: '',
+      },
+    }));
+  };
+
+  validateFormFields = (values) => {
+    const errors = {};
+    const required = ['date', 'reason', 'usdValue', 'center'];
+    required.forEach((name) => {
+      if (!values[name] || values[name] === '' || values[name] === 0) {
+        errors[name] = 'This field is required';
+      }
+    });
+    return errors;
+  };
+
+  handleRedemptionSubmit = () => {
+    // action to create a redemption
+    const {
+      date, reason, center, points, usdValue,
+    } = this.state;
+    const { createRedemption, societyName } = this.props;
+    const errors = this.validateFormFields({
+      date,
+      reason,
+      center,
+      usdValue,
+    });
+    if (Object.keys(errors) && Object.keys(errors).length > 0) {
+      this.setState({ errors });
+      return;
+    }
+    createRedemption(
+      {
+        date,
+        reason,
+        points,
+        center,
+      },
+      societyName.toLowerCase(),
+    );
+    this.setState({ ...this.initialState });
+  };
+
   render() {
+    const {
+      date, errors, center, points, reason, usdValue, openRedeemPointsModal,
+    } = this.state;
     const { society, societyName } = this.props;
     let redemptionsHtml = <LoaderComponent className='loader' />;
     if (societyName) {
@@ -72,7 +149,10 @@ export class RedemptionsContainer extends Component {
                 <span className='fa fa-plus' />
                 <span>Log Points</span>
               </ButtonComponent>
-              <ButtonComponent className='button__add button__redemption'>
+              <ButtonComponent
+                className='button__add button__redemption'
+                onClick={() => this.showRedeemPointsModal(true)}
+              >
                 <span className='fa fa-plus' />
                 <span>New Redemption</span>
               </ButtonComponent>
@@ -82,6 +162,18 @@ export class RedemptionsContainer extends Component {
               </ButtonComponent>
             </div>
           </div>
+          <RedeemPointsModal
+            date={date}
+            errors={errors}
+            points={points}
+            reason={reason}
+            center={center}
+            usdValue={usdValue}
+            open={openRedeemPointsModal}
+            onChange={this.handleChange}
+            onClose={() => this.showRedeemPointsModal(false)}
+            handleRedemptionSubmit={this.handleRedemptionSubmit}
+          />
           <RedemptionsComponent activities={redemptions} />
         </div>
       );
@@ -96,6 +188,7 @@ const mapStateToProps = ({ society, dashboard }) => ({
 });
 
 const mapDispatchToProps = {
+  createRedemption: societyActions.createRedemptionRequest,
   fetchUserActivites: dashboardActions.fetchUserActivitiesRequest,
   fetchSocietyInfoRequest: societyActions.fetchSocietyInfoRequest,
   fetchSocietyRedemptionsRequest: societyActions.fetchSocietyRedemptionsRequest,
