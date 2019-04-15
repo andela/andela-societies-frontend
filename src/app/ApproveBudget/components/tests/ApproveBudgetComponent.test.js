@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import dateFns from 'date-fns';
+import { format } from 'date-fns';
 
 import ApproveBudgetComponent from '../ApproveBudgetComponent';
 
@@ -26,7 +26,7 @@ describe('<ApproveBudgetComponent />', () => {
 
   it('should have date of redemption in TableComponent', () => {
     const shallowWrapper = setUpWrapper({ activities: redemptions });
-    const date = dateFns.format(redemption.createdAt, 'MMM DD YYYY');
+    const date = format(new Date(redemption.createdAt), 'MMM dd yyyy');
     expect(shallowWrapper.find('TableComponent').html()).toContain(`${date}`);
   });
 
