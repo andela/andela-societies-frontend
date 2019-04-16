@@ -22,7 +22,7 @@
 }
 
 .sidebar_nav {
-  margin-top: rem(80px);
+  margin-top: rem(50px);
   flex: 2;
 }
 
@@ -32,6 +32,7 @@
   @include widthAndHeight(rem(136px), rem(37px));
   margin-bottom: rem(12.94px);
   text-decoration: none !important;
+  align-items: center;
   
   &:hover {
     border-left: rem(4px) solid $lightAccent;
@@ -93,6 +94,8 @@
 }
 
 .sidebar__separator--top {
+  margin: 0;
+  margin-bottom: 5px;
   box-sizing: border-box;
   @include widthAndHeight(rem(127.78px), rem(0.81px));
   background-color: $separatorBlue;

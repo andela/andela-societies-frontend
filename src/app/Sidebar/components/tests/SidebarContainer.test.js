@@ -35,8 +35,13 @@ describe('<SidebarContainer />', () => {
     expect(wrapper.html()).toContain('Redemptions');
   });
 
-  it('has Approve budget navigation item', () => {
+  it('has Budget navigation item', () => {
     const wrapper = setUpWrapper({ userRole: { 'success ops': '12345' }});
-    expect(wrapper.html()).toContain('Approve budget');
+    expect(wrapper.html()).toContain('Budget');
+  });
+
+  it('has Activities navigation item', () => {
+    const wrapper = setUpWrapper({ userRole: { 'success ops': '12345' }});
+    expect(wrapper.html()).toContain('Activities');
   });
 });
