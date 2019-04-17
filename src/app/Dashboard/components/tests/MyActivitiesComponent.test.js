@@ -31,7 +31,7 @@ describe('<MyActivitiesComponent />', () => {
 
   it('should have date of activity in TableComponent', () => {
     const { shallowWrapper } = setUpWrapper();
-    const activityDate = format(new Date(activity.date), 'MMM DD YYYY');
+    const activityDate = format(new Date(activity.date), 'MMM dd yyyy');
     expect(shallowWrapper.find('TableComponent').html()).toContain(`${activityDate}`);
   });
 });
