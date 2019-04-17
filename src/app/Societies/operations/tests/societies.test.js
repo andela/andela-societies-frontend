@@ -1,15 +1,19 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
+import {
+  call, put, takeEvery, takeLatest,
+} from 'redux-saga/effects';
 
 import types from '../types';
 import actions from '../actions';
-import { get, post } from '../../../utils/api';
+import { get, post, edit } from '../../../utils/api';
 import activities from '../../../Dashboard/operations/tests/fixtures';
 import watchFetchSocietyInfoReq, {
   createRedemption,
   fetchSocietyInfo,
   fetchSocietyRedemptions,
+  verifyActivitySecretary,
   watchCreateRedemptionReq,
   watchFetchSocietyRedemptionsReq,
+  watchVerifyActivitySecretary,
 } from '../societies.data';
 
 describe('Society saga', () => {
@@ -123,6 +127,29 @@ describe('Society saga', () => {
       expect(generator.next().value).toEqual(
         takeEvery(types.CREATE_REDEMPTION_REQUEST, createRedemption),
       );
+    });
+  });
+
+  describe('watchVerifyActivitySecretary generator', () => {
+    it('takes VERIFY_ACTIVITY_REQUEST action', () => {
+      generator = watchVerifyActivitySecretary();
+      expect(generator.next().value).toEqual(takeLatest(types.VERIFY_ACTIVITY_REQUEST, verifyActivitySecretary));
+    });
+  });
+
+  describe('addNewActivity generator', () => {
+    it('calls edit api verify activity secretary util with url', async () => {
+      generator = verifyActivitySecretary(types.VERIFY_ACTIVITY_REQUEST);
+      expect(generator.next().value).toEqual(call(
+        edit, `logged-activities/review/${actions.loggedActivityId}`, actions.activityStatus,
+      ));
+      expect(generator.next().value).toEqual(put(actions.verifyActivitySuccess()));
+    });
+
+    it('puts verifyActivityError', async () => {
+      generator = verifyActivitySecretary();
+      const err = new TypeError('Cannot read property \'loggedActivityId\' of undefined');
+      expect(generator.next().value).toEqual(put(actions.verifyActivityFail(err.toString())));
     });
   });
 

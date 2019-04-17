@@ -29,7 +29,7 @@ const SocietyActivitiesComponent = ({ activities, selectedTab }) => {
           <td>
             <TruncateDescriptionContainer description={name} wordCount={80} />
           </td>
-          <td>{format(createdAt, 'MMM DD YYYY')}</td>
+          <td>{format(new Date(createdAt), 'MMM dd yyyy')}</td>
           <td>
             <StatusIndicatorComponent status={status} />
           </td>
@@ -46,7 +46,7 @@ const SocietyActivitiesComponent = ({ activities, selectedTab }) => {
           <td>{owner}</td>
           <td>{category}</td>
           <td>{points}</td>
-          <td>{format(new Date(activityDate), 'MMM DD YYYY')}</td>
+          <td>{format(new Date(activityDate), 'MMM dd yyyy')}</td>
           <td>
             <TruncateDescriptionContainer description={description} wordCount={80} />
           </td>

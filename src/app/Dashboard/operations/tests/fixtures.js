@@ -4,6 +4,7 @@ export const activity = {
   id: '',
   category: 'Tech events',
   date: '2017-11-03',
+  createdAt: '2017-11-03',
   activity: 'Participating in a tech event',
   points: 250,
   status: 'default',

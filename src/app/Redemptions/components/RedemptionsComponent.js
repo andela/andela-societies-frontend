@@ -1,5 +1,5 @@
 import React from 'react';
-import dateFns from 'date-fns';
+import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 
 import { pointsToDollarConverter } from '../../utils';
@@ -24,7 +24,7 @@ const RedemptionsComponent = ({ activities }) => {
       return (
         <tr key={id} className='myactivities__table__row'>
           <td>{`${pointsToDollarConverter(value)} USD`}</td>
-          <td>{dateFns.format(createdAt, 'MMM DD YYYY')}</td>
+          <td>{format(new Date(createdAt), 'MMM dd yyyy')}</td>
           <td>
             <TruncateDescriptionContainer description={name} wordCount={80} />
           </td>
