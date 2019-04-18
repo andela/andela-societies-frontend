@@ -149,6 +149,7 @@ export class LogPointsModal extends Component {
             categories={categories}
             categoryId={categoryOption}
           />
+          {errors.categoryOption && <span className='validation-error'>{errors.categoryOption}</span>}
           <TextField
             id='filled-number'
             name='numberOfParticipants'
@@ -160,19 +161,17 @@ export class LogPointsModal extends Component {
             margin='normal'
             fullWidth
           />
-          <TextField
-            required
-            id='date'
-            label='Date'
-            type='date'
-            value={activityDate}
-            margin='normal'
-            InputLabelProps={{
-              shrink: true,
-            }}
-            fullWidth
-            onChange={this.handleChange('activityDate')}
-          />
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <DatePicker
+              margin='normal'
+              fullWidth
+              label='Date'
+              value={activityDate}
+              maxDate={today}
+              minDate={minDate}
+              onChange={this.handleDateChange}
+            />
+          </MuiPickersUtilsProvider>
           <TextField
             required
             id='standard-description'
@@ -182,6 +181,7 @@ export class LogPointsModal extends Component {
             value={description}
             onChange={this.handleChange('description')}
           />
+          {errors.description && <span className='validation-error'>{errors.description}</span>}
           <div>
             <ButtonComponent type='button' className='btn-points'>
               {selectCategory.value}

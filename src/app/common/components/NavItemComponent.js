@@ -11,7 +11,7 @@ const NavItemComponent = ({
   return (
     <Link to={`/${route}`} className={navItemClassName}>
       <div className={iconClassName}>{checkmarkHtml}</div>
-      <span className={labelClassName}>{capitalize(route.replace(/-/g, " "))}</span>
+      <span className={labelClassName}>{capitalize(route.replace(/-/g, ' '))}</span>
     </Link>
   );
 };

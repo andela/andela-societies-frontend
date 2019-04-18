@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 
 import { actions } from '../operations';
 import SocietyActivities from './SocietyActivitiesComponent';
-import { ButtonComponent, TabsComponent, SocietyStatsComponent } from '../../common/components';
+import LogPointsComponent from '../../Dashboard/components/LogPointsModalContainer';
+import {
+  ButtonComponent, TabsComponent, SocietyStatsComponent, ToastMessageComponent,
+} from '../../common/components';
 
 export class SocietiesContainer extends Component {
   static defaultProps = {
@@ -16,6 +19,8 @@ export class SocietiesContainer extends Component {
     society: {},
     fetchSocietyInfoRequest: null,
     fetchSocietyRedemptionsRequest: null,
+    successMessage: '',
+    showToastMessage: false,
   };
 
   static propTypes = {
@@ -23,10 +28,13 @@ export class SocietiesContainer extends Component {
     society: PropTypes.shape({}),
     fetchSocietyInfoRequest: PropTypes.func,
     fetchSocietyRedemptionsRequest: PropTypes.func,
+    successMessage: PropTypes.string,
+    showToastMessage: PropTypes.bool,
   };
 
   state = {
     selectedTab: 'activities',
+    logPoints: false,
   };
 
   componentDidMount() {
@@ -64,13 +72,22 @@ export class SocietiesContainer extends Component {
     this.setState({ selectedTab: tabName });
   };
 
+  logPointsModal = () => {
+    const { logPoints } = this.state;
+    this.setState({
+      logPoints: !logPoints,
+    });
+  };
+
   render() {
-    const { selectedTab } = this.state;
+    const { selectedTab, logPoints } = this.state;
     const {
       society,
       match: {
         params: { society: societyName },
       },
+      successMessage,
+      showToastMessage,
     } = this.props;
     const {
       usedPoints, pointsEarned, redemptions, remainingPoints, activitiesLogged, loggedActivities,
@@ -79,6 +96,10 @@ export class SocietiesContainer extends Component {
     ];
     const societyData = selectedTab === 'activities' ? loggedActivities : redemptions;
     const tabNames = ['activities', 'redemptions'];
+    let logPointsComponent;
+    if (logPoints) {
+      logPointsComponent = <LogPointsComponent open={logPoints} close={this.logPointsModal} />;
+    }
     return (
       <div>
         <div className='profile-overview profile-overview--society'>
@@ -92,9 +113,24 @@ export class SocietiesContainer extends Component {
           />
         </div>
         <div className='user-dashboard__actions user-dashboard__actions--society col-sm-12'>
+          <ToastMessageComponent
+            className='success'
+            show={showToastMessage}
+          >
+            <div>
+              <span className='success-message'>{successMessage}</span>
+              <span className='checkmark'>
+                <div className='checkmark_stem' />
+                <div className='checkmark_kick' />
+              </span>
+            </div>
+          </ToastMessageComponent>
           <TabsComponent selectedTab={selectedTab} changeSelectedTab={this.changeSelectedTab} tabNames={tabNames} />
           <div>
-            <ButtonComponent className='button__add'>
+            <ButtonComponent
+              className='button__add'
+              onClick={this.logPointsModal}
+            >
               <span className='fa fa-plus' />
               <span>Log Points</span>
             </ButtonComponent>
@@ -104,15 +140,18 @@ export class SocietiesContainer extends Component {
             </ButtonComponent>
           </div>
         </div>
+        {logPointsComponent}
         <SocietyActivities activities={societyData} selectedTab={selectedTab} />
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ society }) => ({
+const mapStateToProps = ({ society, dashboard }) => ({
   loading: society.loading,
   society,
+  successMessage: dashboard.activity.message,
+  showToastMessage: dashboard.showToastMessage,
 });
 
 const mapDispatchToProps = {

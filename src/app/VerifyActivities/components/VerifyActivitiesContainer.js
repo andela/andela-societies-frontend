@@ -9,7 +9,10 @@ import ACTIVITY_STATUS from '../../common/constants';
 import { getUserInfo, getToken } from '../../utils/tokenIsValid';
 
 import VerifyActivities from './VerifyActivitiesComponent';
-import { ButtonComponent, LoaderComponent, SocietyStatsComponent } from '../../common/components';
+import LogPointsComponent from '../../Dashboard/components/LogPointsModalContainer';
+import {
+  ButtonComponent, LoaderComponent, SocietyStatsComponent, ToastMessageComponent,
+} from '../../common/components';
 
 export class VerifyActivitiesContainer extends Component {
   static defaultProps = {
@@ -17,6 +20,8 @@ export class VerifyActivitiesContainer extends Component {
     societyName: '',
     fetchUserActivites: null,
     fetchSocietyInfoRequest: null,
+    successMessage: '',
+    showToastMessage: false,
   };
 
   static propTypes = {
@@ -24,6 +29,12 @@ export class VerifyActivitiesContainer extends Component {
     societyName: PropTypes.string,
     fetchUserActivites: PropTypes.func,
     fetchSocietyInfoRequest: PropTypes.func,
+    successMessage: PropTypes.string,
+    showToastMessage: PropTypes.bool,
+  };
+
+  state = {
+    logPoints: false,
   };
 
   componentDidMount() {
@@ -44,9 +55,23 @@ export class VerifyActivitiesContainer extends Component {
   filterActivitiesByInReviewStatus = activities => (
     activities.filter(activity => activity.status === ACTIVITY_STATUS.IN_REVIEW))
 
+  logPointsModal = () => {
+    const { logPoints } = this.state;
+    this.setState({
+      logPoints: !logPoints,
+    });
+  };
+
   render() {
-    const { society, societyName } = this.props;
+    const { logPoints } = this.state;
+    const {
+      society, societyName, successMessage, showToastMessage,
+    } = this.props;
     let verifyActivitiesHtml = (<LoaderComponent className='loader' />);
+    let logPointsComponent;
+    if (logPoints) {
+      logPointsComponent = <LogPointsComponent open={logPoints} close={this.logPointsModal} />;
+    }
     if (societyName) {
       const {
         usedPoints, pointsEarned, remainingPoints, activitiesLogged, loggedActivities,
@@ -68,8 +93,23 @@ export class VerifyActivitiesContainer extends Component {
           </div>
           <div className='user-dashboard__actions user-dashboard__actions--society col-sm-12'>
             <h3 className='user-dashboard__title'>Verify Activities</h3>
+            <ToastMessageComponent
+              className='success'
+              show={showToastMessage}
+            >
+              <div>
+                <span className='success-message'>{successMessage}</span>
+                <span className='checkmark'>
+                  <div className='checkmark_stem' />
+                  <div className='checkmark_kick' />
+                </span>
+              </div>
+            </ToastMessageComponent>
             <div>
-              <ButtonComponent className='button__add'>
+              <ButtonComponent
+                className='button__add'
+                onClick={this.logPointsModal}
+              >
                 <span className='fa fa-plus' />
                 <span>Log Points</span>
               </ButtonComponent>
@@ -79,6 +119,7 @@ export class VerifyActivitiesContainer extends Component {
               </ButtonComponent>
             </div>
           </div>
+          {logPointsComponent}
           <VerifyActivities activities={inReviewActivities} />
         </div>
       );
@@ -90,6 +131,8 @@ export class VerifyActivitiesContainer extends Component {
 const mapStateToProps = ({ society, dashboard }) => ({
   society,
   societyName: dashboard.society,
+  successMessage: dashboard.activity.message,
+  showToastMessage: dashboard.showToastMessage,
 });
 
 const mapDispatchToProps = {
