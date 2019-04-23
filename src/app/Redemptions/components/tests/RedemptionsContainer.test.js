@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 
 import { RedemptionsContainer } from '../RedemptionsContainer';
 
@@ -30,6 +30,7 @@ describe('<RedemptionsContainer />', () => {
     fetchSocietyRedemptionsRequest: jest.fn(),
   };
   const shallowWrapper = mount(<RedemptionsContainer {...props} />);
+  const wrapper = shallow(<RedemptionsContainer {...props} />);
 
   it('has a 3 ButtonComponents', () => {
     expect(shallowWrapper.find('ButtonComponent')).toHaveLength(3);
@@ -117,5 +118,12 @@ describe('<RedemptionsContainer />', () => {
     const spy = jest.spyOn(instance.props, 'fetchSocietyInfoRequest');
     shallowWrapper.setProps({ societyName: 'phoenix', society: { phoenix: { redemptions: [] }} });
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should open the Log Points Modal', () => {
+    const instance = wrapper.instance();
+    expect(instance.state.logPoints).toBe(false);
+    wrapper.find('.button__points').simulate('click');
+    expect(instance.state.logPoints).toBe(true);
   });
 });

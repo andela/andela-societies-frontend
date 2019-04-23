@@ -19,12 +19,12 @@ const VerifyActivitiesComponent = ({ activities }) => {
   } else {
     tableBodyHtml = activities.map((activity) => {
       const {
-        id, owner, date, description, points, category,
+        id, owner, activityDate, description, points, category,
       } = activity;
       return (
         <tr key={id} className='myactivities__table__row'>
           <td>{owner}</td>
-          <td>{format(new Date(date), 'MMM dd yyyy')}</td>
+          <td>{format(new Date(activityDate), 'MMM dd yyyy')}</td>
           <td>{category}</td>
           <td>{points}</td>
           <td>
