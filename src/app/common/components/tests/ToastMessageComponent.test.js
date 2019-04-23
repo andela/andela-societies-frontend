@@ -6,6 +6,6 @@ describe('<ToastMessageComponent />', () => {
   const shallowWrapper = shallow(<ToastMessageComponent> Toast Message </ToastMessageComponent>);
 
   it('should have button element', () => {
-    expect(shallowWrapper.html()).toContain('Toast Message');
+    expect(shallowWrapper.find('#toast').text()).toContain('Toast Message');
   });
 });

@@ -14,10 +14,6 @@
     width: 30rem;
 }
 
-.log-points__heading {
-    color: #000
-}
-
 // small devices
 @media (max-width: 660px) {
     .login-container {
@@ -38,6 +34,12 @@
         transition: all .8s;
         width: 30rem;
     }
+}
+
+.form-container {
+    padding-left: 15%;
+    padding-right: 15%;
+    border-radius: 20px;
 }
 
 .btn-points {
@@ -92,4 +94,9 @@
 
 .log-points-inputs {
     -webkit-text-fill-color: #686868;
+}
+
+.validation-error {
+    color: rgb(255, 1, 1);
+    font-size: 0.9em;
 }

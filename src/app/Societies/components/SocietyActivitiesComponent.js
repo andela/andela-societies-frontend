@@ -20,7 +20,7 @@ const SocietyActivitiesComponent = ({ activities, selectedTab }) => {
     columnNames = ['Points', 'Cash', 'Event', 'Date', 'Status'];
     tableBodyHtml = activities.map((activity) => {
       const {
-        id, value, name, createdAt, status,
+        id, value, name, activityDate, status,
       } = activity;
       return (
         <tr key={id} className='myactivities__table__row'>
