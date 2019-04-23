@@ -27,6 +27,7 @@ describe('<VerifyActivitiesContainer />', () => {
     },
     fetchSocietyInfoRequest: jest.fn(),
     fetchUserActivites: jest.fn(),
+    verifyActivity: jest.fn(),
   };
   const shallowWrapper = shallow(<VerifyActivitiesContainer {...props} />);
 
@@ -46,6 +47,18 @@ describe('<VerifyActivitiesContainer />', () => {
     const instance = shallowWrapper.instance();
     const inReviewActivities = activities.filter(item => item.status === ACTIVITY_STATUS.IN_REVIEW);
     expect(instance.filterActivitiesByInReviewStatus(activities)).toEqual(inReviewActivities);
+  });
+
+  it('should handleVerify', () => {
+    const instance = shallowWrapper.instance();
+    const data = {
+      loggedActivityId: 1234567,
+      status: 'rejected',
+    };
+    instance.setState(data);
+    const spy = jest.spyOn(instance.props, 'verifyActivity');
+    instance.handleVerify();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('invokes fetchSocietyInfoRequest in componentDidUpdate when societyName props change', () => {
