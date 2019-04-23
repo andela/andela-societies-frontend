@@ -2,35 +2,36 @@ import React from 'react';
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 
+import ActionsComponent from '../../VerifyActivities/components/ActionsComponent';
+import { TableComponent, TruncateDescriptionContainer } from '../../common/components';
 import { pointsToDollarConverter } from '../../utils';
-import { TableComponent, TruncateDescriptionContainer, StatusIndicatorComponent } from '../../common/components';
 
-const RedemptionsComponent = ({ activities }) => {
+const ApproveBudgetComponent = ({ activities }) => {
   let tableBodyHtml;
-  const columnNames = ['Cash', 'Date', 'Description', 'Points', 'Status'];
+  const columnNames = ['Name', 'Date', 'Amount', 'Description', 'Actions'];
   if (!activities.length) {
     tableBodyHtml = (
       <tr className='myactivities__table__row'>
         <td colSpan={6} className='myactivities__table__data'>
-          There are no redemptions
+          There is no budget to approve
         </td>
       </tr>
     );
   } else {
     tableBodyHtml = activities.map((activity) => {
       const {
-        id, createdAt, name, value, status,
+        id, user, createdAt, value, name,
       } = activity;
       return (
         <tr key={id} className='myactivities__table__row'>
-          <td>{`${pointsToDollarConverter(value)} USD`}</td>
+          <td>{user.name}</td>
           <td>{format(new Date(createdAt), 'MMM dd yyyy')}</td>
+          <td>{`${pointsToDollarConverter(value)} USD`}</td>
           <td>
             <TruncateDescriptionContainer description={name} wordCount={80} />
           </td>
-          <td>{value}</td>
           <td>
-            <StatusIndicatorComponent status={status} />
+            <ActionsComponent />
           </td>
         </tr>
       );
@@ -43,12 +44,12 @@ const RedemptionsComponent = ({ activities }) => {
   );
 };
 
-RedemptionsComponent.defaultProps = {
+ApproveBudgetComponent.defaultProps = {
   activities: [],
 };
 
-RedemptionsComponent.propTypes = {
+ApproveBudgetComponent.propTypes = {
   activities: PropTypes.arrayOf(PropTypes.shape({})),
 };
 
-export default RedemptionsComponent;
+export default ApproveBudgetComponent;

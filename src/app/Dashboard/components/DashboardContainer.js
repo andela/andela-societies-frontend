@@ -7,10 +7,10 @@ import {
   ToastMessageComponent,
   LoaderComponent,
   Filter,
+  SocietyStatsComponent,
 } from '../../common/components';
 
 import MyStatsComponent from './MyStatsComponent';
-import SocietyStatsComponent from './SocietyStatsComponent';
 import LogPointsComponent from './LogPointsModalContainer';
 import MyActivitiesComponent from './MyActivitiesComponent';
 
@@ -151,6 +151,7 @@ export class DashboardContainer extends Component {
   showFilter = () => {
     this.setState(prevState => ({ show: !prevState.show }));
   };
+
 
   render() {
     const {

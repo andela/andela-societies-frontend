@@ -75,4 +75,28 @@ describe('Societies actions', () => {
       expect(actions.fetchSocietyRedemptionsSuccess(redemptions, societyName)).toEqual(expected);
     });
   });
+
+  describe('create redemption', () => {
+    it('has CREATE_REDEMPTION_REQUEST', () => {
+      const data = { date: '12/01/2018', reason: 'test', points: 10000 };
+      const societyName = 'phoenix';
+      const expected = {
+        type: types.CREATE_REDEMPTION_REQUEST,
+        payload: { data, societyName },
+      };
+
+      expect(actions.createRedemptionRequest(data, societyName)).toEqual(expected);
+    });
+
+    it('has CREATE_REDEMPTION_SUCCESS', () => {
+      const data = { date: '12/01/2018', reason: 'test', points: 10000 };
+      const societyName = 'phoenix';
+      const expected = {
+        type: types.CREATE_REDEMPTION_SUCCESS,
+        payload: { redemption: data, societyName },
+      };
+
+      expect(actions.createRedemptionSuccess(data, societyName)).toEqual(expected);
+    });
+  })
 });

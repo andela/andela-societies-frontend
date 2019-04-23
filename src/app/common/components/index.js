@@ -13,5 +13,7 @@ export { default as MenuItem } from './MenuItem';
 export {
   default as TruncateDescriptionContainer,
 } from './TruncateDescriptionContainer';
+export { default as TabsComponent } from './TabsComponent';
+export { default as SocietyStatsComponent } from './SocietyStatsComponent';
 export { default as ToastMessageComponent } from './ToastMessageComponent';
 export { default as Filter } from './Filter';

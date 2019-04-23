@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import dateFns from 'date-fns';
+import { format } from 'date-fns';
 
 import VerifyActivitiesComponent from '../VerifyActivitiesComponent';
 
@@ -29,7 +29,7 @@ describe('<VerifyActivitiesComponent />', () => {
 
   it('should have date of activity in TableComponent', () => {
     const { shallowWrapper } = setUpWrapper({ activities });
-    const activityDate = dateFns.format(activity.date, 'MMM DD YYYY');
+    const activityDate = format(new Date(activity.date), 'MMM dd yyyy');
     expect(shallowWrapper.find('TableComponent').html()).toContain(`${activityDate}`);
   });
 

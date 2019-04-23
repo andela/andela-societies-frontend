@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import dashboardActions from '../../Dashboard/operations/actions';
+
 import { actions } from '../../Societies/operations';
-import { ButtonComponent, LoaderComponent } from '../../common/components';
-import VerifyActivities from './VerifyActivitiesComponent';
-import { SocietyStatsComponent } from '../../Dashboard/components';
+import dashboardActions from '../../Dashboard/operations/actions';
+
+import ACTIVITY_STATUS from '../../common/constants';
 import { getUserInfo, getToken } from '../../utils/tokenIsValid';
-import ACTIVITY_STATUS from '../constants';
+
+import VerifyActivities from './VerifyActivitiesComponent';
+import { ButtonComponent, LoaderComponent, SocietyStatsComponent } from '../../common/components';
 
 export class VerifyActivitiesContainer extends Component {
   static defaultProps = {

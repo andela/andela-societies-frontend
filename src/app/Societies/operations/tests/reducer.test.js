@@ -2,6 +2,7 @@ import types from '../types';
 import society from '../reducer';
 import initialState from '../../../../reducers/initialState';
 import activities from '../../../Dashboard/operations/tests/fixtures';
+import { redemption } from '../../../Redemptions/components/tests/fixtures';
 
 const defaultState = initialState.society;
 
@@ -77,6 +78,27 @@ describe('Society reducer', () => {
         [societyName]: {
           ...defaultState[societyName],
           redemptions: [],
+        }
+      });
+    });
+  });
+
+  describe('case CREATE_REDEMPTION_SUCCESS', () => {
+    it('creates redemption', () => {
+      const societyName = 'phoenix';
+      const payload = {
+        societyName,
+        redemption,
+      };
+      const action = {
+        type: types.CREATE_REDEMPTION_SUCCESS,
+        payload,
+      };
+      expect(society(defaultState, action)).toEqual({
+        ...defaultState,
+        [societyName]: {
+          ...defaultState[societyName],
+          redemptions: [payload.redemption, ...defaultState[societyName].redemptions],
         }
       });
     });

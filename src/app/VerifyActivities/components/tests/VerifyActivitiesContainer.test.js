@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import { VerifyActivitiesContainer } from '../VerifyActivitiesContainer';
 
 import activities from '../../../Dashboard/operations/tests/fixtures';
-import ACTIVITY_STATUS from '../../constants';
+import ACTIVITY_STATUS from '../../../common/constants';
 
 describe('<VerifyActivitiesContainer />', () => {
   const props = {

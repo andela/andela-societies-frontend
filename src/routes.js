@@ -11,6 +11,7 @@ import SocietiesContainer from './app/Societies/components';
 import AuthenticateRoute from './app/Authentication/components';
 import RedemptionsContainer from './app/Redemptions/components';
 import VerifyActivitiesContainer from './app/VerifyActivities/components';
+import ApproveBudgetContainer from './app/ApproveBudget/components';
 
 import { tokenIsValid, getToken } from './app/utils';
 
@@ -40,6 +41,12 @@ const Router = () => (
         userInfo={token.UserInfo}
         path='/redemptions'
         component={RedemptionsContainer}
+      />
+      <AuthenticateRoute
+        isAuthenticated={tokenIsValid(token)}
+        userInfo={token.UserInfo}
+        path='/approve-budget'
+        component={ApproveBudgetContainer}
       />
       <AuthenticateRoute
         isAuthenticated={tokenIsValid(token)}

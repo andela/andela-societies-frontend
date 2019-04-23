@@ -54,6 +54,15 @@ export class SidebarContainer extends Component {
           navItemClassName='sidebar_nav-item'
         />
       );
+    } else if (userRole && Object.keys(userRole).includes('success ops')) {
+      navItemHtml = (
+        <NavItemComponent
+          route='approve-budget'
+          iconClassName='sidebar_nav-icon outlinedCheckmark'
+          labelClassName='sidebar_nav-label'
+          navItemClassName='sidebar_nav-item'
+        />
+      );
     }
     return (
       <nav className={`${className}`}>

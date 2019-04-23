@@ -9,4 +9,6 @@ const pointsToDollarConverter = (points) => {
   return dollars;
 };
 
+export const dollarsToPointsConverter = usdDollars => (usdDollars * 50);
+
 export default pointsToDollarConverter;
