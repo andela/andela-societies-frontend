@@ -1,18 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ButtonComponent } from '../../common/components';
+import ACTION_STATUS from '../../common/constants';
 
-const ActionsComponent = ({ handleVerify, id }) => (
+const ActionsComponent = ({ onClick, id }) => (
   <div className='actions'>
     <ButtonComponent
       className='action--reject'
-      onClick={() => handleVerify(id, 'rejected')}
+      onClick={() => onClick(id, ACTION_STATUS.REJECTED)}
     >
       <div className='cross'>&times;</div>
     </ButtonComponent>
     <ButtonComponent
       className='action--approve'
-      onClick={() => handleVerify(id, 'approved')}
+      onClick={() => onClick(id, ACTION_STATUS.PENDING)}
     >
       <div className='checkmark' />
     </ButtonComponent>
@@ -20,12 +21,12 @@ const ActionsComponent = ({ handleVerify, id }) => (
 );
 
 ActionsComponent.defaultProps = {
-  handleVerify: null,
+  onClick: null,
   id: '',
 };
 
 ActionsComponent.propTypes = {
-  handleVerify: PropTypes.func,
+  onClick: PropTypes.func,
   id: PropTypes.string,
 };
 export default ActionsComponent;

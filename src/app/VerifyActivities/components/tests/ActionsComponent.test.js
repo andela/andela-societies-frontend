@@ -5,7 +5,7 @@ import ActionsComponent from '../ActionsComponent';
 describe('<ActionsComponent />', () => {
   const props = {
     id: '31132321',
-    handleVerify: jest.fn(),
+    onClick: jest.fn(),
   };
   const shallowWrapper = mount(<ActionsComponent {...props} />);
 
@@ -14,13 +14,13 @@ describe('<ActionsComponent />', () => {
   });
 
   it('invokes onClick prop in reject button', () => {
-    const spy = jest.spyOn(shallowWrapper.props(), 'handleVerify');
+    const spy = jest.spyOn(shallowWrapper.props(), 'onClick');
     shallowWrapper.find('button.action--reject').simulate('click');
     expect(spy).toHaveBeenCalled();
   });
 
   it('invokes onClick prop in approve button', () => {
-    const spy = jest.spyOn(shallowWrapper.props(), 'handleVerify');
+    const spy = jest.spyOn(shallowWrapper.props(), 'onClick');
     shallowWrapper.find('button.action--approve').simulate('click');
     expect(spy).toHaveBeenCalled();
   });

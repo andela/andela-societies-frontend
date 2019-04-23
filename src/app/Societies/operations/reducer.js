@@ -45,11 +45,12 @@ const society = (state = initialState.society, { type, payload }) => {
       },
     };
   }
-  case types.VERIFY_ACTIVITY_SUCCESS:
+  case types.VERIFY_ACTIVITY_SUCCESS: {
     return {
       ...state,
-      inReview: state.inReview.filter(item => item.activityId !== payload.data.activityId),
+      inReview: [],
     };
+  }
 
   case types.CREATE_REDEMPTION_SUCCESS: {
     const { societyName } = payload;

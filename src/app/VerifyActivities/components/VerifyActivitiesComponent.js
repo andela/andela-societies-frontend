@@ -32,7 +32,7 @@ const VerifyActivitiesComponent = ({ activities, handleVerify }) => {
           </td>
           <td>
             <ActionsComponent
-              handleVerify={handleVerify}
+              onClick={handleVerify}
               id={id}
             />
           </td>
