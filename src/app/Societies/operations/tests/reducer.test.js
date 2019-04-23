@@ -83,6 +83,19 @@ describe('Society reducer', () => {
     });
   });
 
+  describe('handles case VERIFY_ACTIVITY_SUCCESS', () => {
+    it('returns the created society activity', () => {
+      const inReview = [];
+      const action = {
+        type: types.VERIFY_ACTIVITY_SUCCESS,
+        payload: inReview,
+      };
+      expect(
+        society(defaultState, action),
+      ).toEqual({ ...defaultState });
+    });
+  });
+
   describe('case CREATE_REDEMPTION_SUCCESS', () => {
     it('creates redemption', () => {
       const societyName = 'phoenix';

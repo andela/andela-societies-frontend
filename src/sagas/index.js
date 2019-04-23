@@ -4,8 +4,9 @@ import watchFetchUserActivitiesRequest, { watchLogActivitySuccess } from '../app
 import { watchCategoriesLoad, watchLogActivityPoints } from '../app/Dashboard/operations/logPoints.data';
 import {
   watchFetchSocietyInfoReq,
-  watchCreateRedemptionReq,
   watchFetchSocietyRedemptionsReq,
+  watchVerifyActivitySecretary,
+  watchCreateRedemptionReq,
 } from '../app/Societies/operations';
 
 // single entry point to start all Sagas at once
@@ -19,5 +20,6 @@ export default function* rootSaga() {
     fork(watchLogActivitySuccess),
     fork(watchCreateRedemptionReq),
     fork(watchFetchSocietyRedemptionsReq),
+    fork(watchVerifyActivitySecretary),
   ]);
 }
