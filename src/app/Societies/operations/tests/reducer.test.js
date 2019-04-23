@@ -90,9 +90,7 @@ describe('Society reducer', () => {
         type: types.VERIFY_ACTIVITY_SUCCESS,
         payload: review,
       };
-      expect(
-        society(defaultState, action),
-      ).not.toEqual({
+      expect(society(defaultState, action)).not.toEqual({
         ...defaultState,
         [societyName]: {
           ...defaultState[societyName],
@@ -101,9 +99,10 @@ describe('Society reducer', () => {
             owner: action.payload.data.owner,
             points: action.payload.data.points,
           },
-        },})
-      })
+        },
+      });
     });
+  });
 
   describe('case APPROVE_BUDGET_PAGE_LOADING', () => {
     it('updates approveBudgetPageLoading', () => {
@@ -127,43 +126,8 @@ describe('Society reducer', () => {
           verifyAlertMessage: true,
         }),
       ).toEqual({
-        loading: false,
-        error: false,
-        istelle: {
-          pointsEarned: 0,
-          usedPoints: 0,
-          remainingPoints: 0,
-          redemptions: [],
-          loggedActivities: [],
-          activitiesLogged: 0,
-        },
-        phoenix: {
-          pointsEarned: 0,
-          usedPoints: 0,
-          remainingPoints: 0,
-          redemptions: [],
-          loggedActivities: [],
-          activitiesLogged: 0,
-        },
-        invictus: {
-          pointsEarned: 0,
-          usedPoints: 0,
-          remainingPoints: 0,
-          redemptions: [],
-          loggedActivities: [],
-          activitiesLogged: 0,
-        },
-        sparks: {
-          pointsEarned: 0,
-          usedPoints: 0,
-          remainingPoints: 0,
-          redemptions: [],
-          loggedActivities: [],
-          activitiesLogged: 0,
-        },
-        inReview: [],
+        ...defaultState,
         verifyAlertMessage: true,
-        verifiedSecretaryActivity: {},
       });
     });
   });
@@ -177,45 +141,10 @@ describe('Society reducer', () => {
           verifiedSecretaryActivity: {},
         }),
       ).toEqual({
-        loading: false,
-        error: false,
-        istelle: {
-          pointsEarned: 0,
-          usedPoints: 0,
-          remainingPoints: 0,
-          redemptions: [],
-          loggedActivities: [],
-          activitiesLogged: 0,
-        },
-        phoenix: {
-          pointsEarned: 0,
-          usedPoints: 0,
-          remainingPoints: 0,
-          redemptions: [],
-          loggedActivities: [],
-          activitiesLogged: 0,
-        },
-        invictus: {
-          pointsEarned: 0,
-          usedPoints: 0,
-          remainingPoints: 0,
-          redemptions: [],
-          loggedActivities: [],
-          activitiesLogged: 0,
-        },
-        sparks: {
-          pointsEarned: 0,
-          usedPoints: 0,
-          remainingPoints: 0,
-          redemptions: [],
-          loggedActivities: [],
-          activitiesLogged: 0,
-        },
-        inReview: [],
+        ...defaultState,
         verifyAlertMessage: false,
-        verifiedSecretaryActivity: {},
-      })
-    })
+      });
+    });
   });
 
   describe('case APPROVE_BUDGET_PAGE_ERROR', () => {
@@ -223,7 +152,7 @@ describe('Society reducer', () => {
       const error = 'There is an error';
       const action = {
         type: types.APPROVE_BUDGET_PAGE_ERROR,
-        payload: { error }
+        payload: { error },
       };
 
       expect(society(defaultState, action)).toEqual({
@@ -250,9 +179,10 @@ describe('Society reducer', () => {
         [societyName]: {
           ...defaultState[societyName],
           redemptions: [payload.redemption, ...defaultState[societyName].redemptions],
-        },})
-      })
+        },
+      });
     });
+  });
 
   describe('case RESET_APPROVE_BUDGET_STATUS', () => {
     it('updates approveBudgetMessage and approveBudgetStatus', () => {
@@ -276,44 +206,11 @@ describe('Society reducer', () => {
           verifyAlertMessage: true,
         }),
       ).toEqual({
-        loading: false,
-        error: false,
-        istelle: {
-          pointsEarned: 0,
-          usedPoints: 0,
-          remainingPoints: 0,
-          redemptions: [],
-          loggedActivities: [],
-          activitiesLogged: 0,
-        },
-        phoenix: {
-          pointsEarned: 0,
-          usedPoints: 0,
-          remainingPoints: 0,
-          redemptions: [],
-          loggedActivities: [],
-          activitiesLogged: 0,
-        },
-        invictus: {
-          pointsEarned: 0,
-          usedPoints: 0,
-          remainingPoints: 0,
-          redemptions: [],
-          loggedActivities: [],
-          activitiesLogged: 0,
-        },
-        sparks: {
-          pointsEarned: 0,
-          usedPoints: 0,
-          remainingPoints: 0,
-          redemptions: [],
-          loggedActivities: [],
-          activitiesLogged: 0,
-        },
-        inReview: [],
+        ...defaultState,
         verifyAlertMessage: true,
-        verifiedSecretaryActivity: {},
-      })})});
+      });
+    });
+  });
 
   describe('case RESET_APPROVE_BUDGET_STATUS', () => {
     it('updates approveBudgetMessage and approveBudgetStatus', () => {
@@ -337,16 +234,19 @@ describe('Society reducer', () => {
       const action = {
         type: types.APPROVE_BUDGET_SUCCESS,
         payload: {
-          redemption, societyName, status, message,
-        }
+          redemption,
+          societyName,
+          status,
+          message,
+        },
       };
 
       const newInitialState = {
         ...defaultState,
         [societyName]: {
           ...defaultState[societyName],
-          redemptions: [redemption]
-        }
+          redemptions: [redemption],
+        },
       };
 
       expect(society(newInitialState, action)).toEqual({
@@ -356,7 +256,7 @@ describe('Society reducer', () => {
         approveBudgetPageLoading: false,
         [societyName]: {
           ...newInitialState[societyName],
-          redemptions: newInitialState[societyName].redemptions.map(el => (el.id === action.payload.redemption.id ? action.payload.redemption: el)),
+          redemptions: newInitialState[societyName].redemptions.map(el => (el.id === action.payload.redemption.id ? action.payload.redemption : el)),
         },
       });
     });
