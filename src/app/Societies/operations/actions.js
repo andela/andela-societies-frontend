@@ -58,7 +58,7 @@ const verifyActivityFail = error => ({
   type: types.VERIFY_ACTIVITY_FAIL,
   error,
 });
-  
+
 const createRedemptionRequest = (data, societyName) => ({
   type: types.CREATE_REDEMPTION_REQUEST,
   payload: { data, societyName },
