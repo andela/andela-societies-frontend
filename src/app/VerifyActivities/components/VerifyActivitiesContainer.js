@@ -80,12 +80,12 @@ export class VerifyActivitiesContainer extends Component {
       logPointsComponent = <LogPointsComponent open={logPoints} close={this.logPointsModal} />;
     }
     if (societyName) {
-      const { inReview } = society;
       const {
-        usedPoints, pointsEarned, remainingPoints, activitiesLogged,
+        usedPoints, pointsEarned, remainingPoints, activitiesLogged, loggedActivities,
       } = society[
         societyName.toLowerCase()
       ];
+      const inReview = this.filterActivitiesByInReviewStatus(loggedActivities);
       verifyActivitiesHtml = (
         <div>
           <div className='profile-overview profile-overview--society'>

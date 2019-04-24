@@ -70,6 +70,7 @@ describe('<VerifyActivitiesContainer />', () => {
 
   it('should open the Log Points Modal', () => {
     const instance = shallowWrapper.instance();
+    instance.setState({ logPoints: false });
     expect(instance.state.logPoints).toBe(false);
     shallowWrapper.find('.button__add').simulate('click');
     expect(instance.state.logPoints).toBe(true);

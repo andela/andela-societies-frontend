@@ -1,7 +1,7 @@
 import types from '../types';
 import society from '../reducer';
 import initialState from '../../../../reducers/initialState';
-import activities from '../../../Dashboard/operations/tests/fixtures';
+import activities, { review } from '../../../Dashboard/operations/tests/fixtures';
 import { redemption } from '../../../Redemptions/components/tests/fixtures';
 
 const defaultState = initialState.society;
@@ -27,7 +27,7 @@ describe('Society reducer', () => {
       const error = 'There is an error in tests';
       const action = {
         type: types.SOCIETY_PAGE_ERROR,
-        payload: { error }
+        payload: { error },
       };
       expect(society(defaultState, action)).toEqual({ ...defaultState, error });
     });
@@ -57,7 +57,7 @@ describe('Society reducer', () => {
           remainingPoints: 100,
           loggedActivities: activities,
           activitiesLogged: activities.length,
-        }
+        },
       });
     });
   });
@@ -78,21 +78,27 @@ describe('Society reducer', () => {
         [societyName]: {
           ...defaultState[societyName],
           redemptions: [],
-        }
+        },
       });
     });
   });
 
   describe('handles case VERIFY_ACTIVITY_SUCCESS', () => {
     it('returns the created society activity', () => {
-      const inReview = [];
+      const societyName = 'phoenix';
       const action = {
         type: types.VERIFY_ACTIVITY_SUCCESS,
-        payload: inReview,
+        payload: review,
       };
       expect(
         society(defaultState, action),
-      ).toEqual({ ...defaultState });
+      ).toEqual({
+        ...defaultState,
+        [societyName]: {
+          ...defaultState[societyName],
+          loggedActivities: [],
+        },
+      });
     });
   });
 
@@ -112,7 +118,7 @@ describe('Society reducer', () => {
         [societyName]: {
           ...defaultState[societyName],
           redemptions: [payload.redemption, ...defaultState[societyName].redemptions],
-        }
+        },
       });
     });
   });

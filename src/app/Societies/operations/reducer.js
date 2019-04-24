@@ -46,9 +46,14 @@ const society = (state = initialState.society, { type, payload }) => {
     };
   }
   case types.VERIFY_ACTIVITY_SUCCESS: {
+    const societyName = payload.data.society.name;
     return {
       ...state,
-      inReview: [],
+      [societyName]: {
+        ...state[societyName],
+        loggedActivities: state[societyName].loggedActivities
+          .filter(activity => activity.activityId !== payload.data.activityId),
+      },
     };
   }
 

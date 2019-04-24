@@ -95,6 +95,34 @@ export const categories = [{
   value: 100,
 }];
 
+export const review = {
+  data: {
+    activityDate: '2018-08-13',
+    activityId: '8436db76-8e6b-11e8-80b6-9801a7ae0329',
+    activityTypeId: '8432b3d4-8e6b-11e8-91dd-9801a7ae0329',
+    approvedBy: {},
+    category: 'Open Saturdays Guides',
+    createdAt: '2018-07-23T11:28:26.571864+00:00',
+    description: '2018-feb-meetup invictus',
+    id: 'bnfad176-43cd-11e8-b3b9-9801a7ae0329',
+    modifiedAt: {},
+    name: {},
+    noOfParticipants: {},
+    owner: 'Test User',
+    owner_photo: 'https://lh3.googleusercontent.com/-Ke1NKb5MPuk/AAAAAAAAAAI/AAAAAAAAABg/8ofOe_CueLA/photo.jpg?sz=50',
+    points: 50,
+    redeemed: false,
+    reviewedBy: {},
+    society: {
+      id: '8431f00c-8e6b-11e8-bdf1-9801a7ae0329',
+      name: 'invictus',
+    },
+    societyId: '8431f00c-8e6b-11e8-bdf1-9801a7ae0329',
+    status: 'pending',
+  },
+  message: 'Activity edited successfully',
+};
+
 const activities = [];
 
 for (let i = 0; i < numberOfItems; i += 1) {
