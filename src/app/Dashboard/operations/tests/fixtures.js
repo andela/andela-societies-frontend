@@ -6,7 +6,7 @@ export const activity = {
   date: '2017-11-03',
   activity: 'Participating in a tech event',
   points: 250,
-  status: 'default',
+  status: 'approved',
   owner: 'Lawrence Wachira',
   activityDate: '2017-11-03',
   name: 'insert name here',
