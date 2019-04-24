@@ -1,15 +1,21 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
+import {
+  call, put, takeEvery, takeLatest, delay,
+} from 'redux-saga/effects';
 
 import types from '../types';
 import actions from '../actions';
-import { get, post } from '../../../utils/api';
+import { get, post, edit } from '../../../utils/api';
 import activities from '../../../Dashboard/operations/tests/fixtures';
 import watchFetchSocietyInfoReq, {
   createRedemption,
   fetchSocietyInfo,
   fetchSocietyRedemptions,
+  verifyActivitySecretary,
+  verifyActivitySuccess,
   watchCreateRedemptionReq,
   watchFetchSocietyRedemptionsReq,
+  watchVerifyActivitySecretary,
+  watchVerifyActivitySuccess,
 } from '../societies.data';
 
 describe('Society saga', () => {
@@ -123,6 +129,55 @@ describe('Society saga', () => {
       expect(generator.next().value).toEqual(
         takeEvery(types.CREATE_REDEMPTION_REQUEST, createRedemption),
       );
+    });
+  });
+
+  describe('watchVerifyActivitySecretary generator', () => {
+    it('takes VERIFY_ACTIVITY_REQUEST action', () => {
+      generator = watchVerifyActivitySecretary();
+      expect(generator.next().value).toEqual(takeLatest(types.VERIFY_ACTIVITY_REQUEST, verifyActivitySecretary));
+    });
+  });
+
+  describe('verifyActivitySecretary generator', () => {
+    it('calls edit api verify activity secretary util with url', async () => {
+      generator = verifyActivitySecretary(types.VERIFY_ACTIVITY_REQUEST);
+      expect(generator.next().value).toEqual(call(
+        edit, `logged-activities/review/${actions.loggedActivityId}`, actions.activityStatus,
+      ));
+      expect(generator.next().value).toEqual(put(actions.verifyActivitySuccess()));
+    });
+
+    it('puts verifyActivityError', async () => {
+      generator = verifyActivitySecretary();
+      const err = new TypeError('Cannot read property \'loggedActivityId\' of undefined');
+      expect(generator.next().value).toEqual(put(actions.verifyActivityFail(err.toString())));
+    });
+  });
+
+  describe('watchVerifyActivitySuccess watcher', () => {
+    it('takes VERIFY_ACTIVITY_SUCCESS action', () => {
+      generator = watchVerifyActivitySuccess();
+      expect(generator.next().value).toEqual(takeLatest(types.VERIFY_ACTIVITY_SUCCESS, verifyActivitySuccess));
+    });
+  });
+
+  describe('verifyActivitySuccess generator', () => {
+    it('opens and close toast message', async () => {
+      generator = verifyActivitySuccess();
+      expect(generator.next().value).toEqual(put({ type: types.VERIFY_ALERT_OPEN }));
+      expect(generator.next().value).toEqual(delay(2000));
+      expect(generator.next().value).toEqual(put({ type: types.VERIFY_ALERT_CLOSE }));
+    });
+
+    it('puts verifyActivityError', () => {
+      generator = verifyActivitySuccess();
+      expect(generator.next().value).toEqual(put({ type: types.VERIFY_ALERT_OPEN }));
+      expect(generator
+        .throw('An error has occured').value)
+        .toEqual(
+          put(actions.verifyActivityFail('An error has occured')),
+        );
     });
   });
 

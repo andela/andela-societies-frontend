@@ -50,6 +50,21 @@ export class RedemptionsContainer extends Component {
     logPoints: false,
   };
 
+  initialState = {
+    date: '',
+    errors: {},
+    reason: '',
+    points: null,
+    center: '',
+    usdValue: '',
+    openRedeemPointsModal: false,
+  }
+
+  state = {
+    ...this.initialState,
+    logPoints: false,
+  };
+
   componentDidMount() {
     const {
       fetchSocietyRedemptionsRequest, fetchSocietyInfoRequest, societyName, fetchUserActivites,

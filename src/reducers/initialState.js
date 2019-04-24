@@ -50,6 +50,10 @@ const initialState = {
       loggedActivities: [],
       activitiesLogged: 0,
     },
+    inReview: [],
+    verifyAlertMessage: false,
+    verifiedSecretaryActivity: {},
+
   },
 };
 
