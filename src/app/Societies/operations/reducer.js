@@ -53,10 +53,10 @@ const society = (state = initialState.society, { type, payload }) => {
         ...state[societyName],
         loggedActivities: state[societyName].loggedActivities
           .filter(activity => activity.activityId !== payload.data.activityId),
-        verifiedSecretaryActivity: {
-          owner: payload.data.owner,
-          points: payload.data.points,
-        },
+      },
+      verifiedSecretaryActivity: {
+        owner: payload.data.owner,
+        points: payload.data.points,
       },
     };
   }

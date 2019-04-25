@@ -13,4 +13,3 @@ export { default as SocietyStatsComponent } from './SocietyStatsComponent';
 export { default as TruncateDescriptionContainer } from './TruncateDescriptionContainer';
 export { default as ToastMessageComponent } from './ToastMessageComponent';
 export { default as VerifyAlertModal } from './VerifyAlertComponent';
-
