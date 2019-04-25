@@ -89,7 +89,7 @@ export class VerifyActivitiesContainer extends Component {
       } = society[
         societyName.toLowerCase()
       ];
-      const inReviewActivities = this.filterActivitiesByInReviewStatus(loggedActivities);
+      const inReview = this.filterActivitiesByInReviewStatus(loggedActivities);
       verifyActivitiesHtml = (
         <div>
           <div className='profile-overview profile-overview--society'>

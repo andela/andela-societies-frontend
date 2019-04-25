@@ -53,7 +53,6 @@ const initialState = {
     inReview: [],
     verifyAlertMessage: false,
     verifiedSecretaryActivity: {},
-
   },
 };
 
