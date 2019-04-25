@@ -27,6 +27,7 @@ describe('<VerifyActivitiesContainer />', () => {
     },
     fetchSocietyInfoRequest: jest.fn(),
     fetchUserActivites: jest.fn(),
+    verifyActivity: jest.fn(),
   };
   const shallowWrapper = shallow(<VerifyActivitiesContainer {...props} />);
 
@@ -48,6 +49,18 @@ describe('<VerifyActivitiesContainer />', () => {
     expect(instance.filterActivitiesByInReviewStatus(activities)).toEqual(inReviewActivities);
   });
 
+  it('should handleVerify', () => {
+    const instance = shallowWrapper.instance();
+    const data = {
+      loggedActivityId: 1234567,
+      status: 'rejected',
+    };
+    instance.setState(data);
+    const spy = jest.spyOn(instance.props, 'verifyActivity');
+    instance.handleVerify();
+    expect(spy).toHaveBeenCalled();
+  });
+
   it('invokes fetchSocietyInfoRequest in componentDidUpdate when societyName props change', () => {
     const instance = shallowWrapper.instance();
     const spy = jest.spyOn(instance.props, 'fetchSocietyInfoRequest');
@@ -57,6 +70,7 @@ describe('<VerifyActivitiesContainer />', () => {
 
   it('should open the Log Points Modal', () => {
     const instance = shallowWrapper.instance();
+    instance.setState({ logPoints: false });
     expect(instance.state.logPoints).toBe(false);
     shallowWrapper.find('.button__add').simulate('click');
     expect(instance.state.logPoints).toBe(true);

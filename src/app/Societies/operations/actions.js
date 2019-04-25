@@ -43,6 +43,22 @@ const fetchSocietyRedemptionsSuccess = (redemptions, societyName) => ({
   payload: { redemptions, societyName },
 });
 
+const verifyActivityRequest = (loggedActivityId, status) => ({
+  type: types.VERIFY_ACTIVITY_REQUEST,
+  loggedActivityId,
+  status,
+});
+
+const verifyActivitySuccess = activity => ({
+  type: types.VERIFY_ACTIVITY_SUCCESS,
+  payload: activity,
+});
+
+const verifyActivityFail = error => ({
+  type: types.VERIFY_ACTIVITY_FAIL,
+  error,
+});
+
 const createRedemptionRequest = (data, societyName) => ({
   type: types.CREATE_REDEMPTION_REQUEST,
   payload: { data, societyName },
@@ -62,4 +78,7 @@ export default {
   createRedemptionSuccess,
   fetchSocietyRedemptionsRequest,
   fetchSocietyRedemptionsSuccess,
+  verifyActivityFail,
+  verifyActivitySuccess,
+  verifyActivityRequest,
 };

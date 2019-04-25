@@ -44,3 +44,18 @@ export const post = async (path, data) => {
     throw error;
   }
 };
+
+export const edit = async (path, data) => {
+  try {
+    const response = await fetch(`${config.API_BASE_URL}/${path}`, {
+      headers,
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+    const valid = checkStatus(response);
+    const result = await valid.json();
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};

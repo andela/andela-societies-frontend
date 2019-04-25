@@ -32,6 +32,7 @@ const society = (state = initialState.society, { type, payload }) => {
         loggedActivities,
         activitiesLogged,
       },
+      inReview: loggedActivities.filter(activity => activity.status === 'in review'),
     };
   }
   case types.FETCH_SOCIETY_REDEMPTIONS_SUCCESS: {
@@ -41,6 +42,17 @@ const society = (state = initialState.society, { type, payload }) => {
       [societyName]: {
         ...state[societyName],
         redemptions: payload.redemptions,
+      },
+    };
+  }
+  case types.VERIFY_ACTIVITY_SUCCESS: {
+    const societyName = payload.data.society.name;
+    return {
+      ...state,
+      [societyName]: {
+        ...state[societyName],
+        loggedActivities: state[societyName].loggedActivities
+          .filter(activity => activity.activityId !== payload.data.activityId),
       },
     };
   }

@@ -22,6 +22,7 @@ export class VerifyActivitiesContainer extends Component {
     fetchSocietyInfoRequest: null,
     successMessage: '',
     showToastMessage: false,
+    verifyActivity: null,
   };
 
   static propTypes = {
@@ -31,6 +32,7 @@ export class VerifyActivitiesContainer extends Component {
     fetchSocietyInfoRequest: PropTypes.func,
     successMessage: PropTypes.string,
     showToastMessage: PropTypes.bool,
+    verifyActivity: PropTypes.func,
   };
 
   state = {
@@ -62,6 +64,11 @@ export class VerifyActivitiesContainer extends Component {
     });
   };
 
+  handleVerify = (loggedActivityId, status) => {
+    const { verifyActivity } = this.props;
+    verifyActivity(loggedActivityId, status);
+  }
+
   render() {
     const { logPoints } = this.state;
     const {
@@ -78,7 +85,7 @@ export class VerifyActivitiesContainer extends Component {
       } = society[
         societyName.toLowerCase()
       ];
-      const inReviewActivities = this.filterActivitiesByInReviewStatus(loggedActivities);
+      const inReview = this.filterActivitiesByInReviewStatus(loggedActivities);
       verifyActivitiesHtml = (
         <div>
           <div className='profile-overview profile-overview--society'>
@@ -120,7 +127,10 @@ export class VerifyActivitiesContainer extends Component {
             </div>
           </div>
           {logPointsComponent}
-          <VerifyActivities activities={inReviewActivities} />
+          <VerifyActivities
+            activities={inReview}
+            handleVerify={this.handleVerify}
+          />
         </div>
       );
     }
@@ -138,6 +148,7 @@ const mapStateToProps = ({ society, dashboard }) => ({
 const mapDispatchToProps = {
   fetchSocietyInfoRequest: actions.fetchSocietyInfoRequest,
   fetchUserActivites: dashboardActions.fetchUserActivitiesRequest,
+  verifyActivity: (loggedActivityId, status) => actions.verifyActivityRequest(loggedActivityId, status),
 };
 
 export default connect(
