@@ -12,6 +12,7 @@ import AuthenticateRoute from './app/Authentication/components';
 import RedemptionsContainer from './app/Redemptions/components';
 import VerifyActivitiesContainer from './app/VerifyActivities/components';
 import ApproveBudgetContainer from './app/ApproveBudget/components';
+import ApproveActivitiesContainer from './app/ApproveActivities/components';
 
 import { tokenIsValid, getToken } from './app/utils';
 
@@ -45,7 +46,13 @@ const Router = () => (
       <AuthenticateRoute
         isAuthenticated={tokenIsValid(token)}
         userInfo={token.UserInfo}
-        path='/approve-budget'
+        path='/activities'
+        component={ApproveActivitiesContainer}
+      />
+      <AuthenticateRoute
+        isAuthenticated={tokenIsValid(token)}
+        userInfo={token.UserInfo}
+        path='/budget'
         component={ApproveBudgetContainer}
       />
       <AuthenticateRoute
