@@ -29,4 +29,5 @@ ActionsComponent.propTypes = {
   onClick: PropTypes.func,
   id: PropTypes.string,
 };
+
 export default ActionsComponent;

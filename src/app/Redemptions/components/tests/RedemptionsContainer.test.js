@@ -122,6 +122,7 @@ describe('<RedemptionsContainer />', () => {
 
   it('should open the Log Points Modal', () => {
     const instance = wrapper.instance();
+    instance.setState({ logPoints: false });
     expect(instance.state.logPoints).toBe(false);
     wrapper.find('.button__points').simulate('click');
     expect(instance.state.logPoints).toBe(true);

@@ -54,9 +54,23 @@ const society = (state = initialState.society, { type, payload }) => {
         loggedActivities: state[societyName].loggedActivities
           .filter(activity => activity.activityId !== payload.data.activityId),
       },
+      verifiedSecretaryActivity: {
+        owner: payload.data.owner,
+        points: payload.data.points,
+      },
     };
   }
-
+  case types.VERIFY_ALERT_OPEN:
+    return {
+      ...state,
+      verifyAlertMessage: true,
+    };
+  case types.VERIFY_ALERT_CLOSE:
+    return {
+      ...state,
+      verifyAlertMessage: false,
+      verifiedSecretaryActivity: {},
+    };
   case types.CREATE_REDEMPTION_SUCCESS: {
     const { societyName } = payload;
     return {

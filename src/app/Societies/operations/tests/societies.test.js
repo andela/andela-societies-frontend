@@ -1,5 +1,5 @@
 import {
-  call, put, takeEvery, takeLatest,
+  call, put, takeEvery, takeLatest, delay,
 } from 'redux-saga/effects';
 
 import types from '../types';
@@ -11,9 +11,11 @@ import watchFetchSocietyInfoReq, {
   fetchSocietyInfo,
   fetchSocietyRedemptions,
   verifyActivitySecretary,
+  verifyActivitySuccess,
   watchCreateRedemptionReq,
   watchFetchSocietyRedemptionsReq,
   watchVerifyActivitySecretary,
+  watchVerifyActivitySuccess,
 } from '../societies.data';
 
 describe('Society saga', () => {
@@ -137,7 +139,7 @@ describe('Society saga', () => {
     });
   });
 
-  describe('addNewActivity generator', () => {
+  describe('verifyActivitySecretary generator', () => {
     it('calls edit api verify activity secretary util with url', async () => {
       generator = verifyActivitySecretary(types.VERIFY_ACTIVITY_REQUEST);
       expect(generator.next().value).toEqual(call(
@@ -150,6 +152,32 @@ describe('Society saga', () => {
       generator = verifyActivitySecretary();
       const err = new TypeError('Cannot read property \'loggedActivityId\' of undefined');
       expect(generator.next().value).toEqual(put(actions.verifyActivityFail(err.toString())));
+    });
+  });
+
+  describe('watchVerifyActivitySuccess watcher', () => {
+    it('takes VERIFY_ACTIVITY_SUCCESS action', () => {
+      generator = watchVerifyActivitySuccess();
+      expect(generator.next().value).toEqual(takeLatest(types.VERIFY_ACTIVITY_SUCCESS, verifyActivitySuccess));
+    });
+  });
+
+  describe('verifyActivitySuccess generator', () => {
+    it('opens and close toast message', async () => {
+      generator = verifyActivitySuccess();
+      expect(generator.next().value).toEqual(put({ type: types.VERIFY_ALERT_OPEN }));
+      expect(generator.next().value).toEqual(delay(2000));
+      expect(generator.next().value).toEqual(put({ type: types.VERIFY_ALERT_CLOSE }));
+    });
+
+    it('puts verifyActivityError', () => {
+      generator = verifyActivitySuccess();
+      expect(generator.next().value).toEqual(put({ type: types.VERIFY_ALERT_OPEN }));
+      expect(generator
+        .throw('An error has occured').value)
+        .toEqual(
+          put(actions.verifyActivityFail('An error has occured')),
+        );
     });
   });
 

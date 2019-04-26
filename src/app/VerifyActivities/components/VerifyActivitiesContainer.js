@@ -3,16 +3,16 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { actions } from '../../Societies/operations';
+import {
+  ButtonComponent, LoaderComponent, VerifyAlertModal, SocietyStatsComponent, ToastMessageComponent,
+} from '../../common/components';
+import VerifyActivities from './VerifyActivitiesComponent';
 import dashboardActions from '../../Dashboard/operations/actions';
 
 import ACTIVITY_STATUS from '../../common/constants';
 import { getUserInfo, getToken } from '../../utils/tokenIsValid';
-
-import VerifyActivities from './VerifyActivitiesComponent';
 import LogPointsComponent from '../../Dashboard/components/LogPointsModalContainer';
-import {
-  ButtonComponent, LoaderComponent, SocietyStatsComponent, ToastMessageComponent,
-} from '../../common/components';
+
 
 export class VerifyActivitiesContainer extends Component {
   static defaultProps = {
@@ -23,6 +23,8 @@ export class VerifyActivitiesContainer extends Component {
     successMessage: '',
     showToastMessage: false,
     verifyActivity: null,
+    showVerifyAlert: false,
+    verifiedSecretaryActivity: {},
   };
 
   static propTypes = {
@@ -33,6 +35,8 @@ export class VerifyActivitiesContainer extends Component {
     successMessage: PropTypes.string,
     showToastMessage: PropTypes.bool,
     verifyActivity: PropTypes.func,
+    showVerifyAlert: PropTypes.bool,
+    verifiedSecretaryActivity: PropTypes.shape({}),
   };
 
   state = {
@@ -72,7 +76,7 @@ export class VerifyActivitiesContainer extends Component {
   render() {
     const { logPoints } = this.state;
     const {
-      society, societyName, successMessage, showToastMessage,
+      society, societyName, showVerifyAlert, verifiedSecretaryActivity, successMessage, showToastMessage,
     } = this.props;
     let verifyActivitiesHtml = (<LoaderComponent className='loader' />);
     let logPointsComponent;
@@ -85,7 +89,7 @@ export class VerifyActivitiesContainer extends Component {
       } = society[
         societyName.toLowerCase()
       ];
-      const inReview = this.filterActivitiesByInReviewStatus(loggedActivities);
+      const inReviewActivities = this.filterActivitiesByInReviewStatus(loggedActivities);
       verifyActivitiesHtml = (
         <div>
           <div className='profile-overview profile-overview--society'>
@@ -127,8 +131,25 @@ export class VerifyActivitiesContainer extends Component {
             </div>
           </div>
           {logPointsComponent}
+          <VerifyAlertModal
+            open={showVerifyAlert}
+          >
+            <div>
+              <span className='message'>
+                {verifiedSecretaryActivity.points}
+                {' '}
+                Points Approved for
+                {' '}
+                {verifiedSecretaryActivity.owner}
+              </span>
+              <span className='alert'>
+                <div className='alert__stem' />
+                <div className='alert__kick' />
+              </span>
+            </div>
+          </VerifyAlertModal>
           <VerifyActivities
-            activities={inReview}
+            activities={inReviewActivities}
             handleVerify={this.handleVerify}
           />
         </div>
@@ -143,6 +164,8 @@ const mapStateToProps = ({ society, dashboard }) => ({
   societyName: dashboard.society,
   successMessage: dashboard.activity.message,
   showToastMessage: dashboard.showToastMessage,
+  showVerifyAlert: society.verifyAlertMessage,
+  verifiedSecretaryActivity: society.verifiedSecretaryActivity,
 });
 
 const mapDispatchToProps = {

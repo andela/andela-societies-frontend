@@ -1,5 +1,5 @@
 import {
-  call, put, takeEvery, takeLatest,
+  call, put, takeEvery, takeLatest, delay,
 } from 'redux-saga/effects';
 import types from './types';
 import actions from './actions';
@@ -74,6 +74,20 @@ export function* createRedemption(action) {
 
 export function* watchCreateRedemptionReq() {
   yield takeEvery(types.CREATE_REDEMPTION_REQUEST, createRedemption);
+}
+
+export function* verifyActivitySuccess() {
+  try {
+    yield put({ type: types.VERIFY_ALERT_OPEN });
+    yield delay(2000);
+    yield put({ type: types.VERIFY_ALERT_CLOSE });
+  } catch (error) {
+    yield put(actions.verifyActivityFail(error.toString()));
+  }
+}
+
+export function* watchVerifyActivitySuccess() {
+  yield takeLatest(types.VERIFY_ACTIVITY_SUCCESS, verifyActivitySuccess);
 }
 
 export default watchFetchSocietyInfoReq;

@@ -51,6 +51,8 @@ const initialState = {
       activitiesLogged: 0,
     },
     inReview: [],
+    verifyAlertMessage: false,
+    verifiedSecretaryActivity: {},
   },
 };
 

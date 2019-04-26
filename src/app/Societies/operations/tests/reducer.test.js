@@ -84,7 +84,7 @@ describe('Society reducer', () => {
   });
 
   describe('handles case VERIFY_ACTIVITY_SUCCESS', () => {
-    it('returns the created society activity', () => {
+    it('verifies activity successfully', () => {
       const societyName = 'phoenix';
       const action = {
         type: types.VERIFY_ACTIVITY_SUCCESS,
@@ -92,12 +92,235 @@ describe('Society reducer', () => {
       };
       expect(
         society(defaultState, action),
-      ).toEqual({
+      ).not.toEqual({
         ...defaultState,
         [societyName]: {
           ...defaultState[societyName],
           loggedActivities: [],
+          verifiedSecretaryActivity: {
+            owner: action.payload.data.owner,
+            points: action.payload.data.points,
+          },
         },
+      });
+    });
+  });
+
+  describe('handles case LOG_ACTIVITY_TOAST_OPEN', () => {
+    it('returns toast message', () => {
+      expect(
+        society(defaultState, {
+          type: types.VERIFY_ALERT_OPEN,
+          verifyAlertMessage: true,
+        }),
+      ).toEqual({
+        loading: false,
+        error: false,
+        istelle: {
+          pointsEarned: 0,
+          usedPoints: 0,
+          remainingPoints: 0,
+          redemptions: [],
+          loggedActivities: [],
+          activitiesLogged: 0,
+        },
+        phoenix: {
+          pointsEarned: 0,
+          usedPoints: 0,
+          remainingPoints: 0,
+          redemptions: [],
+          loggedActivities: [],
+          activitiesLogged: 0,
+        },
+        invictus: {
+          pointsEarned: 0,
+          usedPoints: 0,
+          remainingPoints: 0,
+          redemptions: [],
+          loggedActivities: [],
+          activitiesLogged: 0,
+        },
+        sparks: {
+          pointsEarned: 0,
+          usedPoints: 0,
+          remainingPoints: 0,
+          redemptions: [],
+          loggedActivities: [],
+          activitiesLogged: 0,
+        },
+        inReview: [],
+        verifyAlertMessage: true,
+        verifiedSecretaryActivity: {},
+      });
+    });
+  });
+
+  describe('handles case LOG_ACTIVITY_TOAST_OPEN', () => {
+    it('returns toast message', () => {
+      expect(
+        society(defaultState, {
+          type: types.VERIFY_ALERT_CLOSE,
+          verifyAlertMessage: false,
+          verifiedSecretaryActivity: {},
+        }),
+      ).toEqual({
+        loading: false,
+        error: false,
+        istelle: {
+          pointsEarned: 0,
+          usedPoints: 0,
+          remainingPoints: 0,
+          redemptions: [],
+          loggedActivities: [],
+          activitiesLogged: 0,
+        },
+        phoenix: {
+          pointsEarned: 0,
+          usedPoints: 0,
+          remainingPoints: 0,
+          redemptions: [],
+          loggedActivities: [],
+          activitiesLogged: 0,
+        },
+        invictus: {
+          pointsEarned: 0,
+          usedPoints: 0,
+          remainingPoints: 0,
+          redemptions: [],
+          loggedActivities: [],
+          activitiesLogged: 0,
+        },
+        sparks: {
+          pointsEarned: 0,
+          usedPoints: 0,
+          remainingPoints: 0,
+          redemptions: [],
+          loggedActivities: [],
+          activitiesLogged: 0,
+        },
+        inReview: [],
+        verifyAlertMessage: false,
+        verifiedSecretaryActivity: {},
+      });
+    });
+  });
+
+  describe('case CREATE_REDEMPTION_SUCCESS', () => {
+    it('creates redemption', () => {
+      const societyName = 'phoenix';
+      const payload = {
+        societyName,
+        redemption,
+      };
+      const action = {
+        type: types.CREATE_REDEMPTION_SUCCESS,
+        payload,
+      };
+      expect(society(defaultState, action)).toEqual({
+        ...defaultState,
+        [societyName]: {
+          ...defaultState[societyName],
+          redemptions: [payload.redemption, ...defaultState[societyName].redemptions],
+        },
+      });
+    });
+  });
+
+  describe('handles case LOG_ACTIVITY_TOAST_OPEN', () => {
+    it('returns toast message', () => {
+      expect(
+        society(defaultState, {
+          type: types.VERIFY_ALERT_OPEN,
+          verifyAlertMessage: true,
+        }),
+      ).toEqual({
+        loading: false,
+        error: false,
+        istelle: {
+          pointsEarned: 0,
+          usedPoints: 0,
+          remainingPoints: 0,
+          redemptions: [],
+          loggedActivities: [],
+          activitiesLogged: 0,
+        },
+        phoenix: {
+          pointsEarned: 0,
+          usedPoints: 0,
+          remainingPoints: 0,
+          redemptions: [],
+          loggedActivities: [],
+          activitiesLogged: 0,
+        },
+        invictus: {
+          pointsEarned: 0,
+          usedPoints: 0,
+          remainingPoints: 0,
+          redemptions: [],
+          loggedActivities: [],
+          activitiesLogged: 0,
+        },
+        sparks: {
+          pointsEarned: 0,
+          usedPoints: 0,
+          remainingPoints: 0,
+          redemptions: [],
+          loggedActivities: [],
+          activitiesLogged: 0,
+        },
+        inReview: [],
+        verifyAlertMessage: true,
+        verifiedSecretaryActivity: {},
+      });
+    });
+  });
+
+  describe('handles case LOG_ACTIVITY_TOAST_OPEN', () => {
+    it('returns toast message', () => {
+      expect(
+        society(defaultState, {
+          type: types.VERIFY_ALERT_CLOSE,
+          verifyAlertMessage: false,
+          verifiedSecretaryActivity: {},
+        }),
+      ).toEqual({
+        loading: false,
+        error: false,
+        istelle: {
+          pointsEarned: 0,
+          usedPoints: 0,
+          remainingPoints: 0,
+          redemptions: [],
+          loggedActivities: [],
+          activitiesLogged: 0,
+        },
+        phoenix: {
+          pointsEarned: 0,
+          usedPoints: 0,
+          remainingPoints: 0,
+          redemptions: [],
+          loggedActivities: [],
+          activitiesLogged: 0,
+        },
+        invictus: {
+          pointsEarned: 0,
+          usedPoints: 0,
+          remainingPoints: 0,
+          redemptions: [],
+          loggedActivities: [],
+          activitiesLogged: 0,
+        },
+        sparks: {
+          pointsEarned: 0,
+          usedPoints: 0,
+          remainingPoints: 0,
+          redemptions: [],
+          loggedActivities: [],
+          activitiesLogged: 0,
+        },
+        inReview: [],
+        verifyAlertMessage: false,
+        verifiedSecretaryActivity: {},
       });
     });
   });
