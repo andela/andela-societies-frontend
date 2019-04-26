@@ -2,8 +2,7 @@ import React from 'react';
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 
-import ActionsComponent from './ActionsComponent';
-import { TableComponent, TruncateDescriptionContainer } from '../../common/components';
+import { TableComponent, TruncateDescriptionContainer, ActionsComponent } from '../../common/components';
 
 const VerifyActivitiesComponent = ({ activities, handleVerify }) => {
   let tableBodyHtml;

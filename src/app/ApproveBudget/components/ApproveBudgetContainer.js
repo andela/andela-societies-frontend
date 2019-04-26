@@ -5,25 +5,36 @@ import PropTypes from 'prop-types';
 import societyActions from '../../Societies/operations/actions';
 
 import ApproveActivitiesComponent from './ApproveBudgetComponent';
-import { ButtonComponent, SocietyStatsComponent, TabsComponent } from '../../common/components';
+import {
+  ButtonComponent, SocietyStatsComponent, TabsComponent, AlertDialogComponent,
+} from '../../common/components';
 
 import ACTIVITY_STATUS from '../../common/constants';
 
 export class ApproveBudgetContainer extends Component {
   static defaultProps = {
     society: {},
+    status: '',
+    message: '',
+    approveBudget: null,
     fetchSocietyInfoRequest: null,
+    resetApproveBugetStatus: null,
     fetchSocietyRedemptionsRequest: null,
   };
 
   static propTypes = {
+    status: PropTypes.string,
+    message: PropTypes.string,
     society: PropTypes.shape({}),
+    approveBudget: PropTypes.func,
     fetchSocietyInfoRequest: PropTypes.func,
+    resetApproveBugetStatus: PropTypes.func,
     fetchSocietyRedemptionsRequest: PropTypes.func,
   };
 
   state = {
     selectedSociety: 'istelle',
+    alertDialogOpen: false,
   };
 
   componentDidMount() {
@@ -35,24 +46,43 @@ export class ApproveBudgetContainer extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { selectedSociety } = this.state;
-    const { fetchSocietyRedemptionsRequest, fetchSocietyInfoRequest } = this.props;
+    const { fetchSocietyRedemptionsRequest, fetchSocietyInfoRequest, status } = this.props;
 
     if (prevState.selectedSociety !== selectedSociety && !prevProps.society[selectedSociety].redemptions.length) {
       fetchSocietyInfoRequest(selectedSociety.toLowerCase());
       fetchSocietyRedemptionsRequest(selectedSociety.toLowerCase());
     }
+    if (status && prevProps.status !== status) {
+      this.toggleAlertDialogOpen(true);
+    }
+  }
+
+  handleAlertDialogClose = () => {
+    const { resetApproveBugetStatus } = this.props;
+    this.toggleAlertDialogOpen(false);
+    resetApproveBugetStatus();
+  }
+
+  toggleAlertDialogOpen = (bool) => {
+    this.setState(() => ({ alertDialogOpen: bool }));
   }
 
   changeSelectedSociety = (societyName) => {
     this.setState({ selectedSociety: societyName });
   };
 
-  filterRedemptionsByPendingStatus = redemptions => (
-    redemptions.filter(item => item.status === ACTIVITY_STATUS.PENDING))
+  handleApproveOrRejectClick = (id, status) => {
+    // call action to approve
+    const { approveBudget } = this.props;
+    const { selectedSociety } = this.state;
+    approveBudget({ id, status, societyName: selectedSociety });
+  };
+
+  filterRedemptionsByPendingStatus = redemptions => redemptions.filter(item => item.status === ACTIVITY_STATUS.PENDING);
 
   render() {
-    const { society } = this.props;
-    const { selectedSociety } = this.state;
+    const { society, status, message } = this.props;
+    const { selectedSociety, alertDialogOpen } = this.state;
     const {
       usedPoints, pointsEarned, remainingPoints, activitiesLogged, redemptions,
     } = society[selectedSociety];
@@ -84,7 +114,16 @@ export class ApproveBudgetContainer extends Component {
             </ButtonComponent>
           </div>
         </div>
-        <ApproveActivitiesComponent activities={pendingRedemptions} />
+        <ApproveActivitiesComponent
+          activities={pendingRedemptions}
+          handleApproveOrRejectClick={this.handleApproveOrRejectClick}
+        />
+        <AlertDialogComponent
+          status={status}
+          message={message}
+          open={alertDialogOpen}
+          onClose={this.handleAlertDialogClose}
+        />
       </div>
     );
   }
@@ -92,9 +131,13 @@ export class ApproveBudgetContainer extends Component {
 
 const mapStateToProps = ({ society }) => ({
   society,
+  status: society.approveBudgetStatus,
+  message: society.approveBudgetMessage,
 });
 
 const mapDispatchToProps = {
+  approveBudget: societyActions.approveBudgetRequest,
+  resetApproveBugetStatus: societyActions.resetApproveBugetStatus,
   fetchSocietyInfoRequest: societyActions.fetchSocietyInfoRequest,
   fetchSocietyRedemptionsRequest: societyActions.fetchSocietyRedemptionsRequest,
 };

@@ -69,6 +69,37 @@ const createRedemptionSuccess = (redemption, societyName) => ({
   payload: { redemption, societyName },
 });
 
+const approveBudgetRequest = ({
+  id, status, societyName,
+}) => ({
+  type: types.APPROVE_BUDGET_REQUEST,
+  payload: {
+    id,
+    status,
+    societyName,
+  },
+});
+
+const approveBudgetSuccess = (redemption, societyName, status, message) => ({
+  type: types.APPROVE_BUDGET_SUCCESS,
+  payload: {
+    redemption, societyName, status, message,
+  },
+});
+
+const approveBudgetPageLoading = () => ({
+  type: types.APPROVE_BUDGET_PAGE_LOADING,
+});
+
+const approveBudgetPageError = error => ({
+  type: types.APPROVE_BUDGET_PAGE_ERROR,
+  payload: { error },
+});
+
+const resetApproveBugetStatus = () => ({
+  type: types.RESET_APPROVE_BUDGET_STATUS,
+});
+
 export default {
   societyPageError,
   societyPageLoading,
@@ -81,4 +112,9 @@ export default {
   verifyActivityFail,
   verifyActivitySuccess,
   verifyActivityRequest,
+  approveBudgetRequest,
+  approveBudgetSuccess,
+  approveBudgetPageError,
+  approveBudgetPageLoading,
+  resetApproveBugetStatus,
 };

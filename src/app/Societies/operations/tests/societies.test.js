@@ -4,15 +4,18 @@ import {
 
 import types from '../types';
 import actions from '../actions';
-import { get, post, edit } from '../../../utils/api';
+import { get, post, edit, pointsToDollarConverter } from '../../../utils';
 import activities from '../../../Dashboard/operations/tests/fixtures';
+import { redemption } from '../../../Redemptions/components/tests/fixtures';
 import watchFetchSocietyInfoReq, {
+  approveBudget,
   createRedemption,
   fetchSocietyInfo,
   fetchSocietyRedemptions,
   verifyActivitySecretary,
   verifyActivitySuccess,
   watchCreateRedemptionReq,
+  watchApproveBudgetRequest,
   watchFetchSocietyRedemptionsReq,
   watchVerifyActivitySecretary,
   watchVerifyActivitySuccess,
@@ -131,6 +134,15 @@ describe('Society saga', () => {
       );
     });
   });
+  
+  describe('watchApproveBudgetRequest generator', () => {
+    it('takes APPROVE_BUDGET_REQUEST action', () => {
+      generator = watchApproveBudgetRequest();
+      expect(generator.next().value).toEqual(
+        takeEvery(types.APPROVE_BUDGET_REQUEST, approveBudget),
+      );
+    });
+  });
 
   describe('watchVerifyActivitySecretary generator', () => {
     it('takes VERIFY_ACTIVITY_REQUEST action', () => {
@@ -213,6 +225,45 @@ describe('Society saga', () => {
 
       expect(generator.throw().value).toEqual(
         put(actions.societyPageError('There was an error creating your redemption')),
+      );
+    });
+  });
+
+  describe('approveBudget generator', () => {
+    const societyName = 'phoenix';
+    const status = 'approved';
+    const message = `USD ${pointsToDollarConverter(redemption.value)} Approved`
+    const action = {
+      type: types.APPROVE_BUDGET_REQUEST,
+      payload: { societyName, id: redemption.id, status },
+    };
+    const url = `societies/redeem/verify/${action.payload.id}`;
+
+    it('approves redemption successfully', () => {
+      const result = {
+        data: {
+          ...redemption,
+        },
+      };
+
+      generator = approveBudget(action);
+      expect(generator.next().value).toEqual(put(actions.approveBudgetPageLoading()));
+
+      expect(generator.next().value).toEqual(call(edit, url, { status }));
+
+      expect(generator.next(result, societyName, status, message).value).toEqual(
+        put(actions.approveBudgetSuccess(result.data, societyName, status, message)),
+      );
+    });
+
+    it('approve redemption error', () => {
+      generator = approveBudget(action);
+      expect(generator.next().value).toEqual(put(actions.approveBudgetPageLoading()));
+
+      expect(generator.next().value).toEqual(call(edit, url, { status }));
+
+      expect(generator.throw().value).toEqual(
+        put(actions.approveBudgetPageError(`There was an error completing the ${status} action`)),
       );
     });
   });

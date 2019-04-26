@@ -4,6 +4,8 @@ import watchFetchUserActivitiesRequest, { watchLogActivitySuccess } from '../app
 import { watchCategoriesLoad, watchLogActivityPoints } from '../app/Dashboard/operations/logPoints.data';
 import {
   watchFetchSocietyInfoReq,
+  watchCreateRedemptionReq,
+  watchApproveBudgetRequest,
   watchFetchSocietyRedemptionsReq,
   watchVerifyActivitySecretary,
   watchCreateRedemptionReq,
@@ -20,6 +22,7 @@ export default function* rootSaga() {
     fork(watchFetchUserRoleRequest),
     fork(watchLogActivitySuccess),
     fork(watchCreateRedemptionReq),
+    fork(watchApproveBudgetRequest),
     fork(watchFetchSocietyRedemptionsReq),
     fork(watchVerifyActivitySecretary),
     fork(watchVerifyActivitySuccess),
