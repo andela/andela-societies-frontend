@@ -3,18 +3,24 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import dashboardActions from '../../Dashboard/operations/actions';
 import societyActions from '../../Societies/operations/actions';
-import { getUserInfo, getToken, dollarsToPointsConverter } from '../../utils';
+import {
+  getUserInfo, getToken, dollarsToPointsConverter, search,
+} from '../../utils';
 
 import RedeemPointsModal from './RedeemPointsDialogComponent';
 import RedemptionsComponent from './RedemptionsComponent';
 import LogPointsComponent from '../../Dashboard/components/LogPointsModalContainer';
 import {
-  ButtonComponent, LoaderComponent, SocietyStatsComponent, ToastMessageComponent,
+  ButtonComponent,
+  LoaderComponent,
+  SocietyStatsComponent,
+  ToastMessageComponent,
 } from '../../common/components';
 
 export class RedemptionsContainer extends Component {
   static defaultProps = {
     society: {},
+    searchText: '',
     societyName: '',
     createRedemption: null,
     fetchUserActivites: null,
@@ -26,6 +32,7 @@ export class RedemptionsContainer extends Component {
 
   static propTypes = {
     society: PropTypes.shape({}),
+    searchText: PropTypes.string,
     societyName: PropTypes.string,
     createRedemption: PropTypes.func,
     fetchUserActivites: PropTypes.func,
@@ -43,7 +50,7 @@ export class RedemptionsContainer extends Component {
     center: '',
     usdValue: '',
     openRedeemPointsModal: false,
-  }
+  };
 
   state = {
     ...this.initialState,
@@ -58,7 +65,7 @@ export class RedemptionsContainer extends Component {
     center: '',
     usdValue: '',
     openRedeemPointsModal: false,
-  }
+  };
 
   state = {
     ...this.initialState,
@@ -153,7 +160,7 @@ export class RedemptionsContainer extends Component {
       date, errors, center, points, reason, usdValue, openRedeemPointsModal, logPoints,
     } = this.state;
     const {
-      society, societyName, successMessage, showToastMessage,
+      society, societyName, successMessage, showToastMessage, searchText,
     } = this.props;
     let redemptionsHtml = <LoaderComponent className='loader' />;
     let logPointsComponent;
@@ -180,10 +187,7 @@ export class RedemptionsContainer extends Component {
           </div>
           <div className='user-dashboard__actions user-dashboard__actions--society col-sm-12'>
             <h3 className='user-dashboard__title'>Latest Activities</h3>
-            <ToastMessageComponent
-              className='success'
-              show={showToastMessage}
-            >
+            <ToastMessageComponent className='success' show={showToastMessage}>
               <div>
                 <span className='success-message'>{successMessage}</span>
                 <span className='checkmark'>
@@ -193,10 +197,7 @@ export class RedemptionsContainer extends Component {
               </div>
             </ToastMessageComponent>
             <div>
-              <ButtonComponent
-                className='button__add button__points'
-                onClick={this.logPointsModal}
-              >
+              <ButtonComponent className='button__add button__points' onClick={this.logPointsModal}>
                 <span className='fa fa-plus' />
                 <span>Log Points</span>
               </ButtonComponent>
@@ -226,7 +227,7 @@ export class RedemptionsContainer extends Component {
             handleRedemptionSubmit={this.handleRedemptionSubmit}
           />
           {logPointsComponent}
-          <RedemptionsComponent activities={redemptions} />
+          <RedemptionsComponent activities={search(searchText, redemptions)} />
         </div>
       );
     }
@@ -234,8 +235,9 @@ export class RedemptionsContainer extends Component {
   }
 }
 
-const mapStateToProps = ({ society, dashboard }) => ({
+const mapStateToProps = ({ society, dashboard, navbar }) => ({
   society,
+  searchText: navbar.searchText,
   societyName: dashboard.society,
   successMessage: dashboard.activity.message,
   showToastMessage: dashboard.showToastMessage,

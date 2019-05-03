@@ -9,6 +9,7 @@ import LogPointsComponent from '../../Dashboard/components/LogPointsModalContain
 import {
   ButtonComponent, TabsComponent, SocietyStatsComponent, ToastMessageComponent,
 } from '../../common/components';
+import { search } from '../../utils';
 
 export class SocietiesContainer extends Component {
   static defaultProps = {
@@ -18,6 +19,7 @@ export class SocietiesContainer extends Component {
       },
     },
     society: {},
+    searchText: '',
     fetchSocietyInfoRequest: null,
     fetchSocietyRedemptionsRequest: null,
     successMessage: '',
@@ -27,6 +29,7 @@ export class SocietiesContainer extends Component {
   static propTypes = {
     match: PropTypes.shape({}),
     society: PropTypes.shape({}),
+    searchText: PropTypes.string,
     fetchSocietyInfoRequest: PropTypes.func,
     fetchSocietyRedemptionsRequest: PropTypes.func,
     successMessage: PropTypes.string,
@@ -98,6 +101,7 @@ export class SocietiesContainer extends Component {
       match: {
         params: { society: societyName },
       },
+      searchText,
       successMessage,
       showToastMessage,
     } = this.props;
@@ -158,7 +162,7 @@ export class SocietiesContainer extends Component {
         </div>
         {logPointsComponent}
         <SocietyActivities
-          activities={currentActivities}
+          activities={search(searchText, currentActivities)}
           selectedTab={selectedTab}
         />
         <ReactPaginate
@@ -179,9 +183,10 @@ export class SocietiesContainer extends Component {
   }
 }
 
-const mapStateToProps = ({ society, dashboard }) => ({
-  loading: society.loading,
+const mapStateToProps = ({ society, dashboard, navbar }) => ({
   society,
+  loading: society.loading,
+  searchText: navbar.searchText,
   successMessage: dashboard.activity.message,
   showToastMessage: dashboard.showToastMessage,
 });

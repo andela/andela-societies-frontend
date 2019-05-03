@@ -2,8 +2,9 @@ import React from 'react';
 import { Route, withRouter } from 'react-router-dom';
 
 import LoginComponent from '../../Login/components';
+import NavbarContainer from '../../Navbar/components';
 import SidebarContainer from '../../Sidebar/components';
-import { HeroComponent, NavbarContainer } from '../../common/components';
+import { HeroComponent } from '../../common/components';
 
 /**
  * @name _Authenticate

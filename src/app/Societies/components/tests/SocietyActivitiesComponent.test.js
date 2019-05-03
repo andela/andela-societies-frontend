@@ -25,7 +25,7 @@ describe('<SocietyActivitiesComponent />', () => {
 
   it('should have a description of no activities when activities prop is empty', () => {
     const { shallowWrapper } = setUpWrapper({ societyActivities: [] });
-    expect(shallowWrapper.find('TableComponent').html()).toContain('Your society does not have any activities');
+    expect(shallowWrapper.find('.myactivities__table__data').text()).toEqual('Your society does not have any activities');
   });
 
   it('should have date of activity in TableComponent', () => {

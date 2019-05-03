@@ -12,7 +12,8 @@ const SocietyActivitiesComponent = ({ activities, selectedTab }) => {
     tableBodyHtml = (
       <tr className='myactivities__table__row'>
         <td colSpan={6} className='myactivities__table__data'>
-          Your society does not have any activities
+          {/* eslint-disable  react/jsx-one-expression-per-line  */}
+          Your society does not have any {selectedTab}
         </td>
       </tr>
     );

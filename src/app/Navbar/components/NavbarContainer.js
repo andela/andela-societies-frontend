@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import LogoComponent from './LogoComponent';
+import { actions } from '../operations';
+import LogoComponent from '../../common/components/LogoComponent';
 import SidebarContainer from '../../Sidebar/components';
-import ProfileContainer from './ProfileContainer';
+import ProfileContainer from '../../common/components/ProfileContainer';
 
-class NavbarContainer extends Component {
+export class NavbarContainer extends Component {
   static defaultProps = {
     userInfo: {
       name: '',
       picture: '',
     },
+    search: null,
   };
 
   static propTypes = {
@@ -18,10 +21,38 @@ class NavbarContainer extends Component {
       name: PropTypes.string,
       picture: PropTypes.string,
     }),
+    search: PropTypes.func,
   };
 
   state = {
     sidebarState: false,
+    searchText: '',
+  };
+
+  handleSearch = (evt) => {
+    evt.preventDefault();
+    const { searchText } = this.state;
+    const { search } = this.props;
+    if (!searchText) {
+      search('');
+    } else if (searchText.length % 2 === 0) {
+      search(searchText);
+    }
+  };
+
+  handleChange = (evt) => {
+    evt.preventDefault();
+    const { name, value } = evt.target;
+    const { search } = this.props;
+
+    /*  eslint-disable react/destructuring-assignment */
+    this.setState({ [name]: value }, () => {
+      if (!this.state.searchText) {
+        search('');
+      } else if (this.state.searchText.length % 2 === 0) {
+        search(this.state.searchText);
+      }
+    });
   };
 
   toggleSidebarState = () => {
@@ -32,19 +63,27 @@ class NavbarContainer extends Component {
     const {
       userInfo: { name, picture },
     } = this.props;
-    const { sidebarState } = this.state;
+    const { sidebarState, searchText } = this.state;
     return (
       <nav className='navbar navbar-light'>
-        <form className='form-inline'>
+        <form className='form-inline' onSubmit={this.handleSearch}>
           <div className='input-group input-group-merge'>
             <input
               type='search'
               aria-label='Search'
               placeholder='Search ...'
+              value={searchText}
+              name='searchText'
               className='form-control form-control-search'
+              onChange={this.handleChange}
             />
             <div className='input-group-append '>
-              <span className='input-group-text fa fa-search input-group-icon' id='basic-addon1' />
+              <span
+                aria-hidden
+                id='basic-addon1'
+                onClick={this.handleSearch}
+                className='input-group-text fa fa-search input-group-icon'
+              />
             </div>
           </div>
         </form>
@@ -71,4 +110,11 @@ class NavbarContainer extends Component {
   }
 }
 
-export default NavbarContainer;
+const mapDispatchToProps = {
+  search: actions.search,
+};
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(NavbarContainer);

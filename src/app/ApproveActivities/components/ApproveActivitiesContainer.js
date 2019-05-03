@@ -8,17 +8,20 @@ import societyActions from '../../Societies/operations/actions';
 import ApproveActivitiesComponent from './ApproveActivitiesComponent';
 import { ButtonComponent, SocietyStatsComponent, TabsComponent } from '../../common/components';
 
+import { search } from '../../utils';
 import ACTIVITY_STATUS from '../../common/constants';
 
 export class ApproveActivitiesContainer extends Component {
   static defaultProps = {
     society: {},
+    searchText: '',
     fetchSocietyInfoRequest: null,
     fetchSocietyRedemptionsRequest: null,
   };
 
   static propTypes = {
     society: PropTypes.shape({}),
+    searchText: PropTypes.string,
     fetchSocietyInfoRequest: PropTypes.func,
     fetchSocietyRedemptionsRequest: PropTypes.func,
   };
@@ -61,7 +64,7 @@ export class ApproveActivitiesContainer extends Component {
   };
 
   render() {
-    const { society } = this.props;
+    const { society, searchText } = this.props;
     const { selectedSociety, currentPage, activitiesPerPage } = this.state;
     const {
       usedPoints, pointsEarned, remainingPoints, activitiesLogged, loggedActivities,
@@ -97,7 +100,7 @@ export class ApproveActivitiesContainer extends Component {
             </ButtonComponent>
           </div>
         </div>
-        <ApproveActivitiesComponent activities={currentActivities} />
+        <ApproveActivitiesComponent activities={search(searchText, currentActivities)} />
         <ReactPaginate
           previousLabel='previous'
           nextLabel='next'
@@ -116,8 +119,9 @@ export class ApproveActivitiesContainer extends Component {
   }
 }
 
-const mapStateToProps = ({ society }) => ({
+const mapStateToProps = ({ society, navbar }) => ({
   society,
+  searchText: navbar.searchText,
 });
 
 const mapDispatchToProps = {
