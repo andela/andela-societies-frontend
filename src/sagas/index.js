@@ -8,7 +8,6 @@ import {
   watchApproveBudgetRequest,
   watchFetchSocietyRedemptionsReq,
   watchVerifyActivitySecretary,
-  watchCreateRedemptionReq,
   watchVerifyActivitySuccess,
 } from '../app/Societies/operations';
 
