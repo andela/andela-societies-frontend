@@ -22,7 +22,7 @@ export class DashboardContainer extends Component {
     user: {},
     logPoints: false,
     currentPage: 1,
-    activitiesPerPage: 2,
+    activitiesPerPage: 6,
   };
 
   /**
@@ -95,9 +95,9 @@ export class DashboardContainer extends Component {
       user, logPoints, currentPage, activitiesPerPage,
     } = this.state;
     const pageCount = Math.ceil(userActivities.length / activitiesPerPage);
-    const indexOfLastTodo = currentPage * activitiesPerPage;
-    const indexOfFirstTodo = indexOfLastTodo - activitiesPerPage;
-    const currentTodos = userActivities.slice(indexOfFirstTodo, indexOfLastTodo);
+    const indexOfLastActivity = currentPage * activitiesPerPage;
+    const indexOfFirstActivity = indexOfLastActivity - activitiesPerPage;
+    const currentActivities = userActivities.slice(indexOfFirstActivity, indexOfLastActivity);
     let dashboardHtml;
     let logPointsComponent;
     if (logPoints) {
@@ -149,7 +149,7 @@ export class DashboardContainer extends Component {
             </div>
           </div>
           {logPointsComponent}
-          <MyActivitiesComponent userActivities={currentTodos} />
+          <MyActivitiesComponent userActivities={currentActivities} />
           <ReactPaginate
             previousLabel='previous'
             nextLabel='next'

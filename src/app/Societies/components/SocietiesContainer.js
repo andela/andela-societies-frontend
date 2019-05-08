@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import ReactPaginate from 'react-paginate';
 
 import { actions } from '../operations';
 import SocietyActivities from './SocietyActivitiesComponent';
@@ -35,6 +36,8 @@ export class SocietiesContainer extends Component {
   state = {
     selectedTab: 'activities',
     logPoints: false,
+    currentPage: 1,
+    activitiesPerPage: 6,
   };
 
   componentDidMount() {
@@ -79,8 +82,17 @@ export class SocietiesContainer extends Component {
     });
   };
 
+  handlePageClick = (data) => {
+    const { selected } = data;
+    this.setState({
+      currentPage: selected + 1,
+    });
+  };
+
   render() {
-    const { selectedTab, logPoints } = this.state;
+    const {
+      selectedTab, logPoints, currentPage, activitiesPerPage,
+    } = this.state;
     const {
       society,
       match: {
@@ -95,6 +107,10 @@ export class SocietiesContainer extends Component {
       societyName
     ];
     const societyData = selectedTab === 'activities' ? loggedActivities : redemptions;
+    const pageCount = Math.ceil(societyData && societyData.length / activitiesPerPage);
+    const indexOfLastActivity = currentPage * activitiesPerPage;
+    const indexOfFirstActivity = indexOfLastActivity - activitiesPerPage;
+    const currentActivities = societyData && societyData.slice(indexOfFirstActivity, indexOfLastActivity);
     const tabNames = ['activities', 'redemptions'];
     let logPointsComponent;
     if (logPoints) {
@@ -141,7 +157,23 @@ export class SocietiesContainer extends Component {
           </div>
         </div>
         {logPointsComponent}
-        <SocietyActivities activities={societyData} selectedTab={selectedTab} />
+        <SocietyActivities
+          activities={currentActivities}
+          selectedTab={selectedTab}
+        />
+        <ReactPaginate
+          previousLabel='previous'
+          nextLabel='next'
+          breakLabel='...'
+          breakClassName='break-me'
+          pageCount={pageCount}
+          marginPagesDisplayed={3}
+          pageRangeDisplayed={5}
+          onPageChange={this.handlePageClick}
+          containerClassName='pagination'
+          subContainerClassName='pages pagination'
+          activeClassName='active'
+        />
       </div>
     );
   }
