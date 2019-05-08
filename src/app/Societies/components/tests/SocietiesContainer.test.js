@@ -62,4 +62,14 @@ describe('<SocietiesContainer />', () => {
     shallowWrapper.find('.button__add').simulate('click');
     expect(instance.state.logPoints).toBe(true);
   });
+
+  it('should handle pagination click', () => {
+    const instance = shallowWrapper.instance();
+    const data = { selected: 0 };
+    instance.setState({
+      currentPage: data.selected + 1,
+    });
+    instance.handlePageClick(data);
+    expect(instance.state.currentPage).toBe(1);
+  });
 });
