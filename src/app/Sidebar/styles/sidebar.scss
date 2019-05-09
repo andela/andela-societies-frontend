@@ -40,13 +40,13 @@
 }
 
 .sidebar_nav-icon {
-  @include widthAndHeight(rem(18px), rem(18px));
   background-repeat: no-repeat;
   background-position: center;
   box-sizing: border-box;
   @include widthAndHeight(rem(24.51px), rem(14.45px));
 
   &.dashboard {
+    width: rem(20.51px);
     background-image: url(../../../images/dashboard.svg);
   }
 

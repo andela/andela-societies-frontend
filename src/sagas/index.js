@@ -4,7 +4,6 @@ import watchFetchUserActivitiesRequest, { watchLogActivitySuccess } from '../app
 import { watchCategoriesLoad, watchLogActivityPoints } from '../app/Dashboard/operations/logPoints.data';
 import {
   watchFetchSocietyInfoReq,
-  watchCreateRedemptionReq,
   watchApproveBudgetRequest,
   watchFetchSocietyRedemptionsReq,
   watchVerifyActivitySecretary,

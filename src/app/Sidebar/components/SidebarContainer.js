@@ -110,7 +110,8 @@ export class SidebarContainer extends Component {
           <hr className='sidebar__separator--top' />
           {navItemHtml}
         </nav>
-        <footer className='sidebar__footer'>
+        {/* Uncomment the code below when the settings, feedback, redemption guideline pages are ready */}
+        {/* <footer className='sidebar__footer'>
           <div className='sidebar_nav-item'>
             <span className='fa fa-cog' />
             <span className='sidebar_nav-label sidebar_nav-label--footer'> Settings </span>
@@ -119,7 +120,7 @@ export class SidebarContainer extends Component {
           <p className='sidebar__footer__text'> Feedback </p>
           <p className='sidebar__footer__text'> Redemption guideline </p>
           <p className='sidebar__footer__text'> Suggestions </p>
-        </footer>
+        </footer> */}
       </nav>
     );
   }
