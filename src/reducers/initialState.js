@@ -1,4 +1,7 @@
 const initialState = {
+  navbar: {
+    searchText: '',
+  },
   dashboard: {
     error: null,
     dlevel: '',

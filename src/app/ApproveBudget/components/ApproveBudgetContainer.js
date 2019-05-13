@@ -10,6 +10,7 @@ import {
   ButtonComponent, SocietyStatsComponent, TabsComponent, AlertDialogComponent,
 } from '../../common/components';
 
+import { search } from '../../utils';
 import ACTIVITY_STATUS from '../../common/constants';
 
 export class ApproveBudgetContainer extends Component {
@@ -17,6 +18,7 @@ export class ApproveBudgetContainer extends Component {
     society: {},
     status: '',
     message: '',
+    searchText: '',
     approveBudget: null,
     fetchSocietyInfoRequest: null,
     resetApproveBugetStatus: null,
@@ -26,6 +28,7 @@ export class ApproveBudgetContainer extends Component {
   static propTypes = {
     status: PropTypes.string,
     message: PropTypes.string,
+    searchText: PropTypes.string,
     society: PropTypes.shape({}),
     approveBudget: PropTypes.func,
     fetchSocietyInfoRequest: PropTypes.func,
@@ -91,7 +94,9 @@ export class ApproveBudgetContainer extends Component {
   };
 
   render() {
-    const { society, status, message } = this.props;
+    const {
+      society, status, message, searchText,
+    } = this.props;
     const {
       selectedSociety, alertDialogOpen, currentPage, activitiesPerPage,
     } = this.state;
@@ -131,7 +136,7 @@ export class ApproveBudgetContainer extends Component {
           </div>
         </div>
         <ApproveActivitiesComponent
-          activities={currentActivities}
+          activities={search(searchText, currentActivities)}
           handleApproveOrRejectClick={this.handleApproveOrRejectClick}
         />
         <ReactPaginate
@@ -158,8 +163,9 @@ export class ApproveBudgetContainer extends Component {
   }
 }
 
-const mapStateToProps = ({ society }) => ({
+const mapStateToProps = ({ society, navbar }) => ({
   society,
+  searchText: navbar.searchText,
   status: society.approveBudgetStatus,
   message: society.approveBudgetMessage,
 });

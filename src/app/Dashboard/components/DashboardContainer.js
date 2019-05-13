@@ -16,7 +16,7 @@ import MyActivitiesComponent from './MyActivitiesComponent';
 import { myStats } from '../constants';
 import { actions } from '../operations';
 import { actions as societyActions } from '../../Societies/operations';
-import { getUserInfo, getToken } from '../../utils/tokenIsValid';
+import { getUserInfo, getToken, search } from '../../utils';
 
 export class DashboardContainer extends Component {
   state = {
@@ -35,6 +35,7 @@ export class DashboardContainer extends Component {
   static defaultProps = {
     error: {},
     // dlevel: '',
+    searchText: '',
     societyName: '',
     loading: false,
     society: {},
@@ -58,6 +59,7 @@ export class DashboardContainer extends Component {
     // dlevel: PropTypes.string,
     society: PropTypes.shape({}),
     societyName: PropTypes.string,
+    searchText: PropTypes.string,
     error: PropTypes.shape({}),
     pointsEarned: PropTypes.number,
     activitiesLogged: PropTypes.number,
@@ -111,6 +113,7 @@ export class DashboardContainer extends Component {
       showToastMessage,
       // dlevel,
       society,
+      searchText,
     } = this.props;
     const {
       user, logPoints, currentPage, activitiesPerPage,
@@ -174,7 +177,7 @@ export class DashboardContainer extends Component {
             </div>
           </div>
           {logPointsComponent}
-          <MyActivitiesComponent userActivities={currentActivities} />
+          <MyActivitiesComponent userActivities={search(searchText, currentActivities)} />
           <ReactPaginate
             previousLabel='previous'
             nextLabel='next'
@@ -195,11 +198,12 @@ export class DashboardContainer extends Component {
   }
 }
 
-const mapStateToProps = ({ dashboard, society }) => ({
+const mapStateToProps = ({ dashboard, society, navbar }) => ({
   society,
   error: null,
   // dlevel: dashboard.dlevel,
   societyName: dashboard.society,
+  searchText: navbar.searchText,
   loading: dashboard.loading,
   pointsEarned: dashboard.pointsEarned,
   userActivities: dashboard.userActivities,
