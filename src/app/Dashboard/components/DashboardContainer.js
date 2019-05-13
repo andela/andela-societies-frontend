@@ -15,6 +15,7 @@ import MyActivitiesComponent from './MyActivitiesComponent';
 
 import { myStats } from '../constants';
 import { actions } from '../operations';
+import { actions as societyActions } from '../../Societies/operations';
 import { getUserInfo, getToken } from '../../utils/tokenIsValid';
 
 export class DashboardContainer extends Component {
@@ -33,9 +34,10 @@ export class DashboardContainer extends Component {
    */
   static defaultProps = {
     error: {},
-    dlevel: '',
-    society: '',
+    // dlevel: '',
+    societyName: '',
     loading: false,
+    society: {},
     pointsEarned: myStats.points,
     activitiesLogged: myStats.activities,
     userActivities: myStats.userActivities,
@@ -43,6 +45,7 @@ export class DashboardContainer extends Component {
     loadCategories: () => {},
     successMessage: '',
     showToastMessage: false,
+    fetchSocietyInfoRequest: null,
   };
 
   /**
@@ -52,8 +55,9 @@ export class DashboardContainer extends Component {
    */
   static propTypes = {
     loading: PropTypes.bool,
-    dlevel: PropTypes.string,
-    society: PropTypes.string,
+    // dlevel: PropTypes.string,
+    society: PropTypes.shape({}),
+    societyName: PropTypes.string,
     error: PropTypes.shape({}),
     pointsEarned: PropTypes.number,
     activitiesLogged: PropTypes.number,
@@ -62,6 +66,7 @@ export class DashboardContainer extends Component {
     userActivities: PropTypes.arrayOf(PropTypes.shape({})),
     successMessage: PropTypes.string,
     showToastMessage: PropTypes.bool,
+    fetchSocietyInfoRequest: PropTypes.func,
   };
 
   componentDidMount() {
@@ -71,6 +76,13 @@ export class DashboardContainer extends Component {
     this.setState({ user: userInfo });
     fetchUserActivites(userInfo.id);
     loadCategories();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { societyName, fetchSocietyInfoRequest } = this.props;
+    if (societyName && prevProps.societyName !== societyName) {
+      fetchSocietyInfoRequest(societyName.toLowerCase());
+    }
   }
 
   logPointsModal = () => {
@@ -89,7 +101,16 @@ export class DashboardContainer extends Component {
 
   render() {
     const {
-      error, loading, pointsEarned, activitiesLogged, userActivities, society, successMessage, showToastMessage, dlevel,
+      error,
+      loading,
+      pointsEarned,
+      activitiesLogged,
+      userActivities,
+      societyName,
+      successMessage,
+      showToastMessage,
+      // dlevel,
+      society,
     } = this.props;
     const {
       user, logPoints, currentPage, activitiesPerPage,
@@ -111,20 +132,24 @@ export class DashboardContainer extends Component {
       dashboardHtml = (
         <div className='user-dashboard'>
           <h2 className='user-dashboard__name col-sm-12'>{user.name}</h2>
-          <div className='col-sm-12 user-dashboard__level--container'>
+          {/* The code below can be does not work on staging. Uncomment it after figuring it out */}
+          {/* <div className='col-sm-12 user-dashboard__level--container'>
             <h3 className='user-dashboard__level'>{dlevel.substr(0, 2)}</h3>
-          </div>
+          </div> */}
           <div className='profile-overview col-sm-12'>
             <div className='profile-overview__image' />
             <MyStatsComponent points={pointsEarned} activities={activitiesLogged} />
-            <SocietyStatsComponent society={society} usedPoints={1508} remainingPoints={326} />
+            {societyName && Object.keys(society[societyName.toLowerCase()]).length && (
+              <SocietyStatsComponent
+                society={societyName}
+                usedPoints={society[societyName.toLowerCase()].usedPoints}
+                remainingPoints={society[societyName.toLowerCase()].remainingPoints}
+              />
+            )}
           </div>
           <div className='user-dashboard__actions col-sm-12'>
             <h3 className='user-dashboard__title'>My Activities</h3>
-            <ToastMessageComponent
-              className='success'
-              show={showToastMessage}
-            >
+            <ToastMessageComponent className='success' show={showToastMessage}>
               <div>
                 <span className='success-message'>{successMessage}</span>
                 <span className='checkmark'>
@@ -170,10 +195,11 @@ export class DashboardContainer extends Component {
   }
 }
 
-const mapStateToProps = ({ dashboard }) => ({
+const mapStateToProps = ({ dashboard, society }) => ({
+  society,
   error: null,
-  dlevel: dashboard.dlevel,
-  society: dashboard.society,
+  // dlevel: dashboard.dlevel,
+  societyName: dashboard.society,
   loading: dashboard.loading,
   pointsEarned: dashboard.pointsEarned,
   userActivities: dashboard.userActivities,
@@ -187,5 +213,6 @@ export default connect(
   {
     fetchUserActivites: actions.fetchUserActivitiesRequest,
     loadCategories: actions.loadCategories,
+    fetchSocietyInfoRequest: societyActions.fetchSocietyInfoRequest,
   },
 )(DashboardContainer);

@@ -21,6 +21,12 @@ class ProfileContainer extends Component {
     showProfile: false,
   };
 
+  profileRef = React.createRef();
+
+  componentDidMount() {
+    document.addEventListener('mousedown', this.hideProfileDropdown, false);
+  }
+
   /**
    * @name profileIconClick
    * toggles state to show profile dropdown
@@ -28,6 +34,19 @@ class ProfileContainer extends Component {
   profileIconClick = () => {
     this.setState(prevState => ({ showProfile: !prevState.showProfile }));
   };
+
+  /**
+   * @name hideProfileDropdown
+   * hides dropdown when user clicks outside dropdown 
+   */
+  hideProfileDropdown = (e) => {
+    if (!e.target.className) {
+      return
+    }
+    if (!this.profileRef.current.contains(e.target)) {
+      this.setState({ showProfile: false });
+    }
+  }
 
   /**
    * @name logOut
@@ -53,15 +72,16 @@ class ProfileContainer extends Component {
           />
           <i className='fa fa-ellipsis-v fa-lg' />
         </div>
-        <div className={showProfile ? 'dropdown-menu show' : 'dropdown-menu'}>
+        <div ref={this.profileRef} className={showProfile ? 'dropdown-menu show' : 'dropdown-menu'}>
           <p className='profile-dropdown__option--name'>{name}</p>
           <div className='dropdown-divider' />
-          <div>
+          {/* Uncomment when Profile design is ready */}
+          {/* <div>
             <span className='fa fa-cog profile-dropdown__icon' />
             <Link to='/dashboard' className='profile-dropdown__option'>
               Profile
             </Link>
-          </div>
+          </div> */}
           <div>
             <span className='fa fa-sign-out profile-dropdown__icon' />
             <Link to='/' aria-hidden='true' className='profile-dropdown__option' onClick={this.logOut}>
