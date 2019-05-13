@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import ReactPaginate from 'react-paginate';
 
 import { actions } from '../../Societies/operations';
 import {
@@ -41,6 +42,8 @@ export class VerifyActivitiesContainer extends Component {
 
   state = {
     logPoints: false,
+    currentPage: 1,
+    activitiesPerPage: 6,
   };
 
   componentDidMount() {
@@ -73,8 +76,15 @@ export class VerifyActivitiesContainer extends Component {
     verifyActivity(loggedActivityId, status);
   }
 
+  handlePageClick = (data) => {
+    const { selected } = data;
+    this.setState({
+      currentPage: selected + 1,
+    });
+  };
+
   render() {
-    const { logPoints } = this.state;
+    const { logPoints, currentPage, activitiesPerPage } = this.state;
     const {
       society, societyName, showVerifyAlert, verifiedSecretaryActivity, successMessage, showToastMessage,
     } = this.props;
@@ -90,6 +100,10 @@ export class VerifyActivitiesContainer extends Component {
         societyName.toLowerCase()
       ];
       const inReviewActivities = this.filterActivitiesByInReviewStatus(loggedActivities);
+      const pageCount = Math.ceil(inReviewActivities.length / activitiesPerPage);
+      const indexOfLastActivity = currentPage * activitiesPerPage;
+      const indexOfFirstActivity = indexOfLastActivity - activitiesPerPage;
+      const currentActivities = inReviewActivities.slice(indexOfFirstActivity, indexOfLastActivity);
       verifyActivitiesHtml = (
         <div>
           <div className='profile-overview profile-overview--society'>
@@ -149,8 +163,21 @@ export class VerifyActivitiesContainer extends Component {
             </div>
           </VerifyAlertModal>
           <VerifyActivities
-            activities={inReviewActivities}
+            activities={currentActivities}
             handleVerify={this.handleVerify}
+          />
+          <ReactPaginate
+            previousLabel='previous'
+            nextLabel='next'
+            breakLabel='...'
+            breakClassName='break-me'
+            pageCount={pageCount}
+            marginPagesDisplayed={3}
+            pageRangeDisplayed={5}
+            onPageChange={this.handlePageClick}
+            containerClassName='pagination'
+            subContainerClassName='pages pagination'
+            activeClassName='active'
           />
         </div>
       );

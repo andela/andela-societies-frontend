@@ -1,5 +1,5 @@
 import React from 'react';
-import dateFns from 'date-fns';
+import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 
 import { TableComponent, TruncateDescriptionContainer, ActionsComponent } from '../../common/components';
@@ -23,7 +23,7 @@ const ApproveActivitiesComponent = ({ activities }) => {
       return (
         <tr key={id} className='myactivities__table__row'>
           <td>{category}</td>
-          <td>{dateFns.format(new Date(activityDate), 'MMM dd yyyy')}</td>
+          <td>{format(new Date(activityDate), 'MMM dd yyyy')}</td>
           <td>{points}</td>
           <td>
             <TruncateDescriptionContainer description={description} wordCount={80} />

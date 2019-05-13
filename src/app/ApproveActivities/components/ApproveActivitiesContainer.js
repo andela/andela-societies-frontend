@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import ReactPaginate from 'react-paginate';
 
 import societyActions from '../../Societies/operations/actions';
 
@@ -24,6 +25,8 @@ export class ApproveActivitiesContainer extends Component {
 
   state = {
     selectedSociety: 'istelle',
+    currentPage: 1,
+    activitiesPerPage: 6,
   };
 
   componentDidMount() {
@@ -50,15 +53,25 @@ export class ApproveActivitiesContainer extends Component {
   filterActivitiesByPendingStatus = activities => (
     activities.filter(item => item.status === ACTIVITY_STATUS.PENDING))
 
+  handlePageClick = (data) => {
+    const { selected } = data;
+    this.setState({
+      currentPage: selected + 1,
+    });
+  };
+
   render() {
     const { society } = this.props;
-    const { selectedSociety } = this.state;
+    const { selectedSociety, currentPage, activitiesPerPage } = this.state;
     const {
       usedPoints, pointsEarned, remainingPoints, activitiesLogged, loggedActivities,
     } = society[selectedSociety];
     const tabNames = ['istelle', 'invictus', 'phoenix', 'sparks'];
     const pendingActivities = this.filterActivitiesByPendingStatus(loggedActivities);
-
+    const pageCount = Math.ceil(pendingActivities.length / activitiesPerPage);
+    const indexOfLastActivity = currentPage * activitiesPerPage;
+    const indexOfFirstActivity = indexOfLastActivity - activitiesPerPage;
+    const currentActivities = pendingActivities.slice(indexOfFirstActivity, indexOfLastActivity);
     return (
       <div>
         <div className='profile-overview profile-overview--society'>
@@ -84,7 +97,20 @@ export class ApproveActivitiesContainer extends Component {
             </ButtonComponent>
           </div>
         </div>
-        <ApproveActivitiesComponent activities={pendingActivities} />
+        <ApproveActivitiesComponent activities={currentActivities} />
+        <ReactPaginate
+          previousLabel='previous'
+          nextLabel='next'
+          breakLabel='...'
+          breakClassName='break-me'
+          pageCount={pageCount}
+          marginPagesDisplayed={3}
+          pageRangeDisplayed={5}
+          onPageChange={this.handlePageClick}
+          containerClassName='pagination'
+          subContainerClassName='pages pagination'
+          activeClassName='active'
+        />
       </div>
     );
   }

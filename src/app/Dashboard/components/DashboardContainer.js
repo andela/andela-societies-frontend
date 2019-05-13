@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
+import ReactPaginate from 'react-paginate';
 
 import {
   ButtonComponent,
@@ -21,6 +21,8 @@ export class DashboardContainer extends Component {
   state = {
     user: {},
     logPoints: false,
+    currentPage: 1,
+    activitiesPerPage: 6,
   };
 
   /**
@@ -78,11 +80,24 @@ export class DashboardContainer extends Component {
     });
   };
 
+  handlePageClick = (data) => {
+    const { selected } = data;
+    this.setState({
+      currentPage: selected + 1,
+    });
+  };
+
   render() {
     const {
       error, loading, pointsEarned, activitiesLogged, userActivities, society, successMessage, showToastMessage, dlevel,
     } = this.props;
-    const { user, logPoints } = this.state;
+    const {
+      user, logPoints, currentPage, activitiesPerPage,
+    } = this.state;
+    const pageCount = Math.ceil(userActivities.length / activitiesPerPage);
+    const indexOfLastActivity = currentPage * activitiesPerPage;
+    const indexOfFirstActivity = indexOfLastActivity - activitiesPerPage;
+    const currentActivities = userActivities.slice(indexOfFirstActivity, indexOfLastActivity);
     let dashboardHtml;
     let logPointsComponent;
     if (logPoints) {
@@ -134,7 +149,20 @@ export class DashboardContainer extends Component {
             </div>
           </div>
           {logPointsComponent}
-          <MyActivitiesComponent userActivities={userActivities} />
+          <MyActivitiesComponent userActivities={currentActivities} />
+          <ReactPaginate
+            previousLabel='previous'
+            nextLabel='next'
+            breakLabel='...'
+            breakClassName='break-me'
+            pageCount={pageCount}
+            marginPagesDisplayed={3}
+            pageRangeDisplayed={5}
+            onPageChange={this.handlePageClick}
+            containerClassName='pagination'
+            subContainerClassName='pages pagination'
+            activeClassName='active'
+          />
         </div>
       );
     }
