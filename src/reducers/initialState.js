@@ -1,4 +1,7 @@
 const initialState = {
+  navbar: {
+    searchText: '',
+  },
   dashboard: {
     error: null,
     dlevel: '',
@@ -18,6 +21,10 @@ const initialState = {
   society: {
     loading: false,
     error: false,
+    approveBudgetStatus: null,
+    approveBudgetPageLoading: false,
+    approveBudgetPageError: null,
+    approveBudgetMessage: null,
     istelle: {
       pointsEarned: 0,
       usedPoints: 0,
@@ -50,6 +57,9 @@ const initialState = {
       loggedActivities: [],
       activitiesLogged: 0,
     },
+    inReview: [],
+    verifyAlertMessage: false,
+    verifiedSecretaryActivity: {},
   },
 };
 

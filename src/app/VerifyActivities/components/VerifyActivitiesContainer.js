@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import ReactPaginate from 'react-paginate';
 
 import { actions } from '../../Societies/operations';
+import {
+  ButtonComponent, LoaderComponent, VerifyAlertModal, SocietyStatsComponent, ToastMessageComponent,
+} from '../../common/components';
+import VerifyActivities from './VerifyActivitiesComponent';
 import dashboardActions from '../../Dashboard/operations/actions';
 
 import ACTIVITY_STATUS from '../../common/constants';
 import { getUserInfo, getToken } from '../../utils/tokenIsValid';
-
-import VerifyActivities from './VerifyActivitiesComponent';
 import LogPointsComponent from '../../Dashboard/components/LogPointsModalContainer';
-import {
-  ButtonComponent, LoaderComponent, SocietyStatsComponent, ToastMessageComponent,
-} from '../../common/components';
+
 
 export class VerifyActivitiesContainer extends Component {
   static defaultProps = {
@@ -22,6 +23,9 @@ export class VerifyActivitiesContainer extends Component {
     fetchSocietyInfoRequest: null,
     successMessage: '',
     showToastMessage: false,
+    verifyActivity: null,
+    showVerifyAlert: false,
+    verifiedSecretaryActivity: {},
   };
 
   static propTypes = {
@@ -31,10 +35,15 @@ export class VerifyActivitiesContainer extends Component {
     fetchSocietyInfoRequest: PropTypes.func,
     successMessage: PropTypes.string,
     showToastMessage: PropTypes.bool,
+    verifyActivity: PropTypes.func,
+    showVerifyAlert: PropTypes.bool,
+    verifiedSecretaryActivity: PropTypes.shape({}),
   };
 
   state = {
     logPoints: false,
+    currentPage: 1,
+    activitiesPerPage: 6,
   };
 
   componentDidMount() {
@@ -62,10 +71,22 @@ export class VerifyActivitiesContainer extends Component {
     });
   };
 
+  handleVerify = (loggedActivityId, status) => {
+    const { verifyActivity } = this.props;
+    verifyActivity(loggedActivityId, status);
+  }
+
+  handlePageClick = (data) => {
+    const { selected } = data;
+    this.setState({
+      currentPage: selected + 1,
+    });
+  };
+
   render() {
-    const { logPoints } = this.state;
+    const { logPoints, currentPage, activitiesPerPage } = this.state;
     const {
-      society, societyName, successMessage, showToastMessage,
+      society, societyName, showVerifyAlert, verifiedSecretaryActivity, successMessage, showToastMessage,
     } = this.props;
     let verifyActivitiesHtml = (<LoaderComponent className='loader' />);
     let logPointsComponent;
@@ -79,6 +100,10 @@ export class VerifyActivitiesContainer extends Component {
         societyName.toLowerCase()
       ];
       const inReviewActivities = this.filterActivitiesByInReviewStatus(loggedActivities);
+      const pageCount = Math.ceil(inReviewActivities.length / activitiesPerPage);
+      const indexOfLastActivity = currentPage * activitiesPerPage;
+      const indexOfFirstActivity = indexOfLastActivity - activitiesPerPage;
+      const currentActivities = inReviewActivities.slice(indexOfFirstActivity, indexOfLastActivity);
       verifyActivitiesHtml = (
         <div>
           <div className='profile-overview profile-overview--society'>
@@ -120,7 +145,40 @@ export class VerifyActivitiesContainer extends Component {
             </div>
           </div>
           {logPointsComponent}
-          <VerifyActivities activities={inReviewActivities} />
+          <VerifyAlertModal
+            open={showVerifyAlert}
+          >
+            <div>
+              <span className='message'>
+                {verifiedSecretaryActivity.points}
+                {' '}
+                Points Approved for
+                {' '}
+                {verifiedSecretaryActivity.owner}
+              </span>
+              <span className='alert'>
+                <div className='alert__stem' />
+                <div className='alert__kick' />
+              </span>
+            </div>
+          </VerifyAlertModal>
+          <VerifyActivities
+            activities={currentActivities}
+            handleVerify={this.handleVerify}
+          />
+          <ReactPaginate
+            previousLabel='previous'
+            nextLabel='next'
+            breakLabel='...'
+            breakClassName='break-me'
+            pageCount={pageCount}
+            marginPagesDisplayed={3}
+            pageRangeDisplayed={5}
+            onPageChange={this.handlePageClick}
+            containerClassName='pagination'
+            subContainerClassName='pages pagination'
+            activeClassName='active'
+          />
         </div>
       );
     }
@@ -133,11 +191,14 @@ const mapStateToProps = ({ society, dashboard }) => ({
   societyName: dashboard.society,
   successMessage: dashboard.activity.message,
   showToastMessage: dashboard.showToastMessage,
+  showVerifyAlert: society.verifyAlertMessage,
+  verifiedSecretaryActivity: society.verifiedSecretaryActivity,
 });
 
 const mapDispatchToProps = {
   fetchSocietyInfoRequest: actions.fetchSocietyInfoRequest,
   fetchUserActivites: dashboardActions.fetchUserActivitiesRequest,
+  verifyActivity: (loggedActivityId, status) => actions.verifyActivityRequest(loggedActivityId, status),
 };
 
 export default connect(

@@ -15,10 +15,11 @@ describe('<SidebarContainer />', () => {
     return mount(<Router><SidebarContainer {...props} /></Router>);
   };
 
-  it('should have the a nav item with text Settings', () => {
-    const wrapper = setUpWrapper();
-    expect(wrapper.find('.sidebar_nav-label--footer').html()).toContain('Settings');
-  });
+  // Comment out the test case below after Settings feature is implemented
+  // it('should have the a nav item with text Settings', () => {
+  //   const wrapper = setUpWrapper();
+  //   expect(wrapper.find('.sidebar_nav-label--footer').html()).toContain('Settings');
+  // });
 
   it('has LogoComponent', () => {
     const wrapper = setUpWrapper();
@@ -35,8 +36,13 @@ describe('<SidebarContainer />', () => {
     expect(wrapper.html()).toContain('Redemptions');
   });
 
-  it('has Approve budget navigation item', () => {
+  it('has Budget navigation item', () => {
     const wrapper = setUpWrapper({ userRole: { 'success ops': '12345' }});
-    expect(wrapper.html()).toContain('Approve budget');
+    expect(wrapper.html()).toContain('Budget');
+  });
+
+  it('has Activities navigation item', () => {
+    const wrapper = setUpWrapper({ userRole: { 'success ops': '12345' }});
+    expect(wrapper.html()).toContain('Activities');
   });
 });

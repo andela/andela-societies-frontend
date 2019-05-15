@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import ReactPaginate from 'react-paginate';
 
 import {
   Filter,
@@ -16,21 +17,15 @@ import MyActivitiesComponent from './MyActivitiesComponent';
 
 import { myStats } from '../constants';
 import { actions } from '../operations';
-import { getUserInfo, getToken } from '../../utils/tokenIsValid';
+import { actions as societyActions } from '../../Societies/operations';
+import { getUserInfo, getToken, search } from '../../utils';
 
 export class DashboardContainer extends Component {
   state = {
     user: {},
     logPoints: false,
-    filteredUserActivities: null,
-    filterBy: [
-      { name: 'select all', checked: false },
-      { name: 'approved', checked: false },
-      { name: 'in review', checked: false },
-      { name: 'rejected', checked: false },
-      { name: 'pending', checked: false },
-    ],
-    show: false,
+    currentPage: 1,
+    activitiesPerPage: 6,
   };
 
   filterRef = React.createRef();
@@ -43,9 +38,11 @@ export class DashboardContainer extends Component {
    */
   static defaultProps = {
     error: {},
-    dlevel: '',
-    society: '',
+    // dlevel: '',
+    searchText: '',
+    societyName: '',
     loading: false,
+    society: {},
     pointsEarned: myStats.points,
     activitiesLogged: myStats.activities,
     userActivities: myStats.userActivities,
@@ -53,6 +50,7 @@ export class DashboardContainer extends Component {
     loadCategories: () => {},
     successMessage: '',
     showToastMessage: false,
+    fetchSocietyInfoRequest: null,
   };
 
   /**
@@ -62,8 +60,10 @@ export class DashboardContainer extends Component {
    */
   static propTypes = {
     loading: PropTypes.bool,
-    dlevel: PropTypes.string,
-    society: PropTypes.string,
+    // dlevel: PropTypes.string,
+    society: PropTypes.shape({}),
+    societyName: PropTypes.string,
+    searchText: PropTypes.string,
     error: PropTypes.shape({}),
     pointsEarned: PropTypes.number,
     activitiesLogged: PropTypes.number,
@@ -72,6 +72,7 @@ export class DashboardContainer extends Component {
     userActivities: PropTypes.arrayOf(PropTypes.shape({})),
     successMessage: PropTypes.string,
     showToastMessage: PropTypes.bool,
+    fetchSocietyInfoRequest: PropTypes.func,
   };
 
   componentDidMount() {
@@ -82,6 +83,13 @@ export class DashboardContainer extends Component {
     fetchUserActivites(userInfo.id);
     loadCategories();
     document.addEventListener('mousedown', this.hideFilter, false);
+  }
+
+  componentDidUpdate(prevProps) {
+    const { societyName, fetchSocietyInfoRequest } = this.props;
+    if (societyName && prevProps.societyName !== societyName) {
+      fetchSocietyInfoRequest(societyName.toLowerCase());
+    }
   }
 
   logPointsModal = () => {
@@ -152,6 +160,11 @@ export class DashboardContainer extends Component {
 
   showFilter = () => {
     this.setState(prevState => ({ show: !prevState.show }));
+  handlePageClick = (data) => {
+    const { selected } = data;
+    this.setState({
+      currentPage: selected + 1,
+    });
   };
 
   render() {
@@ -163,10 +176,18 @@ export class DashboardContainer extends Component {
       userActivities,
       society,
       successMessage,
+      societyName,
       showToastMessage,
-      dlevel,
+      // dlevel,
+      searchText,
     } = this.props;
-    const { user, logPoints } = this.state;
+    const {
+      user, logPoints, currentPage, activitiesPerPage,
+    } = this.state;
+    const pageCount = Math.ceil(userActivities.length / activitiesPerPage);
+    const indexOfLastActivity = currentPage * activitiesPerPage;
+    const indexOfFirstActivity = indexOfLastActivity - activitiesPerPage;
+    const currentActivities = userActivities.slice(indexOfFirstActivity, indexOfLastActivity);
     let dashboardHtml;
     let logPointsComponent;
     if (logPoints) {
@@ -186,20 +207,20 @@ export class DashboardContainer extends Component {
       dashboardHtml = (
         <div className='user-dashboard'>
           <h2 className='user-dashboard__name col-sm-12'>{user.name}</h2>
-          <div className='col-sm-12 user-dashboard__level--container'>
+          {/* The code below can be does not work on staging. Uncomment it after figuring it out */}
+          {/* <div className='col-sm-12 user-dashboard__level--container'>
             <h3 className='user-dashboard__level'>{dlevel.substr(0, 2)}</h3>
-          </div>
+          </div> */}
           <div className='profile-overview col-sm-12'>
             <div className='profile-overview__image' />
-            <MyStatsComponent
-              points={pointsEarned}
-              activities={activitiesLogged}
-            />
-            <SocietyStatsComponent
-              society={society}
-              usedPoints={1508}
-              remainingPoints={326}
-            />
+            <MyStatsComponent points={pointsEarned} activities={activitiesLogged} />
+            {societyName && Object.keys(society[societyName.toLowerCase()]).length && (
+              <SocietyStatsComponent
+                society={societyName}
+                usedPoints={society[societyName.toLowerCase()].usedPoints}
+                remainingPoints={society[societyName.toLowerCase()].remainingPoints}
+              />
+            )}
           </div>
           <div className='user-dashboard__actions col-sm-12'>
             <h3 className='user-dashboard__title'>My Activities</h3>
@@ -239,8 +260,19 @@ export class DashboardContainer extends Component {
             </div>
           </div>
           {logPointsComponent}
-          <MyActivitiesComponent
-            userActivities={this.state.filteredUserActivities || userActivities}
+          <MyActivitiesComponent userActivities={search(searchText, currentActivities)} />
+          <ReactPaginate
+            previousLabel='previous'
+            nextLabel='next'
+            breakLabel='...'
+            breakClassName='break-me'
+            pageCount={pageCount}
+            marginPagesDisplayed={3}
+            pageRangeDisplayed={5}
+            onPageChange={this.handlePageClick}
+            containerClassName='pagination'
+            subContainerClassName='pages pagination'
+            activeClassName='active'
           />
         </div>
       );
@@ -249,10 +281,12 @@ export class DashboardContainer extends Component {
   }
 }
 
-const mapStateToProps = ({ dashboard }) => ({
+const mapStateToProps = ({ dashboard, society, navbar }) => ({
+  society,
   error: null,
-  dlevel: dashboard.dlevel,
-  society: dashboard.society,
+  // dlevel: dashboard.dlevel,
+  societyName: dashboard.society,
+  searchText: navbar.searchText,
   loading: dashboard.loading,
   pointsEarned: dashboard.pointsEarned,
   userActivities: dashboard.userActivities,
@@ -266,5 +300,6 @@ export default connect(
   {
     fetchUserActivites: actions.fetchUserActivitiesRequest,
     loadCategories: actions.loadCategories,
+    fetchSocietyInfoRequest: societyActions.fetchSocietyInfoRequest,
   },
 )(DashboardContainer);

@@ -43,6 +43,22 @@ const fetchSocietyRedemptionsSuccess = (redemptions, societyName) => ({
   payload: { redemptions, societyName },
 });
 
+const verifyActivityRequest = (loggedActivityId, status) => ({
+  type: types.VERIFY_ACTIVITY_REQUEST,
+  loggedActivityId,
+  status,
+});
+
+const verifyActivitySuccess = activity => ({
+  type: types.VERIFY_ACTIVITY_SUCCESS,
+  payload: activity,
+});
+
+const verifyActivityFail = error => ({
+  type: types.VERIFY_ACTIVITY_FAIL,
+  error,
+});
+
 const createRedemptionRequest = (data, societyName) => ({
   type: types.CREATE_REDEMPTION_REQUEST,
   payload: { data, societyName },
@@ -51,6 +67,37 @@ const createRedemptionRequest = (data, societyName) => ({
 const createRedemptionSuccess = (redemption, societyName) => ({
   type: types.CREATE_REDEMPTION_SUCCESS,
   payload: { redemption, societyName },
+});
+
+const approveBudgetRequest = ({
+  id, status, societyName,
+}) => ({
+  type: types.APPROVE_BUDGET_REQUEST,
+  payload: {
+    id,
+    status,
+    societyName,
+  },
+});
+
+const approveBudgetSuccess = (redemption, societyName, status, message) => ({
+  type: types.APPROVE_BUDGET_SUCCESS,
+  payload: {
+    redemption, societyName, status, message,
+  },
+});
+
+const approveBudgetPageLoading = () => ({
+  type: types.APPROVE_BUDGET_PAGE_LOADING,
+});
+
+const approveBudgetPageError = error => ({
+  type: types.APPROVE_BUDGET_PAGE_ERROR,
+  payload: { error },
+});
+
+const resetApproveBugetStatus = () => ({
+  type: types.RESET_APPROVE_BUDGET_STATUS,
 });
 
 export default {
@@ -62,4 +109,12 @@ export default {
   createRedemptionSuccess,
   fetchSocietyRedemptionsRequest,
   fetchSocietyRedemptionsSuccess,
+  verifyActivityFail,
+  verifyActivitySuccess,
+  verifyActivityRequest,
+  approveBudgetRequest,
+  approveBudgetSuccess,
+  approveBudgetPageError,
+  approveBudgetPageLoading,
+  resetApproveBugetStatus,
 };

@@ -1,15 +1,24 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
+import {
+  call, put, takeEvery, takeLatest, delay,
+} from 'redux-saga/effects';
 
 import types from '../types';
 import actions from '../actions';
-import { get, post } from '../../../utils/api';
+import { get, post, edit, pointsToDollarConverter } from '../../../utils';
 import activities from '../../../Dashboard/operations/tests/fixtures';
+import { redemption } from '../../../Redemptions/components/tests/fixtures';
 import watchFetchSocietyInfoReq, {
+  approveBudget,
   createRedemption,
   fetchSocietyInfo,
   fetchSocietyRedemptions,
+  verifyActivitySecretary,
+  verifyActivitySuccess,
   watchCreateRedemptionReq,
+  watchApproveBudgetRequest,
   watchFetchSocietyRedemptionsReq,
+  watchVerifyActivitySecretary,
+  watchVerifyActivitySuccess,
 } from '../societies.data';
 
 describe('Society saga', () => {
@@ -125,6 +134,64 @@ describe('Society saga', () => {
       );
     });
   });
+  
+  describe('watchApproveBudgetRequest generator', () => {
+    it('takes APPROVE_BUDGET_REQUEST action', () => {
+      generator = watchApproveBudgetRequest();
+      expect(generator.next().value).toEqual(
+        takeEvery(types.APPROVE_BUDGET_REQUEST, approveBudget),
+      );
+    });
+  });
+
+  describe('watchVerifyActivitySecretary generator', () => {
+    it('takes VERIFY_ACTIVITY_REQUEST action', () => {
+      generator = watchVerifyActivitySecretary();
+      expect(generator.next().value).toEqual(takeLatest(types.VERIFY_ACTIVITY_REQUEST, verifyActivitySecretary));
+    });
+  });
+
+  describe('verifyActivitySecretary generator', () => {
+    it('calls edit api verify activity secretary util with url', async () => {
+      generator = verifyActivitySecretary(types.VERIFY_ACTIVITY_REQUEST);
+      expect(generator.next().value).toEqual(call(
+        edit, `logged-activities/review/${actions.loggedActivityId}`, actions.activityStatus,
+      ));
+      expect(generator.next().value).toEqual(put(actions.verifyActivitySuccess()));
+    });
+
+    it('puts verifyActivityError', async () => {
+      generator = verifyActivitySecretary();
+      const err = new TypeError('Cannot read property \'loggedActivityId\' of undefined');
+      expect(generator.next().value).toEqual(put(actions.verifyActivityFail(err.toString())));
+    });
+  });
+
+  describe('watchVerifyActivitySuccess watcher', () => {
+    it('takes VERIFY_ACTIVITY_SUCCESS action', () => {
+      generator = watchVerifyActivitySuccess();
+      expect(generator.next().value).toEqual(takeLatest(types.VERIFY_ACTIVITY_SUCCESS, verifyActivitySuccess));
+    });
+  });
+
+  describe('verifyActivitySuccess generator', () => {
+    it('opens and close toast message', async () => {
+      generator = verifyActivitySuccess();
+      expect(generator.next().value).toEqual(put({ type: types.VERIFY_ALERT_OPEN }));
+      expect(generator.next().value).toEqual(delay(2000));
+      expect(generator.next().value).toEqual(put({ type: types.VERIFY_ALERT_CLOSE }));
+    });
+
+    it('puts verifyActivityError', () => {
+      generator = verifyActivitySuccess();
+      expect(generator.next().value).toEqual(put({ type: types.VERIFY_ALERT_OPEN }));
+      expect(generator
+        .throw('An error has occured').value)
+        .toEqual(
+          put(actions.verifyActivityFail('An error has occured')),
+        );
+    });
+  });
 
   describe('createRedemption generator', () => {
     const societyName = 'phoenix';
@@ -158,6 +225,45 @@ describe('Society saga', () => {
 
       expect(generator.throw().value).toEqual(
         put(actions.societyPageError('There was an error creating your redemption')),
+      );
+    });
+  });
+
+  describe('approveBudget generator', () => {
+    const societyName = 'phoenix';
+    const status = 'approved';
+    const message = `USD ${pointsToDollarConverter(redemption.value)} Approved`
+    const action = {
+      type: types.APPROVE_BUDGET_REQUEST,
+      payload: { societyName, id: redemption.id, status },
+    };
+    const url = `societies/redeem/verify/${action.payload.id}`;
+
+    it('approves redemption successfully', () => {
+      const result = {
+        data: {
+          ...redemption,
+        },
+      };
+
+      generator = approveBudget(action);
+      expect(generator.next().value).toEqual(put(actions.approveBudgetPageLoading()));
+
+      expect(generator.next().value).toEqual(call(edit, url, { status }));
+
+      expect(generator.next(result, societyName, status, message).value).toEqual(
+        put(actions.approveBudgetSuccess(result.data, societyName, status, message)),
+      );
+    });
+
+    it('approve redemption error', () => {
+      generator = approveBudget(action);
+      expect(generator.next().value).toEqual(put(actions.approveBudgetPageLoading()));
+
+      expect(generator.next().value).toEqual(call(edit, url, { status }));
+
+      expect(generator.throw().value).toEqual(
+        put(actions.approveBudgetPageError(`There was an error completing the ${status} action`)),
       );
     });
   });

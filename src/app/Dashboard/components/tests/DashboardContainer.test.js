@@ -59,55 +59,14 @@ describe('<DashboardContainer />', () => {
     expect(instance.state.logPoints).toBe(true);
   });
 
-  it('toggles show state when showFilter is called', () => {
+  it('should handle pagination click', () => {
     const { shallowWrapper } = setUpWrapper();
     const instance = shallowWrapper.instance();
-    shallowWrapper.setState({ show: true });
-    instance.showFilter();
-    expect(instance.state.show).toBeFalsy();
-  });
-
-  it('toggles show state when filter is clicked', () => {
-    const { mountedWrapper } = setUpWrapper();
-    const instance = mountedWrapper.instance();
-    mountedWrapper.find('div#approved').simulate('click');
-    expect(instance.state.show).toBeFalsy();
-  });
-
-  it('sets state of filteredUserActivities to null when Select all is checked', () => {
-    const { mountedWrapper } = setUpWrapper();
-    const instance = mountedWrapper.instance();
-    instance.handleClick(0);
-    expect(instance.state.filteredUserActivities).toBeNull();
-  });
-
-  it('changes filteredUserActivities state to have activities with approved status', () => {
-    const activities = [activity];
-    const { mountedWrapper } = setUpWrapper({ userActivities: activities });
-    const instance = mountedWrapper.instance();
-    const event = { target: { value: 'approved' }}
-    const response = instance.handleClick(1)(event);
-    const approvedActivities = activities.filter(item => item.status === ACTIVITY_STATUS.APPROVED);
-    expect(response).toBeUndefined();
-    expect(instance.state.filteredUserActivities).toEqual(approvedActivities);
-  });
-
-  it('changes filteredUserActivities state to null when handleClick is called and there are no activities to filter', () => {
-    const activities = [];
-    const { mountedWrapper } = setUpWrapper();
-    const instance = mountedWrapper.instance();
-    const event = { target: { value: 'approved' }}
-    const response = instance.handleClick(1)(event);
-    let approvedActivities = activities.filter(item => item.status === ACTIVITY_STATUS.APPROVED);
-    expect(response).toBeUndefined();
-    expect(instance.state.filteredUserActivities).toEqual(approvedActivities);
-  });
-
-  it('hides filter component when Filter button is clicked', () => {
-    const { mountedWrapper } = setUpWrapper();
-    mountedWrapper.setState({ show: true });
-    const instance = mountedWrapper.instance();
-    mountedWrapper.find('button.button__filter').simulate('click');
-    expect(instance.state.show).toBeFalsy();
+    const data = { selected: 0 };
+    instance.setState({
+      currentPage: data.selected + 1,
+    });
+    instance.handlePageClick(data);
+    expect(instance.state.currentPage).toBe(1);
   });
 });

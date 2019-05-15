@@ -1,0 +1,44 @@
+.alert-dialog {
+  display: flex;
+  margin-top: rem(47px);
+  margin-bottom: rem(44px);
+  justify-content: center; 
+  flex-direction: column;
+}
+
+.alert-dialog__icon {
+  top: rem(46px);
+  right: rem(49px);
+  position: absolute;
+  cursor: pointer;
+}
+
+
+ .alert-dialog__title {
+  font-size: rem(20px);
+  line-height: rem(26px);
+  color: $andelaBlue;
+  text-align: center;
+  margin-bottom: rem(30px);
+}
+
+.alert-dialog__checkmark {
+  @include checkmark;
+  margin: 0 auto;
+  border-width: rem(10px);
+  @include widthAndHeight(rem(22px), rem(50px));
+  border-bottom-color: $approvedStatusGreen;
+  border-right-color: $approvedStatusGreen;
+}
+
+.alert-dialog__error {
+  display: block !important;
+  font-size: rem(60px) !important;
+  margin: 0 auto;
+  color: $rejectedStatusRed;
+}
+
+.alert-dialog__close {
+  font-size: rem(20px);
+}
+

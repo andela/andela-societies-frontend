@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import ReactPaginate from 'react-paginate';
 
 import { actions } from '../operations';
 import SocietyActivities from './SocietyActivitiesComponent';
@@ -8,6 +9,7 @@ import LogPointsComponent from '../../Dashboard/components/LogPointsModalContain
 import {
   ButtonComponent, TabsComponent, SocietyStatsComponent, ToastMessageComponent,
 } from '../../common/components';
+import { search } from '../../utils';
 
 export class SocietiesContainer extends Component {
   static defaultProps = {
@@ -17,6 +19,7 @@ export class SocietiesContainer extends Component {
       },
     },
     society: {},
+    searchText: '',
     fetchSocietyInfoRequest: null,
     fetchSocietyRedemptionsRequest: null,
     successMessage: '',
@@ -26,6 +29,7 @@ export class SocietiesContainer extends Component {
   static propTypes = {
     match: PropTypes.shape({}),
     society: PropTypes.shape({}),
+    searchText: PropTypes.string,
     fetchSocietyInfoRequest: PropTypes.func,
     fetchSocietyRedemptionsRequest: PropTypes.func,
     successMessage: PropTypes.string,
@@ -35,6 +39,8 @@ export class SocietiesContainer extends Component {
   state = {
     selectedTab: 'activities',
     logPoints: false,
+    currentPage: 1,
+    activitiesPerPage: 6,
   };
 
   componentDidMount() {
@@ -79,13 +85,23 @@ export class SocietiesContainer extends Component {
     });
   };
 
+  handlePageClick = (data) => {
+    const { selected } = data;
+    this.setState({
+      currentPage: selected + 1,
+    });
+  };
+
   render() {
-    const { selectedTab, logPoints } = this.state;
+    const {
+      selectedTab, logPoints, currentPage, activitiesPerPage,
+    } = this.state;
     const {
       society,
       match: {
         params: { society: societyName },
       },
+      searchText,
       successMessage,
       showToastMessage,
     } = this.props;
@@ -95,6 +111,10 @@ export class SocietiesContainer extends Component {
       societyName
     ];
     const societyData = selectedTab === 'activities' ? loggedActivities : redemptions;
+    const pageCount = Math.ceil(societyData && societyData.length / activitiesPerPage);
+    const indexOfLastActivity = currentPage * activitiesPerPage;
+    const indexOfFirstActivity = indexOfLastActivity - activitiesPerPage;
+    const currentActivities = societyData && societyData.slice(indexOfFirstActivity, indexOfLastActivity);
     const tabNames = ['activities', 'redemptions'];
     let logPointsComponent;
     if (logPoints) {
@@ -141,15 +161,32 @@ export class SocietiesContainer extends Component {
           </div>
         </div>
         {logPointsComponent}
-        <SocietyActivities activities={societyData} selectedTab={selectedTab} />
+        <SocietyActivities
+          activities={search(searchText, currentActivities)}
+          selectedTab={selectedTab}
+        />
+        <ReactPaginate
+          previousLabel='previous'
+          nextLabel='next'
+          breakLabel='...'
+          breakClassName='break-me'
+          pageCount={pageCount}
+          marginPagesDisplayed={3}
+          pageRangeDisplayed={5}
+          onPageChange={this.handlePageClick}
+          containerClassName='pagination'
+          subContainerClassName='pages pagination'
+          activeClassName='active'
+        />
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ society, dashboard }) => ({
-  loading: society.loading,
+const mapStateToProps = ({ society, dashboard, navbar }) => ({
   society,
+  loading: society.loading,
+  searchText: navbar.searchText,
   successMessage: dashboard.activity.message,
   showToastMessage: dashboard.showToastMessage,
 });

@@ -23,7 +23,8 @@
   }
 
   .dropdown-menu {
-    @include widthAndHeight(rem(214px), rem(178px));
+    // The width and height can be uncommented when Profile feature is implemented
+    // @include widthAndHeight(rem(214px), rem(178px));
 
     &.show {
       display: flex !important;

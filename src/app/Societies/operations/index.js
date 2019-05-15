@@ -1,7 +1,11 @@
 export { default as actions } from './actions';
 export { default as society } from './reducer';
 export {
-  watchCreateRedemptionReq,
+  default as
+  watchFetchSocietyInfoReq,
   watchFetchSocietyRedemptionsReq,
-  default as watchFetchSocietyInfoReq,
+  watchVerifyActivitySecretary,
+  watchCreateRedemptionReq,
+  watchApproveBudgetRequest,
+  watchVerifyActivitySuccess,
 } from './societies.data';

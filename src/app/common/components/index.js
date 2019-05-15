@@ -1,7 +1,6 @@
 export { default as HeroComponent } from './HeroComponent';
 export { default as LogoComponent } from './LogoComponent';
 export { default as TableComponent } from './TableComponent';
-export { default as NavbarContainer } from './NavbarContainer';
 export { default as ButtonComponent } from './ButtonComponent';
 export { default as LoaderComponent } from './LoaderComponent';
 export { default as NavItemComponent } from './NavItemComponent';
@@ -14,6 +13,9 @@ export {
   default as TruncateDescriptionContainer,
 } from './TruncateDescriptionContainer';
 export { default as TabsComponent } from './TabsComponent';
+export { default as AlertDialogComponent } from './AlertDialogComponent';
 export { default as SocietyStatsComponent } from './SocietyStatsComponent';
 export { default as ToastMessageComponent } from './ToastMessageComponent';
 export { default as Filter } from './Filter';
+export { default as VerifyAlertModal } from './VerifyAlertComponent';
+export { default as ActionsComponent } from './ActionsComponent';
