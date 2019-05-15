@@ -37,11 +37,11 @@ class ProfileContainer extends Component {
 
   /**
    * @name hideProfileDropdown
-   * hides dropdown when user clicks outside dropdown 
+   * hides dropdown when user clicks outside dropdown
    */
   hideProfileDropdown = (e) => {
     if (!e.target.className) {
-      return
+      return;
     }
     if (!this.profileRef.current.contains(e.target)) {
       this.setState({ showProfile: false });
