@@ -8,6 +8,7 @@ import {
   watchFetchSocietyRedemptionsReq,
   watchVerifyActivitySecretary,
   watchVerifyActivitySuccess,
+  watchCreateRedemptionReq,
 } from '../app/Societies/operations';
 
 // single entry point to start all Sagas at once
