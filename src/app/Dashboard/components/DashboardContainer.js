@@ -26,6 +26,16 @@ export class DashboardContainer extends Component {
     logPoints: false,
     currentPage: 1,
     activitiesPerPage: 6,
+    filteredUserActivities: null,
+    filterBy: [
+      { name: 'select all', checked: false },
+      { name: 'approved', checked: false },
+      { name: 'in review', checked: false },
+      { name: 'rejected', checked: false },
+      { name: 'pending', checked: false },
+    ],
+    show: false,
+
   };
 
   filterRef = React.createRef();
@@ -148,7 +158,7 @@ export class DashboardContainer extends Component {
   };
 
   hideFilter = (e) => {
-    if(!e.target.className) {
+    if (!e.target.className) {
       return;
     }
     if (
@@ -160,6 +170,8 @@ export class DashboardContainer extends Component {
 
   showFilter = () => {
     this.setState(prevState => ({ show: !prevState.show }));
+  }
+
   handlePageClick = (data) => {
     const { selected } = data;
     this.setState({
@@ -260,7 +272,9 @@ export class DashboardContainer extends Component {
             </div>
           </div>
           {logPointsComponent}
-          <MyActivitiesComponent userActivities={search(searchText, currentActivities)} />
+          <MyActivitiesComponent
+            userActivities={this.state.filteredUserActivities || userActivities}
+          />
           <ReactPaginate
             previousLabel='previous'
             nextLabel='next'
