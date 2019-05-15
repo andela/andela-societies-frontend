@@ -55,4 +55,11 @@ describe('<SocietiesContainer />', () => {
     shallowWrapper.setProps({ match: { params: { society: 'istelle' }} });
     expect(spy).toHaveBeenCalled();
   });
+
+  it('should open the Log Points Modal', () => {
+    const instance = shallowWrapper.instance();
+    expect(instance.state.logPoints).toBe(false);
+    shallowWrapper.find('.button__add').simulate('click');
+    expect(instance.state.logPoints).toBe(true);
+  });
 });

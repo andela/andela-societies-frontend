@@ -7,7 +7,10 @@ import { getUserInfo, getToken, dollarsToPointsConverter } from '../../utils';
 
 import RedeemPointsModal from './RedeemPointsDialogComponent';
 import RedemptionsComponent from './RedemptionsComponent';
-import { ButtonComponent, LoaderComponent, SocietyStatsComponent } from '../../common/components';
+import LogPointsComponent from '../../Dashboard/components/LogPointsModalContainer';
+import {
+  ButtonComponent, LoaderComponent, SocietyStatsComponent, ToastMessageComponent,
+} from '../../common/components';
 
 export class RedemptionsContainer extends Component {
   static defaultProps = {
@@ -17,6 +20,8 @@ export class RedemptionsContainer extends Component {
     fetchUserActivites: null,
     fetchSocietyInfoRequest: null,
     fetchSocietyRedemptionsRequest: null,
+    successMessage: '',
+    showToastMessage: false,
   };
 
   static propTypes = {
@@ -26,6 +31,8 @@ export class RedemptionsContainer extends Component {
     fetchUserActivites: PropTypes.func,
     fetchSocietyInfoRequest: PropTypes.func,
     fetchSocietyRedemptionsRequest: PropTypes.func,
+    successMessage: PropTypes.string,
+    showToastMessage: PropTypes.bool,
   };
 
   initialState = {
@@ -40,6 +47,7 @@ export class RedemptionsContainer extends Component {
 
   state = {
     ...this.initialState,
+    logPoints: false,
   };
 
   componentDidMount() {
@@ -63,6 +71,13 @@ export class RedemptionsContainer extends Component {
 
   showRedeemPointsModal = (bool) => {
     this.setState({ openRedeemPointsModal: bool });
+  };
+
+  logPointsModal = () => {
+    const { logPoints } = this.state;
+    this.setState({
+      logPoints: !logPoints,
+    });
   };
 
   handleChange = (event) => {
@@ -120,10 +135,16 @@ export class RedemptionsContainer extends Component {
 
   render() {
     const {
-      date, errors, center, points, reason, usdValue, openRedeemPointsModal,
+      date, errors, center, points, reason, usdValue, openRedeemPointsModal, logPoints,
     } = this.state;
-    const { society, societyName } = this.props;
+    const {
+      society, societyName, successMessage, showToastMessage,
+    } = this.props;
     let redemptionsHtml = <LoaderComponent className='loader' />;
+    let logPointsComponent;
+    if (logPoints) {
+      logPointsComponent = <LogPointsComponent open={logPoints} close={this.logPointsModal} />;
+    }
     if (societyName) {
       const {
         usedPoints, pointsEarned, remainingPoints, activitiesLogged, redemptions,
@@ -144,8 +165,23 @@ export class RedemptionsContainer extends Component {
           </div>
           <div className='user-dashboard__actions user-dashboard__actions--society col-sm-12'>
             <h3 className='user-dashboard__title'>Latest Activities</h3>
+            <ToastMessageComponent
+              className='success'
+              show={showToastMessage}
+            >
+              <div>
+                <span className='success-message'>{successMessage}</span>
+                <span className='checkmark'>
+                  <div className='checkmark_stem' />
+                  <div className='checkmark_kick' />
+                </span>
+              </div>
+            </ToastMessageComponent>
             <div>
-              <ButtonComponent className='button__add'>
+              <ButtonComponent
+                className='button__add button__points'
+                onClick={this.logPointsModal}
+              >
                 <span className='fa fa-plus' />
                 <span>Log Points</span>
               </ButtonComponent>
@@ -174,6 +210,7 @@ export class RedemptionsContainer extends Component {
             onClose={() => this.showRedeemPointsModal(false)}
             handleRedemptionSubmit={this.handleRedemptionSubmit}
           />
+          {logPointsComponent}
           <RedemptionsComponent activities={redemptions} />
         </div>
       );
@@ -185,6 +222,8 @@ export class RedemptionsContainer extends Component {
 const mapStateToProps = ({ society, dashboard }) => ({
   society,
   societyName: dashboard.society,
+  successMessage: dashboard.activity.message,
+  showToastMessage: dashboard.showToastMessage,
 });
 
 const mapDispatchToProps = {

@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {
+  Filter,
   ButtonComponent,
   ToastMessageComponent,
   LoaderComponent,
-  Filter,
   SocietyStatsComponent,
 } from '../../common/components';
 
@@ -140,9 +140,11 @@ export class DashboardContainer extends Component {
   };
 
   hideFilter = (e) => {
+    if(!e.target.className) {
+      return;
+    }
     if (
       !this.filterRef.current.contains(e.target)
-      && !e.target.className === ''
     ) {
       this.setState({ show: false });
     }
@@ -151,7 +153,6 @@ export class DashboardContainer extends Component {
   showFilter = () => {
     this.setState(prevState => ({ show: !prevState.show }));
   };
-
 
   render() {
     const {

@@ -30,7 +30,7 @@ const TabsComponent = ({ selectedTab, changeSelectedTab, tabNames }) => {
   return (
     <div className='tabs'>
       {tabNames
-        && tabNames.map((name) => (
+        && tabNames.map(name => (
           <h3
             key={name}
             aria-hidden
