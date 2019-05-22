@@ -27,12 +27,14 @@ const configs = {
   staging_v2: {
     AUTH_API: 'https://api.andela.com/login?redirect_url=',
     APP_URL: 'https://staging-v2-societies.andela.com',
-    API_BASE_URL: 'https://api-staging-v2-societies.andela.com/api/v1'
+    // Uncomment this line after Staging 2 has been fixed 100%
+    // API_BASE_URL: 'https://api-staging-v2-societies.andela.com/api/v1'
+    API_BASE_URL: 'https://api-staging-v2-societies.andela.com/api/v1',
   },
   production_v2: {
     AUTH_API: 'https://api.andela.com/login?redirect_url=',
     APP_URL: 'https://societies-v2.andela.com',
-    API_BASE_URL: 'https://societies-api-v2.andela.com/api/v1'
+    API_BASE_URL: 'https://societies-api-v2.andela.com/api/v1',
   },
 };
 
