@@ -29,7 +29,7 @@ const configs = {
     APP_URL: 'https://staging-v2-societies.andela.com',
     // Uncomment this line after Staging 2 has been fixed 100%
     // API_BASE_URL: 'https://api-staging-v2-societies.andela.com/api/v1'
-    API_BASE_URL: 'https://api-staging-v2-societies.andela.com/api/v1',
+    API_BASE_URL: 'https://api-staging-societies.andela.com/api/v1',
   },
   production_v2: {
     AUTH_API: 'https://api.andela.com/login?redirect_url=',
