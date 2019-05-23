@@ -102,6 +102,10 @@ export class DashboardContainer extends Component {
     }
   }
 
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.hideFilter, false);
+  }
+
   logPointsModal = () => {
     const { logPoints } = this.state;
     this.setState({
@@ -110,7 +114,7 @@ export class DashboardContainer extends Component {
   };
 
   handleClick = index => (event) => {
-    if (event.target.value === 'Select All') {
+    if (event.target.value === 'select all') {
       const filterBy = this.state.filterBy.map((item) => {
         if (event.target.checked) {
           return (item.checked = true), item;
