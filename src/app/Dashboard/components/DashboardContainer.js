@@ -102,6 +102,10 @@ export class DashboardContainer extends Component {
     }
   }
 
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.hideFilter, false);
+  }
+
   logPointsModal = () => {
     const { logPoints } = this.state;
     this.setState({

@@ -27,12 +27,20 @@ describe('<SocietiesContainer />', () => {
         activitiesLogged: activities.length,
         loggedActivities: activities,
         redemptions: []
-      }
+      },
     },
     fetchSocietyInfoRequest: jest.fn(),
-    fetchSocietyRedemptionsRequest: jest.fn()
+    fetchSocietyRedemptionsRequest: jest.fn(),
   };
-  const shallowWrapper = shallow(<SocietiesContainer {...props} />);
+
+  let shallowWrapper;
+  beforeEach(() => {
+    shallowWrapper = shallow(<SocietiesContainer {...props} />);
+  });
+
+  afterEach(() => {
+    shallowWrapper.unmount();
+  });
 
   it('has a 2 ButtonComponents', () => {
     expect(shallowWrapper.find('ButtonComponent')).toHaveLength(2);
@@ -71,5 +79,38 @@ describe('<SocietiesContainer />', () => {
     });
     instance.handlePageClick(data);
     expect(instance.state.currentPage).toBe(1);
+  });
+
+  it('should show the filter drop down', () => {
+    const instance = shallowWrapper.instance();
+
+    instance.showFilter();
+    expect(instance.state.showFilterDropdown).toEqual(true);
+
+    shallowWrapper.unmount();
+  });
+
+  it('should hide the filter drop down', () => {
+    const instance = shallowWrapper.instance();
+    const event = {
+      target: {
+        className: 'button__filter',
+      },
+    };
+
+    instance.hideFilter(event);
+    expect(instance.state.showFilterDropdown).toEqual(false);
+  });
+
+  it('should hide the filter drop down', () => {
+    const instance = shallowWrapper.instance();
+    const event = {
+      target: {
+        current: '<span>Filter</span>',
+      },
+    };
+
+    instance.hideFilter(event);
+    expect(instance.state.showFilterDropdown).toEqual(false);
   });
 });
