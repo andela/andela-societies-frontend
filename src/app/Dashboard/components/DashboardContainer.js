@@ -4,11 +4,13 @@ import PropTypes from 'prop-types';
 import ReactPaginate from 'react-paginate';
 
 import {
+  Filter,
   ButtonComponent,
+  ToastMessageComponent,
   LoaderComponent,
   SocietyStatsComponent,
-  ToastMessageComponent,
 } from '../../common/components';
+
 import MyStatsComponent from './MyStatsComponent';
 import LogPointsComponent from './LogPointsModalContainer';
 import MyActivitiesComponent from './MyActivitiesComponent';
@@ -24,7 +26,19 @@ export class DashboardContainer extends Component {
     logPoints: false,
     currentPage: 1,
     activitiesPerPage: 6,
+    filteredUserActivities: null,
+    filterBy: [
+      { name: 'select all', checked: false },
+      { name: 'approved', checked: false },
+      { name: 'in review', checked: false },
+      { name: 'rejected', checked: false },
+      { name: 'pending', checked: false },
+    ],
+    show: false,
+
   };
+
+  filterRef = React.createRef();
 
   /**
    * @name defaultProps
@@ -78,6 +92,7 @@ export class DashboardContainer extends Component {
     this.setState({ user: userInfo });
     fetchUserActivites(userInfo.id);
     loadCategories();
+    document.addEventListener('mousedown', this.hideFilter, false);
   }
 
   componentDidUpdate(prevProps) {
@@ -87,12 +102,79 @@ export class DashboardContainer extends Component {
     }
   }
 
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.hideFilter, false);
+  }
+
   logPointsModal = () => {
     const { logPoints } = this.state;
     this.setState({
       logPoints: !logPoints,
     });
   };
+
+  handleClick = index => (event) => {
+    if (event.target.value === 'select all') {
+      const filterBy = this.state.filterBy.map((item) => {
+        if (event.target.checked) {
+          return (item.checked = true), item;
+        }
+
+        return (item.checked = false), item;
+      });
+
+      this.setState({ filterBy, filteredUserActivities: null });
+    } else {
+      const filterBy = this.state.filterBy.slice();
+      filterBy[index].checked = !filterBy[index].checked;
+
+      if (!filterBy[index].checked) {
+        const filteredUserActivities = (
+          this.state.filteredUserActivities || this.props.userActivities
+        ).filter(activity => activity.status !== event.target.value);
+
+        if (!filteredUserActivities.length) {
+          this.setState({ filterBy, filteredUserActivities: null });
+          return;
+        }
+
+        this.setState({ filterBy, filteredUserActivities });
+        return;
+      }
+
+      if (this.state.filteredUserActivities) {
+        const filteredUserActivities = [
+          ...this.state.filteredUserActivities,
+          ...this.props.userActivities.filter(
+            activity => activity.status === event.target.value,
+          ),
+        ];
+
+        this.setState({ filterBy, filteredUserActivities });
+        return;
+      }
+
+      const filteredUserActivities = this.props.userActivities.filter(
+        activity => activity.status === event.target.value,
+      );
+      this.setState({ filterBy, filteredUserActivities });
+    }
+  };
+
+  hideFilter = (e) => {
+    if (!e.target.className) {
+      return;
+    }
+    if (
+      !this.filterRef.current.contains(e.target)
+    ) {
+      this.setState({ show: false });
+    }
+  };
+
+  showFilter = () => {
+    this.setState(prevState => ({ show: !prevState.show }));
+  }
 
   handlePageClick = (data) => {
     const { selected } = data;
@@ -108,11 +190,11 @@ export class DashboardContainer extends Component {
       pointsEarned,
       activitiesLogged,
       userActivities,
-      societyName,
+      society,
       successMessage,
+      societyName,
       showToastMessage,
       // dlevel,
-      society,
       searchText,
     } = this.props;
     const {
@@ -125,12 +207,18 @@ export class DashboardContainer extends Component {
     let dashboardHtml;
     let logPointsComponent;
     if (logPoints) {
-      logPointsComponent = <LogPointsComponent open={logPoints} close={this.logPointsModal} />;
+      logPointsComponent = (
+        <LogPointsComponent open={logPoints} close={this.logPointsModal} />
+      );
     }
     if (loading) {
       dashboardHtml = <LoaderComponent className='loader' />;
     } else if (!loading && error) {
-      dashboardHtml = <p>The was an error while fetching your data. Please try again later.</p>;
+      dashboardHtml = (
+        <p>
+          The was an error while fetching your data. Please try again later.
+        </p>
+      );
     } else {
       dashboardHtml = (
         <div className='user-dashboard'>
@@ -170,14 +258,27 @@ export class DashboardContainer extends Component {
                 <span className='fa fa-plus' />
                 <span>Log Points</span>
               </ButtonComponent>
-              <ButtonComponent className='button__filter user-dashboard__button'>
+
+              <ButtonComponent
+                onClick={this.showFilter}
+                className='button__filter user-dashboard__button'
+              >
                 <span>Filter</span>
                 <span className='fa fa-filter' />
               </ButtonComponent>
+
+              <Filter
+                handleClick={this.handleClick}
+                filterBy={this.state.filterBy}
+                show={this.state.show}
+                filterRef={this.filterRef}
+              />
             </div>
           </div>
           {logPointsComponent}
-          <MyActivitiesComponent userActivities={search(searchText, currentActivities)} />
+          <MyActivitiesComponent
+            userActivities={this.state.filteredUserActivities || userActivities}
+          />
           <ReactPaginate
             previousLabel='previous'
             nextLabel='next'

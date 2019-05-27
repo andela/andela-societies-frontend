@@ -10,7 +10,7 @@ module.exports = merge(common, {
       {
         test: /\.(js|jsx)$/,
         include: path.resolve(__dirname, 'src'),
-        use: ['babel-loader', 'eslint-loader']
+        use: ['babel-loader']
       }
     ]
   },

@@ -1,6 +1,8 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 
+import ACTIVITY_STATUS from '../../../common/constants';
+import { activity } from '../../operations/tests/fixtures';
 import { DashboardContainer } from '../DashboardContainer';
 
 describe('<DashboardContainer />', () => {
@@ -21,8 +23,10 @@ describe('<DashboardContainer />', () => {
       society,
     };
     const shallowWrapper = shallow(<DashboardContainer {...props} />);
+    const mountedWrapper = mount(<DashboardContainer {...props} />);
     return {
       shallowWrapper,
+      mountedWrapper,
     };
   };
 
