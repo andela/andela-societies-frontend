@@ -206,6 +206,23 @@ export class DashboardContainer extends Component {
     const currentActivities = userActivities.slice(indexOfFirstActivity, indexOfLastActivity);
     let dashboardHtml;
     let logPointsComponent;
+    const pagination = (userActivities > 6)
+      ? (
+        <ReactPaginate
+          previousLabel='previous'
+          nextLabel='next'
+          breakLabel='...'
+          breakClassName='break-me'
+          pageCount={pageCount}
+          marginPagesDisplayed={3}
+          pageRangeDisplayed={5}
+          onPageChange={this.handlePageClick}
+          containerClassName='pagination'
+          subContainerClassName='pages pagination'
+          activeClassName='active'
+        />
+      )
+      : null;
     if (logPoints) {
       logPointsComponent = (
         <LogPointsComponent open={logPoints} close={this.logPointsModal} />
@@ -279,19 +296,7 @@ export class DashboardContainer extends Component {
           <MyActivitiesComponent
             userActivities={this.state.filteredUserActivities || userActivities}
           />
-          <ReactPaginate
-            previousLabel='previous'
-            nextLabel='next'
-            breakLabel='...'
-            breakClassName='break-me'
-            pageCount={pageCount}
-            marginPagesDisplayed={3}
-            pageRangeDisplayed={5}
-            onPageChange={this.handlePageClick}
-            containerClassName='pagination'
-            subContainerClassName='pages pagination'
-            activeClassName='active'
-          />
+          {pagination}
         </div>
       );
     }

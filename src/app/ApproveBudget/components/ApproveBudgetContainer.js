@@ -109,7 +109,23 @@ export class ApproveBudgetContainer extends Component {
     const indexOfLastActivity = currentPage * activitiesPerPage;
     const indexOfFirstActivity = indexOfLastActivity - activitiesPerPage;
     const currentActivities = pendingRedemptions.slice(indexOfFirstActivity, indexOfLastActivity);
-
+    const pagination = (currentActivities && currentActivities > 6)
+      ? (
+        <ReactPaginate
+          previousLabel='previous'
+          nextLabel='next'
+          breakLabel='...'
+          breakClassName='break-me'
+          pageCount={pageCount}
+          marginPagesDisplayed={3}
+          pageRangeDisplayed={5}
+          onPageChange={this.handlePageClick}
+          containerClassName='pagination'
+          subContainerClassName='pages pagination'
+          activeClassName='active'
+        />
+      )
+      : null;
     return (
       <div>
         <div className='profile-overview profile-overview--society'>
@@ -139,19 +155,7 @@ export class ApproveBudgetContainer extends Component {
           activities={search(searchText, currentActivities)}
           handleApproveOrRejectClick={this.handleApproveOrRejectClick}
         />
-        <ReactPaginate
-          previousLabel='previous'
-          nextLabel='next'
-          breakLabel='...'
-          breakClassName='break-me'
-          pageCount={pageCount}
-          marginPagesDisplayed={3}
-          pageRangeDisplayed={5}
-          onPageChange={this.handlePageClick}
-          containerClassName='pagination'
-          subContainerClassName='pages pagination'
-          activeClassName='active'
-        />
+        {pagination}
         <AlertDialogComponent
           status={status}
           message={message}

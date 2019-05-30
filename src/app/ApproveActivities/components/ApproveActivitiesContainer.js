@@ -75,6 +75,23 @@ export class ApproveActivitiesContainer extends Component {
     const indexOfLastActivity = currentPage * activitiesPerPage;
     const indexOfFirstActivity = indexOfLastActivity - activitiesPerPage;
     const currentActivities = pendingActivities.slice(indexOfFirstActivity, indexOfLastActivity);
+    const pagination = (currentActivities && currentActivities > 6)
+      ? (
+        <ReactPaginate
+          previousLabel='previous'
+          nextLabel='next'
+          breakLabel='...'
+          breakClassName='break-me'
+          pageCount={pageCount}
+          marginPagesDisplayed={3}
+          pageRangeDisplayed={5}
+          onPageChange={this.handlePageClick}
+          containerClassName='pagination'
+          subContainerClassName='pages pagination'
+          activeClassName='active'
+        />
+      )
+      : null;
     return (
       <div>
         <div className='profile-overview profile-overview--society'>
@@ -101,19 +118,7 @@ export class ApproveActivitiesContainer extends Component {
           </div>
         </div>
         <ApproveActivitiesComponent activities={search(searchText, currentActivities)} />
-        <ReactPaginate
-          previousLabel='previous'
-          nextLabel='next'
-          breakLabel='...'
-          breakClassName='break-me'
-          pageCount={pageCount}
-          marginPagesDisplayed={3}
-          pageRangeDisplayed={5}
-          onPageChange={this.handlePageClick}
-          containerClassName='pagination'
-          subContainerClassName='pages pagination'
-          activeClassName='active'
-        />
+        {pagination}
       </div>
     );
   }
