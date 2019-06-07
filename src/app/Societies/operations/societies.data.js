@@ -37,7 +37,7 @@ function* watchFetchSocietyInfoReq() {
 
 export function* verifyActivitySecretary(action) {
   try {
-    const result = yield call(edit, `logged-activities/review/${action.loggedActivityId}`, action.activityStatus);
+    const result = yield call(edit, `logged-activities/review/${action.loggedActivityId}`, { status: action.status });
     yield put(actions.verifyActivitySuccess(result));
   } catch (error) {
     yield put(actions.verifyActivityFail(error.toString()));
@@ -67,7 +67,7 @@ export function* createRedemption(action) {
   const { data, societyName } = action.payload;
   yield put(actions.societyPageLoading());
   try {
-    const result = yield call(post, '/societies/redeem', data);
+    const result = yield call(post, 'societies/redeem', data);
     yield put(actions.createRedemptionSuccess(result.data, societyName));
   } catch (error) {
     yield put(actions.societyPageError('There was an error creating your redemption'));

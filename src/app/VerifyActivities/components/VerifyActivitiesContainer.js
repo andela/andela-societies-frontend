@@ -19,6 +19,7 @@ export class VerifyActivitiesContainer extends Component {
   static defaultProps = {
     society: {},
     societyName: '',
+    userRole: {},
     fetchUserActivites: null,
     fetchSocietyInfoRequest: null,
     successMessage: '',
@@ -30,6 +31,7 @@ export class VerifyActivitiesContainer extends Component {
 
   static propTypes = {
     society: PropTypes.shape({}),
+    userRole: PropTypes.shape({}),
     societyName: PropTypes.string,
     fetchUserActivites: PropTypes.func,
     fetchSocietyInfoRequest: PropTypes.func,
@@ -86,7 +88,7 @@ export class VerifyActivitiesContainer extends Component {
   render() {
     const { logPoints, currentPage, activitiesPerPage } = this.state;
     const {
-      society, societyName, showVerifyAlert, verifiedSecretaryActivity, successMessage, showToastMessage,
+      society, userRole, societyName, showVerifyAlert, verifiedSecretaryActivity, successMessage, showToastMessage,
     } = this.props;
     let verifyActivitiesHtml = (<LoaderComponent className='loader' />);
     let logPointsComponent;
@@ -180,6 +182,7 @@ export class VerifyActivitiesContainer extends Component {
             </div>
           </VerifyAlertModal>
           <VerifyActivities
+            userRole={userRole}
             activities={currentActivities}
             handleVerify={this.handleVerify}
           />
@@ -191,8 +194,9 @@ export class VerifyActivitiesContainer extends Component {
   }
 }
 
-const mapStateToProps = ({ society, dashboard }) => ({
+const mapStateToProps = ({ society, dashboard, sidebar }) => ({
   society,
+  userRole: sidebar.userRole,
   societyName: dashboard.society,
   successMessage: dashboard.activity.message,
   showToastMessage: dashboard.showToastMessage,
