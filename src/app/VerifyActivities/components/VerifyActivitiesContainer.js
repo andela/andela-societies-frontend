@@ -104,6 +104,23 @@ export class VerifyActivitiesContainer extends Component {
       const indexOfLastActivity = currentPage * activitiesPerPage;
       const indexOfFirstActivity = indexOfLastActivity - activitiesPerPage;
       const currentActivities = inReviewActivities.slice(indexOfFirstActivity, indexOfLastActivity);
+      const pagination = (currentActivities && currentActivities > 6)
+        ? (
+          <ReactPaginate
+            previousLabel='previous'
+            nextLabel='next'
+            breakLabel='...'
+            breakClassName='break-me'
+            pageCount={pageCount}
+            marginPagesDisplayed={3}
+            pageRangeDisplayed={5}
+            onPageChange={this.handlePageClick}
+            containerClassName='pagination'
+            subContainerClassName='pages pagination'
+            activeClassName='active'
+          />
+        )
+        : null;
       verifyActivitiesHtml = (
         <div>
           <div className='profile-overview profile-overview--society'>
@@ -166,19 +183,7 @@ export class VerifyActivitiesContainer extends Component {
             activities={currentActivities}
             handleVerify={this.handleVerify}
           />
-          <ReactPaginate
-            previousLabel='previous'
-            nextLabel='next'
-            breakLabel='...'
-            breakClassName='break-me'
-            pageCount={pageCount}
-            marginPagesDisplayed={3}
-            pageRangeDisplayed={5}
-            onPageChange={this.handlePageClick}
-            containerClassName='pagination'
-            subContainerClassName='pages pagination'
-            activeClassName='active'
-          />
+          {pagination}
         </div>
       );
     }

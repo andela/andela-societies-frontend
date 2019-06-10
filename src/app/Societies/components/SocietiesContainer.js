@@ -117,6 +117,23 @@ export class SocietiesContainer extends Component {
     const currentActivities = societyData && societyData.slice(indexOfFirstActivity, indexOfLastActivity);
     const tabNames = ['activities', 'redemptions'];
     let logPointsComponent;
+    const pagination = (currentActivities && currentActivities > 6)
+      ? (
+        <ReactPaginate
+          previousLabel='previous'
+          nextLabel='next'
+          breakLabel='...'
+          breakClassName='break-me'
+          pageCount={pageCount}
+          marginPagesDisplayed={3}
+          pageRangeDisplayed={5}
+          onPageChange={this.handlePageClick}
+          containerClassName='pagination'
+          subContainerClassName='pages pagination'
+          activeClassName='active'
+        />
+      )
+      : null;
     if (logPoints) {
       logPointsComponent = <LogPointsComponent open={logPoints} close={this.logPointsModal} />;
     }
@@ -165,19 +182,7 @@ export class SocietiesContainer extends Component {
           activities={search(searchText, currentActivities)}
           selectedTab={selectedTab}
         />
-        <ReactPaginate
-          previousLabel='previous'
-          nextLabel='next'
-          breakLabel='...'
-          breakClassName='break-me'
-          pageCount={pageCount}
-          marginPagesDisplayed={3}
-          pageRangeDisplayed={5}
-          onPageChange={this.handlePageClick}
-          containerClassName='pagination'
-          subContainerClassName='pages pagination'
-          activeClassName='active'
-        />
+        {pagination}
       </div>
     );
   }
