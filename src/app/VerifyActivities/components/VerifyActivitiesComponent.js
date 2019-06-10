@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { TableComponent, TruncateDescriptionContainer, ActionsComponent } from '../../common/components';
 
-const VerifyActivitiesComponent = ({ activities, handleVerify }) => {
+const VerifyActivitiesComponent = ({ activities, handleVerify, userRole }) => {
   let tableBodyHtml;
   const columnNames = ['Name', 'Date', 'Activity', 'Points', 'Description', 'Actions'];
   if (!activities.length) {
@@ -31,6 +31,7 @@ const VerifyActivitiesComponent = ({ activities, handleVerify }) => {
           </td>
           <td>
             <ActionsComponent
+              userRole={userRole}
               onClick={handleVerify}
               id={id}
             />
@@ -47,6 +48,7 @@ const VerifyActivitiesComponent = ({ activities, handleVerify }) => {
 };
 
 VerifyActivitiesComponent.defaultProps = {
+  userRole: {},
   activities: [],
   handleVerify: null,
 };
@@ -54,6 +56,7 @@ VerifyActivitiesComponent.defaultProps = {
 VerifyActivitiesComponent.propTypes = {
   activities: PropTypes.arrayOf(PropTypes.shape({})),
   handleVerify: PropTypes.func,
+  userRole: PropTypes.shape({}),
 };
 
 export default VerifyActivitiesComponent;

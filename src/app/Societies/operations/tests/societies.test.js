@@ -20,6 +20,7 @@ import watchFetchSocietyInfoReq, {
   watchVerifyActivitySecretary,
   watchVerifyActivitySuccess,
 } from '../societies.data';
+import ACTIVITY_STATUS from '../../../common/constants';
 
 describe('Society saga', () => {
   let generator;
@@ -153,9 +154,14 @@ describe('Society saga', () => {
 
   describe('verifyActivitySecretary generator', () => {
     it('calls edit api verify activity secretary util with url', async () => {
-      generator = verifyActivitySecretary(types.VERIFY_ACTIVITY_REQUEST);
+      const action = {
+        type: types.VERIFY_ACTIVITY_REQUEST,
+        status: ACTIVITY_STATUS.PENDING,
+        loggedActivityId: '1242412'
+      }
+      generator = verifyActivitySecretary(action);
       expect(generator.next().value).toEqual(call(
-        edit, `logged-activities/review/${actions.loggedActivityId}`, actions.activityStatus,
+        edit, `logged-activities/review/${action.loggedActivityId}`, { status: action.status },
       ));
       expect(generator.next().value).toEqual(put(actions.verifyActivitySuccess()));
     });
@@ -200,7 +206,7 @@ describe('Society saga', () => {
       type: types.CREATE_REDEMPTION_REQUEST,
       payload: { data, societyName },
     };
-    const url = `/societies/redeem`;
+    const url = `societies/redeem`;
 
     it('creates redemptions successfully', () => {
       const result = {
