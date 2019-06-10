@@ -7,7 +7,7 @@
     "start": "webpack-dev-server --config=webpack.config.dev.js --open --history-api-fallback",
     "build": "webpack -p --config=webpack.config.prod.js",
     "sandbox": "export NODE_ENV=sandbox && webpack --optimize-minimize --config=webpack.config.prod.js && npm run copy:favicon",
-    "test": "export NODE_ENV=testing && jest --verbose",
+    "test": "export NODE_ENV=testing && jest --runInBand --verbose",
     "test:dev": "export NODE_ENV=testing && jest --verbose --watch",
     "deploy": "npm run build && npm run serve",
     "coverage": "export NODE_ENV=testing && jest --coverage",

@@ -6,6 +6,7 @@ import ReactPaginate from 'react-paginate';
 import { actions } from '../operations';
 import SocietyActivities from './SocietyActivitiesComponent';
 import LogPointsComponent from '../../Dashboard/components/LogPointsModalContainer';
+import Filter from '../../common/components/Filter';
 import {
   ButtonComponent, TabsComponent, SocietyStatsComponent, ToastMessageComponent,
 } from '../../common/components';
@@ -40,8 +41,20 @@ export class SocietiesContainer extends Component {
     selectedTab: 'activities',
     logPoints: false,
     currentPage: 1,
+    clickNum: 0,
     activitiesPerPage: 6,
+    filteredSocietyActivities: [],
+    filterBy: [
+      { name: 'select all', checked: false },
+      { name: 'approved', checked: false },
+      { name: 'in review', checked: false },
+      { name: 'rejected', checked: false },
+      { name: 'pending', checked: false },
+    ],
+    showFilterDropdown: false,
   };
+
+  filterRef = React.createRef();
 
   componentDidMount() {
     // get society from params
@@ -55,6 +68,7 @@ export class SocietiesContainer extends Component {
     } = this.props;
     fetchSocietyInfoRequest(society);
     fetchSocietyRedemptionsRequest(society);
+    window.addEventListener('mousedown', this.hideFilter);
   }
 
   componentDidUpdate(prevProps) {
@@ -65,6 +79,12 @@ export class SocietiesContainer extends Component {
       fetchSocietyInfoRequest,
       fetchSocietyRedemptionsRequest,
     } = this.props;
+    if (prevProps.society[societyName].loggedActivities !== this.props.society[societyName].loggedActivities) {
+      this.setLoggedActivities();
+    }
+    if (prevProps.match.params.society !== societyName) {
+      this.setLoggedActivities();
+    }
     if (
       prevProps.match.params.society !== societyName
       && !prevProps.society[societyName].redemptions.length
@@ -72,6 +92,10 @@ export class SocietiesContainer extends Component {
       fetchSocietyInfoRequest(societyName);
       fetchSocietyRedemptionsRequest(societyName);
     }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('mousedown', this.hideFilter);
   }
 
   changeSelectedTab = (tabName) => {
@@ -91,6 +115,121 @@ export class SocietiesContainer extends Component {
       currentPage: selected + 1,
     });
   };
+
+  setLoggedActivities = () => {
+    const {
+      society,
+      match: {
+        params: { society: societyName },
+      },
+    } = this.props;
+
+    const {
+      loggedActivities,
+    } = society[
+      societyName
+    ];
+
+    const filterBy = [
+      { name: 'select all', checked: false },
+      { name: 'approved', checked: false },
+      { name: 'in review', checked: false },
+      { name: 'rejected', checked: false },
+      { name: 'pending', checked: false },
+    ];
+
+    this.setState({
+      filterBy,
+      clickNum: 0,
+      filteredSocietyActivities: loggedActivities,
+    });
+  }
+
+  handleClick = index => (event) => {
+    const { checked, value } = event.target;
+    const { filterBy, clickNum } = this.state;
+
+    const {
+      society,
+      match: {
+        params: { society: name },
+      },
+    } = this.props;
+
+    if (value === 'select all') {
+      const filter = filterBy.map((item) => {
+        if (checked) {
+          return (item.checked = true), item;
+        }
+
+        this.setState({ clickNum: 0 });
+        return (item.checked = false), item;
+      });
+
+      this.setState({
+        filterBy: filter,
+        filteredSocietyActivities: [...society[name].loggedActivities],
+      });
+    } else {
+      const item = [...filterBy];
+      let filteredSocietyActivities = [];
+      let restore = false;
+
+      if (checked && clickNum > 0) {
+        item[index].checked = checked;
+        const filter = society[name].loggedActivities.filter(activity => activity.status === value);
+        filteredSocietyActivities = [...this.state.filteredSocietyActivities, ...filter];
+      }
+
+      if (checked && clickNum === 0) {
+        item[index].checked = checked;
+        const filter = this.state.filteredSocietyActivities.filter(activity => activity.status === value);
+        filteredSocietyActivities = [...filter];
+      }
+
+      if (!checked) {
+        item[index].checked = checked;
+        item[0].checked = false;
+        filteredSocietyActivities = this.state.filteredSocietyActivities.filter(activity => activity.status !== value);
+        if (filteredSocietyActivities.length === 0) {
+          restore = true;
+          filteredSocietyActivities = society[name].loggedActivities;
+        }
+      }
+
+      if (this.isAllChecked(item)) item[0].checked = true;
+
+      this.setState({
+        filterBy: item,
+        clickNum: !restore ? (clickNum + 1) : 0,
+        filteredSocietyActivities,
+      });
+    }
+  }
+
+  isAllChecked = (item) => {
+    for (let i = 1; i < item.length; i += 1) {
+      if (!item[i].checked) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  hideFilter = (event) => {
+    const { target } = event;
+    if (!target.className || target.className === 'button__filter') {
+      return;
+    }
+
+    if (!this.filterRef.current.contains(target)) {
+      this.setState({ showFilterDropdown: false });
+    }
+  };
+
+  showFilter = () => {
+    this.setState(prevState => ({ showFilterDropdown: !prevState.showFilterDropdown }));
+  }
 
   render() {
     const {
@@ -171,15 +310,24 @@ export class SocietiesContainer extends Component {
               <span className='fa fa-plus' />
               <span>Log Points</span>
             </ButtonComponent>
-            <ButtonComponent className='button__filter'>
+            <ButtonComponent
+              className='button__filter'
+              onClick={this.showFilter}
+            >
               <span>Filter</span>
               <span className='fa fa-filter' />
             </ButtonComponent>
+            <Filter
+              handleClick={this.handleClick}
+              filterBy={this.state.filterBy}
+              show={this.state.showFilterDropdown}
+              filterRef={this.filterRef}
+            />
           </div>
         </div>
         {logPointsComponent}
         <SocietyActivities
-          activities={search(searchText, currentActivities)}
+          activities={search(searchText, this.state.filteredSocietyActivities || currentActivities)}
           selectedTab={selectedTab}
         />
         {pagination}
