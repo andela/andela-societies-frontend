@@ -1,0 +1,167 @@
+.society-stats{
+  @include widthAndHeight(38%, rem(134px));
+  display: flex;
+  padding:  rem(10px) rem(21px) rem(10px) rem(26px);
+  font-family: 'DIN Pro';
+  flex-direction: column;
+  justify-content: space-evenly;
+  background-color: $lightAccent;
+}
+
+.progress {
+  @include widthAndHeight(100%, rem(10px));
+  align-self: center;
+  margin-top: rem(17px);
+  margin-bottom: rem(24px);
+  border-radius: 0;
+
+  #progress-bar--blue {
+    background-color: $andelaBlue!important;
+    width: 60%;
+  }
+  
+  #progress-bar--green {
+    background-color: $approvedStatusGreen!important;
+    width: 40%;
+  }
+}
+
+.society-stats__desc {
+  display: flex;
+  font-family: 'Din Pro';
+  @include text-styles(rem(15px), $darkGray, 200, rem(-0.08px), rem(15px));
+
+  .stats__description__figure {
+    font-weight: bold;
+  }
+   
+  #points-earned {
+    color: $andelaBlue;
+
+    span {
+      color: $pointsSubscriptColor;
+    }
+  }
+
+  #activities-logged {
+    color: $pointsSubscriptColor;
+  }
+
+  #used-points {
+    margin-top: rem(20px);
+    padding-left: rem(28px);
+  }
+
+  #remaining-points {
+    margin-top: rem(20px);
+    padding-left: rem(60px);
+  }
+}
+
+.society-stats__separator {
+  box-sizing: border-box;
+  @include widthAndHeight(100%, rem(2px));
+  margin-bottom: rem(18px);
+  border: 1px solid $separatorBgColor;
+}
+
+.society-stats__desc-text {
+  margin-left: rem(12px);
+}
+
+.society-stats__desc__points {
+  display: flex;
+}
+
+.right-side {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.society-stats__desc__logo {
+  width: rem(50px);
+  margin-left: auto;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  &.phoenix {
+    background-image: url(../../../images/societyLogos/phoenix.png);
+  }
+  &.istelle {
+    background-image: url(../../../images/societyLogos/istelle.png);
+  }
+  &.invictus {
+    background-image: url(../../../images/societyLogos/invictus.jpg);
+  }
+  &.sparks {
+    background-image: url(../../../images/societyLogos/sparks.png);
+  }
+}
+
+// Large devices (desktops/mac, 992px and up)
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .society-stats {
+    padding: 0;
+  }
+
+  .line-graph {
+    width: 95%;
+  }
+  
+  .society-stats__desc {
+    font-size: rem(13px);
+    line-height: rem(13px);
+  }
+
+
+  .society-stats__desc {
+    .stats__description__figure {
+      margin-top: 0;
+      padding-left: 0;
+    }
+  }
+
+  .society-stats__desc__logo {
+    margin-right: auto;
+    background-position: top;
+  }
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .society-stats {
+    @include widthAndHeight(100%, 100%);
+    margin-bottom: rem(15px);
+    flex: 0 0 100%;
+  }
+
+  .progress {
+      margin-bottom: rem(8px);
+  }
+
+  .society-stats__separator {
+    margin-bottom: rem(8px);
+  }
+}
+
+// small devices
+@media (max-width: 767px) {
+  .society-stats {
+    @include widthAndHeight(100%, 100%);
+    margin-bottom: rem(15px);
+  }
+
+  .society-points {
+    margin-top: rem(10px);
+  }
+
+  .line-graph {
+    @include widthAndHeight(100%, 0.2rem);
+    background-color: rgba(0, 0, 0, 0.1);
+ }
+ 
+ .society-stats__desc {
+    line-height: 0.9375rem;
+ }
+
+}

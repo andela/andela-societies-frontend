@@ -1,2 +1,0 @@
-const SNACKBARTIMEOUT = 2000;
-export default SNACKBARTIMEOUT;

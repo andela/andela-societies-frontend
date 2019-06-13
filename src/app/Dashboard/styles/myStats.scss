@@ -1,0 +1,88 @@
+.stats {
+  display: flex;
+  @include widthAndHeight(45%, rem(134px));
+  justify-content: space-evenly;
+  box-sizing: border-box;
+  box-shadow: 0 rem(7px) rem(36px) 0 rgba(48,48,48,0.13);
+  font-family: 'DIN Pro';
+  border: rem(1px) solid $andelaGold;
+}
+
+.stats__points {
+  margin: auto 0;
+}
+
+.stats__activities {
+  margin: auto 0;
+  margin-left: rem(20px);
+}
+
+.stats__description{
+ @include text-styles(rem(18px), $lightAccent, normal, rem(0.33px), rem(21px));
+}
+
+.stats__description__figure {
+  margin-bottom: 0;
+  @include text-styles(rem(28px), $andelaGold, normal, rem(0.33px), rem(21px));
+
+  span {
+    margin-left: rem(5px);
+    font-size: rem(14px)!important;
+  }
+}
+
+.my-stats {
+  margin-top: rem(30px);
+}
+
+// Large devices (desktops/mac, 992px and up)
+@media (min-width: 992px) and (max-width: 1199.98px) { 
+  .stats {
+    width: 43%;
+  }
+
+  .stats__description {
+    font-size: rem(14px);
+    line-height: rem(14px);
+  }
+
+  .stats__activities {
+    margin-left: rem(10px);
+  }
+
+  .stats__description__figure {
+    font-size: rem(24px);
+    line-height: rem(24px);
+  }
+
+  .my-stats {
+    margin-top: 0;
+  }
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .stats {
+    @include widthAndHeight(100%, 100%);
+    margin-bottom: rem(15px);
+    flex: 0 0 100%;
+  }
+}
+
+// small devices
+@media (max-width: 767px) {
+  .stats {
+    @include widthAndHeight(100%, 100%);
+    margin-bottom: rem(15px);
+  }
+
+  .stats__description {
+    font-size: rem(14px);
+    line-height: 0.875rem;
+    margin-top: 0.5rem;
+  }
+  
+  .stats__description__figure {
+    font-size: rem(18px);
+  }
+ }
