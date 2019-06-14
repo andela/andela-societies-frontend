@@ -1,6 +1,6 @@
-FROM node:carbon
+FROM node:dubnium-alpine
 
-LABEL AUTHOR="Thomas Nyambati <thomas.nyambati@andela.com>"
+LABEL AUTHOR="Crispus Kamau <crispus.kamau@andela.com>"
 LABEL application="soc-frontend"
 
 ENV NODE_PATH /usr/local/share/.config/yarn/global/node_modules/

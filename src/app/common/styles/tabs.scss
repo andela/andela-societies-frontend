@@ -1,0 +1,83 @@
+.tabs {
+  display: flex;
+
+  h3:hover {
+    cursor: pointer;
+  }
+
+  h3 + h3 {
+    margin-left: rem(33px);
+  }
+
+  .selected__title {
+    color: $andelaGold !important;
+  }
+
+  .tab__selected {
+    @include selectedTab;
+    left: 10px;
+    width: rem(70px);
+  }
+
+  .tab__selected--redemptions {
+    @include selectedTab;
+    left: 111px;
+    width: rem(109px);
+  }
+
+  .tab__selected--invictus {
+    @include selectedTab;
+    left: 88px;
+    width: rem(70px);
+  }
+
+  .tab__selected--phoenix {
+    @include selectedTab;
+    left: 179px;
+    width: rem(77px);
+  }
+
+  .tab__selected--sparks {
+    @include selectedTab;
+    left: 269px;
+    width: rem(77px);
+  }
+
+  .tab--underline {
+    border: rem(1px) solid $lightAccent;
+    position: absolute;
+    bottom: rem(6px);
+    left: 0;
+    width: rem(662px);
+  }
+}
+
+// Larger devices (monitors, 1199.98px and up)
+@media (min-width: 1199.98px) {
+  .tab--underline {
+    width: 64%;
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .tab--underline {
+    width: 62%;
+  }
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) and (max-width: 991.97px) {
+  .tab--underline {
+    width: 62% !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .tabs {
+    padding-bottom: 10px; 
+  }
+  .tab--underline, .tab__selected, .tab__selected--redemptions, .tab__selected--invictus, .tab__selected--phoenix, .tab__selected--sparks {
+    display: none;
+  }
+}

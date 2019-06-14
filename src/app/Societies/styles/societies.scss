@@ -1,0 +1,69 @@
+.society-page__stats {
+  height: rem(207px);
+  border-radius: rem(4px);
+  box-shadow: 0 rem(7px) rem(36px) 0 $grayShadow;
+}
+
+.profile-overview--society {
+  margin-top: rem(42px);
+}
+
+.profile-overview__image--society {
+  @include widthAndHeight(rem(662px), rem(205px));
+  margin-right: rem(18px);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-sizing: border-box;
+  background-color: $lightAccent;
+  border: rem(1.08px) solid $lightAccent;
+  box-shadow: 0 rem(7px) rem(14px) 0 $darkShadow, 0 rem(11px) rem(36px) 0 $grayShadow;
+
+  &.phoenix {
+    background-image: url(../../../images/societyLogos/phoenix.png)
+  }
+  &.sparks {
+    background-image: url(../../../images/societyLogos/sparks.png);
+  }
+  &.invictus {
+    background-image: url(../../../images/societyLogos/invictus.jpg)
+  }
+  &.istelle {
+    background-image: url(../../../images/societyLogos/istelle.png)
+  }
+}
+
+
+// Larger devices (monitors, 1199.98px and up)
+@media (min-width: 1199.98px) {
+  .profile-overview__image--society {
+    width: 70% !important;
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) and (max-width: 1199.98px) {}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) and (max-width: 991.97px) {
+  .profile-overview--society {
+    .profile-overview__image--society {
+      display: none;
+    }
+  }
+}
+
+// small devices
+@media (max-width: 767px) {
+  .profile-overview--society {
+
+    .profile-overview__image--society {
+      display: none;
+    }
+
+  }
+  .user-dashboard__actions--society {
+    flex-direction: column;
+    align-items: center;
+  }
+}

@@ -1,0 +1,149 @@
+.navbar {
+  padding: 0;
+
+  .navbar__logo {
+    display: none;
+  }
+}
+
+.form-inline {
+  height: rem(30.73px)!important;
+  width: rem(258.79px)!important;
+}
+
+.input-group.input-group-merge {
+  width: rem(258.79px);
+
+  .form-control-search {
+    font-family: 'DIN Pro';
+    font-size: rem(14px);
+    color: #ffffff;
+    padding-right: .375rem;
+    border: 0;
+    outline: none!important;
+    background-color: rgba(255,255,255,0.2);
+
+    &::placeholder {
+      color:rgba(255,255,255,0.75);
+    }
+
+    &:focus {
+      box-shadow: unset;
+    }
+  }
+
+  .input-group-append {
+    margin-left: 0;
+    
+    .input-group-icon {
+      border: 0;
+      color: $lightAccent;
+      border-left: 0!important;
+      background-color: rgba(255,255,255,0.2);
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .mobile-sidenav {
+    display: none;
+  }
+
+  .toggle-btn {
+    display: none;
+  }
+
+  .mobile-profile {
+    display: none;
+  }
+}
+
+// Small devices
+@media (max-width: 767px) {
+  .navbar {
+    flex-direction: column;
+    align-items: normal;
+
+    .navbar__logo {
+      display: block;
+      margin: 0 auto;
+
+      .logo__text {
+        color: $lightAccent;
+      }
+    }
+
+    .sidebar_nav-item {
+      margin: 0 auto;
+    }
+  }
+  
+  .mobile-sidenav {
+    top: 0;
+    left: 0;
+    position: fixed;
+    height: 100vh;
+    z-index: 2;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: rem(28px);
+    padding-bottom: rem(184px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: linear-gradient(135deg, $andelaBlue 0%, $darkBlue 100%, $darkerBlue 100%);
+    border-right: rem(.1px) solid $lightGray;
+
+    &.open {
+      width: rem(182px);
+    }
+
+    &.close {
+      width: 0;
+    }
+
+    .close-btn {
+      color: $lightAccent;
+      margin-right: rem(14px);
+      margin-left: auto;
+    }
+
+    .logo {
+      display: none;
+    }
+  }
+
+  .navbar__actions {
+    display: flex
+  }
+
+  .desktop-profile {
+    display: none;
+  }
+
+  .mobile-profile {
+    margin-left: 0 !important;
+    border-left: none !important;
+
+    .profile__name {
+      display: none;
+    }
+
+    .profile__content {
+      i {
+        display: none;
+      }
+    }
+  }
+
+  .toggle-btn {
+    display: block;
+    color: $lightAccent;
+    cursor: pointer;
+    padding-left: rem(15px);
+  }
+  
+  .form-inline {
+    display: none;
+  }
+ }
