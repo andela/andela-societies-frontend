@@ -82,6 +82,3 @@ workflows:
               only:
                 - master
                 - develop
-                - develop-V2
-                - master-V2
-

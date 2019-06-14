@@ -24,16 +24,6 @@ const configs = {
     APP_URL: 'http://soc-sandbox.andela.com:4021',
     API_BASE_URL: 'http://api-soc-sandbox.andela.com:4022/api/v1',
   },
-  staging_v2: {
-    AUTH_API: 'https://api.andela.com/login?redirect_url=',
-    APP_URL: 'https://staging-v2-societies.andela.com',
-    API_BASE_URL: 'https://api-staging-societies.andela.com/api/v1',
-  },
-  production_v2: {
-    AUTH_API: 'https://api.andela.com/login?redirect_url=',
-    APP_URL: 'https://societies-v2.andela.com',
-    API_BASE_URL: 'https://societies-api-v2.andela.com/api/v1',
-  },
 };
 
 const config = configs[process.env.NODE_ENV];
