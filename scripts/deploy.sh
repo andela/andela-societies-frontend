@@ -16,6 +16,14 @@ set_variables() {
             DEPLOYMENT_NAME="staging-v2-${PROJECT_NAME}"
             export NODE_ENV=staging_v2
             ;;
+        develop)
+            IMAGE_TAG="staging-${COMMIT_HASH}"
+            ENVIRONMENT=staging
+            GOOGLE_COMPUTE_ZONE=${STAGING_ZONE}
+            GOOGLE_CLUSTER_NAME=${STAGING_CLUSTER_NAME}
+            DEPLOYMENT_NAME="staging-${PROJECT_NAME}"
+            export NODE_ENV=staging
+            ;;
         master-V2)
             IMAGE_TAG="production-v2-${COMMIT_HASH}"
             ENVIRONMENT=production
@@ -23,6 +31,14 @@ set_variables() {
             GOOGLE_CLUSTER_NAME=${PRODUCTION_CLUSTER_NAME}
             DEPLOYMENT_NAME="production-v2-${PROJECT_NAME}"
             export NODE_ENV=production_v2
+            ;;
+        master)
+            IMAGE_TAG="production-${COMMIT_HASH}"
+            ENVIRONMENT=production
+            GOOGLE_COMPUTE_ZONE=${PRODUCTION_ZONE}
+            GOOGLE_CLUSTER_NAME=${PRODUCTION_CLUSTER_NAME}
+            DEPLOYMENT_NAME="production-${PROJECT_NAME}"
+            export NODE_ENV=production
             ;;
         *)
             echo "Err: This branch should not deploy."

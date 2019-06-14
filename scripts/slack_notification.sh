@@ -14,8 +14,12 @@ declare_env_variables() {
   # Some template for the Slack message
   if [ ${CIRCLE_BRANCH} == "master-V2" ]; then
     ENVIRONMENT="production-v2"
-  else
+  elif [ ${CIRCLE_BRANCH} == "master" ]; then
+    ENVIRONMENT="production"
+  elif [ ${CIRCLE_BRANCH} == "develop-V2" ]; then
     ENVIRONMENT="staging-v2"
+  else
+    ENVIRONMENT="staging"
   fi
   if [ "$1" == "success" ]; then
       MESSAGE_TEXT="The ${CIRCLE_BRANCH} branch has been deployed to the ${ENVIRONMENT} environment"

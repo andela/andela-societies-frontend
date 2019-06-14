@@ -80,5 +80,8 @@ workflows:
           filters:
             branches:
               only:
+                - master
+                - develop
                 - develop-V2
                 - master-V2
+
