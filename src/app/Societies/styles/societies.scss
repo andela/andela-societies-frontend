@@ -15,18 +15,17 @@
   background-position: center;
   background-repeat: no-repeat;
   box-sizing: border-box;
-  background-color: $lightAccent;
-  border: rem(1.08px) solid $lightAccent;
-  box-shadow: 0 rem(7px) rem(14px) 0 $darkShadow, 0 rem(11px) rem(36px) 0 $grayShadow;
 
   &.phoenix {
     background-image: url(../../../images/societyLogos/phoenix.png)
   }
   &.sparks {
     background-image: url(../../../images/societyLogos/sparks.png);
+    background-size: 15%;
   }
   &.invictus {
-    background-image: url(../../../images/societyLogos/invictus.jpg)
+    background-image: url(../../../images/societyLogos/invictus.jpg);
+   
   }
   &.istelle {
     background-image: url(../../../images/societyLogos/istelle.png)
