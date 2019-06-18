@@ -18,7 +18,7 @@ const ActionsComponent = ({ id, onClick, userRole }) => {
       </ButtonComponent>
     </div>
   );
-}
+};
 
 ActionsComponent.defaultProps = {
   id: '',

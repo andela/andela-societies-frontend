@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { TableComponent, TruncateDescriptionContainer, ActionsComponent } from '../../common/components';
 
-const ApproveActivitiesComponent = ({ activities }) => {
+const ApproveActivitiesComponent = ({ activities, handleApproveOrRejectClick }) => {
   let tableBodyHtml;
   const columnNames = ['Activity', 'Date', 'Points', 'Description', 'Actions'];
   if (!activities.length) {
@@ -29,7 +29,10 @@ const ApproveActivitiesComponent = ({ activities }) => {
             <TruncateDescriptionContainer description={description} wordCount={80} />
           </td>
           <td>
-            <ActionsComponent />
+            <ActionsComponent
+              id={id}
+              onClick={handleApproveOrRejectClick}
+            />
           </td>
         </tr>
       );
@@ -44,10 +47,12 @@ const ApproveActivitiesComponent = ({ activities }) => {
 
 ApproveActivitiesComponent.defaultProps = {
   activities: [],
+  handleApproveOrRejectClick: null,
 };
 
 ApproveActivitiesComponent.propTypes = {
   activities: PropTypes.arrayOf(PropTypes.shape({})),
+  handleApproveOrRejectClick: PropTypes.func,
 };
 
 export default ApproveActivitiesComponent;

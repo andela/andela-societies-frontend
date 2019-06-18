@@ -26,13 +26,13 @@ describe('<ApproveBudgetContainer />', () => {
         totalPoints: 200,
         activitiesLogged: activities.length,
         loggedActivities: activities,
-        redemptions: []
-      }
+        redemptions: [],
+      },
     },
     approveBudget: jest.fn(),
     resetApproveBugetStatus: jest.fn(),
     fetchSocietyInfoRequest: jest.fn(),
-    fetchSocietyRedemptionsRequest: jest.fn()
+    fetchSocietyRedemptionsRequest: jest.fn(),
   };
   const shallowWrapper = shallow(<ApproveBudgetContainer {...props} />);
 

@@ -4,7 +4,9 @@ import {
 
 import types from '../types';
 import actions from '../actions';
-import { get, post, edit, pointsToDollarConverter } from '../../../utils';
+import {
+  get, post, edit, pointsToDollarConverter,
+} from '../../../utils';
 import activities from '../../../Dashboard/operations/tests/fixtures';
 import { redemption } from '../../../Redemptions/components/tests/fixtures';
 import watchFetchSocietyInfoReq, {
@@ -135,7 +137,7 @@ describe('Society saga', () => {
       );
     });
   });
-  
+
   describe('watchApproveBudgetRequest generator', () => {
     it('takes APPROVE_BUDGET_REQUEST action', () => {
       generator = watchApproveBudgetRequest();
@@ -157,8 +159,8 @@ describe('Society saga', () => {
       const action = {
         type: types.VERIFY_ACTIVITY_REQUEST,
         status: ACTIVITY_STATUS.PENDING,
-        loggedActivityId: '1242412'
-      }
+        loggedActivityId: '1242412',
+      };
       generator = verifyActivitySecretary(action);
       expect(generator.next().value).toEqual(call(
         edit, `logged-activities/review/${action.loggedActivityId}`, { status: action.status },
@@ -201,12 +203,17 @@ describe('Society saga', () => {
 
   describe('createRedemption generator', () => {
     const societyName = 'phoenix';
-    const data = { date: '12/01/2018', center: 'nairobi', points: 10000, reason: 'to carryout tests'}
+    const data = {
+      date: '12/01/2018',
+      center: 'nairobi',
+      points: 10000,
+      reason: 'to carryout tests',
+    };
     const action = {
       type: types.CREATE_REDEMPTION_REQUEST,
       payload: { data, societyName },
     };
-    const url = `societies/redeem`;
+    const url = 'societies/redeem';
 
     it('creates redemptions successfully', () => {
       const result = {
@@ -238,7 +245,7 @@ describe('Society saga', () => {
   describe('approveBudget generator', () => {
     const societyName = 'phoenix';
     const status = 'approved';
-    const message = `USD ${pointsToDollarConverter(redemption.value)} Approved`
+    const message = `USD ${pointsToDollarConverter(redemption.value)} Approved`;
     const action = {
       type: types.APPROVE_BUDGET_REQUEST,
       payload: { societyName, id: redemption.id, status },

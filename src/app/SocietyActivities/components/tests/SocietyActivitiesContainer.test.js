@@ -1,13 +1,13 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { ApproveActivitiesContainer } from '../ApproveActivitiesContainer';
+import { SocietyActivitiesContainer } from '../SocietyActivitiesContainer';
 
 import ACTIVITY_STATUS from '../../../common/constants';
 import activities from '../../../Dashboard/operations/tests/fixtures';
 import { redemptions } from '../../../Redemptions/components/tests/fixtures';
 
-describe('<ApproveActivitiesContainer />', () => {
+describe('<SocietyActivitiesContainer />', () => {
   const props = {
     society: {
       phoenix: {
@@ -25,12 +25,16 @@ describe('<ApproveActivitiesContainer />', () => {
         activitiesLogged: activities.length,
         loggedActivities: activities,
         redemptions,
-      }
+      },
     },
     fetchSocietyInfoRequest: jest.fn(),
-    fetchSocietyRedemptionsRequest: jest.fn()
+    fetchSocietyRedemptionsRequest: jest.fn(),
+    approveActivity: jest.fn(),
+    rejectActivity: jest.fn(),
+    resetApproveActivityStatus: jest.fn(),
+    resetRejectActivityStatus: jest.fn(),
   };
-  const shallowWrapper = shallow(<ApproveActivitiesContainer {...props} />);
+  const shallowWrapper = shallow(<SocietyActivitiesContainer {...props} />);
 
   it('has a 1 ButtonComponent', () => {
     expect(shallowWrapper.find('ButtonComponent')).toHaveLength(1);
@@ -70,5 +74,49 @@ describe('<ApproveActivitiesContainer />', () => {
     });
     instance.handlePageClick(data);
     expect(instance.state.currentPage).toBe(1);
+  });
+
+  it('should approve a logged activity', () => {
+    const instance = shallowWrapper.instance();
+    const spy = jest.spyOn(instance.props, 'approveActivity');
+    instance.handleApproveOrRejectClick('1', 'approved');
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should reject a logged activity', () => {
+    const instance = shallowWrapper.instance();
+    const spy = jest.spyOn(instance.props, 'rejectActivity');
+    instance.handleApproveOrRejectClick('2', 'iStelle');
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('invokes toggleAlertDialogOpen when status prop changes state change', () => {
+    const instance = shallowWrapper.instance();
+    const spy = jest.spyOn(instance, 'toggleAlertDialogOpen');
+    shallowWrapper.setProps({ status: 'approved' });
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('changes alertDialogOpen state when toggleAlertDialogOpen is called with a boolean value', () => {
+    const instance = shallowWrapper.instance();
+    instance.setState({ alertDialogOpen: true });
+    instance.toggleAlertDialogOpen(false);
+    expect(instance.state.alertDialogOpen).toBeFalsy();
+  });
+
+  it('invokes resetApproveActivityStatus when handleAlertDialogClose is called', () => {
+    const instance = shallowWrapper.instance();
+    const spy = jest.spyOn(instance.props, 'resetApproveActivityStatus');
+    instance.handleAlertDialogClose();
+
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('invokes resetRejectActivityStatus when handleAlertDialogClose is called', () => {
+    const instance = shallowWrapper.instance();
+    const spy = jest.spyOn(instance.props, 'resetRejectActivityStatus');
+    instance.handleAlertDialogClose();
+
+    expect(spy).toHaveBeenCalled();
   });
 });

@@ -1,16 +1,16 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import ApproveActivitiesComponent from '../ApproveActivitiesComponent';
+import SocietyActivitiesComponent from '../SocietyActivitiesComponent';
 
 import activities from '../../../Dashboard/operations/tests/fixtures';
 
-describe('<ApproveActivitiesComponent />', () => {
+describe('<SocietyActivitiesComponent />', () => {
   const setUpWrapper = ({ activities = [] } = {}) => {
     const props = {
       activities,
     };
-    return shallow(<ApproveActivitiesComponent {...props} />);
+    return shallow(<SocietyActivitiesComponent {...props} />);
   };
 
   it('should have a TableComponent', () => {

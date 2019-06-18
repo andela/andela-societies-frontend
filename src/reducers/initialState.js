@@ -25,6 +25,11 @@ const initialState = {
     approveBudgetPageLoading: false,
     approveBudgetPageError: null,
     approveBudgetMessage: null,
+
+    approveActivityStatus: null,
+    approveActivityPageLoading: false,
+    approveActivityPageError: null,
+    approveActivityMessage: null,
     istelle: {
       pointsEarned: 0,
       usedPoints: 0,

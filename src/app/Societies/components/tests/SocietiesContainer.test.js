@@ -30,7 +30,7 @@ describe('<SocietiesContainer />', () => {
       },
     },
     fetchSocietyInfoRequest: jest.fn(),
-    fetchSocietyRedemptionsRequest: jest.fn()
+    fetchSocietyRedemptionsRequest: jest.fn(),
   };
 
   let shallowWrapper;
@@ -60,7 +60,7 @@ describe('<SocietiesContainer />', () => {
   it('invokes fetchSocietyInfoRequest when society props change', () => {
     const instance = shallowWrapper.instance();
     const spy = jest.spyOn(instance.props, 'fetchSocietyInfoRequest');
-    shallowWrapper.setProps({ match: { params: { society: 'istelle' }} });
+    shallowWrapper.setProps({ match: { params: { society: 'istelle' } } });
     expect(spy).toHaveBeenCalled();
   });
 
