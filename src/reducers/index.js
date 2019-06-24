@@ -1,28 +1,14 @@
 import { combineReducers } from 'redux';
-import userInfo from './userInfoReducer';
-import pageInfo from './pageInfoReducer';
-import societyInfo from './societyInfoReducer';
-import myActivities from './myActivitiesReducer';
-import categories from './categoriesReducer';
-import societyActivities from './societyActivitiesReducer';
-import allActivities from './allActivitiesReducer';
-import userProfile from './userProfileReducer';
-import redeemPointsInfo from './redeemPointsReducer';
-import commentsInfo from './commentsReducer';
-import modalInfo from './showModalReducer';
+import { sidebar } from '../app/Sidebar/operations';
+import { society } from '../app/Societies/operations';
+import { dashboard } from '../app/Dashboard/operations';
+import { navbar } from '../app/Navbar/operations';
 
 const rootReducer = combineReducers({
-  userInfo,
-  pageInfo,
-  myActivities,
-  societyInfo,
-  categories,
-  societyActivities,
-  userProfile,
-  redeemPointsInfo,
-  allActivities,
-  commentsInfo,
-  modalInfo,
+  society,
+  sidebar,
+  dashboard,
+  navbar,
 });
 
 export default rootReducer;

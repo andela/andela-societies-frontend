@@ -9,3 +9,5 @@ yarn-error.log
 coverage/
 package-*.json
 .vscode/
+application.log
+yarn.lock

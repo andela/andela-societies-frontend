@@ -1,0 +1,24 @@
+.indicator:before {
+  content: ' \25CF';
+  font-size: rem(30px);
+}
+
+.completed {
+  color: $andelaBlue;
+}
+
+.approved {
+  color: $approvedStatusGreen;
+}
+
+.rejected {
+  color: $rejectedStatusRed;
+}
+
+.pending {
+  color: $andelaGold;
+}
+
+.inreview {
+  color: $inReviewStatusYellow;
+}

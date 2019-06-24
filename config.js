@@ -2,7 +2,7 @@ const configs = {
   production: {
     AUTH_API: 'https://api-prod.andela.com/login?redirect_url=',
     APP_URL: 'https://societies.andela.com',
-    API_BASE_URL: 'https://societies-api.andela.com/api/v1',
+    API_BASE_URL: 'https://api-staging-societies.andela.com/api/v1',
   },
   staging: {
     AUTH_API: 'https://api-prod.andela.com/login?redirect_url=',
@@ -28,3 +28,8 @@ const configs = {
 
 const config = configs[process.env.NODE_ENV];
 export default config;
+
+// Uncomment and use this line after API Staging 2 has been fixed 100%
+// API_BASE_URL: 'https://api-staging-v2-societies.andela.com/api/v1'
+// Uncomment and use this line after Production has been fixed 100%
+// API_BASE_URL: 'https://societies-api.andela.com/api/v1

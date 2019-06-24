@@ -12,8 +12,12 @@ declare_env_variables() {
   # SLACK_CHANNEL_HOOK : This is the webhook for the Slack App where notifications will be sent from
   # DEPLOYMENT_CHANNEL : This is the channel on which the Slack notifications will be posted
   # Some template for the Slack message
-  if [ ${CIRCLE_BRANCH} == "master" ]; then
+  if [ ${CIRCLE_BRANCH} == "master-V2" ]; then
+    ENVIRONMENT="production-v2"
+  elif [ ${CIRCLE_BRANCH} == "master" ]; then
     ENVIRONMENT="production"
+  elif [ ${CIRCLE_BRANCH} == "develop-V2" ]; then
+    ENVIRONMENT="staging-v2"
   else
     ENVIRONMENT="staging"
   fi

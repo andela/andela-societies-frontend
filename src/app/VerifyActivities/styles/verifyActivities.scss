@@ -1,0 +1,43 @@
+.loader {
+  position: absolute;
+  left: 50%;
+  top: 20%;
+  color: $lightAccent;
+  @include widthAndHeight(3rem, 3rem);
+}
+
+.message {
+  color: $andelaBlue !important;
+  font-size: rem(25px) !important;
+  text-align: center !important;
+  font-family: 'DIN Pro';
+}
+
+.alert {
+  text-align: center !important;
+  display:inline-block;
+  width: rem(145px);
+  height: rem(100px);
+  -ms-transform: rotate(45deg); /* IE 9 */
+  -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+  transform: rotate(45deg);
+}
+
+.alert__stem {
+  position: absolute;
+  width:rem(12px);
+  height:rem(72px);
+  background-color:$approvedStatusGreen;
+  left:rem(88px);
+  top:rem(48px);
+}
+
+.alert__kick {
+  position: absolute;
+  width:rem(25px);
+  height:rem(12px);
+  background-color:$approvedStatusGreen;
+  left:rem(64px);
+  top:rem(108px);
+}
+

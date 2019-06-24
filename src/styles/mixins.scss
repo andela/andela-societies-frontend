@@ -1,0 +1,31 @@
+@mixin text-styles($size, $color, $weight, $letterSpacing, $lineHeight) {
+  font-size: $size;
+  color: $color;
+  font-weight: $weight;
+  letter-spacing: $letterSpacing;
+  line-height: $lineHeight;
+}
+
+@mixin border {
+  border: rem(1.5px) solid $lightAccent;
+  border-radius: rem(1.62px);
+}
+
+@mixin widthAndHeight($width, $height) {
+  width: $width;
+  height: $height;
+}
+
+@mixin selectedTab {
+  border: rem(3px) solid $andelaGold;
+  position: absolute;
+  bottom: 0;
+  border-radius: 2px;
+}
+
+@mixin checkmark {
+  transform: rotate(45deg);
+  @include widthAndHeight(rem(6px), rem(12px));
+  border-bottom: rem(2px) solid $lightAccent;
+  border-right: rem(2px) solid $lightAccent;
+}
