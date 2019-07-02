@@ -126,6 +126,7 @@ export class LogPointsModal extends Component {
         open={open}
         scroll='body'
         PaperProps={{
+          className: 'dialog',
           style: {
             width: '498px',
             maxwidth: '498px',

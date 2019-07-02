@@ -27,6 +27,19 @@
         transition: all .8s;
         width: 20rem;
     }
+    .dialog {
+        width: 100% !important;
+        height: 100%   !important;
+        overflow: visible;
+        padding: 30px 86px 0px;
+        margin: 0px !important;
+    }
+    .btn-log {
+        margin-left: 0px !important
+    }
+    .log-points-footer {
+        width: 206px !important;
+    }
    }
 
 // Medium devices
