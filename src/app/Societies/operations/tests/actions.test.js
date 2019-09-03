@@ -148,7 +148,7 @@ describe('Societies actions', () => {
   it('has type APPROVE_BUDGET_REQUEST', () => {
     const societyName = 'phoenix';
     const status = 'rejected';
-    const id = redemption.id;
+    const { id } = redemption;
     const expected = {
       type: types.APPROVE_BUDGET_REQUEST,
       payload: {
@@ -158,5 +158,4 @@ describe('Societies actions', () => {
 
     expect(actions.approveBudgetRequest({ id, societyName, status })).toEqual(expected);
   });
-
 });

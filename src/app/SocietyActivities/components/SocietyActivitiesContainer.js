@@ -4,25 +4,40 @@ import PropTypes from 'prop-types';
 import ReactPaginate from 'react-paginate';
 
 import societyActions from '../../Societies/operations/actions';
+import activityActions from '../operations/actions';
 
-import ApproveActivitiesComponent from './ApproveActivitiesComponent';
-import { ButtonComponent, SocietyStatsComponent, TabsComponent } from '../../common/components';
+import SocietyActivitiesComponent from './SocietyActivitiesComponent';
+import {
+  ButtonComponent, SocietyStatsComponent, TabsComponent, AlertDialogComponent,
+} from '../../common/components';
 
 import { search } from '../../utils';
 import ACTIVITY_STATUS from '../../common/constants';
 
-export class ApproveActivitiesContainer extends Component {
+export class SocietyActivitiesContainer extends Component {
   static defaultProps = {
     society: {},
+    status: '',
+    message: '',
     searchText: '',
+    rejectActivity: null,
+    approveActivity: null,
     fetchSocietyInfoRequest: null,
+    resetRejectActivityStatus: null,
+    resetApproveActivityStatus: null,
     fetchSocietyRedemptionsRequest: null,
   };
 
   static propTypes = {
+    status: PropTypes.string,
+    message: PropTypes.string,
     society: PropTypes.shape({}),
     searchText: PropTypes.string,
+    rejectActivity: PropTypes.func,
+    approveActivity: PropTypes.func,
     fetchSocietyInfoRequest: PropTypes.func,
+    resetRejectActivityStatus: PropTypes.func,
+    resetApproveActivityStatus: PropTypes.func,
     fetchSocietyRedemptionsRequest: PropTypes.func,
   };
 
@@ -30,6 +45,7 @@ export class ApproveActivitiesContainer extends Component {
     selectedSociety: 'istelle',
     currentPage: 1,
     activitiesPerPage: 6,
+    alertDialogOpen: false,
   };
 
   componentDidMount() {
@@ -41,11 +57,14 @@ export class ApproveActivitiesContainer extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { selectedSociety } = this.state;
-    const { fetchSocietyRedemptionsRequest, fetchSocietyInfoRequest } = this.props;
+    const { fetchSocietyRedemptionsRequest, fetchSocietyInfoRequest, status } = this.props;
 
     if (prevState.selectedSociety !== selectedSociety && !prevProps.society[selectedSociety].redemptions.length) {
       fetchSocietyInfoRequest(selectedSociety.toLowerCase());
       fetchSocietyRedemptionsRequest(selectedSociety.toLowerCase());
+    }
+    if (status && prevProps.status !== status) {
+      this.toggleAlertDialogOpen(true);
     }
   }
 
@@ -63,9 +82,36 @@ export class ApproveActivitiesContainer extends Component {
     });
   };
 
+  handleApproveOrRejectClick = (id, status) => {
+    const { approveActivity, rejectActivity } = this.props;
+    const { selectedSociety: societyName } = this.state;
+    if (status === 'approved') {
+      approveActivity(id, societyName);
+    } else {
+      rejectActivity(id, status);
+    }
+  };
+
+
+  handleAlertDialogClose = () => {
+    const { resetApproveActivityStatus, resetRejectActivityStatus } = this.props;
+    this.toggleAlertDialogOpen(false);
+    resetApproveActivityStatus();
+    resetRejectActivityStatus();
+  }
+
+  toggleAlertDialogOpen = (bool) => {
+    this.setState(() => ({ alertDialogOpen: bool }));
+  }
+
+
   render() {
-    const { society, searchText } = this.props;
-    const { selectedSociety, currentPage, activitiesPerPage } = this.state;
+    const {
+      society, searchText, status, message,
+    } = this.props;
+    const {
+      selectedSociety, currentPage, activitiesPerPage, alertDialogOpen,
+    } = this.state;
     const {
       usedPoints, pointsEarned, remainingPoints, activitiesLogged, loggedActivities,
     } = society[selectedSociety];
@@ -117,24 +163,39 @@ export class ApproveActivitiesContainer extends Component {
             </ButtonComponent>
           </div>
         </div>
-        <ApproveActivitiesComponent activities={search(searchText, currentActivities)} />
+        <SocietyActivitiesComponent
+          activities={search(searchText, currentActivities)}
+          handleApproveOrRejectClick={this.handleApproveOrRejectClick}
+        />
         {pagination}
+        <AlertDialogComponent
+          status={status}
+          message={message}
+          open={alertDialogOpen}
+          onClose={this.handleAlertDialogClose}
+        />
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ society, navbar }) => ({
+const mapStateToProps = ({ society, navbar, activities }) => ({
   society,
   searchText: navbar.searchText,
+  status: activities.approveActivityStatus || activities.rejectActivityStatus,
+  message: activities.approveActivityMessage || activities.rejectActivityMessage,
 });
 
 const mapDispatchToProps = {
   fetchSocietyInfoRequest: societyActions.fetchSocietyInfoRequest,
   fetchSocietyRedemptionsRequest: societyActions.fetchSocietyRedemptionsRequest,
+  approveActivity: activityActions.approveActivityRequest,
+  resetApproveActivityStatus: activityActions.resetApproveActivityStatus,
+  rejectActivity: activityActions.rejectActivityRequest,
+  resetRejectActivityStatus: activityActions.resetRejectActivityStatus,
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ApproveActivitiesContainer);
+)(SocietyActivitiesContainer);

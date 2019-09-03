@@ -256,7 +256,8 @@ describe('Society reducer', () => {
         approveBudgetPageLoading: false,
         [societyName]: {
           ...newInitialState[societyName],
-          redemptions: newInitialState[societyName].redemptions.map(el => (el.id === action.payload.redemption.id ? action.payload.redemption : el)),
+          redemptions: newInitialState[societyName].redemptions
+            .map(el => (el.id === action.payload.redemption.id ? action.payload.redemption : el)),
         },
       });
     });

@@ -3,6 +3,10 @@ import { watchFetchUserRoleRequest } from '../app/Sidebar/operations';
 import watchFetchUserActivitiesRequest, { watchLogActivitySuccess } from '../app/Dashboard/operations/dashboard.data';
 import { watchCategoriesLoad, watchLogActivityPoints } from '../app/Dashboard/operations/logPoints.data';
 import {
+  watchApproveActivityRequest,
+  watchRejectActivityRequest,
+} from '../app/SocietyActivities/operations/activities.data';
+import {
   watchFetchSocietyInfoReq,
   watchApproveBudgetRequest,
   watchFetchSocietyRedemptionsReq,
@@ -25,5 +29,7 @@ export default function* rootSaga() {
     fork(watchFetchSocietyRedemptionsReq),
     fork(watchVerifyActivitySecretary),
     fork(watchVerifyActivitySuccess),
+    fork(watchApproveActivityRequest),
+    fork(watchRejectActivityRequest),
   ]);
 }
